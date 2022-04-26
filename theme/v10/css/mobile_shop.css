@@ -1,8 +1,15 @@
 @charset "utf-8";
 
 /* 초기화 */
-body {margin:0;padding:0;font-size:0.813em;height:100%;font-family:HelveticaNeue-Light,AppleSDGothicNeo-Light,'Malgun Gothic','맑은 고딕',sans-serif;;background:#f8f8f8;min-width:320px;-webkit-text-size-adjust: none; }
-body.is_hidden{overflow:hidden}
+body {margin:0;padding:0;font-size:0.9em;
+    height:100%;
+    max-width:800px;
+    margin:0 auto;
+    font-family:HelveticaNeue-Light,AppleSDGothicNeo-Light,'Malgun Gothic','맑은 고딕',sans-serif;
+    background:#ffffff;min-width:320px;
+    -webkit-text-size-adjust: none;
+}
+body.is_hidden{/*overflow:hidden;*/}
 html, h1, h2, h3, h4, h5, h6, form, fieldset {margin:0;padding:0;border:0}
 h1, h2, h3, h4, h5, h6 {font-size:1em}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block}
@@ -28,7 +35,7 @@ ul {list-style:none}
     box-sizing:border-box;
 }
 
-input[type=text],input[type=password], textarea {
+input[type=text],input[type=password], textarea, button {
     -webkit-transition:all 0.30s ease-in-out;
     -moz-transition:all 0.30s ease-in-out;
     -ms-transition:all 0.30s ease-in-out;
@@ -59,14 +66,14 @@ input, textarea {
 .hd_pops_footer button {margin-right:5px;padding:5px 10px;border:0;background:#393939;color:#fff}
 
 /* 상단 레이아웃 */
-#hd {position:relative;background:#212020}
+#hd {position:relative;background:#fff;border-bottom:solid 1px #eee;}
 #hd h1 {position:absolute;font-size:0;text-indent:-9999em;line-height:0;overflow:hidden}
 
-#hd #logo a{display:block;text-align:center;padding:15px;height:55px;vertical-align:top}
-#hd #logo img {max-height:100%;width:auto;vertical-align:top}
+#hd #logo a{display:block;padding:12px;height:72px;vertical-align:top;}
+#hd #logo img {max-height:90%;width:auto;vertical-align:top}
  
-#btn_hdcate {height:55px;width:40px;border:0;background:0;font-size:18px;vertical-align:top;position:absolute;top:0;left:5px;color:#fff;}
-#btn_hdsch {position:absolute;top:0;left:45px;color:#fff;font-size:18px;border:0;background:none;height:55px;width:40px}
+#btn_hdcate {height:55px;width:40px;border:0;background:0;font-size:18px;vertical-align:top;position:absolute;top:0;left:5px;color:#000;}
+#btn_hdsch {position:absolute;top:10px;right:10px;color:#000;font-size:18px;border:0;background:none;height:55px;width:40px}
 #btn_hdcart {position:absolute;top:0px;right:5px;color:#fff;font-size:18px;display:block;width:40px;line-height:55px;text-align:center}
 #btn_hduser {position:absolute;top:0px;right:45px;color:#fff;font-size:18px;display:block;width:40px;line-height:55px;text-align:center;background:none;border:0}
 #hd_btn .cart-count {position:absolute;top:20%;right:0px;display:block;height:16px;line-height:16px;border-radius:8px;background:#ff4444;font-size:10px;color:#fff;padding:0 5px}
@@ -75,25 +82,30 @@ input, textarea {
 #hd_sch h2 {position:absolute;font-size:0;text-indent:-9999em;line-height:0;overflow:hidden}
 #hd_sch .sch_inner {position:relative}
 #hd_sch #sch_str {width:100%;height:35px;background:#3a3838;border:0;padding:0 10px 0 40px;color:#000;color:#fff}
+#hd_sch #stx {width:100%;height:35px;background:#3a3838;border:0;padding:0 10px 0 40px;color:#000;color:#fff}
 #hd_sch .sch_submit {position:absolute;top:0;left:0;width:40px;height:35px;border:0;border-radius:0 3px 3px 0;cursor:pointer;background:none;font-size:15px;color:#878786}
 #hd_sch .btn_close {position:absolute;top:10px;right:0px;width:50px;height:35px;border:0;background:none;color:#c2bbb5;font-size:18px}
 
 
 /*카테고리*/
-.menu {display:none;position:fixed;top:0;height:100%;z-index:99999;-webkit-backface-visibility:hidden;width:100%;background:#efefef}
+.menu {display:none;position:fixed;top:0;height:100%;z-index:99999;-webkit-backface-visibility:hidden;
+    width:100%;
+    max-width:400px;
+    background:#efefef
+}
 .menu .menu_wr{;width:100%;height:100%;overflow-y:auto;background:#eee;position:relative;z-index:199919;
  -webkit-box-shadow: 0 0 5px rgba(55,55,5,0.4));
     -moz-box-shadow: 0 0 5px rgba(55,55,5,0.4));
          box-shadow: 0 0 5px rgba(55,55,5,0.4);}
 .menu .menu_close {position:absolute;top:50%;right:0px;width:40px;height:40px;background:none;color:#fff;font-size:20px;margin-top:-20px;border:0;z-index:199999}
 
-.cate {background:#fff;border-bottom:1px solid #e1e1e1}
+.cate {background:#fff;border-bottom:1px solid #e1e1e1;border-radius:4px;margin:0 8px;}
 .cate a {display:block;color:#333;padding:0 10px;border-bottom:1px solid #efefef}
 .cate li {position:relative;line-height:40px}
 .cate li button {position:absolute;top:0;right:0;background:url;border:0;width:30px;height:40px;overflow:hidden;border:0;background:url(../img/mobile/gnb_bg.png) no-repeat 50% 50%;text-indent:-9999px}
 .cate li button.ct_cl {background:url(../img/mobile/gnb_bg2.png) no-repeat 50% 50%}
 
-.sub_cate {display:none}
+.sub_cate {display:no ne}
 .sub_cate a {border-bottom:1px solid #efefef;background:url(../img/btn_next.gif) no-repeat 21px 17px;padding-left:30px}
 .sub_cate2 a {padding-left:40px;background-position:31px 17px}
 .sub_cate3 a {padding-left:50px;background-position:41px 17px}
@@ -107,7 +119,7 @@ input, textarea {
 
 /* 중간 레이아웃 */
 #container {padding:0 0 10px}
-#container_title {margin:0;font-size:1.5em;text-align:left;font-weight:bold;border-bottom:1px solid #e7e7e7;background:#fff;padding:15px;font-size:1.25em;line-height:20px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;
+#container_title {margin:0;font-size:1.5em;text-align:left;font-weight:bold;border-bottom:1px solid #e7e7e7;background:#fff;padding:15px 10px;line-height:20px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;
 -webkit-box-shadow: 0 0 5px #eee;
 -moz-box-shadow: 0 0 5px #eee;
 box-shadow:0 0 5px #eee}
@@ -123,14 +135,19 @@ box-shadow:0 0 5px #eee}
 .ctt_img {text-align:center}
 
 /* 하단 레이아웃 */
-#ft {background:#212020;padding:20px;text-align:left}
+#ft {background:#f2f2f2;padding:20px;text-align:left;border-top: solid 1px #d8d8d8;padding-bottom:70px;text-align:center;}
 #ft h2 {position:absolute;font-size:0;text-indent:-9999em;line-height:0;overflow:hidden}
-#ft p {margin:0;padding:10px 0;line-height:1.8em;color:#e3e3e3;font-size:0.92em}
+#ft p {margin:0;padding:10px 0;line-height:1.8em;font-size:0.92em}
 #ft_logo {padding:20px 0 0}
 #ft_company {}
-#ft_company a {display:inline-block;padding-right:10px;line-height:1em;color:#fff}
+#ft_company a {display:inline-block;padding-right:10px;line-height:1em;}
 #ft_company a:first-child {border:0}
-#device_change {background:#302e2e;display:block;text-align:center;padding:10px;color:#afafaf;border-radius:5px}
+#device_change {background:#e2e2e2;display:block;text-align:center;padding:10px;color:#868686;border-radius:5px;border:solid 1px #ccc;}
+
+#ft_logo {text-align:center;margin-bottom:20px;}
+
+#ft .ft_icons {margin:20px;}
+#ft .ft_icons i {font-size:2em;margin:0 10px;}
 
 /* 목록 바로가기 */
 .sanchor {margin:0 0 5px;padding:0}
@@ -223,9 +240,7 @@ box-shadow: 0 0 6px rgba(0,0,0,0.2);}
 #m_sod_frm_paysel .PAYNOW{background:url('../../../img/paynow.png') no-repeat;width:46px;height:15px;overflow:hidden;text-indent:-999px;display:inline-block;background-size:100%;}
 #m_sod_frm_paysel .PAYCO{background:url('../../../img/payco.png') no-repeat 1px;width:46px;height:15px;overflow:hidden;text-indent:-999px;display:inline-block;background-size:100%;}
 #m_sod_frm_paysel .inicis_lpay{background:url('../../../img/lpay_logo.png') no-repeat;width:35px;height:12px;overflow:hidden;text-indent:-999px;display:inline-block;background-size:100%;}
-#m_sod_frm_paysel .inicis_kakaopay{background:url('../../../img/kakao.png') no-repeat 50% 50% #ffeb00;border-radius:30px;height:22px;width:74px;display:inline-block;overflow:hidden;text-indent:-999px;background-size:35px auto}
-#m_sod_frm_paysel .kakaopay_icon{background:url('../../../img/ico-mobile-kakaopay.png') no-repeat #fff;height:15px;width:43px;display:inline-block;overflow:hidden;text-indent:-999px;background-size:35px auto}
-#m_sod_frm_paysel .naverpay_icon{background:url('../../../img/ico-mobile-naverpay.png') no-repeat #fff;height:15px;width:40px;display:inline-block;overflow:hidden;text-indent:-999px;background-size:35px auto}
+#m_sod_frm_paysel .kakaopay_icon{background:url('../../../img/kakao.png') no-repeat 24px 3px;height:25px;width:74px;display:inline-block;overflow:hidden;text-indent:-999px;background-size:35px auto}
 #m_sod_frm_paysel .samsung_pay{margin-left:-23px;background:url('../../../img/samsungpay.png') no-repeat 24px 3px;height:25px;width:106px;display:inline-block;overflow:hidden;text-indent:-999px}
 
 #sod_frm_pay{padding:10px;;border-top:1px solid #f3f3f3}
@@ -612,7 +627,7 @@ box-shadow:0 0 10px rgba(181, 181, 181, 0.4);
 .is_community a.btn,.is_community .btn {line-height:35px;width:30px;height:35px;padding:0 5px;text-align:center;font-weight:bold;border:0;font-size:1.4em}
 .is_community .more_opt{right:40px}
 .is_community .chk_box input[type="checkbox"] + label {padding-left:20px;color:#676e70}
-.is_community .all_chk {padding:10px 15px;}
+.is_community .all_chk {padding:2px 15px;}
 
 /* 기본테이블 */
 .tbl_wrap {margin:0 0 10px}
@@ -906,12 +921,10 @@ box-shadow:0 0 8px rgba(65,98,255,0.8)}
 #sod_frm_paysel .PAYNOW{background:url('../../../img/paynow.png') no-repeat 50% 50% #fff;overflow:hidden;text-indent:-999px}
 #sod_frm_paysel .PAYCO{background:url('../../../img/payco.png') no-repeat 50% 50% #fff;overflow:hidden;text-indent:-999px}
 #sod_frm_paysel .inicis_lpay{background:url('../../../img/lpay_logo.png') no-repeat 50% 50% #fff;overflow:hidden;text-indent:-999px}
-#sod_frm_paysel .inicis_kakaopay{background:url('../../../img/kakao.png') no-repeat 50% 50% #f4dc34;overflow:hidden;text-indent:-999px}
 #sod_frm_paysel .kakaopay_icon{background:url('../../../img/kakao.png') no-repeat 50% 50% #f4dc34;overflow:hidden;text-indent:-999px}
-#sod_frm_paysel .naverpay_icon{background:url('../../../img/ico-default-naverpay.png') no-repeat 50% 50% #fff;overflow:hidden;text-indent:-999px}
 #sod_frm_paysel .bank_icon{background:url('../../../img/pay_icon1.png') no-repeat 15px 50% #fff}
-#sod_frm_paysel .vbank_icon{background:url('../../../img/pay_icon2.png') no-repeat 15px 50% #fff}
-#sod_frm_paysel .iche_icon{background:url('../../../img/pay_icon2.png') no-repeat 15px 50% #fff}
+#sod_frm_paysel .vbank_icon{background:url('../../../img/pay_icon2.png') no-repeat 15px 50% #fff;padding-top:13px}
+#sod_frm_paysel .iche_icon{background:url('../../../img/pay_icon2.png') no-repeat 15px 50% #fff;padding-top:13px}
 #sod_frm_paysel .hp_icon{background:url('../../../img/pay_icon3.png') no-repeat 24px 50% #fff}
 #sod_frm_paysel .card_icon{background:url('../../../img/pay_icon4.png') no-repeat 17px 50% #fff}
 #forderform .sod_right #sod_bsk_tot {border:1px solid #e3e5e8}

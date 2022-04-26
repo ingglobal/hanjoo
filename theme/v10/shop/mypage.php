@@ -27,7 +27,7 @@ for($k=0; $cp=sql_fetch_array($res); $k++) {
         <h2>회원정보 개요</h2>
         
         <div class="smb_me">
-	        <strong class="my_ov_name"><?php echo get_member_profile_img($member['mb_id']); ?><br><?php echo $member['mb_name']; ?></strong><br>
+	        <strong class="my_ov_name"><img src="<?php echo G5_THEME_IMG_URL ;?>/no_profile.gif" alt="프로필이미지"><br><?php echo $member['mb_name']; ?></strong><br>
 	        <a href="<?php echo G5_BBS_URL ?>/member_confirm.php?url=register_form.php" class="smb_info">정보수정</a>
 	        <a href="<?php echo G5_BBS_URL ?>/logout.php">로그아웃</a>
         </div>
@@ -54,7 +54,7 @@ for($k=0; $cp=sql_fetch_array($res); $k++) {
 	        <li>
 	            <a href="<?php echo G5_BBS_URL ?>/scrap.php" target="_blank" class="win_scrap">
 	            	<i class="fa fa-thumb-tack" aria-hidden="true"></i>스크랩
-	            	<strong class="scrap"><?php echo number_format($member['mb_scrap_cnt']); ?></strong>
+	            	<strong class="scrap">0</strong>
 	            </a>
 	        </li>
 	    </ul>
@@ -115,10 +115,6 @@ for($k=0; $cp=sql_fetch_array($res); $k++) {
                 for ($i=0; $row = sql_fetch_array($result); $i++)
                 {
                     $image = get_it_image($row['it_id'], 100, 100, true);
-
-                    $sql = " select count(*) as cnt from {$g5['g5_shop_item_option_table']} where it_id = '{$row['it_id']}' and io_type = '0' ";
-                    $tmp = sql_fetch($sql);
-                    $out_cd = (isset($tmp['cnt']) && $tmp['cnt']) ? 'no' : '';
                 ?>
 
                 <li>
@@ -219,3 +215,4 @@ function fwishlist_check(f, act)
 
 <?php
 include_once("./_tail.php");
+?>
