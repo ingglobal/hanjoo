@@ -63,3 +63,13 @@ textarea, select {font-family: 'Noto Sans KR', sans-serif;}
 .local_desc01 {border: 1px solid #d5d5d5;}
 
 .tbl_head01 tbody td {padding: 2px 5px;}
+
+.btn_list03 a {
+    background: #26337b;
+    ;
+}
+
+.btn_submit {background: #4099ff;}
+.btn_submit:hover {background: #3381db;}
+.btn_01, a.btn_01 {background: #4099ff;}
+.btn_01:hover, a.btn_01:hover {background: #3381db;}

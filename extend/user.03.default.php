@@ -9,6 +9,12 @@ $g5['file_name'] = $path_info['filename'];
 $g5['file_path'] = substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], '/'.$g5['file_name']));
 //$g5['hook_file_path'] = (preg_match("|/adm/|",$g5['file_path'].'/')) ? preg_replace("|/adm|", "/adm/".G5_USER_ADMIN_DIR."/".G5_HOOK_DIR, $g5['file_path']) : preg_replace("|".G5_PATH."|", G5_PATH."/".G5_USER_DIR."/".G5_HOOK_DIR, $g5['file_path']) ;
 
+// /adm 디렉토리에 있는 경우 v10 관리자로 넘김
+// echo $g5['dir_name'].'<br>';
+// echo $g5['file_name'].'<br>';
+if($member['mb_id']&&$g5['dir_name']=='adm'&&$g5['file_name']=='index') {
+	goto_url(G5_USER_ADMIN_URL);
+}
 
 // 디비 테이블 메타 확장 -----------------
 //설정 테이블 추출 ($g5['setting'] 과 같은 환경설정 변수를 저장합니다.)

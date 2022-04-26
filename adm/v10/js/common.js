@@ -42,10 +42,13 @@ $(function(e) {
         }
         
         // 1차 메뉴 통째 제거
-        if(menu1txt=='SMS 관리') {
+        if(menu1txt=='쇼핑몰관리') {
             $(this).remove();
         }
-        if(menu1txt=='대시보드') {
+        if(menu1txt=='쇼핑몰현황/기타') {
+            $(this).remove();
+        }
+        if(menu1txt=='SMS 관리') {
             $(this).remove();
         }
         
