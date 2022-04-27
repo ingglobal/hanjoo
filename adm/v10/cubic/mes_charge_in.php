@@ -151,8 +151,8 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 
 <div class="btn_fixed_top">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="javascript:" class="btn_04 btn btn_sync_select">선택가져오기</a>
-        <a href="javascript:" class="btn_04 btn btn_sync_date">날짜가져오기</a>
+        <a href="javascript:" class="btn_04 btn btn_sync_select" style="display:none">선택가져오기</a>
+        <a href="javascript:" class="btn_04 btn btn_sync_date">월별가져오기</a>
         <a href="javascript:" class="btn_04 btn btn_sync">가져오기</a>
     <?php } ?>
 </div>
@@ -192,13 +192,13 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
         <tr>
             <td style="line-height:130%;padding:10px 0;">
                 <ul>
-                    <li>시작일를 입력하세요.</li>
+                    <li>시작월를 입력하세요.</li>
                 </ul>
             </td>
         </tr>
         <tr>
             <td style="padding:5px 0;">
-                <input type="text" name="ymd" class="frm_input" first="<?=G5_TIME_YMD?>" value="2020-11-01" placeholder="YYYY-MM">
+                <input type="text" name="ym" class="frm_input" first="2019-07" value="<?=substr(G5_TIME_YMD,0,-3)?>" placeholder="YYYY-MM">
             </td>
         </tr>
         <tr>
@@ -261,7 +261,8 @@ $(document).ready(function(){
     $(document).on('click','.btn_sync',function(e){
         e.preventDefault();
         if(confirm('최신 정보 동기화를 진행하시겠습니까?\n새창이 열리고 동기화가 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
-            var href = './<?=$g5['file_name']?>_sync.php';
+            // var href = './<?=$g5['file_name']?>_sync.php';
+            var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_sync.php';
             winSync = window.open(href, "winSync", "left=100,top=100,width=520,height=600,scrollbars=1");
             winSync.focus();
             return false;
@@ -301,9 +302,10 @@ function form10_submit(f) {
 
     return false;
 }
-// specific month. image sync
+// specific month
 function form20_submit(f) {
-    var href = './<?=$g5['file_name']?>_sync.php?ymd='+f.ymd.value;
+    // var href = './<?=$g5['file_name']?>_sync.php?ym='+f.ym.value;
+    var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_sync.php?ym='+f.ym.value;
     winSync = window.open(href, "winSync", "left=100,top=100,width=520,height=600,scrollbars=1");
     winSync.focus();
     $( "#modal20" ).dialog( "close" );

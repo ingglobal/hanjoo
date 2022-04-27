@@ -1,7 +1,7 @@
 This is james work memo.
 
 CREATE TABLE `g5_1_cast_shot_sub` (
-  `mcs_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `css_idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `shot_id` int(11) NOT NULL COMMENT '샷ID',
   `event_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '발생시각',
   `hold_temp` double NOT NULL COMMENT '보온로온도',
@@ -16,321 +16,135 @@ CREATE TABLE `g5_1_cast_shot_sub` (
   `lower_1_temp` double NOT NULL COMMENT '하금형1',
   `lower_2_temp` double NOT NULL COMMENT '하금형2',
   `lower_3_temp` double NOT NULL COMMENT '하금형3',
-  PRIMARY KEY (`mcs_idx`)
+  PRIMARY KEY (`css_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `g5_1_recruit` (
-  `rct_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `apc_idx` bigint(20) NOT NULL DEFAULT '0' COMMENT '지원자idx',
-  `rct_subject` varchar(255) NOT NULL DEFAULT '',
-  `rct_type` varchar(50) NOT NULL DEFAULT '',
-  `mb_id` varchar(50) NOT NULL DEFAULT '' COMMENT '담당자id',
-  `rct_content` text NOT NULL,
-  `rct_mobile_content` text NOT NULL,
-  `rct_channel` varchar(20) NOT NULL DEFAULT '' COMMENT '공고채널',
-  `rct_work_place` varchar(255) NOT NULL DEFAULT '' COMMENT '근무지',
-  `rct_expire_date` date DEFAULT '0000-00-00' COMMENT '마감일',
-  `rct_status` varchar(20) DEFAULT 'pending' COMMENT '상태',
-  `rct_reg_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '등록일시',
-  `rct_update_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '수정일시',
-  PRIMARY KEY (`rct_idx`)
+CREATE TABLE `g5_1_cast_shot` (
+  `csh_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `shot_id` int(11) NOT NULL COMMENT '샷ID',
+  `work_date` date DEFAULT CURRENT_TIMESTAMP COMMENT '작업일',
+  `work_shift` int(11) NOT NULL COMMENT '주(1)/야(2)',
+  `start_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '시작시각',
+  `end_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '종료시각',
+  `elapsed_time` int(11) NOT NULL COMMENT '경과시간',
+  `machine_id` double NOT NULL COMMENT '설비ID',
+  `machine_no` double NOT NULL COMMENT '설비번호',
+  `item_no` double noT NULL COMMENT '금형번호',
+  `item_name` double NOT NULL COMMENT '제품명',
+  `mold_no` double noT NULL COMMENT '금형번호',
+  `shot_no` int(11) nOT NULL COMMENT '샷번호',
+  `pv_cycletime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'PV사이클타임',
+  `machine_cycletime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '설비사이클타임',
+  `product_cycletime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '제품사이클타임',
+  `hold_temp` double NOT NULL COMMENT '보온로온도',
+  `upper_heat` double NOT NULL COMMENT '상형히트',
+  `lower_heat` double NOT NULL COMMENT '하형히트',
+  `upper_1_temp` double NOT NULL COMMENT '상금형1',
+  `upper_2_temp` double NOT NULL COMMENT '상금형2',
+  `upper_3_temp` double NOT NULL COMMENT '상금형3',
+  `upper_4_temp` double NOT NULL COMMENT '상금형4',
+  `upper_5_temp` double NOT NULL COMMENT '상금형5',
+  `upper_6_temp` double NOT NULL COMMENT '상금형6',
+  `lower_1_temp` double NOT NULL COMMENT '하금형1',
+  `lower_2_temp` double NOT NULL COMMENT '하금형2',
+  `lower_3_temp` double NOT NULL COMMENT '하금형3',
+  PRIMARY KEY (`csh_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `g5_1_career` (
-  `crr_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `apc_idx` bigint(20) NOT NULL DEFAULT '0' COMMENT '지원자idx',
-  `crr_company` varchar(255) NOT NULL DEFAULT '',
-  `crr_start_date` date DEFAULT '0000-00-00' COMMENT '근무시작',
-  `crr_end_date` date DEFAULT '0000-00-00' COMMENT '근무종료',
-  `crr_pay` int(11) NOT NULL COMMENT '월급여',
-  `trm_idx_category` bigint(20) NOT NULL DEFAULT '0' COMMENT '업직종idx',
-  `crr_job` varchar(250) NOT NULL DEFAULT '' COMMENT '담당업무',
-  `crr_quit_why` varchar(250) NOT NULL DEFAULT '' COMMENT '퇴사사유',
-  `crr_reg_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '등록일시',
-  `crr_update_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '수정일시',
-  PRIMARY KEY (`crr_idx`)
+CREATE TABLE `g5_1_xray_inspection` (
+  `xry_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `work_date` date DEFAULT CURRENT_TIMESTAMP COMMENT '작업일',
+  `work_shift` int(11) NOT NULL COMMENT '주(1)/야(2)',
+  `start_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '시작시각',
+  `end_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '종료시각',
+  `qrcode` int(11) NOT NULL COMMENT 'QRCode',
+  `production_ID` int(11) NOT NULL COMMENT '생산품ID',
+  `machine_id` double NOT NULL COMMENT '설비ID',
+  `machine_no` double NOT NULL COMMENT '설비번호',
+  `position_1` double NOT NULL COMMENT '위치1',
+  `position_2` double NOT NULL COMMENT '위치2',
+  `position_3` double NOT NULL COMMENT '위치3',
+  `position_4` double NOT NULL COMMENT '위치4',
+  `position_5` double NOT NULL COMMENT '위치5',
+  `position_6` double NOT NULL COMMENT '위치6',
+  `position_7` double NOT NULL COMMENT '위치7',
+  `position_8` double NOT NULL COMMENT '위치8',
+  `position_9` double NOT NULL COMMENT '위치9',
+  `position_10` double NOT NULL COMMENT '위치10',
+  `position_11` double NOT NULL COMMENT '위치11',
+  `position_12` double NOT NULL COMMENT '위치12',
+  `position_13` double NOT NULL COMMENT '위치13',
+  `position_14` double NOT NULL COMMENT '위치14',
+  `position_15` double NOT NULL COMMENT '위치15',
+  `position_16` double NOT NULL COMMENT '위치16',
+  `position_17` double NOT NULL COMMENT '위치17',
+  `position_18` double NOT NULL COMMENT '위치18',
+  PRIMARY KEY (`xry_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `g5_1_school` (
-  `shl_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `apc_idx` bigint(20) NOT NULL DEFAULT '0' COMMENT '지원자idx',
-  `shl_type1` varchar(50) NOT NULL DEFAULT '',
-  `shl_type2` varchar(50) NOT NULL DEFAULT '',
-  `shl_yeramonth` varchar(7) NOT NULL DEFAULT '',
-  `shl_graduate_type` varchar(7) NOT NULL DEFAULT '' COMMENT '졸업타입',
-  `shl_title` varchar(250) NOT NULL DEFAULT '' COMMENT '제목',
-  `shl_pay` int(11) NOT NULL COMMENT '점수',
-  `shl_reg_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '등록일시',
-  `shl_update_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '수정일시',
-  PRIMARY KEY (`shl_idx`)
+CREATE TABLE `g5_1_charge_in` (
+  `chi_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `work_date` date DEFAULT CURRENT_TIMESTAMP COMMENT '작업일',
+  `work_shift` int(11) DEFAULT 0 NOT NULL COMMENT '주(1)/야(2)',
+  `event_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '발생시각',
+  `weight_total` double NOT NULL COMMENT '총장입량',
+  `weight_ingot` double NOT NULL COMMENT '인고트 장입량',
+  `weight_scrap` double NOT NULL COMMENT '스크랩 장입량',
+  PRIMARY KEY (`chi_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `g5_1_additional` (
-  `add_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `apc_idx` bigint(20) NOT NULL DEFAULT '0' COMMENT '지원자idx',
-  `add_start_ym` varchar(7) DEFAULT '' COMMENT '시작',
-  `add_end_ym` varchar(7) DEFAULT '' COMMENT '종료',
-  `add_title` varchar(250) NOT NULL DEFAULT '' COMMENT '제목',
-  `add_content` varchar(250) NOT NULL DEFAULT '' COMMENT '내용',
-  `add_reg_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '등록일시',
-  `add_update_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '수정일시',
-  PRIMARY KEY (`add_idx`)
+CREATE TABLE `g5_1_charge_out` (
+  `cho_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `work_date` date DEFAULT CURRENT_TIMESTAMP COMMENT '작업일',
+  `work_shift` int(11) NOT NULL COMMENT '주(1)/야(2)',
+  `event_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '발생시각',
+  `weight_out` int(11) DEFAULT 0 NOT NULL COMMENT '출탕량',
+  `temp_out` int(11) DEFAULT 0 NOT NULL COMMENT '출탕온도',
+  `temp_gbf` int(11) DEFAULT 0 NOT NULL COMMENT 'GBF 후 온도',
+  `machine_1_id` int(11) DEFAULT 0 NOT NULL COMMENT '배탕주조기 1 ID',
+  `machine_1_no` varchar(20) DEFAULT '' NOT NULL COMMENT '배탕주조기 1 번호',
+  `machine_2_id` int(11) DEFAULT 0 NOT NULL COMMENT '배탕주조기 2 ID',
+  `machine_2_no` varchar(20) DEFAULT '' NOT NULL COMMENT '배탕주조기 2 번호',
+  `machine_3_id` int(11) DEFAULT 0 NOT NULL COMMENT '배탕주조기 3 ID',
+  `machine_3_no` varchar(20) DEFAULT '' NOT NULL COMMENT '배탕주조기 3 번호',
+  PRIMARY KEY (`cho_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE `g5_1_message` (
-  `msg_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `com_idx` bigint(20) NOT NULL DEFAULT 0 COMMENT '업체번호',
-  `mb_id` varchar(30) DEFAULT '',
-  `msg_db_table` varchar(30) DEFAULT '',
-  `msg_db_id` varchar(30) DEFAULT '',
-  `msg_type` varchar(20) DEFAULT '' COMMENT '발송타입',
-  `msg_hp` varchar(20) DEFAULT '' COMMENT '휴대폰',
-  `msg_email` varchar(100) DEFAULT '' COMMENT '이메일',
-  `msg_push` varchar(100) DEFAULT '' COMMENT '푸시코드',
-  `msg_subject` varchar(255) DEFAULT '' COMMENT '제목',
-  `msg_content` text NOT NULL COMMENT '내용',
-  `msg_file1` varchar(255) NOT NULL COMMENT '첨부파일1',
-  `msg_file2` varchar(255) NOT NULL COMMENT '첨부파일2',
-  `msg_status` varchar(20) DEFAULT '' COMMENT '상태',
-  `msg_reg_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '발송일시',
-  `msg_update_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '수정일시',
-  PRIMARY KEY (`msg_idx`)
+CREATE TABLE `g5_1_melting_temp` (
+  `mlt_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `work_date` date DEFAULT CURRENT_TIMESTAMP COMMENT '작업일',
+  `work_shift` int(11) NOT NULL COMMENT '주(1)/야(2)',
+  `event_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '발생시각',
+  `temp_avg` int(11) DEFAULT 0 NOT NULL COMMENT '평균온도',
+  `temp_min` int(11) DEFAULT 0 NOT NULL COMMENT '최소온도',
+  `temp_max` int(11) DEFAULT 0 NOT NULL COMMENT '최대온도',
+  `alarm_min` int(11) DEFAULT 0 NOT NULL COMMENT '최소알람기준',
+  `alarm_max` varchar(20) DEFAULT '' NOT NULL COMMENT '최대알람기준',
+  PRIMARY KEY (`mlt_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `g5_1_cast_shot_pressure` (
+  `csr_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `shot_id` int(11) NOT NULL COMMENT '샷ID',
+  `event_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '발생시각',
+  `detect_pressure` int(11) DEFAULT 0 NOT NULL COMMENT '검출',
+  `target_pressure` int(11) DEFAULT 0 NOT NULL COMMENT '목표',
+  `control_pressure` int(11) DEFAULT 0 NOT NULL COMMENT '조작',
+  `deviation_pressure` int(11) DEFAULT 0 NOT NULL COMMENT '편차',
+  PRIMARY KEY (`csr_idx`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
-경영,사무
-인사.총무
-경리,회계,세무
-비서
-리셉션,인포메이션
-사무보조,자료입력
-마케팅,광고
-기획,전략,홍보,광고
-무역사무
-
-영업, 고객상담
-일반영업
-판매,서비스
-TM,아웃바운드
-고객상담, 인바운드
-일반CS
-
-디자인
-설계,CAD
-일러스트,포토샵
-웹디자인
-
-전문,특수직
-외국어,통역,번역
-헤드헌터,잡매니저
-상품기획, MD
-
-서비스
-제조(생산)
-미화
-경비
-시설관리
-물류센터
-지게차 운전
-운전
-수행기사
-판촉, 행사요원
-매장판매, 매장관리
-조리, 홀서빙
-
-IT,인터넷
-웹기획, 웹마스터
-운영 프로그래머
-서비스관리/네트워크 관리
-컴퓨터/AS
-
-건설,설계
-토목설계
-건축설계
-부동산개발
-입찰/PQ
-건설사업관리
-시공,공무,현장감독
-
-
-toeic=TOEIC, toefl=TOEFL, teps=TEPS, ielts=IELTS, g-telp=G-TELP, slep=SLEp, gre=GRE, gmat=GMAT, direct=직접입력
-jpt=JPT, jlpt=JLPT, jtra=JTRA, direct=직접입력
-hsk=HSK, direct=직접입력
-
-
-CREATE TABLE `g5_1_message` (
-  `msg_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `msg_type` varchar(20) NOT NULL DEFAULT '',
-  `msg_subject` varchar(255) NOT NULL DEFAULT '',
-  `msg_content` mediumtext NOT NULL,
-  `msg_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `msg_ip` varchar(255) NOT NULL DEFAULT '',
-  `msg_last_option` text NOT NULL,
-  PRIMARY KEY (`msg_idx`)
+CREATE TABLE `g5_1_engrave_qrcode` (
+  `eqr_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `work_date` date DEFAULT CURRENT_TIMESTAMP COMMENT '작업일',
+  `work_shift` int(11) NOT NULL COMMENT '주(1)/야(2)',
+  `event_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '각인시각',
+  `qrcode` varchar(30) DEFAULT '' NOT NULL COMMENT 'qrcode',
+  `production_id` int(11) DEFAULT 0 NOT NULL COMMENT '생산품ID',
+  PRIMARY KEY (`eqr_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-SELECT trm_idx term_idx , GROUP_CONCAT(name) term_name , trm_name2 trm_name2 , trm_content trm_content , trm_more trm_more , trm_status trm_status , GROUP_CONCAT(cast(depth as char)) depth , GROUP_CONCAT(up_idxs) up_idxs , SUBSTRING_INDEX(SUBSTRING_INDEX(up_idxs, ',', GROUP_CONCAT(cast(depth as char))),',',-1) up1st_idx , SUBSTRING_INDEX(up_idxs, ',', 1) uptop_idx , GROUP_CONCAT(up_names) up_names , GROUP_CONCAT(down_idxs) down_idxs , GROUP_CONCAT(down_names) down_names , REPLACE(GROUP_CONCAT(down_idxs), CONCAT(SUBSTRING_INDEX(GROUP_CONCAT(down_idxs), ',', 1),','), '') down_idxs2 , REPLACE(GROUP_CONCAT(down_names), CONCAT(SUBSTRING_INDEX(GROUP_CONCAT(down_names), '|', 1),','), '') down_names2 , leaf_node_yn leaf_node_yn , SUM(table_row_count) table_row_count FROM ( ( SELECT term.trm_idx , CONCAT( REPEAT(' ', COUNT(parent.trm_idx) - 1), term.trm_name) AS name , term.trm_name2 , term.trm_content , term.trm_more , term.trm_status , (COUNT(parent.trm_idx) - 1) AS depth , GROUP_CONCAT(cast(parent.trm_idx as char) ORDER BY parent.trm_left) up_idxs , GROUP_CONCAT(parent.trm_name ORDER BY parent.trm_left SEPARATOR ' > ') up_names , NULL down_idxs , NULL down_names , (CASE WHEN term.trm_right - term.trm_left = 1 THEN 1 ELSE 0 END ) leaf_node_yn , 0 table_row_count , term.trm_left , 1 sw FROM g5_5_term AS term, g5_5_term AS parent WHERE term.trm_left BETWEEN parent.trm_left AND parent.trm_right AND term.trm_taxonomy = 'category' AND parent.trm_taxonomy = 'category' AND term.trm_status in ('ok','hide') AND parent.trm_status in ('ok','hide') GROUP BY term.trm_idx ORDER BY term.trm_left ) UNION ALL ( SELECT parent.trm_idx , NULL name , term.trm_name2 , term.trm_content , term.trm_more , term.trm_status , NULL depth , NULL up_idxs , NULL up_names , GROUP_CONCAT(cast(term.trm_idx as char) ORDER BY term.trm_left) AS down_idxs , GROUP_CONCAT(term.trm_name ORDER BY term.trm_left SEPARATOR '|') AS down_names , (CASE WHEN parent.trm_right - parent.trm_left = 1 THEN 1 ELSE 0 END ) leaf_node_yn , SUM(term.trm_count) table_row_count , parent.trm_left , 2 sw FROM g5_5_term AS term , g5_5_term AS parent WHERE term.trm_left BETWEEN parent.trm_left AND parent.trm_right AND term.trm_taxonomy = 'category' AND parent.trm_taxonomy = 'category' AND term.trm_status in ('ok','hide') AND parent.trm_status in ('ok','hide') GROUP BY parent.trm_idx ORDER BY parent.trm_left ) ) db_table
-GROUP BY trm_idx ORDER BY trm_left
-
-
-SELECT
-    trm_idx term_idx
-    , GROUP_CONCAT(name) term_name
-    , trm_name2 trm_name2
-    , trm_content trm_content
-    , trm_more trm_more
-    , trm_status trm_status
-    , GROUP_CONCAT(cast(depth as char)) depth
-    , GROUP_CONCAT(up_idxs) up_idxs
-    , SUBSTRING_INDEX(SUBSTRING_INDEX(up_idxs, ',', GROUP_CONCAT(cast(depth as char))),',',-1) up1st_idx
-    , SUBSTRING_INDEX(up_idxs, ',', 1) uptop_idx
-    , GROUP_CONCAT(up_names) up_names
-    , GROUP_CONCAT(down_idxs) down_idxs
-    , GROUP_CONCAT(down_names) down_names
-    , REPLACE(GROUP_CONCAT(down_idxs), CONCAT(SUBSTRING_INDEX(GROUP_CONCAT(down_idxs), ',', 1),','), '') down_idxs2
-    , REPLACE(GROUP_CONCAT(down_names), CONCAT(SUBSTRING_INDEX(GROUP_CONCAT(down_names), '|', 1),','), '') down_names2
-    , leaf_node_yn leaf_node_yn
-    , SUM(table_row_count) table_row_count
-FROM (	(
-        SELECT term.trm_idx
-            , CONCAT( REPEAT('   ', COUNT(parent.trm_idx) - 1), term.trm_name) AS name
-            , term.trm_name2
-            , term.trm_content
-            , term.trm_more
-            , term.trm_status
-            , (COUNT(parent.trm_idx) - 1) AS depth
-            , GROUP_CONCAT(cast(parent.trm_idx as char) ORDER BY parent.trm_left) up_idxs
-            , GROUP_CONCAT(parent.trm_name ORDER BY parent.trm_left SEPARATOR ' > ') up_names
-            , NULL down_idxs
-            , NULL down_names
-            , (CASE WHEN term.trm_right - term.trm_left = 1 THEN 1 ELSE 0 END ) leaf_node_yn
-            , 0 table_row_count
-            , term.trm_left
-            , 1 sw
-        FROM g5_5_term AS term,
-                g5_5_term AS parent
-        WHERE term.trm_left BETWEEN parent.trm_left AND parent.trm_right
-            AND term.trm_taxonomy = 'category'
-            AND parent.trm_taxonomy = 'category'
-            AND term.trm_status in ('ok','hide') AND parent.trm_status in ('ok','hide')
-
-            GROUP BY term.trm_idx
-        ORDER BY term.trm_left
-        )
-    UNION ALL
-        (
-        SELECT parent.trm_idx
-            , NULL name
-            , term.trm_name2
-            , term.trm_content
-            , term.trm_more
-            , term.trm_status
-            , NULL depth
-            , NULL up_idxs
-            , NULL up_names
-            , GROUP_CONCAT(cast(term.trm_idx as char) ORDER BY term.trm_left) AS down_idxs
-            , GROUP_CONCAT(term.trm_name ORDER BY term.trm_left SEPARATOR '^') AS down_names
-            , (CASE WHEN parent.trm_right - parent.trm_left = 1 THEN 1 ELSE 0 END ) leaf_node_yn
-            , SUM(term.trm_count) table_row_count
-            , parent.trm_left
-            , 2 sw
-        FROM g5_5_term AS term
-                , g5_5_term AS parent
-        WHERE term.trm_left BETWEEN parent.trm_left AND parent.trm_right
-            AND term.trm_taxonomy = 'category'
-            AND parent.trm_taxonomy = 'category'
-            AND term.trm_status in ('ok','hide') AND parent.trm_status in ('ok','hide')
-
-        GROUP BY parent.trm_idx
-        ORDER BY parent.trm_left
-        )
-    ) db_table
-GROUP BY trm_idx
-ORDER BY trm_left
-
-<div id="con_ttl">인사말</div>
-<div id="con_en_ttl">Greeting</div>
-<div style="margin-left: 20px;"><img alt="" height="200" src="http://dreamm0702.cafe24.com/data/editor/1401/3552651474_1389953654.9871.jpg" width="600" />
-<div id="con_space">&nbsp;</div>
-<div id="con_text"><strong><span style="color: rgb(95, 170, 41);">드림피플파트너스 홈페이지</span>를 방문해 주셔서 감사드립니다.</strong></div>
-<div id="con_space">&nbsp;</div>
-<div id="con_text">오늘날 급변하는 경영환경 속에서 기업은 지속적인 성장과 경쟁력 확보를 위해 선택과 집중, 핵심역량 강화, 고객감동, 스마트 경영 등을 앞다퉈 적용하고 있으며 특히, 경영 효율화 및 비용절감을 위해 상시적인 구조조정 체계를 유지하고 있습니다. 이중 기업의 효율적인 유지 및 경쟁력 강화를 위해 인적 관리의 중요성은 아무리 강조해도 지나침이 없으며, 이는 기업 성장 전략의 선택이 아닌 필수 조건으로 자리매김 하고 있습니다.</div>
-<div id="con_space">&nbsp;</div>
-<div id="con_text"><strong>&quot;회사별 특성에 맞는 효율적 인적자원 관리를 위한 전문적인 서비스 제공&quot;</strong></div>
-<div id="con_text">저희 드림피플파트너스는 효율적 인적자원 관리를 위한 전문적인 서비스를 제공하고자 설립되었습니다. 원칙을 존중하고 기본에 충실한 자세로 초심을 잃지 않고 항상 변화 발전하는 모습을 통해 고객사에는 신속&middot;정확한 업무처리로 경쟁력 강화를 위한 효율적인 인적자원의 관리 기회를, 구직자에게는 개인의 잠재력을 개발하여 다양한 근로 및 경력 기회를 제공하는 고객감동 기업, 신뢰받는 기업이 될 수 있도록 최선을 다하겠습니다.</div>
-<div id="con_space">&nbsp;</div>
-<div id="con_text">감사합니다.</div>
-<div id="con_space2">&nbsp;</div>
-</div>
-
-
-
-SELECT TIMESTAMPDIFF(MONTH, '2019-01-01', '2019-03-01');
-SELECT TIMESTAMPDIFF(MONTH, '2019-01-01', '2019-04-01');
-SELECT TIMESTAMPDIFF(YEAR, '2019-01-01', '2019-04-01') AS y, TIMESTAMPDIFF(MONTH, '2019-01-01', '2019-04-01') AS m;
-
-
-
-
-
-
-메시지 발송 기획
-1. 선택회원한테만 발송
-2. 상단에 담기 버튼
-  - 회원담기, 들어가면 [초기화]버튼도 있어야 할 듯
-3. 상단에 [그룹메시지] 버튼
-  - 어떤 메시지를 발송, 선택하기가 있어야 할 듯!
-4. 버튼 모양이 이렇게 되어야 할 듯 하다.
-  - [그룹메시지|전체(23,000)|선택(23)]
-  - 검색결과 전체 보내기는 그럼 어떻게?
-
-입력일 때(등록)
-http://people0702.cafe24.com/recruit/?33
-
-수정일 때
-http://people0702.cafe24.com/recruit/?w=c&apc_idx=36621
-
-
-5년이 지난 데이터
-DELETE FROM g5_1_applicant
-WHERE apc_reg_dt < DATE_ADD(now() , INTERVAL -5 YEAR)
-.
-SELECT DATE_ADD(now() , INTERVAL -5 YEAR)
-.
-
-
-// table 이전
-DELETE FROM `g5_board_file` WHERE bo_table LIKE 'b0%'
-
-김화식: kwsihimak@hanmail.net
-
-
-CREATE TABLE `g5_1_body_record` (
-  `bdr_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `mb_id` varchar(50) NOT NULL DEFAULT '' COMMENT '회원id',
-  `bdr_date` date DEFAULT '0000-00-00' COMMENT '촬영일',
-  `bdr_memo` text NOT NULL,
-  `bdr_status` varchar(20) DEFAULT 'pending' COMMENT '상태',
-  `bdr_reg_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '등록일시',
-  `bdr_update_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '수정일시',
-  PRIMARY KEY (`bdr_idx`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE `g5_1_member_file` (
-  `mbf_idx` bigint(20) NOT NULL AUTO_INCREMENT,
-  `mb_id` varchar(50) NOT NULL DEFAULT '' COMMENT '회원id',
-  `bdr_idx` bigint(20) NOT NULL DEFAULT '0' COMMENT '신체촬영idx',
-  `mbf_body_type` varchar(20) DEFAULT 'pending' COMMENT '신체위치구분',
-  `mbf_file_type` varchar(20) DEFAULT 'pending' COMMENT '사진영상구분',
-  `mbf_location` varchar(20) DEFAULT 'pending' COMMENT '파일위치',
-  `mbf_medical_yn` int(11) NOT NULL COMMENT '의료파일여부',
-  `mbf_analyze_yn` int(11) NOT NULL COMMENT '의료파일여부',
-  `mbf_reg_dt` datetime DEFAULT '0000-00-00 00:00:00' COMMENT '등록일시',
-  PRIMARY KEY (`mbf_idx`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 2020-11-02 일부터 시작한 것으로 판단됨
@@ -675,4 +489,5 @@ pg_restore -U tsdbadmin -W \
 ....
 pg_restore -U tsdbadmin -W -h vbjysvzz2g.hp6tz73i1r.tsdb.cloud.timescale.com -p 32530 --no-owner -Fc -v -d tsdb dump.bak;
 pg_restore --clean -U tsdbadmin -W -h vbjysvzz2g.hp6tz73i1r.tsdb.cloud.timescale.com -p 32530 --no-owner -Fc -v -d tsdb dump.bak;
+
 
