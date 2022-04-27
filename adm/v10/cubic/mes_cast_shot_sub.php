@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "960150";
+$sub_menu = "950150";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
@@ -171,11 +171,11 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 
 <div class="btn_fixed_top">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="javascript:" class="btn_04 btn btn_influx" style="margin-right:50px;">influxDB입력</a>
+        <a href="javascript:" class="btn_04 btn btn_timescale" style="margin-right:50px;">TSDB입력</a>
         <a href="javascript:" class="btn_04 btn btn_copy" style="margin-right:50px;">내부복제</a>
         <a href="javascript:" class="btn_04 btn btn_sync_select">선택가져오기</a>
-        <a href="javascript:" class="btn_04 btn btn_sync_date">가져오기</a>
-        <a href="javascript:" class="btn_04 btn btn_sync" style="display:none;">전체가져오기</a>
+        <a href="javascript:" class="btn_04 btn btn_sync_date">날짜가져오기</a>
+        <a href="javascript:" class="btn_04 btn btn_sync">가져오기</a>
     <?php } ?>
 </div>
 
@@ -270,7 +270,7 @@ $(document).ready(function(){
         , width:250
         , position: { my: "right-10 top-10", of: ".btn_sync_select"}
     });
-	// 가져오기
+	// 날짜가져오기
     $( ".btn_sync_date" ).on( "click", function(e) {
         e.preventDefault();
         $( "#modal20" ).dialog( "open" );
@@ -280,10 +280,10 @@ $(document).ready(function(){
         , width:250
         , position: { my: "right-10 top-10", of: ".btn_sync_date"}
     });
-	// 전체가져오기
+	// 가져오기
     $(document).on('click','.btn_sync',function(e){
         e.preventDefault();
-        if(confirm('동기화를 진행하시겠습니까?\n새창이 열리고 동기화가 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
+        if(confirm('최신 정보 동기화를 진행하시겠습니까?\n새창이 열리고 동기화가 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
             var href = './<?=$g5['file_name']?>_sync.php';
             winSync = window.open(href, "winSync", "left=100,top=100,width=520,height=600,scrollbars=1");
             winSync.focus();
