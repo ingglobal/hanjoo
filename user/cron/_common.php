@@ -2,7 +2,9 @@
 include_once ('../../common.php');
 
 //-- REQUEST 변수 재정의 (변수명이 너무 길어~) --//
-while( list($key, $val) = each($_REQUEST) ) {
-	${$key} = $_REQUEST[$key];
+if(is_array($_REQUEST)) {
+    foreach($_REQUEST as $key=>$val) {
+        ${$key} = $_REQUEST[$key];
+    }
 }
 ?>
