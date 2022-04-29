@@ -2,8 +2,8 @@
 // 크론 실행을 위해서는 사용자단에 파일이 존재해야 함
 // sudo vi /etc/crontab
 // sudo systemctl restart cron
-// */5 * * * * root wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_charge_in_sync.php
-// [root@web-37 user]# wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_charge_in_sync.php
+// */5 * * * * root wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_charge_out_sync.php
+// [root@web-37 user]# wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_charge_out_sync.php
 include_once('./_common.php');
 
 $demo = 0;  // 데모모드 = 1
@@ -17,9 +17,9 @@ $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
 $sleepsec = 20;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
-$table1 = 'MES_CHARGE_IN';
+$table1 = 'MES_CHARGE_OUT';
 
-$table2 = 'g5_1_charge_in';
+$table2 = 'g5_1_charge_out';
 $fields2 = sql_field_names($table2);
 
 // YM Default
@@ -109,7 +109,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
-    $skips = array('chi_idx');
+    $skips = array('cho_idx');
     for($j=0;$j<sizeof($fields2);$j++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
@@ -124,16 +124,17 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
 
     // Record update
-    $sql3 = "   SELECT chi_idx FROM {$table2}
+    $sql3 = "   SELECT cho_idx FROM {$table2}
                 WHERE work_date = '".$arr['work_date']."' AND work_shift = '".$arr['work_shift']."' AND event_time = '".$arr['event_time']."'
+                    AND machine_1_id = '".$arr['machine_1_id']."' AND machine_2_id = '".$arr['machine_2_id']."' AND machine_3_id = '".$arr['machine_3_id']."'
     ";
     // echo $sql3.'<br>';
     $row3 = sql_fetch($sql3,1);
     // 정보 업데이트
-    if($row3['chi_idx']) {
+    if($row3['cho_idx']) {
 		$sql = "UPDATE {$table2} SET
 					$sql_text[$i]
-				WHERE chi_idx = '".$row3['chi_idx']."'
+				WHERE cho_idx = '".$row3['cho_idx']."'
 		";
         $arr['result'] = '수정';
 		if(!$demo) {sql_query($sql,1);}

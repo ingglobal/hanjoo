@@ -70,6 +70,7 @@ textarea, select {font-family: 'Noto Sans KR', sans-serif;}
 }
 
 .btn_submit {background: #4099ff;}
-.btn_submit:hover {background: #3381db;}
+/* .btn_submit:hover {background-color: #3381db;} */
+#fsearch .btn_submit:hover {background-color: #dedede;}
 .btn_01, a.btn_01 {background: #4099ff;}
 .btn_01:hover, a.btn_01:hover {background: #3381db;}

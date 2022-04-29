@@ -2,8 +2,8 @@
 // 크론 실행을 위해서는 사용자단에 파일이 존재해야 함
 // sudo vi /etc/crontab
 // sudo systemctl restart cron
-// */5 * * * * root wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_charge_in_sync.php
-// [root@web-37 user]# wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_charge_in_sync.php
+// */5 * * * * root wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_melting_temp_sync.php
+// [root@web-37 user]# wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_melting_temp_sync.php
 include_once('./_common.php');
 
 $demo = 0;  // 데모모드 = 1
@@ -17,39 +17,57 @@ $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
 $sleepsec = 20;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
-$table1 = 'MES_CHARGE_IN';
+$table1 = 'MES_MELTING_TEMP';
 
-$table2 = 'g5_1_charge_in';
+$table2 = 'g5_1_melting_temp';
 $fields2 = sql_field_names($table2);
 
-// YM Default
-if(!$ym) {
-    // 데이터의 첫 시작 월 ------
+// YMD Default
+if(!$ymd) {
+    // 데이터의 첫 시작 일 ------
     // $sql = " SELECT EVENT_TIME FROM {$table1} ORDER BY EVENT_TIME LIMIT 1 ";
     // $result = $connect_db_pdo->query($sql);
     // $dat = $result->fetch(PDO::FETCH_ASSOC);
     // // print_r2($dat);
-    // $ym = substr($dat['EVENT_TIME'],0,7);
+    // $ymd = substr($dat['EVENT_TIME'],0,10);
 
-    // 현재달 ----------------
-    $ym = date("Y-m");
+    // 오늘 ----------------
+    $ymd = date("Y-m-d");
 }
 
-// 다음달
-$sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL +1 MONTH) AS ym FROM dual ";
-$dat = sql_fetch($sql,1);
-$ym_next = substr($dat['ym'],0,7);
-// echo $ym.'<br>';
-// echo $ym_next.'<br>';
-// exit;
+// NEST YMD Default
+if($ym) {
+    // 다음달
+    $sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL +1 MONTH) AS ym FROM dual ";
+    $dat = sql_fetch($sql,1);
+    $ym_next = substr($dat['ym'],0,7);
+    // echo $ym.'<br>';
+    // echo $ym_next.'<br>';
+    // exit;
+}
+else if($ymd) {
+    // 다음일
+    $sql = " SELECT DATE_ADD('".$ymd."' , INTERVAL +1 DAY) AS ymd FROM dual ";
+    $dat = sql_fetch($sql,1);
+    $ymd_next = substr($dat['ymd'],0,10);
+    // echo $ymd.'<br>';
+    // echo $ymd_next.'<br>';
+    // exit;
+}
 
 // if db_id exists.
 if($db_id) {
     $search1 = " WHERE SHOT_ID = '".$db_id."' ";
 }
 // 한달씩
+else if($ym) {
+    // $search1 = " WHERE EVENT_TIME LIKE '".$ym."' ";
+    $search1 = " WHERE EVENT_TIME >= '".$ym."-01 00:00:00' AND EVENT_TIME <= '".$ym."-31 23:59:59' ";     
+}
+// 하루씩
 else {
-    $search1 = " WHERE EVENT_TIME LIKE '".$ym."%' ";
+    // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
+    $search1 = " WHERE EVENT_TIME >= '".$ymd." 00:00:00' AND EVENT_TIME <= '".$ymd." 23:59:59' ";     
     // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
 }
 
@@ -64,7 +82,7 @@ $result = $connect_db_pdo->query($sql);
 ?>
 
 <span style='font-size:9pt;'>
-	<p><?=($db_id)?$db_id:$ym?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
+	<p><?=($db_id)?$db_id:$ymd?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
 </span>
 <span id="cont"></span>
 
@@ -109,7 +127,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
-    $skips = array('chi_idx');
+    $skips = array('mlt_idx');
     for($j=0;$j<sizeof($fields2);$j++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
@@ -124,16 +142,16 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
 
     // Record update
-    $sql3 = "   SELECT chi_idx FROM {$table2}
+    $sql3 = "   SELECT mlt_idx FROM {$table2}
                 WHERE work_date = '".$arr['work_date']."' AND work_shift = '".$arr['work_shift']."' AND event_time = '".$arr['event_time']."'
     ";
     // echo $sql3.'<br>';
     $row3 = sql_fetch($sql3,1);
     // 정보 업데이트
-    if($row3['chi_idx']) {
+    if($row3['mlt_idx']) {
 		$sql = "UPDATE {$table2} SET
 					$sql_text[$i]
-				WHERE chi_idx = '".$row3['chi_idx']."'
+				WHERE mlt_idx = '".$row3['mlt_idx']."'
 		";
         $arr['result'] = '수정';
 		if(!$demo) {sql_query($sql,1);}
@@ -177,10 +195,10 @@ if($db_id) {
 }
 // 월간 처리
 else {
-    if($ym_next > date("Y-m")||$demo) {
+    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo) {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=$ym?> 완료<br><font color=crimson><b>[끝]</b></font>";
+        document.all.cont.innerHTML += "<br><br><?=($ymd)?$ymd:$ym?> 완료<br><font color=crimson><b>[끝]</b></font>";
     </script>
     <?php
     }
@@ -188,9 +206,9 @@ else {
     else {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=$ym?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
+        document.all.cont.innerHTML += "<br><br><?=($ymd)?$ymd:$ym?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
         setTimeout(function(){
-            self.location='?ym=<?=$ym_next?>';
+            self.location='?ym=<?=$ym_next?>&ymd=<?=$ymd_next?>';
         },2000);
     </script>
     <?php
