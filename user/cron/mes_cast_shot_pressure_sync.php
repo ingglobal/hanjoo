@@ -12,9 +12,9 @@ $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
 $sleepsec = 200;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
-$table1 = 'MES_CAST_SHOT_SUB';
+$table1 = 'MES_CAST_SHOT_PRESSURE';
 
-$table2 = 'g5_1_cast_shot_sub';
+$table2 = 'g5_1_cast_shot_pressure';
 $fields2 = sql_field_names($table2);
 
 // NEST YMD Default
@@ -54,7 +54,7 @@ else if($ymd) {
 }
 else {
     // 데이터의 마지막 일 ------
-    $sql = " SELECT event_time FROM {$table2} ORDER BY css_idx DESC LIMIT 1 ";
+    $sql = " SELECT event_time FROM {$table2} ORDER BY csp_idx DESC LIMIT 1 ";
     $dat = sql_fetch($sql,1);
     $ymdhis = $dat['event_time'];
 
@@ -118,7 +118,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
-    $skips = array('css_idx');
+    $skips = array('csp_idx');
     for($j=0;$j<sizeof($fields2);$j++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
@@ -133,16 +133,16 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
 
     // Record update
-    $sql3 = "   SELECT css_idx FROM {$table2}
+    $sql3 = "   SELECT csp_idx FROM {$table2}
                 WHERE shot_id = '".$arr['SHOT_ID']."' AND event_time = '".$arr['EVENT_TIME']."'
     ";
     //echo $sql3.'<br>';
     $row3 = sql_fetch($sql3,1);
     // 정보 업데이트
-    if($row3['css_idx']) {
+    if($row3['csp_idx']) {
 		$sql = "UPDATE {$table2} SET
 					$sql_text[$i]
-				WHERE css_idx = '".$row3['css_idx']."'
+				WHERE csp_idx = '".$row3['csp_idx']."'
 		";
 		if(!$demo) {sql_query($sql,1);}
 	    else {echo $sql.'<br><br>';}

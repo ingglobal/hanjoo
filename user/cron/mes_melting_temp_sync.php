@@ -22,19 +22,6 @@ $table1 = 'MES_MELTING_TEMP';
 $table2 = 'g5_1_melting_temp';
 $fields2 = sql_field_names($table2);
 
-// YMD Default
-if(!$ymd) {
-    // 데이터의 첫 시작 일 ------
-    // $sql = " SELECT EVENT_TIME FROM {$table1} ORDER BY EVENT_TIME LIMIT 1 ";
-    // $result = $connect_db_pdo->query($sql);
-    // $dat = $result->fetch(PDO::FETCH_ASSOC);
-    // // print_r2($dat);
-    // $ymd = substr($dat['EVENT_TIME'],0,10);
-
-    // 오늘 ----------------
-    $ymd = date("Y-m-d");
-}
-
 // NEST YMD Default
 if($ym) {
     // 다음달
@@ -65,10 +52,19 @@ else if($ym) {
     $search1 = " WHERE EVENT_TIME >= '".$ym."-01 00:00:00' AND EVENT_TIME <= '".$ym."-31 23:59:59' ";     
 }
 // 하루씩
-else {
+else if($ymd) {
     // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
     $search1 = " WHERE EVENT_TIME >= '".$ymd." 00:00:00' AND EVENT_TIME <= '".$ymd." 23:59:59' ";     
     // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
+}
+else {
+    // 데이터의 마지막 일 ------
+    $sql = " SELECT event_time FROM {$table2} ORDER BY mlt_idx DESC LIMIT 1 ";
+    $dat = sql_fetch($sql,1);
+    $ymdhis = $dat['event_time'];
+
+    $search1 = " WHERE EVENT_TIME >= '".$ymdhis."' ";
+    $latest = 1;
 }
 
 $sql = "SELECT *
@@ -195,7 +191,7 @@ if($db_id) {
 }
 // 월간 처리
 else {
-    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo) {
+    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo || $latest) {
     ?>
     <script>
         document.all.cont.innerHTML += "<br><br><?=($ymd)?$ymd:$ym?> 완료<br><font color=crimson><b>[끝]</b></font>";

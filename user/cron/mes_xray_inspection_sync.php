@@ -1,4 +1,9 @@
 <?php
+// 크론 실행을 위해서는 사용자단에 파일이 존재해야 함
+// sudo vi /etc/crontab
+// sudo systemctl restart cron
+// */5 * * * * root wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_cast_shot_sync.php
+// [root@web-37 user]# wget -O - -q -t 1 http://ing.icmms.co.kr/php/hanjoo/user/cron/mes_cast_shot_sync.php
 include_once('./_common.php');
 
 $demo = 0;  // 데모모드 = 1
@@ -12,10 +17,23 @@ $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
 $sleepsec = 200;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
-$table1 = 'MES_CAST_SHOT_SUB';
+$table1 = 'MES_XRAY_INSPECTION';
 
-$table2 = 'g5_1_cast_shot_sub';
+$table2 = 'g5_1_xray_inspection';
 $fields2 = sql_field_names($table2);
+
+// YMD Default
+if(!$ymd) {
+    // 데이터의 첫 시작 일 ------
+    // $sql = " SELECT EVENT_TIME FROM {$table1} ORDER BY EVENT_TIME LIMIT 1 ";
+    // $result = $connect_db_pdo->query($sql);
+    // $dat = $result->fetch(PDO::FETCH_ASSOC);
+    // // print_r2($dat);
+    // $ymd = substr($dat['EVENT_TIME'],0,10);
+
+    // 오늘 ----------------
+    $ymd = date("Y-m-d");
+}
 
 // NEST YMD Default
 if($ym) {
@@ -44,28 +62,19 @@ if($db_id) {
 // 한달씩
 else if($ym) {
     // $search1 = " WHERE EVENT_TIME LIKE '".$ym."' ";
-    $search1 = " WHERE EVENT_TIME >= '".$ym."-01 00:00:00' AND EVENT_TIME <= '".$ym."-31 23:59:59' ";
+    $search1 = " WHERE WORK_DATE >= '".$ym."-01 00:00:00' AND WORK_DATE <= '".$ym."-31 23:59:59' ";     
 }
 // 하루씩
-else if($ymd) {
-    // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
-    $search1 = " WHERE EVENT_TIME >= '".$ymd." 00:00:00' AND EVENT_TIME <= '".$ymd." 23:59:59' ";
-    // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
-}
 else {
-    // 데이터의 마지막 일 ------
-    $sql = " SELECT event_time FROM {$table2} ORDER BY css_idx DESC LIMIT 1 ";
-    $dat = sql_fetch($sql,1);
-    $ymdhis = $dat['event_time'];
-
-    $search1 = " WHERE EVENT_TIME >= '".$ymdhis."' ";
-    $latest = 1;
+    // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
+    $search1 = " WHERE WORK_DATE >= '".$ymd." 00:00:00' AND WORK_DATE <= '".$ymd." 23:59:59' ";     
+    // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
 }
 
 $sql = "SELECT *
         FROM {$table1} AS cam
         {$search1}
-        ORDER BY EVENT_TIME
+        ORDER BY START_TIME
 ";
 // echo $sql.'<br>';
 // exit;
@@ -73,7 +82,7 @@ $result = $connect_db_pdo->query($sql);
 ?>
 
 <span style='font-size:9pt;'>
-    <p><?=($ym)?$ym:$ymd?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
+	<p><?=($ym)?$ym:$ymd?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
 </span>
 <span id="cont"></span>
 
@@ -95,7 +104,7 @@ ob_flush();
 ob_end_flush();
 
 $cnt=0;
-// 캠페인 정보 입력
+// 정보 입력
 for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	$cnt++;
     // print_r2($row);
@@ -118,7 +127,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
-    $skips = array('css_idx');
+    $skips = array('xry_idx');
     for($j=0;$j<sizeof($fields2);$j++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
@@ -133,17 +142,18 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
 
     // Record update
-    $sql3 = "   SELECT css_idx FROM {$table2}
-                WHERE shot_id = '".$arr['SHOT_ID']."' AND event_time = '".$arr['EVENT_TIME']."'
+    $sql3 = "   SELECT xry_idx FROM {$table2}
+                WHERE qrcode = '".$arr['qrcode']."'
     ";
-    //echo $sql3.'<br>';
+    // echo $sql3.'<br>';
     $row3 = sql_fetch($sql3,1);
     // 정보 업데이트
-    if($row3['css_idx']) {
+    if($row3['xry_idx']) {
 		$sql = "UPDATE {$table2} SET
 					$sql_text[$i]
-				WHERE css_idx = '".$row3['css_idx']."'
+				WHERE xry_idx = '".$row3['xry_idx']."'
 		";
+        $arr['result'] = '수정';
 		if(!$demo) {sql_query($sql,1);}
 	    else {echo $sql.'<br><br>';}
     }
@@ -152,12 +162,13 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 		$sql = "INSERT INTO {$table2} SET
 					$sql_text[$i]
 		";
+        $arr['result'] = '입력';
 		if(!$demo) {sql_query($sql,1);}
 	    else {echo $sql.'<br><br>';}
     }
 
 
-    echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['shot_id']." (".$arr['event_time'].") 완료<br>'; </script>\n";
+    echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['work_date']." (".$arr['production_id'].", ".$arr['qrcode'].") ".$arr['result']." 완료<br>'; </script>\n";
 
     flush();
     @ob_flush();
@@ -184,10 +195,10 @@ if($db_id) {
 }
 // 월간 처리
 else {
-    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo || $latest) {
+    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo) {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=($ymd)?$ymd:$ym?> 완료<br><font color=crimson><b>[끝]</b></font>";
+        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료<br><font color=crimson><b>[끝]</b></font>";
     </script>
     <?php
     }
@@ -195,7 +206,7 @@ else {
     else {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=($ymd)?$ymd:$ym?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
+        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
         setTimeout(function(){
             self.location='?ym=<?=$ym_next?>&ymd=<?=$ymd_next?>';
         },2000);

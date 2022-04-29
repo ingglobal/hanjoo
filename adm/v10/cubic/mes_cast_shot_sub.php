@@ -173,8 +173,8 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
     <?php if($member['mb_manager_yn']) { ?>
         <a href="javascript:" class="btn_04 btn btn_timescale" style="margin-right:50px;">TSDB입력</a>
         <a href="javascript:" class="btn_04 btn btn_copy" style="margin-right:50px;">내부복제</a>
-        <a href="javascript:" class="btn_04 btn btn_sync_select">선택가져오기</a>
-        <a href="javascript:" class="btn_04 btn btn_sync_date">날짜가져오기</a>
+        <a href="javascript:" class="btn_04 btn btn_sync_ymd">일별가져오기</a>
+        <a href="javascript:" class="btn_04 btn btn_sync_ym">월별가져오기</a>
         <a href="javascript:" class="btn_04 btn btn_sync">가져오기</a>
     <?php } ?>
 </div>
@@ -188,7 +188,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
         <tr>
             <td style="line-height:130%;padding:10px 0;">
                 <ul>
-                    <li>샷ID를 입력하세요.</li>
+                    <li>ID를 입력하세요.</li>
                 </ul>
             </td>
         </tr>
@@ -214,13 +214,39 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
         <tr>
             <td style="line-height:130%;padding:10px 0;">
                 <ul>
-                    <li>시작일를 입력하세요.</li>
+                    <li>시작월를 입력하세요.</li>
                 </ul>
             </td>
         </tr>
         <tr>
             <td style="padding:5px 0;">
-                <input type="text" name="ymd" class="frm_input" first="<?=G5_TIME_YMD?>" value="2020-11-01" placeholder="YYYY-MM">
+                <input type="text" name="ym" class="frm_input" first="2019-07" value="<?=substr(G5_TIME_YMD,0,-3)?>" placeholder="YYYY-MM">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px 0;">
+                <button type="submit" class="btn btn_01">확인</button>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </form>
+</div>
+
+<div id="modal30" title="가져오기" style="display:none;">
+    <form name="form30" id="form30" action="" onsubmit="return form30_submit(this);" method="post" enctype="multipart/form-data">
+        <table>
+        <tbody>
+        <tr>
+            <td style="line-height:130%;padding:10px 0;">
+                <ul>
+                    <li>시작날짜를 입력하세요.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px 0;">
+                <input type="text" name="ymd" class="frm_input" first="2019-07-01" value="<?=G5_TIME_YMD?>" placeholder="YYYY-MM-DD">
             </td>
         </tr>
         <tr>
@@ -238,13 +264,13 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 //-- $(document).ready 페이지로드 후 js실행 --//
 $(document).ready(function(){
 
-	// influxDB입력
-    $(document).on('click','.btn_influx',function(e){
+	// timescaleDB입력
+    $(document).on('click','.btn_timescale',function(e){
         e.preventDefault();
-        if(confirm('influxDB입력을 진행하시겠습니까?\n새창이 열리고 작업이 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
-            var href = './<?=$g5['file_name']?>_influx.php';
-            winInflux = window.open(href, "winInflux", "left=100,top=100,width=520,height=600,scrollbars=1");
-            winInflux.focus();
+        if(confirm('TSDB입력을 진행하시겠습니까?\n새창이 열리고 작업이 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
+            var href = './<?=$g5['file_name']?>_timescale.php';
+            winTimescale = window.open(href, "winTimescale", "left=100,top=100,width=520,height=600,scrollbars=1");
+            winTimescale.focus();
             return false;
         }
     });
@@ -270,21 +296,32 @@ $(document).ready(function(){
         , width:250
         , position: { my: "right-10 top-10", of: ".btn_sync_select"}
     });
-	// 날짜가져오기
-    $( ".btn_sync_date" ).on( "click", function(e) {
+	// 월별가져오기
+    $( ".btn_sync_ym" ).on( "click", function(e) {
         e.preventDefault();
         $( "#modal20" ).dialog( "open" );
     });
     $( "#modal20" ).dialog({
         autoOpen: false
         , width:250
-        , position: { my: "right-10 top-10", of: ".btn_sync_date"}
+        , position: { my: "right-10 top-10", of: ".btn_sync_ym"}
+    });
+	// 일별가져오기
+    $( ".btn_sync_ymd" ).on( "click", function(e) {
+        e.preventDefault();
+        $( "#modal30" ).dialog( "open" );
+    });
+    $( "#modal30" ).dialog({
+        autoOpen: false
+        , width:250
+        , position: { my: "right-10 top-10", of: ".btn_sync_ymd"}
     });
 	// 가져오기
     $(document).on('click','.btn_sync',function(e){
         e.preventDefault();
         if(confirm('최신 정보 동기화를 진행하시겠습니까?\n새창이 열리고 동기화가 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
-            var href = './<?=$g5['file_name']?>_sync.php';
+            // var href = './<?=$g5['file_name']?>_sync.php';
+            var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_sync.php';
             winSync = window.open(href, "winSync", "left=100,top=100,width=520,height=600,scrollbars=1");
             winSync.focus();
             return false;
@@ -309,7 +346,6 @@ $(document).ready(function(){
 	});
 
 });
-
 function form10_submit(f) {
     if (!f.db_id.value) {
         alert('아이디를 입력하세요.');
@@ -324,12 +360,21 @@ function form10_submit(f) {
 
     return false;
 }
-// specific month. image sync
+// specific month
 function form20_submit(f) {
-    var href = './<?=$g5['file_name']?>_sync.php?ymd='+f.ymd.value;
+    // var href = './<?=$g5['file_name']?>_sync.php?ym='+f.ym.value;
+    var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_sync.php?ym='+f.ym.value;
     winSync = window.open(href, "winSync", "left=100,top=100,width=520,height=600,scrollbars=1");
     winSync.focus();
     $( "#modal20" ).dialog( "close" );
+    return false;
+}
+// specific month
+function form30_submit(f) {
+    var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_sync.php?ymd='+f.ymd.value;
+    winSync = window.open(href, "winSync", "left=100,top=100,width=520,height=600,scrollbars=1");
+    winSync.focus();
+    $( "#modal30" ).dialog( "close" );
     return false;
 }
 </script>

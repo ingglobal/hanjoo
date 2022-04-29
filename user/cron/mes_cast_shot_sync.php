@@ -198,7 +198,7 @@ else {
     if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo) {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=($ymd)?$ymd:$ym?> 완료<br><font color=crimson><b>[끝]</b></font>";
+        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료<br><font color=crimson><b>[끝]</b></font>";
     </script>
     <?php
     }
@@ -206,7 +206,7 @@ else {
     else {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=($ymd)?$ymd:$ym?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
+        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
         setTimeout(function(){
             self.location='?ym=<?=$ym_next?>&ymd=<?=$ymd_next?>';
         },2000);
