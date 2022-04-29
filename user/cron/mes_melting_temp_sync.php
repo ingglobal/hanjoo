@@ -15,7 +15,7 @@ include_once('./_head.cubic.php');
 //-- 화면 표시
 $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
-$sleepsec = 20;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
+$sleepsec = 200;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
 $table1 = 'MES_MELTING_TEMP';
 
@@ -82,7 +82,7 @@ $result = $connect_db_pdo->query($sql);
 ?>
 
 <span style='font-size:9pt;'>
-	<p><?=($db_id)?$db_id:$ymd?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
+	<p><?=($ym)?$ym:$ymd?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
 </span>
 <span id="cont"></span>
 

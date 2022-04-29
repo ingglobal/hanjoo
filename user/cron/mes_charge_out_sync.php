@@ -64,7 +64,7 @@ $result = $connect_db_pdo->query($sql);
 ?>
 
 <span style='font-size:9pt;'>
-	<p><?=($db_id)?$db_id:$ym?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
+	<p><?=($ym)?$ym:$ymd?> 입력시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
 </span>
 <span id="cont"></span>
 

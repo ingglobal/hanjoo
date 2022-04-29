@@ -491,3 +491,10 @@ pg_restore -U tsdbadmin -W -h vbjysvzz2g.hp6tz73i1r.tsdb.cloud.timescale.com -p 
 pg_restore --clean -U tsdbadmin -W -h vbjysvzz2g.hp6tz73i1r.tsdb.cloud.timescale.com -p 32530 --no-owner -Fc -v -d tsdb dump.bak;
 
 
+
+// index가 없으니까.. 엄청 오래 걸리는구나!!
+SELECT mlt_idx FROM g5_1_melting_temp WHERE work_date = '2022-03-10' AND work_shift = '2' AND event_time = '2022-03-10 22:27:00'
+
+SELECT mlt_idx FROM g5_1_melting_temp WHERE work_date = '2022-03-10' AND work_shift = '2' AND event_time = '2022-03-10 23:42:00'
+
+                
