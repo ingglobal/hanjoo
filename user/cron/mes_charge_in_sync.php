@@ -23,33 +23,51 @@ $table2 = 'g5_1_charge_in';
 $fields2 = sql_field_names($table2);
 
 // YM Default
-if(!$ym) {
-    // 데이터의 첫 시작 월 ------
+if(!$ymd) {
+    // 데이터의 첫 시작 일 ------
     // $sql = " SELECT EVENT_TIME FROM {$table1} ORDER BY EVENT_TIME LIMIT 1 ";
     // $result = $connect_db_pdo->query($sql);
     // $dat = $result->fetch(PDO::FETCH_ASSOC);
     // // print_r2($dat);
-    // $ym = substr($dat['EVENT_TIME'],0,7);
+    // $ymd = substr($dat['EVENT_TIME'],0,10);
 
-    // 현재달 ----------------
-    $ym = date("Y-m");
+    // 오늘 ----------------
+    $ymd = date("Y-m-d");
 }
 
-// 다음달
-$sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL +1 MONTH) AS ym FROM dual ";
-$dat = sql_fetch($sql,1);
-$ym_next = substr($dat['ym'],0,7);
-// echo $ym.'<br>';
-// echo $ym_next.'<br>';
-// exit;
+// NEST YMD Default
+if($ym) {
+    // 다음달
+    $sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL +1 MONTH) AS ym FROM dual ";
+    $dat = sql_fetch($sql,1);
+    $ym_next = substr($dat['ym'],0,7);
+    // echo $ym.'<br>';
+    // echo $ym_next.'<br>';
+    // exit;
+}
+else if($ymd) {
+    // 다음일
+    $sql = " SELECT DATE_ADD('".$ymd."' , INTERVAL +1 DAY) AS ymd FROM dual ";
+    $dat = sql_fetch($sql,1);
+    $ymd_next = substr($dat['ymd'],0,10);
+    // echo $ymd.'<br>';
+    // echo $ymd_next.'<br>';
+    // exit;
+}
 
 // if db_id exists.
 if($db_id) {
     $search1 = " WHERE SHOT_ID = '".$db_id."' ";
 }
 // 한달씩
+else if($ym) {
+    // $search1 = " WHERE EVENT_TIME LIKE '".$ym."' ";
+    $search1 = " WHERE EVENT_TIME >= '".$ym."-01 00:00:00' AND EVENT_TIME <= '".$ym."-31 23:59:59' ";     
+}
+// 하루씩
 else {
-    $search1 = " WHERE EVENT_TIME LIKE '".$ym."%' ";
+    // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
+    $search1 = " WHERE EVENT_TIME >= '".$ymd." 00:00:00' AND EVENT_TIME <= '".$ymd." 23:59:59' ";     
     // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
 }
 
@@ -177,10 +195,10 @@ if($db_id) {
 }
 // 월간 처리
 else {
-    if($ym_next > date("Y-m")||$demo) {
+    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo) {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=$ym?> 완료<br><font color=crimson><b>[끝]</b></font>";
+        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료<br><font color=crimson><b>[끝]</b></font>";
     </script>
     <?php
     }
@@ -188,9 +206,9 @@ else {
     else {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=$ym?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
+        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료 <br><font color=crimson><b>2초후</b></font> 다음 페이지로 이동합니다.";
         setTimeout(function(){
-            self.location='?ym=<?=$ym_next?>';
+            self.location='?ym=<?=$ym_next?>&ymd=<?=$ymd_next?>';
         },2000);
     </script>
     <?php

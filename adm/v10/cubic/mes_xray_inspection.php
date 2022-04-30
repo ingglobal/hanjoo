@@ -9,7 +9,7 @@ include_once('./_head.php');
 include_once('./_head.cubic.php');
 
 // 검색 조건
-$st_date = ($st_date) ? $st_date : date("Y-m",G5_SERVER_TIME).'-01';
+$st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-86400*3);
 //$en_date = ($en_date) ? $en_date : '2016-03-31';
 $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
 

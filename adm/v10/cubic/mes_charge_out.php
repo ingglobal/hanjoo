@@ -52,7 +52,7 @@ if ($where)
 
 
 if (!$sst) {
-    $sst = "WORK_DATE";
+    $sst = "EVENT_TIME";
     $sod = "DESC";
 }
 $sql_order = " ORDER BY {$sst} {$sod} ";
