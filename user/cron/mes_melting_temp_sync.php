@@ -72,8 +72,8 @@ $sql = "SELECT *
         {$search1}
         ORDER BY EVENT_TIME
 ";
-// echo $sql.'<br>';
-// exit;
+echo $sql.'<br>';
+exit;
 $result = $connect_db_pdo->query($sql);
 ?>
 
