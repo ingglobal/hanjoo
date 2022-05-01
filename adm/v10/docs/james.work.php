@@ -155,7 +155,7 @@ SELECT * FROM MES_CAST_SHOT_SUB WHERE EVENT_TIME > '2022-04-16 04:25:39.615'
 
 SELECT event_time FROM g5_1_cast_shot_sub ORDER BY event_time LIMIT 1
 
-// 하루 전체 복제
+// 온도 정보 하루 전체 복제
 INSERT INTO g5_1_cast_shot_sub(shot_id, event_time, hold_temp, upper_heat,lower_heat,upper_1_temp,upper_2_temp,upper_3_temp,upper_4_temp,upper_5_temp,upper_6_temp,lower_1_temp,lower_2_temp,lower_3_temp)
 SELECT shot_id, CONCAT('2020-11-09',' ',SUBSTRING(event_time,12)) AS event_time, hold_temp, upper_heat,lower_heat
     ,upper_1_temp,upper_2_temp,upper_3_temp,upper_4_temp,upper_5_temp,upper_6_temp,lower_1_temp
@@ -168,6 +168,22 @@ DELETE FROM g5_1_cast_shot_sub WHERE event_time > '2020-11-09 00:00:00'
 DELETE FROM g5_1_cast_shot_sub WHERE event_time >= '2022-04-13 00:00:00'
 
 update `g5_1_cast_shot_sub` set shot_id = mcs_idx
+
+
+// 압력 정보 하루 전체 복제
+INSERT INTO g5_1_cast_shot_pressure(shot_id, event_time, detect_pressure, target_pressure,control_pressure,deviation_pressure)
+SELECT shot_id, CONCAT('2020-11-04',' ',SUBSTRING(event_time,12)) AS event_time, detect_pressure, target_pressure,control_pressure,deviation_pressure
+FROM g5_1_cast_shot_pressure WHERE event_time LIKE '2020-11-02%'
+....
+INSERT INTO g5_1_cast_shot_pressure(shot_id, event_time, detect_pressure, target_pressure,control_pressure,deviation_pressure)
+SELECT shot_id, CONCAT('2020-11-05',' ',SUBSTRING(event_time,12)) AS event_time, detect_pressure, target_pressure,control_pressure,deviation_pressure
+FROM g5_1_cast_shot_pressure WHERE event_time LIKE '2020-11-03%'
+....
+INSERT INTO g5_1_cast_shot_pressure(shot_id, event_time, detect_pressure, target_pressure,control_pressure,deviation_pressure)
+SELECT shot_id, CONCAT('2020-11-06',' ',SUBSTRING(event_time,12)) AS event_time, detect_pressure, target_pressure,control_pressure,deviation_pressure
+FROM g5_1_cast_shot_pressure WHERE event_time LIKE '2020-11-04%'
+....
+
 
 $ influx -import -path=ticker_data.txt -database=market -percision=s
 

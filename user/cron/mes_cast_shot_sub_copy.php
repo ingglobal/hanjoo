@@ -1,5 +1,4 @@
 <?php
-$sub_menu = "950150";
 include_once('./_common.php');
 
 $demo = 0;  // 데모모드 = 1
@@ -62,7 +61,7 @@ for ($i=$st_timestamp; $i<time(); $i+=86400) {
             SELECT shot_id, CONCAT('".$current[$i]."',' ',SUBSTRING(event_time,12)) AS event_time, hold_temp, upper_heat,lower_heat
                 ,upper_1_temp,upper_2_temp,upper_3_temp,upper_4_temp,upper_5_temp,upper_6_temp,lower_1_temp
                 ,lower_2_temp,lower_3_temp
-            FROM g5_1_mes_cast_shot_sub WHERE event_time LIKE '".$last[$i]."%'
+            FROM {$table1} WHERE event_time LIKE '".$last[$i]."%'
 	";
 	if(!$demo) {sql_query($sql,1);}
     else {echo $sql.'<br><br>';}
