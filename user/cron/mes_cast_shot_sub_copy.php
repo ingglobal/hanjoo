@@ -13,7 +13,7 @@ $sleepsec = 200;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
 
 
-$table1 = 'g5_1_mes_cast_shot_sub';
+$table1 = 'g5_1_cast_shot_sub';
 $fields1 = sql_field_names($table1);
 
 // 하루씩 끊어서 입력, Default first YYYY-MM of first record for no $ym
@@ -41,7 +41,7 @@ ob_flush();
 ob_end_flush();
 
 $cnt=0;
-// 캠페인 정보 입력
+// 정보 입력
 for ($i=$st_timestamp; $i<time(); $i+=86400) {
 	$cnt++;
     // echo $i.'<br>';

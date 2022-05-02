@@ -48,8 +48,9 @@ else if($ym) {
 }
 // 하루씩
 else if($ymd) {
+    $st_time = ($ymd=='2020-11-07') ? '12:39:08':'00:00:00';
     // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
-    $search1 = " WHERE EVENT_TIME >= '".$ymd." 00:00:00' AND EVENT_TIME <= '".$ymd." 23:59:59' ";
+    $search1 = " WHERE EVENT_TIME >= '".$ymd." ".$st_time."' AND EVENT_TIME <= '".$ymd." 23:59:59' ";
     // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
 }
 else {
