@@ -18,12 +18,15 @@ $fields1 = sql_field_names($table1);
 
 // 하루씩 끊어서 입력, Default first YYYY-MM of first record for no $ym
 if(!$ymd) {
-    $sql = " SELECT event_time, DATE_ADD(event_time , INTERVAL +7 DAY) AS ymd FROM {$table1} ORDER BY event_time LIMIT 1 ";
+    // $sql = " SELECT event_time, DATE_ADD(event_time , INTERVAL +7 DAY) AS ymd FROM {$table1} ORDER BY event_time LIMIT 1 ";
+    $sql = " SELECT event_time, DATE_ADD(event_time , INTERVAL +1 DAY) AS ymd FROM {$table1} ORDER BY css_idx DESC LIMIT 1 ";
+    // echo $sql.'<br>';
     $dat = sql_fetch($sql,1);
     // print_r2($dat);
     $ymd = substr($dat['ymd'],0,10);
 }
 $st_timestamp = strtotime($ymd);
+// exit;
 ?>
 
 <span style='font-size:9pt;'>

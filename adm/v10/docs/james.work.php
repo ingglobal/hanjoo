@@ -513,4 +513,16 @@ SELECT mlt_idx FROM g5_1_melting_temp WHERE work_date = '2022-03-10' AND work_sh
 
 SELECT mlt_idx FROM g5_1_melting_temp WHERE work_date = '2022-03-10' AND work_shift = '2' AND event_time = '2022-03-10 23:42:00'
 
-                
+// The last inserted data.
+SELECT * FROM `g5_1_cast_shot_pressure` WHERE event_time LIKE '2022-05-02%' ORDER BY event_time DESC LIMIT 1
+132478245
+DELETE FROM `g5_1_cast_shot_pressure` WHERE csp_idx > 132478245
+DELETE FROM `g5_1_cast_shot_pressure` WHERE event_time > '2022-05-03 11:47:11'
+
+
+SELECT * FROM `g5_1_cast_shot_sub` WHERE event_time LIKE '2022-05-02%' ORDER BY event_time DESC LIMIT 1
+93709810
+DELETE FROM `g5_1_cast_shot_sub` WHERE csp_idx > 93709810
+DELETE FROM `g5_1_cast_shot_sub` WHERE event_time > '2022-05-03 12:00:00'
+
+
