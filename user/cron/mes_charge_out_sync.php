@@ -143,8 +143,12 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // Record update
     $sql3 = "   SELECT cho_idx FROM {$table2}
-                WHERE work_date = '".$arr['work_date']."' AND work_shift = '".$arr['work_shift']."' AND event_time = '".$arr['event_time']."'
-                    AND machine_1_id = '".$arr['machine_1_id']."' AND machine_2_id = '".$arr['machine_2_id']."' AND machine_3_id = '".$arr['machine_3_id']."'
+                WHERE work_date = '".$arr['work_date']."'
+                    AND work_shift = '".$arr['work_shift']."'
+                    AND event_time = '".$arr['event_time']."'
+                    AND machine_1_id = '".$arr['machine_1_id']."'
+                    AND machine_2_id = '".$arr['machine_2_id']."'
+                    AND machine_3_id = '".$arr['machine_3_id']."'
     ";
     // echo $sql3.'<br>';
     $row3 = sql_fetch($sql3,1);
