@@ -52,6 +52,7 @@ textarea, select {font-family: 'Noto Sans KR', sans-serif;}
 
 /*관리자단 메뉴숨김*/
 #gnb .gnb_li {display:none;}
+#gnb .gnb_li button {position: relative;}
 .tnb_li .tnb_shop {display:none !important;} /*오른편 상단 쇼핑몰바로가기 아이콘 숨김*/
 .tnb_li .tnb_service {display:none !important;} /*오른편 상단 부가서비스 숨김*/
 /*.menu-400, .menu-500, .menu-900 {display:none;} */

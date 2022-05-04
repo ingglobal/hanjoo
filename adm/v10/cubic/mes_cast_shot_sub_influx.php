@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "950150";
+$sub_menu = "960150";
 include_once('./_common.php');
 
 $demo = 0;  // 데모모드 = 1
