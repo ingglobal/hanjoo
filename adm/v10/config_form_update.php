@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "960900";
+$sub_menu = "910100";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu], 'w');

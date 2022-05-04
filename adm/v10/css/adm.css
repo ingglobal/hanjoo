@@ -22,6 +22,22 @@ textarea, select {font-family: 'Noto Sans KR', sans-serif;}
 .container_wr {padding: 15px 15px;min-height:500px;}
 
 /* 관리자단 왼편 하단 아이콘 */
+#gnb .gnb_li .btn_op.menu-910{background:url(../img/menu-910-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-910{background:url(../img/menu-910.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-915{background:url(../img/menu-915-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-915{background:url(../img/menu-915.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-920{background:url(../img/menu-920-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-920{background:url(../img/menu-920.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-925{background:url(../img/menu-925-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-925{background:url(../img/menu-925.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-930{background:url(../img/menu-930-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-930{background:url(../img/menu-930.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-935{background:url(../img/menu-935-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-935{background:url(../img/menu-935.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-940{background:url(../img/menu-940-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-940{background:url(../img/menu-940.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-945{background:url(../img/menu-945-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-945{background:url(../img/menu-945.png) 50% 50% no-repeat #ffffff}
 #gnb .gnb_li .btn_op.menu-950{background:url(../img/menu-950-1.png) 50% 50% no-repeat #ebebeb }
 #gnb .on .btn_op.menu-950{background:url(../img/menu-950.png) 50% 50% no-repeat #ffffff}
 #gnb .gnb_li .btn_op.menu-960{background:url(../img/menu-960-1.png) 50% 50% no-repeat #ebebeb }
