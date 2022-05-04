@@ -135,9 +135,9 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // Record update
     $sql3 = "   SELECT csp_idx FROM {$table2}
-                WHERE shot_id = '".$arr['SHOT_ID']."' AND event_time = '".$arr['EVENT_TIME']."'
+                WHERE shot_id = '".$arr['shot_id']."' AND event_time = '".$arr['event_time']."'
     ";
-    //echo $sql3.'<br>';
+    // echo $sql3.'<br>';
     $row3 = sql_fetch($sql3,1);
     // 정보 업데이트
     if($row3['csp_idx']) {

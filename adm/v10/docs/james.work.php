@@ -525,4 +525,15 @@ SELECT * FROM `g5_1_cast_shot_sub` WHERE event_time LIKE '2022-05-02%' ORDER BY 
 DELETE FROM `g5_1_cast_shot_sub` WHERE csp_idx > 93709810
 DELETE FROM `g5_1_cast_shot_sub` WHERE event_time > '2022-05-03 12:00:00'
 
+// query speed is too slow.
+explain
+SELECT csp_idx FROM g5_1_cast_shot_pressure WHERE shot_id = '408746' AND event_time = '2022-05-03 13:04:30.155'
+SELECT csp_idx FROM g5_1_cast_shot_pressure WHERE shot_id = '408744' AND event_time = '2022-05-03 13:04:30.173'
+
+// set shot_id index
+ALTER TABLE `hanjoo_test`.`g5_1_cast_shot_pressure` ADD INDEX `idx_shot_id` (`shot_id`);
+
+
+explain
+SELECT css_idx FROM g5_1_cast_shot_sub WHERE shot_id = '408746' AND event_time = '2022-05-03 13:04:30.155'
 

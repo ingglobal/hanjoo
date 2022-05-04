@@ -1,5 +1,5 @@
 <?php
-$sub_menu = '950000';
+$sub_menu = '915110';
 include_once('./_common.php');
 
 @include_once('./safe_check.php');
