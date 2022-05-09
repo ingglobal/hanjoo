@@ -1,4 +1,5 @@
 <?php
+// Timescale에서 제공하는 Cloud 서비스에 연결해서 정보 추출
 error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING );
 @ini_set("display_errors", 1);
 

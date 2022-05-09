@@ -313,6 +313,7 @@ from(bucket: "mes")
 |> filter(fn: (r) => r["_measurement"] == "cast_shot_sub")
 |> count()
 
+
 influxDB vs TimescaleDB
 https://tzara.tistory.com/117
 
@@ -336,7 +337,7 @@ CREATE TABLE test1 (
     temperature DOUBLE PRECISION    NULL
 );
 
-CREATE TABLE test1 (
+CREATE TABLE test4 (
   mcs_idx SERIAL,
   shot_id integer NOT NULL,
   event_time TIMESTAMPTZ    NOT NULL,
@@ -355,6 +356,8 @@ CREATE TABLE test1 (
 );
 
 SELECT create_hypertable('test1', 'event_time');
+SELECT create_hypertable('test2', 'event_time');
+SELECT create_hypertable('test4', 'event_time');
 
 timescaledb-parallel-copy --db-name new_db --table conditions --file old_db.csv --workers 4 --copy-options "CSV"
 timescaledb-parallel-copy --db-name test_db --table test1 --file /var/www/kr.websiteman.py/php/timescale/test1.csv --workers 4 --copy-options "CSV"
@@ -537,3 +540,89 @@ ALTER TABLE `hanjoo_test`.`g5_1_cast_shot_pressure` ADD INDEX `idx_shot_id` (`sh
 explain
 SELECT css_idx FROM g5_1_cast_shot_sub WHERE shot_id = '408746' AND event_time = '2022-05-03 13:04:30.155'
 
+
+
+SELECT * FROM g5_1_cast_shot_sub
+WHERE (1)
+  AND event_time >= '2022-05-09 00:00:00' AND event_time <= '2022-05-09 23:59:59'
+ORDER BY event_time DESC LIMIT 0, 100
+
+# mdate 컬럼 속성을 변경하지 않아야 함
+WHERE mdate >= '2020-11-01'::timestamp AND mdate < '2020-11-06'::timestamp + interval '1 day'
+
+SELECT *
+FROM test2
+WHERE event_time >= '2021-11-01'::timestamp
+AND event_time < '2021-11-06'::timestamp + interval '1 day';
+
+SELECT * FROM test2
+WHERE event_time >= '2021-11-01 00:00:00'::timestamp
+AND event_time < '2021-11-02 00:00:00'::timestamp
+LIMIT 100;
+
+SELECT COUNT(*) FROM test2;
+
+SELECT * FROM test2 ORDER BY event_time LIMIT 100;
+
+
+SELECT * FROM test2
+WHERE 1=1 AND event_time >= '2022-04-12 00:00:00' AND event_time <= '2022-04-12 23:59:59'
+ORDER BY event_time DESC LIMIT 100 OFFSET 0;
+
+SELECT * FROM test2
+ORDER BY event_time DESC LIMIT 100 OFFSET 0;
+
+ANALYZE test2;
+SELECT * FROM approximate_row_count('test2');
+
+ANALYZE conditions;
+SELECT * FROM approximate_row_count('conditions');
+
+
+SELECT relname, n_tup_ins - n_tup_del as rowcount FROM pg_stat_all_tables;
+SELECT relname, n_tup_ins - n_tup_del as rowcount FROM pg_stat_all_tables WHERE relname = 'test2';
+
+
+SELECT 
+  nspname AS schemaname,relname,reltuples
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE 
+  nspname IN ('test2') AND
+  relkind='r' 
+ORDER BY reltuples DESC;
+
+
+SELECT reltuples::bigint
+FROM pg_catalog.pg_class
+WHERE relname = 'test2';
+
+SELECT reltuples AS estimate FROM pg_class where relname = 'test2';
+
+
+SELECT c.reltuples::bigint AS estimate
+FROM   pg_class c
+JOIN   pg_namespace n ON n.oid = c.relnamespace
+WHERE  c.relname = 'test2'
+AND    n.nspname = 'postgres';
+myschema=postgres
+
+SELECT reltuples::bigint AS estimate
+FROM   pg_class
+WHERE  oid = 'postgres.test2'::regclass;
+
+select nspname, pg_authid.rolname as schemaowner, nspacl
+from pg_namespace
+join pg_authid on pg_authid.oid = pg_namespace.nspowner;
+
+// this might have some solution.
+SELECT *
+FROM pg_stat_user_tables 
+WHERE relname like 'test%'
+
+INSERT INTO "test2" ("shot_id", "event_time", "hold_temp", "upper_heat", "lower_heat", "upper_1_temp", "upper_2_temp", "upper_3_temp", "upper_4_temp", "upper_5_temp", "upper_6_temp", "lower_1_temp", "lower_2_temp", "lower_3_temp")
+VALUES ('2324', '2020-11-02 08:16:43', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2');
+INSERT INTO "test4" ("shot_id", "event_time", "hold_temp", "upper_heat", "lower_heat", "upper_1_temp", "upper_2_temp", "upper_3_temp", "upper_4_temp", "upper_5_temp", "upper_6_temp", "lower_1_temp", "lower_2_temp", "lower_3_temp")
+VALUES ('2324', '2020-11-02 08:16:43', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2');
+INSERT INTO "test4" ("shot_id", "event_time", "hold_temp", "upper_heat", "lower_heat", "upper_1_temp", "upper_2_temp", "upper_3_temp", "upper_4_temp", "upper_5_temp", "upper_6_temp", "lower_1_temp", "lower_2_temp", "lower_3_temp")
+VALUES ('2324', '2020-11-02 08:16:43', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2');
