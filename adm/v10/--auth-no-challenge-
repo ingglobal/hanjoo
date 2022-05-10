@@ -85,9 +85,6 @@ var g5_user_admin_url = "http://ing.icmms.co.kr/php/hanjoo/adm/v10";
 var g5_user_admin_mobile_url = "http://ing.icmms.co.kr/php/hanjoo/adm/v10/mobile";
 var g5_print_version = "";
 var get_device_change_url = "http://ing.icmms.co.kr/php/hanjoo/adm/v10/cubic/mes_charge_in_sync.php?device=mobile"
-$(function(e){
-$('#ft p').prepend('<span style="color:darkorange;">hanjoo_test</span>');
-});
 </script>
 
 </body>

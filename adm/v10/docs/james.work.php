@@ -626,3 +626,8 @@ INSERT INTO "test4" ("shot_id", "event_time", "hold_temp", "upper_heat", "lower_
 VALUES ('2324', '2020-11-02 08:16:43', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2');
 INSERT INTO "test4" ("shot_id", "event_time", "hold_temp", "upper_heat", "lower_heat", "upper_1_temp", "upper_2_temp", "upper_3_temp", "upper_4_temp", "upper_5_temp", "upper_6_temp", "lower_1_temp", "lower_2_temp", "lower_3_temp")
 VALUES ('2324', '2020-11-02 08:16:43', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2');
+
+// disppered?
+UPDATE g5_1_cast_shot_sub SET shot_id = '90454369' , event_time = '2022-04-13 08:54:10' , hold_temp = '692' , upper_heat = '363.35' , lower_heat = '372.3' , upper_1_temp = '0' , upper_2_temp = '0' , upper_3_temp = '0' , upper_4_temp = '0' , upper_5_temp = '435.425' , upper_6_temp = '448.4' , lower_1_temp = '0' , lower_2_temp = '0' , lower_3_temp = '371.275' WHERE css_idx = '90454369'
+
+// primary key is awkard.

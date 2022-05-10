@@ -1,6 +1,58 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// TimescaleDB 
+if(!function_exists('sql_query_ps')){
+function sql_query_ps($sql,$error=0)
+{
+    global $db;
+
+	if(!$sql)
+		return false;
+    
+    try {
+        $db->query($sql);
+        return true;
+    }
+    catch(PDOException $e) {
+        if($error) {
+            // return $e->getMessage();
+            $result = die("<p>$sql<p>" . $e->getMessage() . "<p>error file : {$_SERVER['SCRIPT_NAME']}");
+            return $result;
+        }
+        else 
+            return $sql;
+    }
+}
+}
+
+// TimescaleDB 
+// get_table_ps('g5_shop_item','it_id',215021535,'it_name')	// 4번째 매개변수는 테이블명과 같으면 생략할 수 있다.
+if(!function_exists('get_table_ps')){
+function get_table_ps($db_table,$db_field,$db_id,$db_fields='*')
+{
+    global $db;
+
+	if(!$db_table||!$db_field||!$db_id)
+		return false;
+    
+    $table_name = 'g5_1_'.$db_table;
+    $sql = " SELECT ".$db_fields." FROM ".$table_name." WHERE ".$db_field." = '".$db_id."' LIMIT 1 ";
+    //print_r3($sql);
+    //echo $sql.'<br>';
+    try {
+        $stmt = $db->query($sql);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    catch(PDOException $e) {
+        echo $e->getMessage();
+        exit;
+    }
+
+    return $row;
+}
+}
+
 
 // 배너출력
 if(!function_exists('display_banner10')){

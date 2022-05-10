@@ -189,6 +189,44 @@ function strip_http($url)
 }
 
 
+// 날짜 만들기
+if(!function_exists('make_date')){
+function make_date($dt)
+{
+	return make_dt($dt);
+}
+}
+
+
+// 날짜 만들기
+if(!function_exists('make_dt')){
+function make_dt($dt)
+{
+    if(strlen($dt)>=19) {
+        return substr($dt,0,19);
+	}
+    else if(strlen($dt)<=10) {
+		if( is_numeric($dt) ) {
+			return substr($dt,0,4).'-'.substr($dt,4,2).'-'.substr($dt,6,2);
+		}
+		else {
+			return substr($dt,0,10);
+		}
+	}
+    else
+        return $dt;
+}
+}
+
+// 날짜 체크 =='0000-00-00 00:00:00' 으로 체크하는 게 귀찮아서 함수로 체크
+if(!function_exists('check_date')){
+function check_date($dt)
+{
+	return check_dt($dt);
+}
+}
+
+
 // 날짜 체크 =='0000-00-00 00:00:00' 으로 체크하는 게 귀찮아서 함수로 체크
 if(!function_exists('check_dt')){
 function check_dt($dt)
