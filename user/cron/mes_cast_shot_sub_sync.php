@@ -156,6 +156,9 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	    else {echo $sql.'<br><br>';}
     }
 
+    // timescaleDB insert record.
+    
+
 
     echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['shot_id']." (".$arr['event_time'].") 완료<br>'; </script>\n";
 

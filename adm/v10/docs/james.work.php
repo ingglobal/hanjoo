@@ -338,7 +338,7 @@ CREATE TABLE test1 (
 );
 
 CREATE TABLE test4 (
-  mcs_idx SERIAL,
+  mcs_idx SERIAL PRIMARY KEY,
   shot_id integer NOT NULL,
   event_time TIMESTAMPTZ    NOT NULL,
   hold_temp DOUBLE PRECISION    NULL,
@@ -631,3 +631,44 @@ VALUES ('2324', '2020-11-02 08:16:43', '2', '2', '2', '2', '2', '2', '2', '2', '
 UPDATE g5_1_cast_shot_sub SET shot_id = '90454369' , event_time = '2022-04-13 08:54:10' , hold_temp = '692' , upper_heat = '363.35' , lower_heat = '372.3' , upper_1_temp = '0' , upper_2_temp = '0' , upper_3_temp = '0' , upper_4_temp = '0' , upper_5_temp = '435.425' , upper_6_temp = '448.4' , lower_1_temp = '0' , lower_2_temp = '0' , lower_3_temp = '371.275' WHERE css_idx = '90454369'
 
 // primary key is awkard.
+ALTER SEQUENCE seq RESTART WITH 1;
+UPDATE g5_1_cast_shot_sub SET idcolumn=nextval('seq');
+
+ALTER SEQUENCE seq RESTART;
+UPDATE g5_1_cast_shot_sub SET css_idx = DEFAULT;
+
+ALTER SEQUENCE test2_mcs_idx_seq RESTART WITH 1453;
+ALTER SEQUENCE test2_mcs_idx_seq RESTART WITH 90454371;
+
+
+create sequence test_field1_seq;
+create table test(field1 int not null default nextval('test_field1_seq'));
+
+create table table3(id serial, firstname varchar(20));
+create table table4(id int not null default nextval('table3_id_seq'), firstname varchar(20));
+
+SELECT con.*
+FROM pg_catalog.pg_constraint con
+    INNER JOIN pg_catalog.pg_class rel
+                ON rel.oid = con.conrelid
+    INNER JOIN pg_catalog.pg_namespace nsp
+                ON nsp.oid = connamespace
+WHERE nsp.nspname = 'postgres'
+      AND rel.relname = 'g5_1_cast_shot_sub';
+
+
+SELECT constraint_name FROM information_schema.table_constraints
+    WHERE table_name='g5_1_cast_shot_sub' AND constraint_type='UNIQUE';             
+
+SELECT conname, contype
+FROM pg_catalog.pg_constraint
+JOIN pg_class t ON t.oid = c.conrelid
+WHERE t.relname ='g5_1_cast_shot_sub';
+
+
+SELECT column_name, data_type, character_maximum_length
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE table_name = 'g5_1_cast_shot_sub';
+
+// get the last css_idx from temperature db.
+SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 1
