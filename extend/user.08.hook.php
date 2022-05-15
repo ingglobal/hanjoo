@@ -34,3 +34,36 @@ function u_member_logout(){
         goto_url(G5_URL.'?device=mobile');
     }
 }
+
+
+add_event('member_login_check','u_member_login_check',10);
+function u_member_login_check(){
+    global $g5, $mb;
+
+    // for a manager without mb_4, then assign default_com_idx
+    if($mb['mb_level']>=6 && !$mb['mb_4']) {
+        $com_idx = $g5['setting']['set_com_idx'];
+    }
+    // for normal member 
+    else {
+        $com_idx = $mb['mb_4'];
+    }
+    
+    $c_sql = sql_fetch(" SELECT com_kosmolog_key FROM {$g5['company_table']} WHERE com_idx = '$com_idx' ");
+    $com_kosmolog_key = $c_sql['com_kosmolog_key'];
+    set_session('ss_com_idx', $com_idx);
+    set_session('ss_com_kosmolog_key',$com_kosmolog_key);
+
+    // 로그인 기록을 남겨요.
+    $tmp_sql = " INSERT INTO {$g5['login_table']} SET
+             lo_ip = '".G5_SERVER_TIME."'
+             , mb_id = '{$mb['mb_id']}'
+             , lo_datetime = '".G5_TIME_YMDHIS."'
+             , lo_location = '".$mb['mb_name']."'
+             , lo_url = '".$_SERVER['REMOTE_ADDR']."'
+    ";
+    sql_query($tmp_sql, FALSE);
+
+    //kosmo에 사용현황 log 전송 함수(extend/suer.02.function.php에 정의)
+	// send_kosmo_log();
+}

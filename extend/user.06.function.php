@@ -1,6 +1,55 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// token 체크 판단
+if(!function_exists('check_token1')){
+function check_token1($token) {
+
+    $str = true;
+    $expire_date = 86400*30*6; // 약 6개월 정도
+
+    // 기존 방법 체크, 12자리수 보다 적은 경우, ex) 1099de5drf09
+    if( strlen($token) <= 12 ) {
+        $to[] = substr($token,0,2);
+        $to[] = substr($token,2,2);
+        $to[] = substr($token,-2);
+        $to[] = substr((string)((int)$to[0]+(int)$to[1]),-2);
+        //print_r2($to);
+        if($to[2]!=$to[3]) {
+            $str = false;
+        }
+    }
+    // 공개키 같은 경우 기간 제한 있음 ex) 2451RNC4xg161355065075
+    else {
+        $to[] = substr($token,0,2);
+        $to[] = substr($token,2,2);
+        $to[] = substr($token,-2);
+        $to[] = substr((string)((int)$to[0]+(int)$to[1]),-2);
+        $to[] = substr($token,10,-2);
+        // print_r2($to);
+        if($to[2]!=$to[3] || $to[4] < time()-$expire_date) {
+            $str = false;
+        }
+    }
+    return $str;
+}
+}
+
+// make token 함수
+if(!function_exists('make_token1')){
+function make_token1() {
+	// 토큰 생성
+	$to[] = rand(10,99);
+	$to[] = rand(10,99);
+	$to[] = G5_SERVER_TIME;
+	$to[] = sprintf("%02d",substr($to[0]+$to[1],-2));
+	$token = $to[0].$to[1].random_str(6).$to[2].$to[3];
+	//echo $token.'<br>';
+    return $token;
+}
+}
+
+
 // TimescaleDB 
 if(!function_exists('sql_query_ps')){
 function sql_query_ps($sql,$error=0)
@@ -692,5 +741,69 @@ function hyphen_hp_remove($hp)
 }
 }
 
+//KOSMO에 log데이터 전송 함수
+if(!function_exists('send_kosmo_log')){
+function send_kosmo_log(){
+	global $g5, $board, $is_member, $member, $w, $stx, $mb;
+	if(!$is_member)
+		return;
+	//print_r2($_SESSION);exit;
+	if(!$_SEESSION['ss_com_kosmolog_key'])
+		return;
 
+	if(!$member['mb_id'])
+		return;
+	
+	$user_status = '';
+	if(preg_match('/update$/i',$g5['file_name'])){
+		if(!$w) $user_status = '등록';
+		else if($w == 'u') $user_status = '수정';
+		else if($w == 'd') $user_status = '삭제';
+	}
+	else if(preg_match('/list$/i',$g5['file_name'])){
+		if($stx) $user_status = '검색';
+	}
+	else{
+		if($g5['file_name'] == 'login_check'){
+			//print_r2($member);exit;
+			$user_status = '접속';
+		}
+		else if($g5['file_name'] == 'logout'){
+			$user_status = '종료';
+		}
+	}
+	
+	if(!$user_status)
+		return;
+	//print_r3($user_status);return;
+	$url = 'https://log.smart-factory.kr/apisvc/sendLogData.json';
+	/*
+	$crtcKey = $_SEESSION['ss_com_kosmolog_key'];
+	$logDt = G5_TIME_YMDHIS;
+	$useSe = $user_status;
+	$sysUser = $member['mb_id'];
+	$conectIp = $member['mb_login_ip'];
+	$dataUsgqty = '';
+	*/
+	$darr = array(
+		'crtfcKey' => $_SEESSION['ss_com_kosmolog_key'],
+		'logDt' => G5_TIME_YMDHIS,
+		'useSe' => $user_status,
+		'sysUser' => $member['mb_id'],
+		'conectIp' => $member['mb_login_ip'],
+		'dataUsgqty' => ''
+	);
+
+	$opt = array(
+		'http' => array(
+			'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+			'method' => 'POST',
+			'content' => http_build_query($darr)
+		)
+	);
+	$context = stream_context_create($opt); //데이터 가공
+	$result = file_get_contents($url, false, $context); //전송 ~ 결과값 반환
+	$data = json_decode($result, true);
+}
+}
 ?>

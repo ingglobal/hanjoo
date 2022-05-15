@@ -672,3 +672,18 @@ WHERE table_name = 'g5_1_cast_shot_sub';
 
 // get the last css_idx from temperature db.
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 1
+
+// timescale DB IN statement
+SELECT * FROM public.g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100
+....
+SELECT * FROM public.g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 1
+....
+SELECT * FROM public.g5_1_cast_shot_sub
+WHERE shot_id IN (414691,414692,414693,414694,414695,414696,414697)
+ORDER BY event_time DESC LIMIT 100
+....
+
+
+SELECT GROUP_CONCAT(shot_id) FROM g5_1_cast_shot 
+WHERE start_time > '2022-05-14 22:52:20'
+  AND start_time <= '2022-05-14 23:07:20'

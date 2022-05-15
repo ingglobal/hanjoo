@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "910100";
+$sub_menu = "950900";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu], 'w');
@@ -35,10 +35,12 @@ foreach($_REQUEST as $key => $value ) {
 }
 
 // 쇼핑몰 설정 변수 업데이트
-$sql_default = (is_array($sql_defaults)) ? implode(",",$sql_defaults) : '';
-$sql = " UPDATE {$g5['g5_shop_default_table']} SET {$sql_default} ";
-// echo $sql.'<br>';
-sql_query($sql,1);
+if($sql_defaults[0]) {
+	$sql_default = (is_array($sql_defaults)) ? implode(",",$sql_defaults) : '';
+	$sql = " UPDATE {$g5['g5_shop_default_table']} SET {$sql_default} ";
+	// echo $sql.'<br>';
+	sql_query($sql,1);
+}
 
 
 
