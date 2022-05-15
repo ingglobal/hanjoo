@@ -58,7 +58,7 @@ else {
     $dat = sql_fetch($sql,1);
     $ymdhis = $dat['event_time'];
 
-    $search1 = " WHERE EVENT_TIME >= '".$ymdhis."' ";
+    $search1 = " WHERE EVENT_TIME > '".$ymdhis."' ";
     $latest = 1;
 }
 
@@ -118,11 +118,13 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
-    $skips = array('css_idx');
+    $skips = array('css_idx','event_timestamp');
     for($j=0;$j<sizeof($fields2);$j++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
         $sql_commons[$i][] = " ".strtolower($fields2[$j])." = '".$arr[$fields2[$j]]."' ";
+        $sql_field_arr[$i][] = " ".strtolower($fields2[$j])." ";            // for timescaleDB
+        $sql_value_arr[$i][] = " '".$arr[$fields2[$j]]."' ";    // for timescaleDB
     }
 
     // table2 입력을 위한 변수 재선언 (or 생성)
@@ -131,6 +133,9 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     // 최종 변수 생성
     $sql_text[$i] = (is_array($sql_commons[$i])) ? implode(",",$sql_commons[$i]) : '';
 
+    // 공통쿼리 생성
+    $sql_fields[$i] = (is_array($sql_field_arr[$i])) ? "(".implode(",",$sql_field_arr[$i]).")" : '';
+    $sql_values[$i] = (is_array($sql_value_arr[$i])) ? "(".implode(",",$sql_value_arr[$i]).")" : '';
 
     // Record update
     $sql3 = "   SELECT css_idx FROM {$table2}
@@ -157,7 +162,13 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     }
 
     // timescaleDB insert record.
-    
+    $sql3 = "INSERT INTO {$table2}
+                {$sql_fields[$i]} VALUES {$sql_values[$i]} 
+            RETURNING css_idx 
+	";
+    if(!$demo) {sql_query_ps($sql3,1);}
+    else {echo $sql3.'<br><br>';}
+
 
 
     echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['shot_id']." (".$arr['event_time'].") 완료<br>'; </script>\n";

@@ -49,7 +49,7 @@ if ($w == ''||$w == 'c') {
     // $sql = " SELECT currval(pg_get_serial_sequence('g5_1_cast_shot_sub','css_idx')) ";
     $stmt = $db->query($sql);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    print_r2($row);
+    // print_r2($row);
 	// ${$pre."_idx"} = sql_insert_id();
     
 }
