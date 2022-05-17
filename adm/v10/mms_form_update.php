@@ -13,7 +13,7 @@ check_admin_token();
 $mms_price = preg_replace("/,/","",$_POST['mms_price']);
 
 // 체크박스 값이 안 넘어오는 현상 때문에 추가, 폼의 체크박스는 모두 배열로 선언해 주세요.
-$checkbox_array=array('mms_output_yn');
+$checkbox_array=array('mms_output_yn','mms_default_yn');
 for ($i=0;$i<sizeof($checkbox_array);$i++) {
 	if(!$_REQUEST[$checkbox_array[$i]])
 		$_REQUEST[$checkbox_array[$i]] = 'N';
@@ -33,6 +33,7 @@ $sql_common = "  com_idx = '{$_POST['com_idx']}'
                 , mms_data_url = '{$_POST['mms_data_url']}'
                 , mms_linecode = '{$_POST['mms_linecode']}'
                 , mms_output_yn = '{$_POST['mms_output_yn']}'
+                , mms_default_yn = '{$_POST['mms_default_yn']}'
                 , mms_sort = '{$_POST['mms_sort']}'
                 , mms_memo = '{$_POST['mms_memo']}'
                 , mms_status = '{$_POST['mms_status']}'
@@ -197,12 +198,9 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
         //print_r2($row);
         $row2['shf_start_dt'] = $row1['shf_start_dt'];
         $row2['shf_end_dt'] = $row1['shf_end_dt'];
-        $row2['shf_range_1'] = $row1['shf_range_1'];
-        $row2['shf_range_2'] = $row1['shf_range_2'];
-        $row2['shf_range_3'] = $row1['shf_range_3'];
-        $row2['shf_target_1'] = $row1['shf_target_1'];
-        $row2['shf_target_2'] = $row1['shf_target_2'];
-        $row2['shf_target_3'] = $row1['shf_target_3'];
+        $row2['shf_start_time'] = $row1['shf_start_time'];
+        $row2['shf_end_time'] = $row1['shf_end_time'];
+        $row2['shf_end_nextday'] = $row1['shf_end_nextday'];
         $list1[] = $row2;
     }
     $list[$row['mms_idx']]['shift'] = $list1;
@@ -221,45 +219,8 @@ fwrite($handle, $cache_content);
 fclose($handle);
 
 
-// 생산통계 재계산
-if($mms_stat_count=='Y') {
-	// 터무니 없는 숫자값 조정
-	if($mms_count_remedy=='Y') {
-		$sql = " UPDATE g5_1_data_output_".$mms_idx." SET dta_value = 1 WHERE dta_value > 3 ";
-		// echo $sql.'<br>';
-		sql_query($sql,1);
-	}
-
-	// 불량품 > 양품
-	if($mms_count_good=='Y') {
-		$sql = " UPDATE g5_1_data_output_".$mms_idx." SET dta_defect = '0', dta_defect_type = '0' WHERE dta_defect = '1' ";
-		// echo $sql.'<br>';
-		sql_query($sql,1);
-	}
-
-	$sql = " DELETE FROM g5_1_data_output_sum WHERE com_idx = '".$_SESSION['ss_com_idx']."' AND mms_idx = '".$mms_idx."' ";
-	// echo $sql.'<br>';
-	sql_query($sql,1);
-
-	$sql = " INSERT INTO g5_1_data_output_sum (com_idx, imp_idx, mms_idx, mmg_idx, shf_idx, dta_shf_no, dta_mmi_no, dta_group
-				, dta_defect, dta_defect_type, dta_date, dta_value )
-			SELECT ".$_SESSION['ss_com_idx'].", ".$imp_idx.", ".$mms_idx.", ".$mmg_idx.", 0, dta_shf_no, dta_mmi_no, dta_group
-				, dta_defect, dta_defect_type, dta_date
-				, COUNT(dta_value) AS dta_value
-			FROM g5_1_data_output_".$mms_idx."
-			GROUP BY dta_date, dta_shf_no, dta_mmi_no, dta_defect, dta_defect_type
-			ORDER BY dta_date ASC, dta_shf_no, dta_mmi_no, dta_defect, dta_defect_type
-	";
-	// echo $sql.'<br>';
-	sql_query($sql,1);
-}
 // exit;
-
-
-
-
-// exit;
-// goto_url('./mms_form.php?'.$qstr.'&amp;w=u&amp;mms_idx='.$mms_idx, false);
+goto_url('./mms_form.php?'.$qstr.'&amp;w=u&amp;mms_idx='.$mms_idx, false);
 // alert('등록되었습니다.','./mms_form.php?'.$qstr.'&amp;w=u&amp;mms_idx='.$mms_idx, false);
-alert('등록되었습니다.','./mms_list.php?'.$qstr, false);
+// alert('등록되었습니다.','./mms_list.php?'.$qstr, false);
 ?>

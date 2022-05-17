@@ -1,6 +1,33 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+
+// 직책, 직급을 SELECT 형식으로 얻음
+if(!function_exists('get_set_options_select')){
+function get_set_options_select($set_variable, $start=0, $end=200, $selected="",$sub_menu)
+{
+    global $g5,$auth;
+
+    // 삭제 권한이 있으면 전부
+    if(!auth_check($auth[$sub_menu],'d',1)) {
+        return $g5[$set_variable.'_options_value'];
+    }
+    
+    if(is_array($g5[$set_variable.'_value'])) {
+        foreach ($g5[$set_variable.'_value'] as $k1=>$v1) {
+            if($k1 >= $start && $k1 <= $end) {
+                $str .= '<option value="'.$k1.'"';
+                if ($k1 == $selected)
+                    $str .= ' selected="selected"';
+                $str .= ">{$v1}</option>\n";
+            }
+        }    
+    }
+
+    return $str;
+}
+}
+
 // token 체크 판단
 if(!function_exists('check_token1')){
 function check_token1($token) {
@@ -49,6 +76,31 @@ function make_token1() {
 }
 }
 
+
+// 쿼리를 실행한 후 결과값에서 한행을 얻는다.
+if(!function_exists('sql_fetch_ps')){
+function sql_fetch_ps($sql, $error=0)
+{
+    global $db;
+	if(!$sql)
+		return false;
+    
+    try {
+        $stmt = $db->query($sql);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
+    catch(PDOException $e) {
+        if($error) {
+            // return $e->getMessage();
+            $result = die("<p>$sql<p>" . $e->getMessage() . "<p>error file : {$_SERVER['SCRIPT_NAME']}");
+            return $result;
+        }
+        else 
+            return $sql;
+    }
+}
+}
 
 // TimescaleDB 
 if(!function_exists('sql_query_ps')){

@@ -233,11 +233,18 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	</tr>
 	<tr>
 		<th scope="row"><label for="mms_img_0">대표이미지</label></th>
-		<td colspan="3">
+		<td>
 			<div style="float:left;margin-right:8px;"><?=$mms['mms_img'][0]['thumbnail_img']?></div>
 			<?php echo help("대표 이미지 파일을 등록해 주세요."); ?>
 			<input type="file" name="mms_img_file[0]" class="frm_input">
 			<?=$mms['mms_img'][0]['file']?>
+		</td>
+		<th scope="row">디폴트설비</th>
+		<td>
+			<label for="mms_default_yn">
+               <input type="checkbox" name="mms_default_yn" id="mms_default_yn" value="1" <?=($mms['mms_default_yn']=='1')?'checked':''?> class="frm_input">
+               디폴트설비인 경우 체크하세요.
+            </label>
 		</td>
 	</tr>
 	<tr>
@@ -257,37 +264,6 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td colspan="3">
 			<input type="file" name="mms_data_file[1]" class="frm_input">
 			<?=$mms['mms_data'][1]['file']?>
-		</td>
-	</tr>
-	<tr style="display:<?=!$member['mb_manager_yn']?'none':''?>;">
-		<th scope="row"><label for="mms_data_1">통계 조정</label></th>
-		<td colspan="3">
-			<?php echo help("통계 정보를 임의로 수정한 다음 또는 IMP에서 잘못 올라온 통계 정보가 있는 경우 등의 경우 통계값을 맞추어 주어야 할 경우에 체크하세요."); ?>
-			<label for="mms_stat_count">
-               <input type="checkbox" name="mms_stat_count" id="mms_stat_count" value="Y" class="frm_input">
-               생산 통계를 재계산합니다.
-            </label>
-			<label for="mms_count_remedy" style="margin-left:10px;display:none;">
-               <input type="checkbox" name="mms_count_remedy" id="mms_count_remedy" value="Y" class="frm_input">
-               IMP에서 넘어온 터무니 없는 값을 1로 변경합니다.
-            </label>
-			<label for="mms_count_good" style="margin-left:10px;display:none;">
-               <input type="checkbox" name="mms_count_good" id="mms_count_good" value="Y" class="frm_input">
-               불량품을 양품으로 변경합니다.
-            </label>
-			<script>
-				$(document).on('click','#mms_stat_count',function(e){
-					if( $(this).attr('checked') == 'checked' ) {
-						$('#mms_count_remedy').parent().show();
-						$('#mms_count_good').parent().show();
-					}
-					else {
-						$('#mms_count_remedy').prop('checked',false);
-						$('#mms_count_remedy').parent().hide();
-						$('#mms_count_good').parent().hide();
-					}
-				});
-			</script>
 		</td>
 	</tr>
 	<tr>

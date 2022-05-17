@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "950900";
+$sub_menu = "910110";
 include_once('./_common.php');
 include_once(G5_EDITOR_LIB);
 
@@ -47,7 +47,7 @@ if ($config['cf_sms_use'] && $config['cf_icode_id'] && $config['cf_icode_pw']) {
 		<tr>
 			<th scope="row">주조기설정</th>
 			<td colspan="3">
-				<?php echo help('LPM05=17, LPM04=18, LPM03=19, LPM02=20') ?>
+				<?php echo help('주조기 번호와 설비DB고유번호(mms고유번호)를 매칭합니다. LPM05=60(17호기), LPM04=61(18호기), LPM03=62(19호기), LPM02=63(20호기)') ?>
 				<input type="text" name="set_cast_no" value="<?php echo $g5['setting']['set_cast_no'] ?>" id="set_status" required class="required frm_input" style="width:60%;">
 			</td>
 		</tr>

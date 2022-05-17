@@ -1,7 +1,7 @@
 <?php
 // 온도: 디폴트 (초기 시간 설정)
 // token, mms_idx
-// http://icmms.co.kr/device/json/output.default.php?token=1099de5drf09&mms_idx=2
+// http://ing.icmms.co.kr/php/hanjoo/device/json/temperature.default.php?token=1099de5drf09&mms_idx=60
 header("Content-Type: text/plain; charset=utf-8");
 include_once('./_common.php');
 if(isset($_SERVER['HTTP_ORIGIN'])){
@@ -30,10 +30,8 @@ else if($_REQUEST['mms_idx']){
 		exit;
     }
 
-    // 해당 주조기 선택
-    
-
     // 기본 설정
+    $table_name = $g5['cast_shot_sub_table'];
     $dta_group = ($_REQUEST['dta_group']) ?: 'product';
     $dta_value_type = ($_REQUEST['dta_value_type']) ?: 'sum';
     
@@ -44,29 +42,30 @@ else if($_REQUEST['mms_idx']){
     if($ser1!='minute' && $ser1!='second') // 분,초가 아니면 무조건 1
         $ser2 = 1;
 
+
     $where = array();
     $where[] = " 1=1 ";   // 디폴트 검색조건
-    
     // 최종 WHERE 생성
     if ($where)
         $sql_search = ' WHERE '.implode(' AND ', $where);
-
-    //1. 제일 마지막 날짜를 추출해서 종료일자로 설정해 둔다.
-    $sql = "SELECT * FROM g5_1_data_output_".$mms_idx." {$sql_search}
-            ORDER BY dta_dt DESC LIMIT 1 
-    ";
-    // echo $sql.'<br>';
-    $en1 = sql_fetch($sql,1);
+    
+    //1. 마지막 날짜를 추출해서 종료일자로 설정해 둔다.
+    $sql = " SELECT * FROM {$table_name} {$sql_search} ORDER BY event_time DESC LIMIT 1 ";
+    $en1 = sql_fetch_ps($sql,1);
     // print_r2($en1);
-    $en_date = $en1['dta_dt'] ? date("Y-m-d",$en1['dta_dt']) : date("Y-m-d",G5_SERVER_TIME);
-    $en_time = $en1['dta_dt'] ? date("H:i:s",$en1['dta_dt']) : date("H:i:s",G5_SERVER_TIME);
+    // echo substr($en1['event_time'],0,10).'<br>';
+    // echo substr($en1['event_time'],11,8).'<br>';
+    $en_date = $en1['event_time'] ? substr($en1['event_time'],0,10) : date("Y-m-d",G5_SERVER_TIME);
+    $en_time = $en1['event_time'] ? substr($en1['event_time'],11,8) : date("H:i:s",G5_SERVER_TIME);
+    // echo $en_date.' '.$en_time.'<br>';
 
-    //2. 종료일만 있으면
-    //        종료일에서부터 검색항목별 설정값(daily,1,30 = 일별,1일단위,30일치 등..)을 계산한 후
-    //        시작일자로 설정을 해 준다.
+    //2. 시작일자 설정
+    //   종료일에서부터 검색항목별 설정값(minute,60,50 = 일별,1일단위,30일치 등..)을 계산한 후 시작일자로 설정
     $en_timestamp = strtotime($en_date.' '.$en_time);
     // echo $en_date.' '.$en_time.'<br>';
     $seconds[$ser1][1] = ($seconds[$ser1][1]) ?: $ser2;// 단위 선택값이 없으면 폼에서 선택된 값을 참조
+    // echo $seconds[$ser1][0];   // second unit.
+    // echo $g5['set_graph_'.$dta_group]['default2'].'<br>';    // how many count
     $st_timestamp = $en_timestamp - ($seconds[$ser1][0]*$seconds[$ser1][1]*$g5['set_graph_'.$dta_group]['default2']);
     $st_date = date("Y-m-d",$st_timestamp);
     $st_time = date("H:i:s",$st_timestamp);
@@ -77,6 +76,7 @@ else if($_REQUEST['mms_idx']){
     $end = strtotime($en_date.' '.$en_time);
     //echo $st_date.' '.$st_time.'~'.$en_date.' '.$en_time.'<br>';
     //echo $start.'~'.$end.'<br>';
+
 
     // 끝자리 단위값 조정
     $byunit = $seconds[$ser1][0]*$ser2;

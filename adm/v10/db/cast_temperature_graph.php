@@ -13,6 +13,22 @@ include_once('./_top_menu_db.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
+// mms_idx 디폴트
+$mms_idx = $_REQUEST['mms_idx'];
+if(!$mms_idx) {
+    $sql = "SELECT mms_idx FROM {$g5['mms_table']} 
+            WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+                AND mms_status NOT IN ('trash','delete')
+            ORDER BY mms_default_yn DESC, mms_idx
+            LIMIT 1
+    ";
+    $mms1 = sql_fetch($sql,1);
+    $mms_idx = $mms1['mms_idx'];
+}
+$mms = get_table_meta('mms','mms_idx',$mms_idx);
+$com = get_table_meta('company','com_idx',$mms['com_idx']);
+// print_r2($mms);
+
 ?>
 <style>
 #graph_wrapper {padding:0 5px;}
@@ -883,7 +899,7 @@ $(function(e) {
     if(!$mbd_idx) {
     ?>
         $.ajax({
-            url:'//icmms.co.kr/device/json/output.default.php',
+            url:'<?=G5_URL?>/device/json/temperature.default.php',
             data:{"token":"1099de5drf09","mms_idx":"<?=$mms_idx?>"},
             dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
                 // console.log(res);
