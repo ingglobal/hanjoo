@@ -56,7 +56,7 @@ $com = get_table_meta('company','com_idx',$mms['com_idx']);
 <script src="<?php echo G5_URL?>/lib/highcharts/moment.js"></script><!-- 다양한 시간 표현을 위한 플러그인 -->
 
 <div id="graph_wrapper">
-<form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
+<form id="fsearch" name="fsearch" class="local_sch" method="get">
     <input type="hidden" name="dta_minsec" value="<?=$dta_minsec?>" id="dta_minsec" class="frm_input" style="width:20px;">
     <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
     <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;display:<?=($dta_minsec)?'inline-block':'none'?>;">
@@ -113,7 +113,7 @@ $com = get_table_meta('company','com_idx',$mms['com_idx']);
     <button type="submit" class="btn btn_01">확인</button>
 
     <div class="div_btn_add" style="float:right;display:none;">
-        <a href="./data_graph_add.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_03 btn_add_chart"><i class="fa fa-bar-chart"></i>불러오기</a>
+        <a href="<?=G5_USER_ADMIN_URL?>/data_graph_add.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_03 btn_add_chart"><i class="fa fa-bar-chart"></i>불러오기</a>
         <a href="javascript:alert('설정된 그래프를 대시보드로 내보냅니다.');" class="btn btn_03 btn_add_dash hide"><i class="fa fa-line-chart"></i> 내보내기</a>
     </div>
 </form>

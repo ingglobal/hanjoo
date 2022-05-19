@@ -196,3 +196,8 @@ a.btn_change{
 .search_btn .search_btn02{border: 1px solid #dcdcdc;background:#fff;vertical-align: middle;cursor: pointer;}
 
 ul.anchor {background:#c8ced1;}
+
+/* 챠트 */
+.dta_unit_radio {display:inline-block;width:30px;text-align:center;padding:5px;border:solid 1px #ddd;}
+.dta_unit_radio.active {background: #6e6e6e;color:white;}
+.dta_unit_radio input {display:none;}

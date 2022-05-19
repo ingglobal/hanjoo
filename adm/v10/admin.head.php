@@ -190,20 +190,18 @@ jQuery(function($){
 
     });
 
-    // $(".gnb_ul li .btn_op" ).click(function() {
-    //     $(this).parent().addClass("on").siblings().removeClass("on");
-    // });
-    // from click to hover
-    $(".gnb_ul li").on({
+    // Action from CLICK to HOVER
+    $(".gnb_ul > li").on({
         mouseenter: function () {
             // console.log( $(this).attr('title') );
-            if($(this).closest('ul').find("li[init=on]").length<=0) {
-                $(this).attr("init","on");
-            }
+            // if($(this).closest('ul').find("li[init=on]").length<=0) {
+            //     $(this).attr("init","on");
+            // }
             $(this).addClass("on").siblings().removeClass("on");
         },
         mouseleave: function () {
-            $(this).closest('ul').find('li[init=on]').addClass("on").siblings().removeClass("on");
+            $('a.gnb_2da.on').closest('li.gnb_li').addClass("on").siblings().removeClass("on");
+            // $(this).closest('ul').find('li[init=on]').addClass("on").siblings().removeClass("on");
         }
     });
 
