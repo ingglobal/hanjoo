@@ -8,6 +8,7 @@ $menu["menu960"] = array (
     array('960150', '주조공정(SUB)', ''.G5_USER_ADMIN_URL.'/cubic/mes_cast_shot_sub.php', 'mes_cast_shot_sub'),
     array('960160', '검출압력', ''.G5_USER_ADMIN_URL.'/cubic/mes_cast_shot_pressure.php', 'mes_cast_shot_pressure'),
     array('960170', 'QRCode', G5_USER_ADMIN_URL.'/cubic/mes_engrave_qrcode.php', 'mes_engrave_qrcode'),
-    array('960180', 'X-Ray검사', G5_USER_ADMIN_URL.'/cubic/mes_xray_inspection.php', 'mes_xray_inspection')
+    array('960180', 'X-Ray검사', G5_USER_ADMIN_URL.'/cubic/mes_xray_inspection.php', 'mes_xray_inspection'),
+    array('960190', '공장온습도', G5_USER_ADMIN_URL.'/cubic/mes_factory_temphum.php', 'mes_factory_temphum')
 );
 ?>

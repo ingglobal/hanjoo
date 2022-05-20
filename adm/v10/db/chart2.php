@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "925130";
+$sub_menu = "920120";
 include_once('./_common.php');
 
 $g5['title'] = '그래프(주조공정(SUB))';
@@ -9,6 +9,7 @@ echo $g5['container_sub_title'];
 
 ?>
 <style>
+.graph_wrap > div {margin-bottom:20px;}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
@@ -31,6 +32,15 @@ echo $g5['container_sub_title'];
     <div id="chart1" style="position:relative;width:100%; height:400px;">
         <div class="chart_empty">그래프가 존재하지 않습니다.</div>
     </div>
+    <div id="chart2" style="position:relative;width:100%; height:400px;">
+        <div class="chart_empty">그래프가 존재하지 않습니다.</div>
+    </div>
+    <div id="chart3" style="position:relative;width:100%; height:400px;">
+        <div class="chart_empty">그래프가 존재하지 않습니다.</div>
+    </div>
+    <div id="chart4" style="position:relative;width:100%; height:400px;">
+        <div class="chart_empty">그래프가 존재하지 않습니다.</div>
+    </div>
 </div><!-- .graph_wrap -->
 </div><!-- #graph_wrapper -->
 
@@ -42,39 +52,39 @@ echo $g5['container_sub_title'];
 
 <script>
 var ranges = [
-        ['보온로온도', 14.3, 27.7],
-        ['상형히트', 14.5, 27.8],
-        ['하형히트', 15.5, 29.6],
-        ['상금형1', 16.7, 30.7],
-        ['상금형2', 16.5, 25.0],
-        ['상금형3', 17.8, 25.7],
-        ['상금형4', 13.5, 24.8],
-        ['상금형5', 10.5, 21.4],
-        ['상금형6', 13.5, 24.8],
-        ['하금형1', 10.5, 21.4],
-        ['하금형2', 9.2, 23.8],
-        ['하금형3', 11.6, 21.8],
+        ['보온로온도', 650, 720],
+        ['상형히트', 350, 362],
+        ['하형히트', 391, 408],
+        ['상금형1', null, null],
+        ['상금형2', null, null],
+        ['상금형3', 490, 520.225],
+        ['상금형4', null, null],
+        ['상금형5', 435.225, 475.225],
+        ['상금형6', 394.5, 429.1],
+        ['하금형1', 392.8, 427.7],
+        ['하금형2', null, null],
+        ['하금형3', null, null],
     ],
     averages = [
-        ['보온로온도', 27],
-        ['상형히트', 22.1],
-        ['하형히트', 23],
-        ['상금형1', 23.8],
-        ['상금형2', 21.4],
-        ['상금형3', 21.3],
-        ['상금형4', 18.3],
-        ['상금형5', 15.4],
-        ['상금형6', 15.4],
-        ['하금형1', 15.8],
-        ['하금형2', 20.4],
-        ['하금형3', 18.3],
+        ['보온로온도', 695],
+        ['상형히트', 360],
+        ['하형히트', 402],
+        ['상금형1', null],
+        ['상금형2', null],
+        ['상금형3', 498],
+        ['상금형4', null],
+        ['상금형5', 470],
+        ['상금형6', 410],
+        ['하금형1', 400],
+        ['하금형2', null],
+        ['하금형3', null],
     ];
 
-
+// 17호기 ----------------------------
 Highcharts.chart('chart1', {
 
     title: {
-        text: '온도값 분포'
+        text: '17호기'
     },
     subtitle: {
         text: '최적 기준선이 가운데 나타나고 최대(위) 최소값(아래)이 표현됩니다.'
@@ -96,15 +106,15 @@ Highcharts.chart('chart1', {
     },
 
     series: [{
-        name: 'Temperature',
+        name: '최적',
         data: averages,
         type: 'spline',
         zIndex: 1,
         color: '#FF0000'
     }, {
-        name: 'Range',
+        name: '범위',
         data: ranges,
-        type: 'arearange',
+        type: 'areasplinerange',
         lineWidth: 0,
         linkedTo: ':previous',
         color: Highcharts.getOptions().colors[0],
@@ -115,6 +125,145 @@ Highcharts.chart('chart1', {
         }
     }]
 });
+
+// 18호기 ----------------------------
+Highcharts.chart('chart2', {
+
+    title: {
+        text: '18호기'
+    },
+    subtitle: {
+        text: '최적 기준선이 가운데 나타나고 최대(위) 최소값(아래)이 표현됩니다.'
+    },
+
+    xAxis: {
+        categories: ['보온로온도', '상형히트', '하형히트', '상금형1', '상금형2','상금형3', '상금형4','상금형5', '상금형6', '하금형1', '하금형2','하금형3']
+    },
+    yAxis: {
+        title: {
+            text: null
+        }
+    },
+
+    tooltip: {
+        crosshairs: true,
+        shared: true,
+        valueSuffix: '°C'
+    },
+
+    series: [{
+        name: '최적',
+        data: averages,
+        type: 'spline',
+        zIndex: 1,
+        color: '#FF0000'
+    }, {
+        name: '범위',
+        data: ranges,
+        type: 'areasplinerange',
+        lineWidth: 0,
+        linkedTo: ':previous',
+        color: Highcharts.getOptions().colors[0],
+        fillOpacity: 0.6,
+        zIndex: 0,
+        marker: {
+            enabled: false
+        }
+    }]
+});
+
+// 19호기 ----------------------------
+Highcharts.chart('chart3', {
+
+    title: {
+        text: '19호기'
+    },
+    subtitle: {
+        text: '최적 기준선이 가운데 나타나고 최대(위) 최소값(아래)이 표현됩니다.'
+    },
+
+    xAxis: {
+        categories: ['보온로온도', '상형히트', '하형히트', '상금형1', '상금형2','상금형3', '상금형4','상금형5', '상금형6', '하금형1', '하금형2','하금형3']
+    },
+    yAxis: {
+        title: {
+            text: null
+        }
+    },
+
+    tooltip: {
+        crosshairs: true,
+        shared: true,
+        valueSuffix: '°C'
+    },
+
+    series: [{
+        name: '최적',
+        data: averages,
+        type: 'spline',
+        zIndex: 1,
+        color: '#FF0000'
+    }, {
+        name: '범위',
+        data: ranges,
+        type: 'areasplinerange',
+        lineWidth: 0,
+        linkedTo: ':previous',
+        color: Highcharts.getOptions().colors[0],
+        fillOpacity: 0.6,
+        zIndex: 0,
+        marker: {
+            enabled: false
+        }
+    }]
+});
+
+// 20호기 ----------------------------
+Highcharts.chart('chart4', {
+
+    title: {
+        text: '20호기'
+    },
+    subtitle: {
+        text: '최적 기준선이 가운데 나타나고 최대(위) 최소값(아래)이 표현됩니다.'
+    },
+
+    xAxis: {
+        categories: ['보온로온도', '상형히트', '하형히트', '상금형1', '상금형2','상금형3', '상금형4','상금형5', '상금형6', '하금형1', '하금형2','하금형3']
+    },
+    yAxis: {
+        title: {
+            text: null
+        }
+    },
+
+    tooltip: {
+        crosshairs: true,
+        shared: true,
+        valueSuffix: '°C'
+    },
+
+    series: [{
+        name: '최적',
+        data: averages,
+        type: 'spline',
+        zIndex: 1,
+        color: '#FF0000'
+    }, {
+        name: '범위',
+        data: ranges,
+        type: 'areasplinerange',
+        lineWidth: 0,
+        linkedTo: ':previous',
+        color: Highcharts.getOptions().colors[0],
+        fillOpacity: 0.6,
+        zIndex: 0,
+        marker: {
+            enabled: false
+        }
+    }]
+});
+
 </script>
 
 <?php
