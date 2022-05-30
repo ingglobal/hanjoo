@@ -15,7 +15,8 @@ function cubic_server_connect()
 	// else
 	// 	$result = mysql_close($link) or die("<p>$sql<p>" . mysql_errno() . " : " .  mysql_error() . "<p>error file : {$_SERVER['SCRIPT_NAME']}");
 
-	$smsDbHost="61.83.89.58";
+	// $smsDbHost="61.83.89.58"; // 공인아이피
+	$smsDbHost="192.1.2.5";
 	$smsDbUser="MES";
 	$smsDbPass="MES_HANJOO";
 	$smsDbName="HANJOO";

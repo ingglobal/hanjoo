@@ -144,6 +144,20 @@ CREATE TABLE `g5_1_engrave_qrcode` (
   PRIMARY KEY (`eqr_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `g5_1_factory_temphum` (
+  `fct_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `work_date` date DEFAULT '0000-00-00' COMMENT '작업일',
+  `work_shift` int(11) DEFAULT 0 NOT NULL COMMENT '주(1)/야(2)',
+  `event_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '발생시각',
+  `temp_avg` double NOT NULL COMMENT '평균온도',
+  `temp_max` double NOT NULL COMMENT '온도최대',
+  `temp_min` double NOT NULL COMMENT '온도최소',
+  `hum_avg` double NOT NULL COMMENT '습도평균',
+  `hum_max` double NOT NULL COMMENT '습도최대',
+  `hum_min` double NOT NULL COMMENT '습도최소',
+  PRIMARY KEY (`fct_idx`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 
 
@@ -687,3 +701,9 @@ ORDER BY event_time DESC LIMIT 100
 SELECT GROUP_CONCAT(shot_id) FROM g5_1_cast_shot 
 WHERE start_time > '2022-05-14 22:52:20'
   AND start_time <= '2022-05-14 23:07:20'
+
+
+
+UPDATE `g5_1_cast_shot` SET end_time = '' WHERE csh_idx = 237307;
+UPDATE `g5_1_cast_shot` SET end_time = NULL WHERE csh_idx = 237307;
+UPDATE `g5_1_cast_shot` SET end_time = NULL WHERE end_time = '0000-00-00 00:00:00';

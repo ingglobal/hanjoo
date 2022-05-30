@@ -262,7 +262,7 @@ $(document).ready(function(){
     $(document).on('click','.btn_timescale',function(e){
         e.preventDefault();
         if(confirm('TSDB입력을 진행하시겠습니까?\n새창이 열리고 작업이 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
-            var href = './<?=$g5['file_name']?>_timescale.php';
+            var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_timescale.php';
             winTimescale = window.open(href, "winTimescale", "left=100,top=100,width=520,height=600,scrollbars=1");
             winTimescale.focus();
             return false;
@@ -274,6 +274,7 @@ $(document).ready(function(){
         e.preventDefault();
         if(confirm('내부복제를 진행하시겠습니까?\n새창이 열리고 작업이 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
             var href = './<?=$g5['file_name']?>_copy.php';
+            var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_timescale.php';
             winCopy = window.open(href, "winCopy", "left=100,top=100,width=520,height=600,scrollbars=1");
             winCopy.focus();
             return false;

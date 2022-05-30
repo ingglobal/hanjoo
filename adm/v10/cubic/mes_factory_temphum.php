@@ -161,7 +161,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 
 <div class="btn_fixed_top">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="javascript:" class="btn_04 btn btn_sync_select" style="display:none">선택가져오기</a>
+        <a href="javascript:" class="btn_04 btn btn_copy" style="margin-right:50px;">내부복제</a>
         <a href="javascript:" class="btn_04 btn btn_sync_ymd">일별가져오기</a>
         <a href="javascript:" class="btn_04 btn btn_sync_ym">월별가져오기</a>
         <a href="javascript:" class="btn_04 btn btn_sync">가져오기</a>
@@ -258,7 +258,7 @@ $(document).ready(function(){
     $(document).on('click','.btn_timescale',function(e){
         e.preventDefault();
         if(confirm('TSDB입력을 진행하시겠습니까?\n새창이 열리고 작업이 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
-            var href = './<?=$g5['file_name']?>_timescale.php';
+            var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_timescale.php';
             winTimescale = window.open(href, "winTimescale", "left=100,top=100,width=520,height=600,scrollbars=1");
             winTimescale.focus();
             return false;
@@ -270,6 +270,7 @@ $(document).ready(function(){
         e.preventDefault();
         if(confirm('내부복제를 진행하시겠습니까?\n새창이 열리고 작업이 진행됩니다.\n진행하는 동안은 창을 닫지 마세요. 시간이 다소 걸릴 수 있습니다.')) {
             var href = './<?=$g5['file_name']?>_copy.php';
+            var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_copy.php';
             winCopy = window.open(href, "winCopy", "left=100,top=100,width=520,height=600,scrollbars=1");
             winCopy.focus();
             return false;
