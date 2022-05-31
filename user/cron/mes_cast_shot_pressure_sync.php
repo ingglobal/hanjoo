@@ -17,7 +17,7 @@ $table1 = 'MES_CAST_SHOT_PRESSURE';
 $table2 = 'g5_1_cast_shot_pressure';
 $fields2 = sql_field_names($table2);
 
-// NEST YMD Default
+// NEXT YMD Default
 if($ym) {
     // 다음달
     $sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL +1 MONTH) AS ym FROM dual ";

@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "925130";
+$sub_menu = "940160";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
@@ -8,8 +8,8 @@ $pre = 'css';
 $fname = preg_replace("/_list/","",$g5['file_name']); // 파일명생성
 
 
-$g5['title'] = '주조공정(SUB)-T';
-include_once('./_top_menu_rdb.php');
+$g5['title'] = '온도(주조공정(SUB))';
+include_once('./_top_menu_tsdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
@@ -24,13 +24,10 @@ if ($stx) {
             $where[] = " ({$sfl} = '{$stx}') ";
             break;
 		case ($sfl == $pre.'_hp') :
-            $where[] = " REGEXP_REPLACE(mb_hp,'-','') LIKE '".preg_replace("/-/","",$stx)."' ";
-            break;
-		case ($sfl == 'event_time') :
-            $where[] = " CONVERT(VARCHAR, {$sfl}, 23) = CONVERT(VARCHAR, '{$stx}', 23) ";
+            $where[] = " ({$sfl} LIKE '%{$stx}%') ";
             break;
        default :
-            $where[] = " ({$sfl} LIKE '%{$stx}%') ";
+            $where[] = " {$sfl} = '{$stx}' ";
             break;
     }
 }
@@ -61,7 +58,7 @@ if(sizeof($where)<=1) {
 else {
     $sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 }
-$stmt = $db->query($sql);
+$stmt = sql_query_ps($sql,1);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 $total_count = $row['cnt'];
 
@@ -77,7 +74,8 @@ $sql = "SELECT *
 		LIMIT {$rows} OFFSET {$from_record}
 ";
 // echo $sql.'<br>';
-$stmt = $db->query($sql);
+$stmt = sql_query_ps($sql,1);
+// $stmt = $db->query($sql);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
@@ -104,7 +102,8 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 <input type="text" name="en_date" value="<?php echo $en_date ?>" id="en_date" class="frm_input" style="width:80px;">
 &nbsp;&nbsp;
 <select name="sfl" id="sfl">
-    <option value="WORK_SHIFT" <?=get_selected($sfl, 'WORK_SHIFT')?>>주야간</option>
+    <option value="shot_id" <?=get_selected($sfl, 'shot_id')?>>샷ID</option>
+    <option value="work_shift" <?=get_selected($sfl, 'work_shift')?>>주야간</option>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
@@ -132,7 +131,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 		<th scope="col">하금형1</th>
 		<th scope="col">하금형2</th>
 		<th scope="col">하금형3</th>
-		<th scope="col">관리</th>
+		<th scope="col" style="display:none;">관리</th>
 	</tr>
 	</thead>
 	<tbody class="tbl_body">
@@ -164,7 +163,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 				<td>'.$row['lower_1_temp'].'</td>
 				<td>'.$row['lower_2_temp'].'</td>
 				<td>'.$row['lower_3_temp'].'</td>
-				<td>'.$s_copy.'</td>
+				<td style="display:none;">'.$s_copy.'</td>
 			</tr>
 		';
 	}

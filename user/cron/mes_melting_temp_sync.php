@@ -22,7 +22,7 @@ $table1 = 'MES_MELTING_TEMP';
 $table2 = 'g5_1_melting_temp';
 $fields2 = sql_field_names($table2);
 
-// NEST YMD Default
+// NEXT YMD Default
 if($ym) {
     // 다음달
     $sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL +1 MONTH) AS ym FROM dual ";
@@ -68,7 +68,7 @@ else {
 }
 
 $sql = "SELECT *
-        FROM {$table1} AS cam
+        FROM {$table1}
         {$search1}
         ORDER BY EVENT_TIME
 ";
@@ -128,6 +128,8 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
         $sql_commons[$i][] = " ".strtolower($fields2[$j])." = '".$arr[$fields2[$j]]."' ";
+        $sql_field_arr[$i][] = " ".strtolower($fields2[$j])." ";            // for timescaleDB
+        $sql_value_arr[$i][] = " '".$arr[$fields2[$j]]."' ";    // for timescaleDB
     }
 
     // table2 입력을 위한 변수 재선언 (or 생성)
@@ -165,6 +167,16 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	    else {echo $sql.'<br><br>';}
     }
 
+    // 공통쿼리 생성
+    $sql_fields[$i] = (is_array($sql_field_arr[$i])) ? "(".implode(",",$sql_field_arr[$i]).")" : '';
+    $sql_values[$i] = (is_array($sql_value_arr[$i])) ? "(".implode(",",$sql_value_arr[$i]).")" : '';
+    // timescaleDB insert record.
+    $sql3 = "INSERT INTO {$table2}
+                {$sql_fields[$i]} VALUES {$sql_values[$i]} 
+            RETURNING mlt_idx
+	";
+    if(!$demo) {sql_query_ps($sql3,1);}
+    else {echo $sql3.'<br><br>';}
 
     echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['work_date']." (".$arr['event_time'].") ".$arr['result']." 완료<br>'; </script>\n";
 

@@ -22,20 +22,7 @@ $table1 = 'MES_XRAY_INSPECTION';
 $table2 = 'g5_1_xray_inspection';
 $fields2 = sql_field_names($table2);
 
-// YMD Default
-if(!$ymd) {
-    // 데이터의 첫 시작 일 ------
-    // $sql = " SELECT EVENT_TIME FROM {$table1} ORDER BY EVENT_TIME LIMIT 1 ";
-    // $result = $connect_db_pdo->query($sql);
-    // $dat = $result->fetch(PDO::FETCH_ASSOC);
-    // // print_r2($dat);
-    // $ymd = substr($dat['EVENT_TIME'],0,10);
-
-    // 오늘 ----------------
-    $ymd = date("Y-m-d");
-}
-
-// NEST YMD Default
+// NEXT YMD Default
 if($ym) {
     // 다음달
     $sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL +1 MONTH) AS ym FROM dual ";
@@ -65,14 +52,24 @@ else if($ym) {
     $search1 = " WHERE WORK_DATE >= '".$ym."-01 00:00:00' AND WORK_DATE <= '".$ym."-31 23:59:59' ";     
 }
 // 하루씩
-else {
+else if($ymd) {
     // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
     $search1 = " WHERE WORK_DATE >= '".$ymd." 00:00:00' AND WORK_DATE <= '".$ymd." 23:59:59' ";     
     // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
 }
+else {
+    // 데이터의 마지막 일시 ------
+    $sql = " SELECT start_time FROM {$table2} ORDER BY xry_idx DESC LIMIT 1 ";
+    $dat = sql_fetch($sql,1);
+    $ymdhis = $dat['start_time'];
+
+    $search1 = " WHERE START_TIME > '".$ymdhis."' AND END_TIME != '' ";
+    $latest = 1;
+}
+
 
 $sql = "SELECT *
-        FROM {$table1} AS cam
+        FROM {$table1}
         {$search1}
         ORDER BY START_TIME
 ";
@@ -132,6 +129,8 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
         $sql_commons[$i][] = " ".strtolower($fields2[$j])." = '".$arr[$fields2[$j]]."' ";
+        $sql_field_arr[$i][] = " ".strtolower($fields2[$j])." ";            // for timescaleDB
+        $sql_value_arr[$i][] = " '".$arr[$fields2[$j]]."' ";    // for timescaleDB
     }
 
     // table2 입력을 위한 변수 재선언 (or 생성)
@@ -167,6 +166,17 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	    else {echo $sql.'<br><br>';}
     }
 
+    // 공통쿼리 생성
+    $sql_fields[$i] = (is_array($sql_field_arr[$i])) ? "(".implode(",",$sql_field_arr[$i]).")" : '';
+    $sql_values[$i] = (is_array($sql_value_arr[$i])) ? "(".implode(",",$sql_value_arr[$i]).")" : '';
+    // timescaleDB insert record.
+    $sql3 = "INSERT INTO {$table2}
+                {$sql_fields[$i]} VALUES {$sql_values[$i]} 
+            RETURNING xry_idx 
+	";
+    if(!$demo) {sql_query_ps($sql3,1);}
+    else {echo $sql3.'<br><br>';}
+
 
     echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['work_date']." (".$arr['production_id'].", ".$arr['qrcode'].") ".$arr['result']." 완료<br>'; </script>\n";
 
@@ -195,7 +205,7 @@ if($db_id) {
 }
 // 월간 처리
 else {
-    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo) {
+    if($ym_next > date("Y-m") || $ymd_next > date("Y-m-d") || $demo || $latest) {
     ?>
     <script>
         document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료<br><font color=crimson><b>[끝]</b></font>";

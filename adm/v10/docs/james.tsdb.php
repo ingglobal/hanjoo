@@ -80,7 +80,7 @@ SELECT create_hypertable('g5_1_factory_temphum', 'event_time');
 // You should do it form terminal.
 
 mysql -u root -p
-use hanjoo_test
+use hanjoo_www
 ............
 SELECT * FROM g5_1_cast_shot_sub
 INTO OUTFILE 'g5_1_cast_shot_sub.csv'
@@ -103,7 +103,7 @@ LINES TERMINATED BY '\n';
 
 // root account is able to accesss the mysql folder.
 $ su -
-$ cd /var/lib/mysql/hanjoo_test
+$ cd /var/lib/mysql/hanjoo_www
 $ ls -al g5_1_factory_temphum.csv
 // You will see the status of making the csv file.
 # mv g5_1_factory_temphum.csv /home/hanjoo/files/
@@ -173,7 +173,7 @@ CREATE TABLE g5_1_cast_shot (
 SELECT create_hypertable('g5_1_cast_shot', 'start_time');
 
 mysql -u root -p
-use hanjoo_test
+use hanjoo_www
 ............
 SELECT * FROM g5_1_cast_shot
 INTO OUTFILE 'g5_1_cast_shot.csv'
@@ -184,7 +184,7 @@ LINES TERMINATED BY '\n';
 exit (to hanjoo account)
 and you have to go to root account.
 $ su -
-$ cd /var/lib/mysql/hanjoo_test
+$ cd /var/lib/mysql/hanjoo_www
 $ ls -al g5_1_cast_shot.csv
 # mv g5_1_cast_shot.csv /home/hanjoo/files/
 
@@ -215,7 +215,198 @@ delete FROM g5_1_cast_shot WHERE csh_idx = 237340;
 
 now program for auto input.
 ====================================================
+====================================================
+CREATE TABLE g5_1_xray_inspection (
+  xry_idx SERIAL,
+  work_date date NOT NULL,
+  work_shift integer default 0 not null,
+  start_time TIMESTAMPTZ NOT NULL,
+  end_time TIMESTAMPTZ NOT NULL,
+  qrcode varchar(50) default '',
+  production_id integer default 0 not null,
+  machine_id integer default 0 not null,
+  machine_no varchar(50) default '',
+  position_1 integer default 0,
+  position_2 integer default 0,
+  position_3 integer default 0,
+  position_4 integer default 0,
+  position_5 integer default 0,
+  position_6 integer default 0,
+  position_7 integer default 0,
+  position_8 integer default 0,
+  position_9 integer default 0,
+  position_10 integer default 0,
+  position_11 integer default 0,
+  position_12 integer default 0,
+  position_13 integer default 0,
+  position_14 integer default 0,
+  position_15 integer default 0,
+  position_16 integer default 0,
+  position_17 integer default 0,
+  position_18 integer default 0
+);
+SELECT create_hypertable('g5_1_xray_inspection', 'start_time');
 
+mysql -u root -p
+use hanjoo_www
+............
+SELECT * FROM g5_1_xray_inspection
+INTO OUTFILE 'g5_1_xray_inspection.csv'
+CHARACTER SET utf8
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+exit (to hanjoo account)
+and you have to go to root account.
+$ su -
+$ cd /var/lib/mysql/hanjoo_www
+$ ls -al g5_1_xray_inspection.csv
+# mv g5_1_xray_inspection.csv /home/hanjoo/files/
+
+# sudo su - postgres
+# psql -U postgres -d hanjoo_www -c "\COPY g5_1_xray_inspection FROM /home/hanjoo/files/g5_1_xray_inspection.csv WITH (FORMAT CSV, HEADER)"
+
+
+exit (go back to hanjoo account)
+chck for the inserted data.
+---------
+SELECT * FROM g5_1_xray_inspection ORDER BY start_time DESC LIMIT 100;
+---------
+
+copy the last PRIMARY KEY (xry_idx)
+now reset the serial value for new count starting point.
+
+// You have set the value for the last number; It shoud be the lastNumber+1;
+// Just find it the value name in pgAdmin field property.
+ALTER SEQUENCE g5_1_xray_inspection_xry_idx_seq RESTART WITH 8978;
+
+
+// Insert test and chech for the last number for PRIMARY KEY.
+INSERT INTO "g5_1_xray_inspection" ("work_date", "work_shift", "start_time", "end_time", "qrcode", "production_id", "machine_id", "machine_no", "position_1", "position_2", "position_3", "position_4", "position_5", "position_6", "position_7", "position_8", "position_9", "position_10", "position_11", "position_12", "position_13", "position_14", "position_15", "position_16", "position_17", "position_18")
+VALUES ('2022-05-31', '1', '2022-05-31 23:59:50', '2022-05-31 23:59:58', '22E30DRLH01131111', '430142', '45', 'ADR1호기', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO "g5_1_xray_inspection" ("work_date", "work_shift", "start_time", "end_time", "qrcode", "production_id", "machine_id", "machine_no", "position_1", "position_2", "position_3", "position_4", "position_5", "position_6", "position_7", "position_8", "position_9", "position_10", "position_11", "position_12", "position_13", "position_14", "position_15", "position_16", "position_17", "position_18")
+VALUES ('2022-05-31', '1', '2022-05-31 23:59:50', '2022-05-31 23:59:58', '22E30DRLH01131112', '430142', '45', 'ADR1호기', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1');
+
+SELECT * FROM g5_1_xray_inspection WHERE work_date = '2022-05-31' AND production_id = '430142';
+SELECT * FROM g5_1_xray_inspection WHERE qrcode = '22E30DRLH01131111';
+
+// now delete the test record.
+delete FROM g5_1_xray_inspection WHERE xry_idx = 8980;
+delete FROM g5_1_xray_inspection WHERE xry_idx = 8981;
+
+now program for auto input.
+====================================================
+====================================================
+CREATE TABLE g5_1_engrave_qrcode (
+  eqr_idx SERIAL,
+  work_date date NOT NULL,
+  work_shift integer default 0 not null,
+  event_time TIMESTAMPTZ NOT NULL,
+  qrcode varchar(50) default '',
+  production_id integer default 0 not null
+);
+SELECT create_hypertable('g5_1_engrave_qrcode', 'event_time');
+
+mysql -u root -p
+use hanjoo_www
+............
+SELECT * FROM g5_1_engrave_qrcode
+INTO OUTFILE 'g5_1_engrave_qrcode.csv'
+CHARACTER SET utf8
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+exit (to hanjoo account)
+and you have to go to root account.
+$ su -
+$ cd /var/lib/mysql/hanjoo_www
+$ ls -al g5_1_engrave_qrcode.csv
+# mv g5_1_engrave_qrcode.csv /home/hanjoo/files/
+
+# sudo su - postgres
+# psql -U postgres -d hanjoo_www -c "\COPY g5_1_engrave_qrcode FROM /home/hanjoo/files/g5_1_engrave_qrcode.csv WITH (FORMAT CSV, HEADER)"
+
+
+exit (go back to hanjoo account)
+chck for the inserted data.
+---------
+SELECT * FROM g5_1_engrave_qrcode ORDER BY event_time DESC LIMIT 100;
+---------
+
+copy the last PRIMARY KEY (eqr_idx)
+now reset the serial value for new count starting point.
+
+// You have set the value for the last number; It shoud be the lastNumber+1;
+// Just find it the value name in pgAdmin field property.
+# ALTER SEQUENCE g5_1_engrave_qrcode_eqr_idx_seq RESTART WITH 403142;
+
+
+// Insert test and chech for the last number for PRIMARY KEY.
+INSERT INTO "g5_1_engrave_qrcode" ("work_date", "work_shift", "event_time", "qrcode", "production_id")
+VALUES ('2022-05-31', '1', '2022-05-31 23:59:50', '22E30DRLH01131112', '430142');
+
+// now delete the test record.
+delete FROM g5_1_engrave_qrcode WHERE eqr_idx = 403142;
+
+now program for auto input.
+====================================================
+====================================================
+CREATE TABLE g5_1_melting_temp (
+  mlt_idx SERIAL,
+  work_date date NOT NULL,
+  work_shift integer default 0 not null,
+  event_time TIMESTAMPTZ NOT NULL,
+  temp_avg DOUBLE PRECISION NULL,
+  temp_max DOUBLE PRECISION NULL,
+  temp_min DOUBLE PRECISION NULL,
+  alarm_min DOUBLE PRECISION NULL,
+  alarm_max DOUBLE PRECISION NULL
+);
+SELECT create_hypertable('g5_1_melting_temp', 'event_time');
+
+mysql -u root -p
+use hanjoo_www
+............
+SELECT * FROM g5_1_melting_temp
+INTO OUTFILE 'g5_1_melting_temp.csv'
+CHARACTER SET utf8
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+exit (to hanjoo account)
+and you have to go to root account.
+$ su -
+$ cd /var/lib/mysql/hanjoo_www
+$ ls -al g5_1_melting_temp.csv
+# mv g5_1_melting_temp.csv /home/hanjoo/files/
+
+# sudo su - postgres
+# psql -U postgres -d hanjoo_www -c "\COPY g5_1_melting_temp FROM /home/hanjoo/files/g5_1_melting_temp.csv WITH (FORMAT CSV, HEADER)"
+
+
+exit (go back to hanjoo account)
+chck for the inserted data.
+---------
+SELECT * FROM g5_1_melting_temp ORDER BY event_time DESC LIMIT 100;
+---------
+
+copy the last PRIMARY KEY (mlt_idx)
+now reset the serial value for new count starting point.
+
+// You have set the value for the last number; It shoud be the lastNumber+1;
+// Just find it the value name in pgAdmin field property.
+ALTER SEQUENCE g5_1_melting_temp_mlt_idx_seq RESTART WITH 741821;
+
+
+// Insert test and chech for the last number for PRIMARY KEY.
+INSERT INTO "g5_1_melting_temp" ("work_date", "work_shift", "event_time", "temp_avg", "temp_max", "temp_min", "alarm_min", "alarm_max")
+VALUES ('2022-05-31', '1', '2022-05-31 23:59:59', '26.582', '26.582', '26.582', '26.582', '26.582');
+
+// now delete the test record.
+delete FROM g5_1_melting_temp WHERE mlt_idx = 741821;
+
+now program for auto input.
+====================================================
 
 
 ALTER TABLE g5_1_cast_shot ALTER COLUMN item_no TYPE varchar(50);
@@ -230,3 +421,123 @@ ALTER TABLE g5_1_cast_shot ALTER COLUMN mold_no SET DEFAULT '';
 ALTER TABLE g5_1_cast_shot ALTER COLUMN mold_no TYPE integer;
 ALTER TABLE g5_1_cast_shot ALTER COLUMN mold_no SET DEFAULT 0;
 ....
+
+
+====================================================
+CREATE TABLE g5_1_charge_out (
+  cho_idx SERIAL,
+  work_date date NOT NULL,
+  work_shift integer default 0 not null,
+  event_time TIMESTAMPTZ NOT NULL,
+  weight_out integer default 0,
+  temp_out integer default 0,
+  temp_gbf integer default 0,
+  machine_1_id integer default 0,
+  machine_1_no varchar(50) default '',
+  machine_2_id integer default 0,
+  machine_2_no varchar(50) default '',
+  machine_3_id integer default 0,
+  machine_3_no varchar(50) default ''
+);
+SELECT create_hypertable('g5_1_charge_out', 'event_time');
+
+mysql -u root -p
+use hanjoo_www
+............
+SELECT * FROM g5_1_charge_out
+INTO OUTFILE 'g5_1_charge_out.csv'
+CHARACTER SET utf8
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+exit (to hanjoo account)
+and you have to go to root account.
+$ su -
+$ cd /var/lib/mysql/hanjoo_www
+$ ls -al g5_1_charge_out.csv
+# mv g5_1_charge_out.csv /home/hanjoo/files/
+
+# sudo su - postgres
+# psql -U postgres -d hanjoo_www -c "\COPY g5_1_charge_out FROM /home/hanjoo/files/g5_1_charge_out.csv WITH (FORMAT CSV, HEADER)"
+
+
+exit (go back to hanjoo account)
+chck for the inserted data.
+---------
+SELECT * FROM g5_1_charge_out ORDER BY event_time DESC LIMIT 100;
+---------
+
+copy the last PRIMARY KEY (cho_idx)
+now reset the serial value for new count starting point.
+
+// You have set the value for the last number; It shoud be the lastNumber+1;
+// Just find it the value name in pgAdmin field property.
+ALTER SEQUENCE g5_1_charge_out_cho_idx_seq RESTART WITH 42744;  (lastNumber+1)
+
+
+// Insert test and chech for the last number for PRIMARY KEY.
+INSERT INTO "g5_1_charge_out" ("work_date", "work_shift", "event_time", "weight_out", "temp_out", "temp_gbf", "machine_1_id", "machine_1_no", "machine_2_id", "machine_2_no", "machine_3_id", "machine_3_no")
+VALUES ('2022-05-31', 1, '2022-05-31 23:59:59', 450, 740, 0, 1, 'LP01', 2, 'LP02', 0, 'LP02');
+
+
+// now delete the test record.
+delete FROM g5_1_charge_out WHERE cho_idx = 42744;
+
+now program for auto input.
+====================================================
+====================================================
+CREATE TABLE g5_1_charge_in (
+  chi_idx SERIAL,
+  work_date date NOT NULL,
+  work_shift integer default 0 not null,
+  event_time TIMESTAMPTZ NOT NULL,
+  weight_total DOUBLE PRECISION NULL,
+  weight_ingot DOUBLE PRECISION NULL,
+  weight_scrap DOUBLE PRECISION NULL
+);
+SELECT create_hypertable('g5_1_charge_in', 'event_time');
+
+mysql -u root -p
+use hanjoo_www
+............
+SELECT * FROM g5_1_charge_in
+INTO OUTFILE 'g5_1_charge_in.csv'
+CHARACTER SET utf8
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+exit (to hanjoo account)
+and you have to go to root account.
+$ su -
+$ cd /var/lib/mysql/hanjoo_www
+$ ls -al g5_1_charge_in.csv
+# mv g5_1_charge_in.csv /home/hanjoo/files/
+
+# sudo su - postgres
+# psql -U postgres -d hanjoo_www -c "\COPY g5_1_charge_in FROM /home/hanjoo/files/g5_1_charge_in.csv WITH (FORMAT CSV, HEADER)"
+
+
+exit (go back to hanjoo account)
+chck for the inserted data.
+---------
+SELECT * FROM g5_1_charge_in ORDER BY event_time DESC LIMIT 100;
+---------
+
+copy the last PRIMARY KEY (chi_idx)
+now reset the serial value for new count starting point.
+
+// You have set the value for the last number; It shoud be the lastNumber+1;
+// Just find it the value name in pgAdmin field property.
+ALTER SEQUENCE g5_1_charge_in_chi_idx_seq RESTART WITH 34089;  (lastNumber+1)
+
+
+// Insert test and chech for the last number for PRIMARY KEY.
+INSERT INTO "g5_1_charge_in" ("work_date", "work_shift", "event_time", "weight_total", "weight_ingot", "weight_scrap")
+VALUES ('2022-05-31', 1, '2022-05-31 23:59:59', 949, 922, 27);
+
+
+// now delete the test record.
+delete FROM g5_1_charge_in WHERE chi_idx = 34089;
+
+now program for auto input.
+====================================================

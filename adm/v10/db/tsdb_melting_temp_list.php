@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "925130";
+$sub_menu = "940160";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
@@ -8,12 +8,12 @@ $pre = 'css';
 $fname = preg_replace("/_list/","",$g5['file_name']); // 파일명생성
 
 
-$g5['title'] = '주조공정(SUB)-T';
-include_once('./_top_menu_rdb.php');
+$g5['title'] = '용탕온도';
+include_once('./_top_menu_tsdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
-$sql_common = " FROM g5_1_cast_shot_sub ";
+$sql_common = " FROM g5_1_melting_temp ";
 
 $where = array();
 $where[] = " 1=1 ";   // 디폴트 검색조건
@@ -24,13 +24,10 @@ if ($stx) {
             $where[] = " ({$sfl} = '{$stx}') ";
             break;
 		case ($sfl == $pre.'_hp') :
-            $where[] = " REGEXP_REPLACE(mb_hp,'-','') LIKE '".preg_replace("/-/","",$stx)."' ";
-            break;
-		case ($sfl == 'event_time') :
-            $where[] = " CONVERT(VARCHAR, {$sfl}, 23) = CONVERT(VARCHAR, '{$stx}', 23) ";
+            $where[] = " ({$sfl} LIKE '%{$stx}%') ";
             break;
        default :
-            $where[] = " ({$sfl} LIKE '%{$stx}%') ";
+            $where[] = " {$sfl} = '{$stx}' ";
             break;
     }
 }
@@ -56,12 +53,12 @@ $sql_order = " ORDER BY {$sst} {$sod} ";
 
 
 if(sizeof($where)<=1) {
-    $sql = " SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_cast_shot_sub') ";
+    $sql = " SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_melting_temp') ";
 }
 else {
     $sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 }
-$stmt = $db->query($sql);
+$stmt = sql_query_ps($sql,1);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 $total_count = $row['cnt'];
 
@@ -77,7 +74,8 @@ $sql = "SELECT *
 		LIMIT {$rows} OFFSET {$from_record}
 ";
 // echo $sql.'<br>';
-$stmt = $db->query($sql);
+$stmt = sql_query_ps($sql,1);
+// $stmt = $db->query($sql);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
@@ -104,7 +102,8 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 <input type="text" name="en_date" value="<?php echo $en_date ?>" id="en_date" class="frm_input" style="width:80px;">
 &nbsp;&nbsp;
 <select name="sfl" id="sfl">
-    <option value="WORK_SHIFT" <?=get_selected($sfl, 'WORK_SHIFT')?>>주야간</option>
+    <option value="shot_id" <?=get_selected($sfl, 'shot_id')?>>샷ID</option>
+    <option value="work_shift" <?=get_selected($sfl, 'work_shift')?>>주야간</option>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
@@ -118,21 +117,15 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 	<thead>
 	<tr>
 		<th scope="col">Idx</th>
-		<th scope="col">샷ID</th>
+		<th scope="col">작업일</th>
+		<th scope="col">주야간</th>
 		<th scope="col">발생시각</th>
-		<th scope="col">보온로온도</th>
-		<th scope="col">상형히트</th>
-		<th scope="col">하형히트</th>
-		<th scope="col">상금형1</th>
-		<th scope="col">상금형2</th>
-		<th scope="col">상금형3</th>
-		<th scope="col">상금형4</th>
-		<th scope="col">상금형5</th>
-		<th scope="col">상금형6</th>
-		<th scope="col">하금형1</th>
-		<th scope="col">하금형2</th>
-		<th scope="col">하금형3</th>
-		<th scope="col">관리</th>
+		<th scope="col">평균온도</th>
+		<th scope="col">최소온도</th>
+		<th scope="col">최대온도</th>
+		<th scope="col">최소알람기준</th>
+		<th scope="col">최대알람기준</th>
+		<th scope="col" style="display:none;">관리</th>
 	</tr>
 	</thead>
 	<tbody class="tbl_body">
@@ -143,28 +136,22 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 		// $row['tr_bgcolor'] = ($i==0) ? '#fff7ea' : '' ;
 		// $row['tr_color'] = ($i==0) ? 'blue' : '' ;
 
-        $s_mod_a = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&css_idx='.$row['css_idx'].'">';
-        $s_mod = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&css_idx='.$row['css_idx'].'" class="btn btn_03">수정</a>';
-        $s_copy = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=c&css_idx='.$row['css_idx'].'" class="btn btn_03">복제</a>';
+        $s_mod_a = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&mlt_idx='.$row['mlt_idx'].'">';
+        $s_mod = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&mlt_idx='.$row['mlt_idx'].'" class="btn btn_03">수정</a>';
+        $s_copy = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=c&mlt_idx='.$row['mlt_idx'].'" class="btn btn_03">복제</a>';
 
         echo '
 			<tr style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
-				<td>'.$s_mod_a.$row['css_idx'].'</a></td>
-				<td>'.$row['shot_id'].'</td>
+				<td>'.$s_mod_a.$row['mlt_idx'].'</a></td>
+				<td>'.$row['work_date'].'</td>
+				<td>'.$g5['set_work_shift'][$row['work_shift']].'('.$row['work_shift'].')</td>
 				<td>'.$row['event_time'].'</td>
-				<td>'.$row['hold_temp'].'</td>
-				<td>'.$row['upper_heat'].'</td>
-				<td>'.$row['lower_heat'].'</td>
-				<td>'.$row['upper_1_temp'].'</td>
-				<td>'.$row['upper_2_temp'].'</td>
-				<td>'.$row['upper_3_temp'].'</td>
-				<td>'.$row['upper_4_temp'].'</td>
-				<td>'.$row['upper_5_temp'].'</td>
-				<td>'.$row['upper_6_temp'].'</td>
-				<td>'.$row['lower_1_temp'].'</td>
-				<td>'.$row['lower_2_temp'].'</td>
-				<td>'.$row['lower_3_temp'].'</td>
-				<td>'.$s_copy.'</td>
+				<td>'.$row['temp_avg'].'</td>
+				<td>'.$row['temp_min'].'</td>
+				<td>'.$row['temp_max'].'</td>
+				<td>'.$row['alarm_min'].'</td>
+				<td>'.$row['alarm_max'].'</td>
+				<td style="display:none;">'.$s_copy.'</td>
 			</tr>
 		';
 	}

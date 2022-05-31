@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "925130";
+$sub_menu = "940150";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
@@ -7,16 +7,23 @@ auth_check($auth[$sub_menu],"r");
 $pre = 'css';
 $fname = preg_replace("/_list/","",$g5['file_name']); // 파일명생성
 
-
-$g5['title'] = '주조공정(SUB)-T';
+$g5['title'] = '장입현황';
 include_once('./_top_menu_rdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
-$sql_common = " FROM g5_1_cast_shot_sub ";
+// // 검색 조건
+$st_date = ($st_date) ? $st_date : G5_TIME_YMD;
+//$en_date = ($en_date) ? $en_date : '2016-03-31';
+$en_date = ($en_date) ? $en_date : G5_TIME_YMD;
+
+if($st_date > $en_date)
+	alert("시작일이 종료일보다 큰 값이면 안 됩니다.");
+
+$sql_common = " FROM {$g5['charge_in_table']} ";
 
 $where = array();
-$where[] = " 1=1 ";   // 디폴트 검색조건
+$where[] = " (1) ";   // 디폴트 검색조건
 
 if ($stx) {
     switch ($sfl) {
@@ -55,14 +62,9 @@ if (!$sst) {
 $sql_order = " ORDER BY {$sst} {$sod} ";
 
 
-if(sizeof($where)<=1) {
-    $sql = " SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_cast_shot_sub') ";
-}
-else {
-    $sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
-}
-$stmt = $db->query($sql);
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
+// echo $sql.'<br>';
+$row = sql_fetch($sql,1);
 $total_count = $row['cnt'];
 
 
@@ -74,10 +76,10 @@ $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
 $sql = "SELECT *
         {$sql_common} {$sql_search} {$sql_order}
-		LIMIT {$rows} OFFSET {$from_record}
+		LIMIT {$from_record}, {$rows}
 ";
 // echo $sql.'<br>';
-$stmt = $db->query($sql);
+$result = sql_query($sql,1);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
@@ -93,8 +95,8 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
     <span class="btn_ov01"><span class="ov_txt">총건수 </span><span class="ov_num"> <?php echo number_format($total_count) ?> </span></span>
 </div>
 
-<div class="local_desc01 local_desc" style="display:none;">
-    <p>총건수가 65,411,218 이상이므로 기간 검색을 반드시 설정하세요. 하루 이상 입력 금지</p>
+<div class="local_desc01 local_desc" style="display:no ne;">
+    <p><span style="color:red;">기간 검색</span>을 반드시 설정하세요. 하루 이상 검색 범위 입력하지 마세요. 쿼리 속도가 느릴 수 있습니다.</p>
 </div>
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
@@ -117,54 +119,38 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 	<caption><?php echo $g5['title']; ?> 목록</caption>
 	<thead>
 	<tr>
-		<th scope="col">Idx</th>
-		<th scope="col">샷ID</th>
-		<th scope="col">발생시각</th>
-		<th scope="col">보온로온도</th>
-		<th scope="col">상형히트</th>
-		<th scope="col">하형히트</th>
-		<th scope="col">상금형1</th>
-		<th scope="col">상금형2</th>
-		<th scope="col">상금형3</th>
-		<th scope="col">상금형4</th>
-		<th scope="col">상금형5</th>
-		<th scope="col">상금형6</th>
-		<th scope="col">하금형1</th>
-		<th scope="col">하금형2</th>
-		<th scope="col">하금형3</th>
-		<th scope="col">관리</th>
+        <th scope="col">Idx</th>
+		<th scope="col">작업일</th>
+		<th scope="col">주야간</th>
+		<th scope="col">장입시각</th>
+		<th scope="col">총장입량</th>
+		<th scope="col">인고트장입량</th>
+		<th scope="col">스크랩장입량</th>
+		<th scope="col" style="display:none;">관리</th>
 	</tr>
 	</thead>
 	<tbody class="tbl_body">
 	<?php
-    for ($i=0; $row=$stmt->fetch(PDO::FETCH_ASSOC); $i++) {
+    for ($i=0; $row=sql_fetch_array($result); $i++) {
 
 		// 스타일
 		// $row['tr_bgcolor'] = ($i==0) ? '#fff7ea' : '' ;
 		// $row['tr_color'] = ($i==0) ? 'blue' : '' ;
 
-        $s_mod_a = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&css_idx='.$row['css_idx'].'">';
-        $s_mod = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&css_idx='.$row['css_idx'].'" class="btn btn_03">수정</a>';
-        $s_copy = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=c&css_idx='.$row['css_idx'].'" class="btn btn_03">복제</a>';
+        $s_mod_a = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&chi_idx='.$row['chi_idx'].'">';
+        $s_mod = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&chi_idx='.$row['chi_idx'].'" class="btn btn_03">수정</a>';
+        $s_copy = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=c&chi_idx='.$row['chi_idx'].'" class="btn btn_03">복제</a>';
 
         echo '
 			<tr style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
-				<td>'.$s_mod_a.$row['css_idx'].'</a></td>
-				<td>'.$row['shot_id'].'</td>
+				<td>'.$s_mod_a.$row['chi_idx'].'</a></td>
+				<td>'.$row['work_date'].'</td>
+				<td>'.$g5['set_work_shift'][$row['work_shift']].'</td>
 				<td>'.$row['event_time'].'</td>
-				<td>'.$row['hold_temp'].'</td>
-				<td>'.$row['upper_heat'].'</td>
-				<td>'.$row['lower_heat'].'</td>
-				<td>'.$row['upper_1_temp'].'</td>
-				<td>'.$row['upper_2_temp'].'</td>
-				<td>'.$row['upper_3_temp'].'</td>
-				<td>'.$row['upper_4_temp'].'</td>
-				<td>'.$row['upper_5_temp'].'</td>
-				<td>'.$row['upper_6_temp'].'</td>
-				<td>'.$row['lower_1_temp'].'</td>
-				<td>'.$row['lower_2_temp'].'</td>
-				<td>'.$row['lower_3_temp'].'</td>
-				<td>'.$s_copy.'</td>
+				<td>'.$row['weight_total'].'</td>
+				<td>'.$row['weight_ingot'].'</td>
+				<td>'.$row['weight_scrap'].'</td>
+				<td style="display:none;">'.$s_copy.'</td>
 			</tr>
 		';
 	}
@@ -178,14 +164,13 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 
 <div class="btn_fixed_top">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="./chart1.php" class="btn_04 btn">샘플그래프</a>
-        <a href="./cast_temperature_graph.php" class="btn_04 btn" style="margin-right:50px;">그래프</a>
-        <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn">
+        <a href="javascript:" class="btn_04 btn btn_sync" style="display:none;">가져오기</a>
     <?php } ?>
-    <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01">추가하기</a> 
+    <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a> 
 </div>
 
 <?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;page='); ?>
+
 
 <script>
 //-- $(document).ready 페이지로드 후 js실행 --//

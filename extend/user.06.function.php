@@ -112,8 +112,8 @@ function sql_query_ps($sql,$error=0)
 		return false;
     
     try {
-        $db->query($sql);
-        return true;
+        $stmt = $db->query($sql);
+        return $stmt;
     }
     catch(PDOException $e) {
         if($error) {
