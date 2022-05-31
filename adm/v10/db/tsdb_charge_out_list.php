@@ -166,11 +166,10 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 
 <div class="btn_fixed_top">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="./chart1.php" class="btn_04 btn">샘플그래프</a>
-        <a href="./cast_temperature_graph.php" class="btn_04 btn" style="margin-right:50px;">그래프</a>
-        <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn">
+        <a href="./<?=$fname?>_graph.php" class="btn_04 btn">그래프</a>
+        <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
     <?php } ?>
-    <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01">추가하기</a> 
+    <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a> 
 </div>
 
 <?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;page='); ?>

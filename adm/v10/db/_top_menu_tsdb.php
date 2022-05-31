@@ -8,7 +8,15 @@ if($member['mb_level']>=9) {
     // ';
 }
 
+
 ${'active_'.$g5['file_name']} = ' btn_top_menu_active';
+
+// 그래프인 경우에 활성표시
+if(preg_match("/_graph$/",$g5['file_name'])) {
+    $fname = preg_replace("/_graph/","_list",$g5['file_name']);
+    ${'active_'.$fname} = ' btn_top_menu_active';
+}
+
 $g5['container_sub_title'] = '
 <h2 id="container_sub_title">
     <a href="./tsdb_shot_list.php" class="btn_top_menu '.$active_tsdb_shot_list.'">주조공정</a>
