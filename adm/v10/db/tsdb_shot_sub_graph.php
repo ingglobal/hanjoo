@@ -7,6 +7,12 @@ include_once('./_top_menu_tsdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
+// // 검색 조건
+$st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-3600);
+$st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-3600);
+$en_date = ($en_date) ? $en_date : G5_TIME_YMD;
+$en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
+
 ?>
 <style>
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
@@ -21,11 +27,16 @@ echo $g5['container_sub_title'];
 <!-- 다양한 시간 표현을 위한 플러그인 -->
 <script src="<?php echo G5_URL?>/lib/highcharts/moment.js"></script>
 
-<div class="local_desc01 local_desc" style="display:no ne;">
-    <p>1분에 한번씩 reloading. 제품 생산 카운터가 있으면 추가되고 아니면 같은 그래프 유지!</p>
-    <p>몇 개의 shot을 보여줄 지 설정을 해 주면 되겠습니다. 한 페이지에 max 15개 정도가 될 거 같습니다.</p>
-    <p>17호기, 18호기, 19호기, 20호기</p>
-</div>
+
+<form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
+    <input type="hidden" name="dta_minsec" value="<?=$dta_minsec?>" id="dta_minsec" class="frm_input" style="width:20px;">
+    <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
+    <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
+    ~
+    <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" class="frm_input" autocomplete="off" style="width:80px;">
+    <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;">
+    <button type="submit" class="btn btn_01">확인</button>
+</form>
 
 <div id="graph_wrapper">
 
@@ -46,7 +57,7 @@ echo $g5['container_sub_title'];
 
 <script>
 // Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
+Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14', function(data) {
 
     var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
         minRate = 1,
@@ -85,18 +96,18 @@ Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/sam
 
         yAxis: {
             plotLines: [{
-                value: maxRate,
+                value: 0.855,
                 color: 'red',
-                dashStyle: 'solid',
-                width: 1,
+                dashStyle: 'LongDash',
+                width: 2,
                 label: {
-                    text: 'Last quarter maximum'
+                    text: 'Last quarter minimum'
                 }
             }]
         },
 
         series: [{
-            name: 'USD to EUR',
+            name: '온도',
             data: data,
             tooltip: {
                 valueDecimals: 4
@@ -105,6 +116,26 @@ Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/sam
     });
 });
 </script>
+
+<script>
+$(function(e) {
+    $("input[name$=_date]").datepicker({
+        closeText: "닫기",
+        currentText: "오늘",
+        monthNames: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+        dayNamesMin:['일','월','화','수','목','금','토'],
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        showButtonPanel: true,
+        yearRange: "c-99:c+99",
+        //maxDate: "+0d"
+    });
+
+});    
+</script>
+
 
 <?php
 include_once ('./_tail.php');
