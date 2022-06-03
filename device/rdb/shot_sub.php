@@ -1,5 +1,5 @@
 <?php
-// http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.php?token=1099de5drf09&mms_idx=45&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
+// http://hanjoo.epcs.co.kr/php/hanjoo/device/rdb/shot_sub.php?token=1099de5drf09&mms_idx=45&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
 header("Content-Type: text/plain; charset=utf-8");
 include_once('./_common.php');
 if(isset($_SERVER['HTTP_ORIGIN'])){
@@ -57,7 +57,7 @@ else if($_REQUEST['mms_idx']){
         $row['no'] = $i;
         $row['timestamp'] = strtotime($row['event_time']);
         $dta1[$i][0] = $row['timestamp']*1000;
-        $dta1[$i][1] = (float)$row[$temp_type];
+        $dta1[$i][1] = (float)$row[$item_type];
         // 좌표값
         $list[$i] = $dta1[$i];
     }

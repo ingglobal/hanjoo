@@ -4,6 +4,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // timescale DB connect
 // $dsn = "pgsql:dbname=hanjoo_www;port=5432 host=localhost";
+
 $dsn = "pgsql:dbname=hanjoo_www;port=5432 host=61.83.89.15";
 try {
     $db = new PDO($dsn, "postgres", "super@ingglobal");

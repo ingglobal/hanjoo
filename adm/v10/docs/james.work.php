@@ -709,7 +709,7 @@ UPDATE `g5_1_cast_shot` SET end_time = NULL WHERE csh_idx = 237307;
 UPDATE `g5_1_cast_shot` SET end_time = NULL WHERE end_time = '0000-00-00 00:00:00';
 
 SELECT shot_id FROM g5_1_cast_shot
-WHERE start_time >= '2022-06-02 13:33:14'
+WHERE start_time >= '2022-06-01 13:33:14'
   AND start_time <= '2022-06-02 14:33:14'
   AND machine_id = 63
 
@@ -719,5 +719,19 @@ WHERE shot_id IN (
   SELECT shot_id FROM g5_1_cast_shot
   WHERE start_time >= '2022-06-02 13:33:14'
     AND start_time <= '2022-06-02 14:33:14'
+    AND machine_id = 63  
+);
+....
+SELECT * FROM g5_1_cast_shot_sub
+WHERE shot_id > 427436
+....
+
+create index idx_shot_id on g5_1_cast_shot_sub (shot_id);
+
+SELECT * FROM g5_1_cast_shot_sub
+WHERE shot_id IN (
+  SELECT shot_id FROM g5_1_cast_shot
+  WHERE start_time >= '2022-05-01 13:33:14'
+    AND start_time <= '2022-05-31 14:33:14'
     AND machine_id = 63  
 );
