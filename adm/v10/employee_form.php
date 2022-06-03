@@ -123,6 +123,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 <input type="hidden" name="page" value="<?php echo $page ?>">
 <input type="hidden" name="token" value="">
 <input type="hidden" name="ser_trm_idxs" value="<?php echo $ser_trm_idxs ?>">
+<input type="hidden" name="mb_4" value="<?php echo $mb['mb_4'] ?>">
 
 <div class="tbl_frm01 tbl_wrap">
     <table>
@@ -144,8 +145,9 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
         </td>
         <th scope="row"><label for="mb_password">비밀번호<?php echo $sound_only ?></label></th>
         <td>
+            <?php echo help('비밀번호는 반드시 영문으로 시작해야하고 이 후 영문숫자 조합으로 6글자이상 입력해 주세요.') ?>
             <?php if($w==''||$member['mb_manager_yn']) { ?>
-            <input type="password" name="mb_password" id="mb_password" <?php echo $required_mb_password ?> class="frm_input <?php echo $required_mb_password ?>" size="15" maxlength="20">
+            <input type="password" name="mb_password" id="mb_password" <?php //echo $required_mb_password ?> class="frm_input <?php //echo $required_mb_password ?>" size="15" maxlength="20">
             <?php } else { ?>
             <span style="color:#aaa;">비밀번호 수정 불가</span>
             <?php } ?>
@@ -170,7 +172,6 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
                         ORDER BY cmm_reg_dt DESC
                         LIMIT 1
             ";
-            // echo $sql2.'<br>';
             $row['cmm'] = sql_fetch($sql2,1);
             // print_r2($row['cmm']);
             ?>
@@ -259,10 +260,21 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
     </tr>
     <tr style="display:<?php if(!$member['mb_manager_yn']) echo 'none';?>;">
         <th scope="row"><label for="mb_nick">닉네임<strong class="sound_only">필수</strong></label></th>
-        <td><input type="text" name="mb_nick" value="<?php echo $mb['mb_nick'] ?>" id="reg_mb_nick" required class="required frm_input" size="15"  maxlength="20" <?php if(auth_check($auth[$sub_menu],'d',1)) echo 'readonly';?>></td>
-        <th scope="row">디폴트업체번호</th>
-        <td><input type="text" name="mb_4" value="<?php echo $mb['mb_4'] ?>" class="frm_input" size="3"></td>
+        <td colspan="3"><input type="text" name="mb_nick" value="<?php echo $mb['mb_nick'] ?>" id="reg_mb_nick" required class="required frm_input" size="15"  maxlength="20" <?php if(auth_check($auth[$sub_menu],'d',1)) echo 'readonly';?>></td>
     </tr>
+    <?php if($member['mb_level'] || $mb['mb_8'] == 'adm'){ ?>
+    <tr>
+        <th scope="row">메뉴권한</th>
+        <td colspan="3">
+            <select name="mb_8" id="mb_8" title="권한선택">
+                <option value="">권한선택</option>
+                <?php echo $g5['set_mb_auth_options'];//echo get_set_options_select('set_mb_auth',1, 200, $mb['mb_8'], $sub_menu) ?>
+            </select>
+            <script>$('select[name=mb_8]').val('<?=$mb['mb_8']?>').attr('selected','selected');</script>
+        </td>
+    </tr>
+    <?php } ?>
+
     <tr style="display:<?php if(!$member['mb_manager_yn']) echo 'none';?>;">
         <th scope="row">푸시키</th>
         <td colspan="3">
@@ -407,6 +419,35 @@ $(function() {
 
 function fmember_submit(f)
 {
+    //비밀번호 체크
+    //영문으로 시작하고 반드시 영문숫자 조합하여 6글자 이상
+    
+    if(f.w.value == 'u' && f.mb_password.value){
+        var pw = f.mb_password.value;
+        var pt = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,}$/;
+        if(!pt.test(pw)){
+            alert('비밀번호가 영문숫자조합 및 6글자이상의 문자열\n규칙에 위반된 구성입니다.');
+            f.mb_password.focus();
+            return false;
+        }
+    }
+    else if(f.w.value == ''){
+        if(!f.mb_password.value){
+            alert('비밀번호를 반드시 입력해 주세요');
+            f.mb_password.focus();
+            return false;
+        }
+        else {
+            var pw = f.mb_password.value;
+            var pt = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,}$/;
+            if(!pt.test(pw)){
+                alert('비밀번호가 영문숫자조합 및 6글자이상의 문자열\n규칙에 위반된 구성입니다.');
+                f.mb_password.focus();
+                return false;
+            }
+        }
+    }
+
     // 닉네임 검사
     // empty_mb_nick, valid_mb_nick, count_mb_nick, exist_mb_nick, reserve_mb_nick 차례대로 다 검사합니다. 위치: /bbs/ajax.mb_nick.php (함수위치는 /lib/register.lib.php)
     if ((f.w.value == "") || (f.w.value == "u" && f.mb_nick.defaultValue != f.mb_nick.value)) {
@@ -440,6 +481,8 @@ function fmember_submit(f)
 
     $('#reg_mb_nick').val( $('#mb_name').val() );
 
+    
+    
     return true;
 }
 </script>

@@ -146,7 +146,7 @@ function imageview(id, w, h)
                 $button_title = $menu['menu'.$key][0][1];
             ?>
             <li class="gnb_li<?php echo $current_class;?>">
-                <button type="button" class="btn_op menu-<?php echo $key; ?> menu-order-<?php echo $jj; ?>" title="<?php echo $button_title; ?>"><?php echo $button_title;?></button>
+                <button type="button" class="btn_op menu-<?php echo $key; ?> menu-order-<?php echo $jj; ?>" title="<?php echo ($is_admin)?$button_title.'('.$key.')':$button_title; ?>"><?php echo $button_title;?></button>
                 <div class="gnb_oparea_wr">
                     <div class="gnb_oparea">
                         <h3><?php echo $menu['menu'.$key][0][1];?></h3>
