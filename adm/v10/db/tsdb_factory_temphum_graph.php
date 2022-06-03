@@ -2,7 +2,7 @@
 $sub_menu = "940160";
 include_once('./_common.php');
 
-$g5['title'] = '주조공정';
+$g5['title'] = '공장온습도';
 include_once('./_top_menu_tsdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
@@ -13,12 +13,10 @@ $st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
 $st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
 $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
 $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
-// mms_idx
-$mms_idx = ($mms_idx) ? $mms_idx : 45;
 // item_type
-$item_type = ($item_type) ? $item_type : 'hold_temp';
+$item_type = ($item_type) ? $item_type : 'temp_avg';
 // query string
-$qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&item_type='.$item_type;
+$qs = 'token=1099de5drf09&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&item_type='.$item_type;
 ?>
 <style>
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
@@ -35,34 +33,13 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
 
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
-    <select name="mms_idx">
-        <option value="45">LPM05(17)</option>
-        <option value="44">LPM04(18)</option>
-        <option value="58">LPM03(19)</option>
-        <option value="59">LPM02(20)</option>
-    </select>
-    <script>
-        $('select[name=mms_idx]').val('<?=$mms_idx?>');
-        $(document).on('change','select[name=mms_idx]',function(e){
-            $('.btn_search').trigger('click');
-        });
-    </script>
     <select name="item_type">
-        <option value="hold_temp">보온로온도</option>
-        <option value="upper_heat">상형히트</option>
-        <option value="lower_heat">하형히트</option>
-        <option value="upper1_temp">상금형1</option>
-        <option value="upper2_temp">상금형2</option>
-        <option value="upper3_temp">상금형3</option>
-        <option value="upper4_temp">상금형4</option>
-        <option value="upper5_temp">상금형5</option>
-        <option value="upper6_temp">상금형6</option>
-        <option value="lower1_temp">하금형1</option>
-        <option value="lower2_temp">하금형2</option>
-        <option value="lower3_temp">하금형3</option>
-        <option value="pv_cycletime">PVCT</option>
-        <option value="machine_cycletime">설비CT</option>
-        <option value="product_cycletime">제품CT</option>
+        <option value="temp_avg">평균온도</option>
+        <option value="temp_max">온도최대</option>
+        <option value="temp_min">온도최소</option>
+        <option value="hum_avg">평균습도</option>
+        <option value="hum_max">습도최대</option>
+        <option value="hum_min">습도최소</option>
     </select>
     <script>
         $('select[name=item_type]').val('<?=$item_type?>');
@@ -98,8 +75,7 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
 
 <script>
 // Detail graph
-// Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14', function(data) {
-Highcharts.getJSON(g5_url+'/device/rdb/shot.php?<?=$qs?>', function(data) {
+Highcharts.getJSON(g5_url+'/device/rdb/factory_temphum.php?<?=$qs?>', function(data) {
 
     var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
         minRate = 1,

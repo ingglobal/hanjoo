@@ -1,5 +1,5 @@
 <?php
-// http://hanjoo.epcs.co.kr/php/hanjoo/device/rdb/shot.php?token=1099de5drf09&mms_idx=45&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
+// http://hanjoo.epcs.co.kr/php/hanjoo/device/rdb/shot_sub.php?token=1099de5drf09&mms_idx=45&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
 header("Content-Type: text/plain; charset=utf-8");
 include_once('./_common.php');
 if(isset($_SERVER['HTTP_ORIGIN'])){
@@ -41,10 +41,13 @@ else if($_REQUEST['mms_idx']){
     $end = $en_date.' '.$en_time;
  
  	// 측정 추출
-    $sql = "SELECT * FROM g5_1_cast_shot
-            WHERE start_time >= '".$start."'
-                AND start_time <= '".$end."'
-                AND machine_id = '".$mms_idx."'
+    $sql = "SELECT * FROM g5_1_cast_shot_pressure
+            WHERE shot_id IN (
+                SELECT shot_id FROM g5_1_cast_shot
+                WHERE start_time >= '".$start."'
+                    AND start_time <= '".$end."'
+                    AND machine_id = '".$mms_idx."'
+            )
     ";
 //    echo $sql.'<br>';
 //    exit;
@@ -52,7 +55,7 @@ else if($_REQUEST['mms_idx']){
 	$list = array();
 	for($i=0;$row=sql_fetch_array($rs);$i++){
         $row['no'] = $i;
-        $row['timestamp'] = strtotime($row['start_time']);
+        $row['timestamp'] = strtotime($row['event_time']);
         $dta1[$i][0] = $row['timestamp']*1000;
         $dta1[$i][1] = (float)$row[$item_type];
         // 좌표값

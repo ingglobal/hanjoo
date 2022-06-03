@@ -15,10 +15,10 @@ $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
 $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
 // mms_idx
 $mms_idx = ($mms_idx) ? $mms_idx : 45;
-// temp_type
-$temp_type = ($temp_type) ? $temp_type : 'hold_temp';
+// item_type
+$item_type = ($item_type) ? $item_type : 'hold_temp';
 // query string
-$qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&temp_type='.$temp_type;
+$qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&item_type='.$item_type;
 ?>
 <style>
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
@@ -47,7 +47,7 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
             $('.btn_search').trigger('click');
         });
     </script>
-    <select name="temp_type">
+    <select name="item_type">
         <option value="hold_temp">보온로온도</option>
         <option value="upper_heat">상형온도</option>
         <option value="lower_heat">하형온도</option>
@@ -62,8 +62,8 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
         <option value="lower3_temp">하금형3</option>
     </select>
     <script>
-        $('select[name=temp_type]').val('<?=$temp_type?>');
-        $(document).on('change','select[name=temp_type]',function(e){
+        $('select[name=item_type]').val('<?=$item_type?>');
+        $(document).on('change','select[name=item_type]',function(e){
             $('.btn_search').trigger('click');
         });
     </script>

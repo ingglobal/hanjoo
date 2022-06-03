@@ -180,7 +180,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 </div>
 <!-- //리스트 테이블 -->
 
-<div class="btn_fixed_top">
+<div class="btn_fixed_top" style="display:none;">
     <?php if($member['mb_manager_yn']) { ?>
         <a href="./<?=$fname?>_graph.php" class="btn_04 btn">그래프</a>
         <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">

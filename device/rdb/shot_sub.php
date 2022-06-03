@@ -57,7 +57,7 @@ else if($_REQUEST['mms_idx']){
         $row['no'] = $i;
         $row['timestamp'] = strtotime($row['event_time']);
         $dta1[$i][0] = $row['timestamp']*1000;
-        $dta1[$i][1] = (float)$row[$temp_type];
+        $dta1[$i][1] = (float)$row[$item_type];
         // 좌표값
         $list[$i] = $dta1[$i];
     }

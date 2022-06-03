@@ -2,7 +2,7 @@
 $sub_menu = "940160";
 include_once('./_common.php');
 
-$g5['title'] = '주조공정';
+$g5['title'] = '검출압력';
 include_once('./_top_menu_tsdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
@@ -16,7 +16,7 @@ $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
 // mms_idx
 $mms_idx = ($mms_idx) ? $mms_idx : 45;
 // item_type
-$item_type = ($item_type) ? $item_type : 'hold_temp';
+$item_type = ($item_type) ? $item_type : 'detect_pressure';
 // query string
 $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&item_type='.$item_type;
 ?>
@@ -48,21 +48,10 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
         });
     </script>
     <select name="item_type">
-        <option value="hold_temp">보온로온도</option>
-        <option value="upper_heat">상형히트</option>
-        <option value="lower_heat">하형히트</option>
-        <option value="upper1_temp">상금형1</option>
-        <option value="upper2_temp">상금형2</option>
-        <option value="upper3_temp">상금형3</option>
-        <option value="upper4_temp">상금형4</option>
-        <option value="upper5_temp">상금형5</option>
-        <option value="upper6_temp">상금형6</option>
-        <option value="lower1_temp">하금형1</option>
-        <option value="lower2_temp">하금형2</option>
-        <option value="lower3_temp">하금형3</option>
-        <option value="pv_cycletime">PVCT</option>
-        <option value="machine_cycletime">설비CT</option>
-        <option value="product_cycletime">제품CT</option>
+        <option value="detect_pressure">검출압력</option>
+        <option value="target_pressure">목표압력</option>
+        <option value="control_pressure">조작압력</option>
+        <option value="deviation_pressure">편차</option>
     </select>
     <script>
         $('select[name=item_type]').val('<?=$item_type?>');
@@ -98,8 +87,7 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
 
 <script>
 // Detail graph
-// Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14', function(data) {
-Highcharts.getJSON(g5_url+'/device/rdb/shot.php?<?=$qs?>', function(data) {
+Highcharts.getJSON(g5_url+'/device/rdb/shot_pressure.php?<?=$qs?>', function(data) {
 
     var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
         minRate = 1,
