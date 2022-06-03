@@ -7,12 +7,18 @@ include_once('./_top_menu_tsdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
-// // 검색 조건
-$st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-3600);
-$st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-3600);
+// 검색 조건
+$st_time_ahead = 3600*24;  // 5hour ahead.
+$st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
+$st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
 $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
 $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
-
+// mms_idx
+$mms_idx = ($mms_idx) ? $mms_idx : 45;
+// temp_type
+$temp_type = ($temp_type) ? $temp_type : 'hold_temp';
+// query string
+$qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&temp_type='.$temp_type;
 ?>
 <style>
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
@@ -29,13 +35,45 @@ $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
 
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
+    <select name="mms_idx">
+        <option value="45">LPM05(17)</option>
+        <option value="44">LPM04(18)</option>
+        <option value="58">LPM03(19)</option>
+        <option value="59">LPM02(20)</option>
+    </select>
+    <script>
+        $('select[name=mms_idx]').val('<?=$mms_idx?>');
+        $(document).on('change','select[name=mms_idx]',function(e){
+            $('.btn_search').trigger('click');
+        });
+    </script>
+    <select name="temp_type">
+        <option value="hold_temp">보온로온도</option>
+        <option value="upper_heat">상형온도</option>
+        <option value="lower_heat">하형온도</option>
+        <option value="upper1_temp">상금형1</option>
+        <option value="upper2_temp">상금형2</option>
+        <option value="upper3_temp">상금형3</option>
+        <option value="upper4_temp">상금형4</option>
+        <option value="upper5_temp">상금형5</option>
+        <option value="upper6_temp">상금형6</option>
+        <option value="lower1_temp">하금형1</option>
+        <option value="lower2_temp">하금형2</option>
+        <option value="lower3_temp">하금형3</option>
+    </select>
+    <script>
+        $('select[name=temp_type]').val('<?=$temp_type?>');
+        $(document).on('change','select[name=temp_type]',function(e){
+            $('.btn_search').trigger('click');
+        });
+    </script>
     <input type="hidden" name="dta_minsec" value="<?=$dta_minsec?>" id="dta_minsec" class="frm_input" style="width:20px;">
     <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
     <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
     ~
     <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" class="frm_input" autocomplete="off" style="width:80px;">
     <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;">
-    <button type="submit" class="btn btn_01">확인</button>
+    <button type="submit" class="btn btn_01 btn_search">확인</button>
 </form>
 
 <div id="graph_wrapper">
@@ -43,7 +81,7 @@ $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
     <div class="graph_wrap">
         <!-- 차트 -->
         <div id="chart1" style="position:relative;width:100%; height:500px;">
-            <div class="chart_empty">그래프가 존재하지 않습니다.</div>
+            <div class="chart_empty">그래프 불러오는 중..</div>
         </div>
     </div><!-- .graph_wrap -->
 
@@ -57,7 +95,8 @@ $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
 
 <script>
 // Detail graph
-Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14', function(data) {
+// Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14', function(data) {
+Highcharts.getJSON(g5_url+'/device/rdb/shot_sub.php?<?=$qs?>', function(data) {
 
     var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
         minRate = 1,
@@ -96,7 +135,7 @@ Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?
 
         yAxis: {
             plotLines: [{
-                value: 0.855,
+                value: 690,
                 color: 'red',
                 dashStyle: 'LongDash',
                 width: 2,
@@ -107,7 +146,7 @@ Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?
         },
 
         series: [{
-            name: '온도',
+            name: '값',
             data: data,
             tooltip: {
                 valueDecimals: 4

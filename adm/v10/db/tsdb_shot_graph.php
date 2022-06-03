@@ -2,11 +2,23 @@
 $sub_menu = "940160";
 include_once('./_common.php');
 
-$g5['title'] = '주조공정 그래프';
+$g5['title'] = '주조공정';
 include_once('./_top_menu_tsdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
+// 검색 조건
+$st_time_ahead = 3600*24;  // 5hour ahead.
+$st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
+$st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
+$en_date = ($en_date) ? $en_date : G5_TIME_YMD;
+$en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
+// mms_idx
+$mms_idx = ($mms_idx) ? $mms_idx : 45;
+// temp_type
+$temp_type = ($temp_type) ? $temp_type : 'hold_temp';
+// query string
+$qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&temp_type='.$temp_type;
 ?>
 <style>
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
@@ -21,84 +33,60 @@ echo $g5['container_sub_title'];
 <!-- 다양한 시간 표현을 위한 플러그인 -->
 <script src="<?php echo G5_URL?>/lib/highcharts/moment.js"></script>
 
-<div class="local_desc01 local_desc" style="display:no ne;">
-    <p>1분에 한번씩 reloading. 제품 생산 카운터가 있으면 추가되고 아니면 같은 그래프 유지!</p>
-    <p>몇 개의 shot을 보여줄 지 설정을 해 주면 되겠습니다. 한 페이지에 max 15개 정도가 될 거 같습니다.</p>
-    <p>17호기, 18호기, 19호기, 20호기</p>
-</div>
+
+<form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
+    <select name="mms_idx">
+        <option value="45">LPM05(17)</option>
+        <option value="44">LPM04(18)</option>
+        <option value="58">LPM03(19)</option>
+        <option value="59">LPM02(20)</option>
+    </select>
+    <script>
+        $('select[name=mms_idx]').val('<?=$mms_idx?>');
+        $(document).on('change','select[name=mms_idx]',function(e){
+            $('.btn_search').trigger('click');
+        });
+    </script>
+    <select name="temp_type">
+        <option value="hold_temp">보온로온도</option>
+        <option value="upper_heat">상형히트</option>
+        <option value="lower_heat">하형히트</option>
+        <option value="upper1_temp">상금형1</option>
+        <option value="upper2_temp">상금형2</option>
+        <option value="upper3_temp">상금형3</option>
+        <option value="upper4_temp">상금형4</option>
+        <option value="upper5_temp">상금형5</option>
+        <option value="upper6_temp">상금형6</option>
+        <option value="lower1_temp">하금형1</option>
+        <option value="lower2_temp">하금형2</option>
+        <option value="lower3_temp">하금형3</option>
+        <option value="pv_cycletime">PVCT</option>
+        <option value="machine_cycletime">설비CT</option>
+        <option value="product_cycletime">제품CT</option>
+    </select>
+    <script>
+        $('select[name=temp_type]').val('<?=$temp_type?>');
+        $(document).on('change','select[name=temp_type]',function(e){
+            $('.btn_search').trigger('click');
+        });
+    </script>
+    <input type="hidden" name="dta_minsec" value="<?=$dta_minsec?>" id="dta_minsec" class="frm_input" style="width:20px;">
+    <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
+    <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
+    ~
+    <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" class="frm_input" autocomplete="off" style="width:80px;">
+    <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;">
+    <button type="submit" class="btn btn_01 btn_search">확인</button>
+</form>
 
 <div id="graph_wrapper">
 
     <div class="graph_wrap">
         <!-- 차트 -->
-        <div id="chart1" style="position:relative;width:100%; height:400px;">
-            <div class="chart_empty">그래프가 존재하지 않습니다.</div>
+        <div id="chart1" style="position:relative;width:100%; height:500px;">
+            <div class="chart_empty">그래프 불러오는 중..</div>
         </div>
     </div><!-- .graph_wrap -->
-    <div class="graph_detail" style="margin-top:10px;">
-        <ul>
-            <li>
-                <div id="chart11" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart12" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart13" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart21" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart22" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart23" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart31" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart32" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart33" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart41" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart42" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-            <li>
-                <div id="chart43" style="position:relative;width:100%;">
-                    <div class="chart_empty">그래프 불러오는 중!</div>
-                </div>
-            </li>
-        </ul>
-    </div><!-- .graph_detail -->
 
 </div><!-- #graph_wrapper -->
 
@@ -109,104 +97,9 @@ echo $g5['container_sub_title'];
 
 
 <script>
-var colors = Highcharts.getOptions().colors;
-
-Highcharts.chart('chart1', {
-    chart: {
-        type: 'spline'
-    },
-
-    title: {
-        text: '주조 파라메타 모니터링'
-    },
-    subtitle: {
-        text: '최적의 양품 조건 (빨간색) & 실시간 파라메타 분포'
-    },
-    legend: {
-        layout: 'proximate',
-        align: 'right'
-    },
-    xAxis: {
-        categories: ['보온로온도', '상형히트', '하형히트', '상금형1', '상금형2','상금형3', '상금형4','상금형5', '상금형6', '하금형1', '하금형2','하금형3']
-    },
-
-    plotOptions: {
-        series: {
-            point: {
-                events: {
-                    click: function () {
-                        if(this.series.options.website) {
-                            window.location.href = this.series.options.website;
-                        }
-                    }
-                }
-            },
-            cursor: 'pointer'
-        }
-    },
-
-    series: [
-        {
-            name: 'Standard',
-            data: [690.8, 360.0, 402.2, null, null, 498.4, null, 470, 410, 400, null, null],
-            website: 'https://www.naver.com',
-            color: '#FF0000',
-            zIndex:1
-        }, {
-            name: '250 (17호기)',
-            data: [685.8, 355.0, 400.2, null, null, 498, null, 469.4, 411, 390, null, null],
-            dashStyle: 'ShortDot',
-            color: '#B1B1B1',
-            marker: {
-                symbol: 'diamond'
-            }
-        }, {
-            name: '249 (17호기)',
-            data: [685.8, 362.0, 402.2, null, null, 494.4, null, 470.4, 412, 399, null, null],
-            dashStyle: 'ShortDot',
-            color: '#B1B1B1',
-            marker: {
-                symbol: 'diamond'
-            }
-        }, {
-            name: '248 (17호기)',
-            data: [686.8, 363.0, 402.2, null, null, 498.4, null, 470.4, 413, 401, null, null],
-            dashStyle: 'ShortDot',
-            color: '#B1B1B1',
-            marker: {
-                symbol: 'diamond'
-            }
-        }, {
-            name: '247 (17호기)',
-            data: [687.8, 364.0, 402.2, null, null, 496.4, null, 470.4, 414, 400, null, null],
-            dashStyle: 'ShortDot',
-            color: '#B1B1B1',
-            marker: {
-                symbol: 'diamond'
-            }
-        }, {
-            name: '246 (17호기)',
-            data: [688.8, 361.0, 402.2, null, null, 497.4, null, 470.4, 415, 402, null, null],
-            dashStyle: 'ShortDot',
-            color: '#B1B1B1',
-            marker: {
-                symbol: 'diamond'
-            }
-        }, {
-            name: '245 (17호기)',
-            data: [693.8, 360.0, 410.2, null, null, 498.4, null, 470.4, 416, 403, null, null],
-            dashStyle: 'ShortDot',
-            color: '#B1B1B1',
-            marker: {
-                symbol: 'diamond'
-            }
-        }
-    ]
-});
-
-
 // Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
+// Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14', function(data) {
+Highcharts.getJSON(g5_url+'/device/rdb/shot.php?<?=$qs?>', function(data) {
 
     var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
         minRate = 1,
@@ -234,29 +127,25 @@ Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/sam
     }
 
     // Create the chart
-    Highcharts.stockChart('chart11', {
+    Highcharts.stockChart('chart1', {
 
         rangeSelector: {
             selected: 1
         },
-        title: {
-            text: '보온로 온도'
-        },
-
         yAxis: {
             plotLines: [{
-                value: maxRate,
+                value: 690,
                 color: 'red',
-                dashStyle: 'solid',
-                width: 1,
+                dashStyle: 'LongDash',
+                width: 2,
                 label: {
-                    text: 'Last quarter maximum'
+                    text: 'Last quarter minimum'
                 }
             }]
         },
 
         series: [{
-            name: 'USD to EUR',
+            name: '값',
             data: data,
             tooltip: {
                 valueDecimals: 4
@@ -264,675 +153,27 @@ Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/sam
         }]
     });
 });
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-    var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-        minRate = 1,
-        maxRate = 0,
-        startPeriod,
-        date,
-        rate,
-        index;
-
-    startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-    startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-    for (index = data.length - 1; index >= 0; index = index - 1) {
-        date = data[index][0]; // data[i][0] is date
-        rate = data[index][1]; // data[i][1] is exchange rate
-        if (date < startPeriod) {
-            break; // stop measuring highs and lows
-        }
-        if (rate > maxRate) {
-            maxRate = rate;
-        }
-        if (rate < minRate) {
-            minRate = rate;
-        }
-    }
-
-    // Create the chart
-    Highcharts.stockChart('chart12', {
-
-        rangeSelector: {
-            selected: 1
-        },
-        title: {
-            text: '상형히트'
-        },
-
-        yAxis: {
-            plotLines: [{
-                value: maxRate,
-                color: 'red',
-                dashStyle: 'solid',
-                width: 1,
-                label: {
-                    text: 'Last quarter maximum'
-                }
-            }]
-        },
-
-        series: [{
-            name: 'USD to EUR',
-            data: data,
-            tooltip: {
-                valueDecimals: 4
-            }
-        }]
-    });
-});
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-    var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-        minRate = 1,
-        maxRate = 0,
-        startPeriod,
-        date,
-        rate,
-        index;
-
-    startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-    startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-    for (index = data.length - 1; index >= 0; index = index - 1) {
-        date = data[index][0]; // data[i][0] is date
-        rate = data[index][1]; // data[i][1] is exchange rate
-        if (date < startPeriod) {
-            break; // stop measuring highs and lows
-        }
-        if (rate > maxRate) {
-            maxRate = rate;
-        }
-        if (rate < minRate) {
-            minRate = rate;
-        }
-    }
-
-    // Create the chart
-    Highcharts.stockChart('chart13', {
-
-        rangeSelector: {
-            selected: 1
-        },
-        title: {
-            text: '하형히트'
-        },
-
-        yAxis: {
-            plotLines: [{
-                value: maxRate,
-                color: 'red',
-                dashStyle: 'solid',
-                width: 1,
-                label: {
-                    text: 'Last quarter maximum'
-                }
-            }]
-        },
-
-        series: [{
-            name: 'USD to EUR',
-            data: data,
-            tooltip: {
-                valueDecimals: 4
-            }
-        }]
-    });
-});
-
-// 2nd line ----------------------------------------
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart21', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '상금형1'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart22', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '상금형2'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart23', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '상금형3'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// 3rd line ----------------------------------------
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart31', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '상금형4'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart32', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '상금형5'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart33', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '상금형6'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// 4th line ----------------------------------------
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart41', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '하금형1'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart42', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '하금형2'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-// Detail graph
-Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json', function (data) {
-
-var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
-    minRate = 1,
-    maxRate = 0,
-    startPeriod,
-    date,
-    rate,
-    index;
-
-startDate.setMonth(startDate.getMonth() - 3); // a quarter of a year before last data point
-startPeriod = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-
-for (index = data.length - 1; index >= 0; index = index - 1) {
-    date = data[index][0]; // data[i][0] is date
-    rate = data[index][1]; // data[i][1] is exchange rate
-    if (date < startPeriod) {
-        break; // stop measuring highs and lows
-    }
-    if (rate > maxRate) {
-        maxRate = rate;
-    }
-    if (rate < minRate) {
-        minRate = rate;
-    }
-}
-
-// Create the chart
-Highcharts.stockChart('chart43', {
-
-    rangeSelector: {
-        selected: 1
-    },
-    title: {
-        text: '하금형3'
-    },
-
-    yAxis: {
-        plotLines: [{
-            value: maxRate,
-            color: 'red',
-            dashStyle: 'solid',
-            width: 1,
-            label: {
-                text: 'Last quarter maximum'
-            }
-        }]
-    },
-
-    series: [{
-        name: 'USD to EUR',
-        data: data,
-        tooltip: {
-            valueDecimals: 4
-        }
-    }]
-});
-});
-
-
 </script>
+
+<script>
+$(function(e) {
+    $("input[name$=_date]").datepicker({
+        closeText: "닫기",
+        currentText: "오늘",
+        monthNames: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+        dayNamesMin:['일','월','화','수','목','금','토'],
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        showButtonPanel: true,
+        yearRange: "c-99:c+99",
+        //maxDate: "+0d"
+    });
+
+});    
+</script>
+
 
 <?php
 include_once ('./_tail.php');

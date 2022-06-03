@@ -32,6 +32,11 @@ if ($stx) {
     }
 }
 
+// 설비검색
+if ($mms_idx) {
+    $where[] = " machine_id = '".$mms_idx."' ";
+}
+
 // 날자 검색
 if ($st_date) {
     $where[] = " start_time >= '".$st_date." 00:00:00' ";
@@ -80,7 +85,7 @@ $stmt = sql_query_ps($sql,1);
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
 // 넘겨줄 변수가 추가로 있어서 qstr 별도 설정
-$qstr = $qstr."&st_date=$st_date&en_date=$en_date";
+$qstr = $qstr."&st_date=$st_date&en_date=$en_date&mms_idx=$mms_idx";
 ?>
 <style>
 .tbl_body td {text-align:center;border-bottom:solid 1px #e1e1e1;}
@@ -97,6 +102,14 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
+<select name="mms_idx">
+	<option value="">전체설비</option>
+	<option value="45">LPM05(17)</option>
+	<option value="44">LPM04(18)</option>
+	<option value="58">LPM03(19)</option>
+	<option value="59">LPM02(20)</option>
+</select>
+<script>$('select[name=mms_idx]').val('<?=$mms_idx?>');</script>
 기간:
 <input type="text" name="st_date" value="<?php echo $st_date ?>" id="st_date" class="frm_input" style="width:80px;"> ~
 <input type="text" name="en_date" value="<?php echo $en_date ?>" id="en_date" class="frm_input" style="width:80px;">
