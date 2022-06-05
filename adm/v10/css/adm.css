@@ -24,6 +24,27 @@ textarea, select {font-family: 'Noto Sans KR', sans-serif;}
 /* 관리자단 왼편 하단 아이콘 */
 #gnb .gnb_li .btn_op.menu-910{background:url(../img/menu-910-1.png) 50% 50% no-repeat #ebebeb }
 #gnb .on .btn_op.menu-910{background:url(../img/menu-910.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-915{background:url(https://icongr.am/clarity/dashboard.svg?size=20&color=d95e9a) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-915{background:url(https://icongr.am/clarity/dashboard.svg?size=20&color=d95e9a) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-920{background:url(https://icongr.am/clarity/media-changer.svg?size=20&color=d95e9a) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-920{background:url(https://icongr.am/clarity/media-changer.svg?size=20&color=d95e9a) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-925{background:url(https://icongr.am/clarity/factory.svg?size=20&color=d95e9a) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-925{background:url(https://icongr.am/clarity/factory.svg?size=20&color=d95e9a) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-930{background:url(https://icongr.am/clarity/wrench.svg?size=20&color=d95e9a) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-930{background:url(https://icongr.am/clarity/wrench.svg?size=20&color=d95e9a) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-935{background:url(https://icongr.am/clarity/bar-chart.svg?size=20&color=d95e9a) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-935{background:url(https://icongr.am/clarity/bar-chart.svg?size=20&color=d95e9a) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-940{background:url(https://icongr.am/clarity/success-standard.svg?size=20&color=d95e9a) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-940{background:url(https://icongr.am/clarity/success-standard.svg?size=20&color=d95e9a) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-945{background:url(../img/menu-945-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-945{background:url(../img/menu-945.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-950{background:url(../img/menu-950-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-950{background:url(../img/menu-950.png) 50% 50% no-repeat #ffffff}
+#gnb .gnb_li .btn_op.menu-960{background:url(https://icongr.am/clarity/block.svg?size=20&color=d95e9a) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-960{background:url(https://icongr.am/clarity/block.svg?size=20&color=d95e9a) 50% 50% no-repeat #ffffff}
+/*
+#gnb .gnb_li .btn_op.menu-910{background:url(../img/menu-910-1.png) 50% 50% no-repeat #ebebeb }
+#gnb .on .btn_op.menu-910{background:url(../img/menu-910.png) 50% 50% no-repeat #ffffff}
 #gnb .gnb_li .btn_op.menu-915{background:url(../img/menu-915-1.png) 50% 50% no-repeat #ebebeb }
 #gnb .on .btn_op.menu-915{background:url(../img/menu-915.png) 50% 50% no-repeat #ffffff}
 #gnb .gnb_li .btn_op.menu-920{background:url(../img/menu-920-1.png) 50% 50% no-repeat #ebebeb }
@@ -43,6 +64,7 @@ textarea, select {font-family: 'Noto Sans KR', sans-serif;}
 #gnb .gnb_li .btn_op.menu-960{background:url(../img/menu-960-1.png) 50% 50% no-repeat #ebebeb }
 #gnb .on .btn_op.menu-960{background:url(../img/menu-960.png) 50% 50% no-repeat #ffffff}
 
+*/
 /* 왼편 메뉴 부분 */
 #gnb .gnb_oparea {
     -webkit-box-shadow: none;
