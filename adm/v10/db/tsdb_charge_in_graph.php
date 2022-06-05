@@ -9,10 +9,23 @@ echo $g5['container_sub_title'];
 
 // 검색 조건
 $st_time_ahead = 3600*24;  // 5hour ahead.
-$st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
-$st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
-$en_date = ($en_date) ? $en_date : G5_TIME_YMD;
-$en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
+// $st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
+// $st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
+// $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
+// $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
+
+// Set the search period reset according to the last data input.
+$sql = " SELECT * FROM g5_1_charge_in ORDER BY chi_idx DESC LIMIT 1 ";
+$one = sql_fetch($sql,1);
+// print_r3($one);
+$en_date = ($en_date) ? $en_date : substr($one['event_time'],0,10);
+$en_time = ($en_time) ? $en_time : substr($one['event_time'],11);
+$st_date = ($st_date) ? $st_date : date("Y-m-d",strtotime($en_date.' '.$en_time)-$st_time_ahead);
+$st_time = ($st_time) ? $st_time : date("H:i:s",strtotime($en_date.' '.$en_time)-$st_time_ahead);
+// echo $en_date.' '.$en_time.'<br>';
+// echo $st_date.' '.$st_time.'<br>';
+// exit;
+
 // item_type
 $item_type = ($item_type) ? $item_type : 'weight_total';
 // query string

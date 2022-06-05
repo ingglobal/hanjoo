@@ -719,7 +719,7 @@ WHERE shot_id IN (
   SELECT shot_id FROM g5_1_cast_shot
   WHERE start_time >= '2022-06-02 13:33:14'
     AND start_time <= '2022-06-02 14:33:14'
-    AND machine_id = 63  
+    AND machine_id = 63
 );
 ....
 SELECT * FROM g5_1_cast_shot_sub
@@ -735,3 +735,11 @@ WHERE shot_id IN (
     AND start_time <= '2022-05-31 14:33:14'
     AND machine_id = 63  
 );
+
+
+// get the last time of shot_sub data.
+SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 1;
+SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 1;
+
+// get the last time of shot data.
+SELECT * FROM g5_1_cast_shot ORDER BY csh_idx DESC LIMIT 1;
