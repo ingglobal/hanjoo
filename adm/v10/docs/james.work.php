@@ -773,3 +773,69 @@ WHERE event_time > '2022-05-01 00:00:00'
 SELECT work_date, shot_no FROM g5_1_cast_shot
 WHERE work_date = '2022-06-02'
 ORDER BY shot_no DESC LIMIT 1
+
+
+if data exists in the range of specific time.
+....
+SELECT * FROM g5_1_cast_shot_sub
+WHERE event_time >= '2022-06-02 04:51:37' AND event_time <= '2022-06-03 04:51:37'
+....
+SELECT * FROM g5_1_cast_shot_sub
+WHERE event_time >= '2022-06-02 04:51:37' AND event_time <= '2022-06-03 04:51:37'
+GROUP BY machine_id
+....
+SELECT machine_id FROM g5_1_cast_shot_sub
+WHERE event_time >= '2022-06-02 04:51:37' AND event_time <= '2022-06-03 04:51:37'
+GROUP BY machine_id
+....
+SELECT machine_id FROM g5_1_cast_shot_sub
+WHERE event_time >= '2022-06-02 04:51:37'
+GROUP BY machine_id
+....
+postgress is fast....
+........................................
+SELECT machine_id, MAX(hold_temp) AS hold_temp_max, MAX(upper_heat) AS upper_heat_max, MAX(lower_heat) AS lower_heat_max
+  , MAX(upper_1_temp) AS upper_1_temp_max, MAX(upper_2_temp) AS upper_2_temp_max, MAX(upper_3_temp) AS upper_3_temp_max, MAX(upper_4_temp) AS upper_4_temp_max, MAX(upper_5_temp) AS upper_5_temp_max, MAX(upper_6_temp) AS upper_6_temp_max
+  , MAX(lower_1_temp) AS lower_1_temp_max, MAX(lower_2_temp) AS lower_2_temp_max, MAX(lower_3_temp) AS lower_3_temp_max
+FROM g5_1_cast_shot_sub
+WHERE event_time >= '2022-06-02 04:51:37'
+GROUP BY machine_id
+....
+SELECT machine_id, MAX(hold_temp) AS hold_temp_max, MAX(upper_heat) AS upper_heat_max, MAX(lower_heat) AS lower_heat_max
+  , MAX(upper_1_temp) AS upper_1_temp_max, MAX(upper_2_temp) AS upper_2_temp_max, MAX(upper_3_temp) AS upper_3_temp_max, MAX(upper_4_temp) AS upper_4_temp_max, MAX(upper_5_temp) AS upper_5_temp_max, MAX(upper_6_temp) AS upper_6_temp_max
+  , MAX(lower_1_temp) AS lower_1_temp_max, MAX(lower_2_temp) AS lower_2_temp_max, MAX(lower_3_temp) AS lower_3_temp_max
+FROM g5_1_cast_shot_sub
+WHERE event_time >= '2022-06-02 04:51:37' AND machine_id = 45
+GROUP BY machine_id
+....
+
+
+SELECT machine_id, machine_no
+FROM g5_1_cast_shot
+WHERE start_time >= '2022-01-02 04:51:37'
+GROUP BY machine_id, machine_no
+....
+
+
+hold_temp=보온로온도
+upper_heat=상형히트
+lower_heat=하형히트
+upper_1_temp=상금형1
+upper_2_temp=상금형2
+upper_3_temp=상금형3
+upper_4_temp=상금형4
+upper_5_temp=상금형5
+upper_6_temp=상금형6
+lower_1_temp=하금형1
+lower_2_temp=하금형2
+lower_3_temp=하금형3
+detect_pressure=검출압력
+target_pressure=목표압력
+control_pressure=조작압력
+deviation_pressure=편차
+temp_avg=평균온도
+temp_max=온도최대
+temp_min=온도최소
+hum_avg=평균습도
+hum_max=습도최대
+hum_min=습도최소

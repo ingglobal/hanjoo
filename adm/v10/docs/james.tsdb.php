@@ -2,6 +2,7 @@ pgAdmin..
 ..................................................................................
 SELECT * FROM g5_1_cast_shot_pressure ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100;
+SELECT * FROM g5_1_cast_shot ORDER BY start_time DESC LIMIT 100;
 
 
 ..................................................................................

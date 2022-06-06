@@ -39,6 +39,9 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
 .graph_detail ul li {float:left;width:32%;margin-right:10px;margin-bottom:10px;}
 .graph_detail ul li > div{border:solid 1px #ddd;height:300px;}
+.div_btn_add {float:right;}
+#fsearch {display:block;}
+#fsearch .div_btn_add {margin:0 !important;}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
@@ -50,38 +53,6 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
 
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
-    <select name="mms_idx">
-        <option value="45">LPM05(17)</option>
-        <option value="44">LPM04(18)</option>
-        <option value="58">LPM03(19)</option>
-        <option value="59">LPM02(20)</option>
-    </select>
-    <script>
-        $('select[name=mms_idx]').val('<?=$mms_idx?>');
-        $(document).on('change','select[name=mms_idx]',function(e){
-            $('.btn_search').trigger('click');
-        });
-    </script>
-    <select name="item_type">
-        <option value="hold_temp">보온로온도</option>
-        <option value="upper_heat">상형온도</option>
-        <option value="lower_heat">하형온도</option>
-        <option value="upper1_temp">상금형1</option>
-        <option value="upper2_temp">상금형2</option>
-        <option value="upper3_temp">상금형3</option>
-        <option value="upper4_temp">상금형4</option>
-        <option value="upper5_temp">상금형5</option>
-        <option value="upper6_temp">상금형6</option>
-        <option value="lower1_temp">하금형1</option>
-        <option value="lower2_temp">하금형2</option>
-        <option value="lower3_temp">하금형3</option>
-    </select>
-    <script>
-        $('select[name=item_type]').val('<?=$item_type?>');
-        $(document).on('change','select[name=item_type]',function(e){
-            $('.btn_search').trigger('click');
-        });
-    </script>
     <input type="hidden" name="dta_minsec" value="<?=$dta_minsec?>" id="dta_minsec" class="frm_input" style="width:20px;">
     <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
     <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
@@ -89,14 +60,19 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
     <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" class="frm_input" autocomplete="off" style="width:80px;">
     <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;">
     <button type="submit" class="btn btn_01 btn_search">확인</button>
+
+    <div class="div_btn_add" style="float:right;display:no ne;">
+        <a href="./data_graph_add.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_03 btn_add_chart"><i class="fa fa-bar-chart"></i>불러오기</a>
+        <a href="javascript:alert('설정된 그래프를 대시보드로 내보냅니다.');" class="btn btn_03 btn_add_dash" style="display:none;"><i class="fa fa-line-chart"></i> 내보내기</a>
+    </div>
 </form>
 
 <div id="graph_wrapper">
 
     <div class="graph_wrap">
         <!-- 차트 -->
-        <div id="chart1" style="position:relative;width:100%; height:500px;">
-            <div class="chart_empty">그래프 불러오는 중..</div>
+        <div id="chart1" style="position:relative;width:100%; height:500px;line-height:300px;text-align:center;border:solid 1px #ddd;">
+            그래프를 추가하세요.
         </div>
     </div><!-- .graph_wrap -->
 
@@ -167,6 +143,26 @@ Highcharts.getJSON(g5_url+'/device/rdb/shot_sub.multi.php?<?=$qs?>', function(da
             }
         }]
     });
+});
+
+// 그래프 불러오기
+$(document).on('click','.btn_add_chart',function(e){
+    e.preventDefault();
+    var frm = $('#fsearch');
+    var com_idx = '<?=$com['com_idx']?>';
+    var mms_idx = '<?=$mms['mms_idx']?>';
+    var st_date = frm.find('#st_date').val() || '';
+    var st_time = frm.find('#st_time').val() || '';
+    var en_date = frm.find('#en_date').val() || '';
+    var en_time = frm.find('#en_time').val() || '';
+    if(st_date==''||en_date=='') {
+        alert('검색 날짜를 입력하세요.');
+    }
+    else {
+        var href = $(this).attr('href');
+        winAddChart = window.open(href+'&com_idx='+com_idx+'&sch_field=mms_idx&sch_word='+mms_idx+'&st_date='+st_date+'&st_time='+st_time+'&en_date='+en_date+'&en_time='+en_time,"winAddChart","left=100,top=100,width=520,height=600,scrollbars=1");
+        winAddChart.focus();
+    }
 });
 </script>
 
