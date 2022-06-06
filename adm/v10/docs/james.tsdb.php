@@ -1,3 +1,11 @@
+pgAdmin..
+..................................................................................
+SELECT * FROM g5_1_cast_shot_pressure ORDER BY event_time DESC LIMIT 100;
+SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100;
+
+
+..................................................................................
+
 CREATE TABLE `g5_1_cast_shot` (
   `csh_idx` bigint(20) NOT NULL,
   `shot_id` int(11) NOT NULL COMMENT '샷ID',
@@ -541,3 +549,12 @@ delete FROM g5_1_charge_in WHERE chi_idx = 34089;
 
 now program for auto input.
 ====================================================
+
+UPDATE g5_1_cast_shot_sub AS css SET
+  machine_id = coalesce((SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = css.shot_id),0)
+WHERE event_time > '2022-05-01 00:00:00'
+....
+UPDATE g5_1_cast_shot_pressure AS csp SET
+  machine_id = coalesce((SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = csp.shot_id),0)
+WHERE event_time > '2022-05-01 00:00:00'
+....

@@ -16,6 +16,10 @@ if(preg_match("/_graph$/",$g5['file_name'])) {
     $fname = preg_replace("/_graph/","_list",$g5['file_name']);
     ${'active_'.$fname} = ' btn_top_menu_active';
 }
+else if(preg_match("/_multi$/",$g5['file_name'])) {
+    $fname = preg_replace("/_multi/","_list",$g5['file_name']);
+    ${'active_'.$fname} = ' btn_top_menu_active';
+}
 
 $g5['container_sub_title'] = '
 <h2 id="container_sub_title">

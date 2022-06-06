@@ -119,7 +119,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
-    $skips = array('csp_idx');
+    $skips = array('csp_idx','machine_id','shot_no');
     for($j=0;$j<sizeof($fields2);$j++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
@@ -130,6 +130,18 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수 재선언 (or 생성)
     // $sql_commons[$i][] = " trm_idx_department = '".$mb2['mb_2']."' ";
+
+    // machine_id 추출
+    $sql2 = "   SELECT machine_id, shot_no FROM g5_1_cast_shot WHERE shot_id = '".$arr['shot_id']."' ";
+    $csh = sql_fetch($sql2,1);
+    $sql_commons[$i][] = " machine_id = '".$csh['machine_id']."' ";
+    $sql_field_arr[$i][] = " machine_id ";  // for timescaleDB
+    $sql_value_arr[$i][] = " '".$csh['machine_id']."' ";    // for timescaleDB
+    $sql_field_arr[$i][] = " shot_no ";  // for timescaleDB
+    $sql_value_arr[$i][] = " '".$csh['shot_no']."' ";    // for timescaleDB
+    // print_r2($sql_field_arr[$i]);
+    // print_r2($sql_value_arr[$i]);
+    // exit;
 
     // 최종 변수 생성
     $sql_text[$i] = (is_array($sql_commons[$i])) ? implode(",",$sql_commons[$i]) : '';

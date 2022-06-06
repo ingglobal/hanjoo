@@ -9,6 +9,7 @@
 // http://icmms.co.kr/device/json/error.php?token=1099de5drf09&mms_idx=1&dta_group=err&dta_value_type=count&shf_no=1&dta_code=M0101&dta_item=minute&dta_unit=10&&st_date=2020-04-29&st_time=10:00:00&end_date=2020-04-30&end_time=23:59:59
 // 조건을 바꾸어 보세요.
 // http://icmms.co.kr/device/json/error.php?token=1099de5drf09&mms_idx=2&dta_group=err&shf_no=1&dta_code=M0101&dta_item=minute&dta_unit=10&&st_date=2020-04-29&st_time=10:00:00&end_date=2020-04-30&end_time=23:59:59
+// http://icmms.co.kr/device/json/measure.php?token=1099de5drf09&mms_idx=1&dta_group=mea&shf_no=&dta_mmi_no=&dta_type=3&dta_no=16&dta_defect=0,1&dta_defect_type=0&dta_code=&dta_item=minute&dta_unit=60&st_date=2022-06-03&st_time=12:29:04&en_date=2022-06-05&en_time=15:07:12&graph_name=F1.%EB%8B%A4%EC%9D%B4%20%EC%BF%A0%EC%85%98%20%EB%AA%A8%ED%84%B0%EC%A0%84%EB%A5%98&graph_id=bWVhc3VyZV9tZWFfMV8zXzE2X19fMCwxXzBf&mbd_idx=1172
 header("Content-Type: text/plain; charset=utf-8");
 include_once('./_common.php');
 if(isset($_SERVER['HTTP_ORIGIN'])){

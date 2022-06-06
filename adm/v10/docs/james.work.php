@@ -737,9 +737,39 @@ WHERE shot_id IN (
 );
 
 
+
+
 // get the last time of shot_sub data.
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 1;
 SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 1;
 
 // get the last time of shot data.
 SELECT * FROM g5_1_cast_shot ORDER BY csh_idx DESC LIMIT 1;
+
+SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = '428514';
+
+UPDATE g5_1_cast_shot_sub AS css SET
+  machine_id = (SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = css.shot_id )
+WHERE event_time > '2022-06-04 04:51:26'
+.....
+UPDATE g5_1_cast_shot_sub AS css SET
+  machine_id = IFNULL((SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = css.shot_id),0)
+WHERE event_time > '2022-05-01 00:00:00'
+....
+UPDATE g5_1_cast_shot_pressure AS csp SET
+  machine_id = IFNULL((SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = csp.shot_id),0)
+WHERE event_time > '2022-05-01 00:00:00'
+....
+UPDATE g5_1_cast_shot_sub AS css SET
+  shot_no = IFNULL((SELECT shot_no FROM g5_1_cast_shot WHERE shot_id = css.shot_id),0)
+WHERE event_time > '2022-05-01 00:00:00'
+....
+UPDATE g5_1_cast_shot_pressure AS csp SET
+shot_no = IFNULL((SELECT shot_no FROM g5_1_cast_shot WHERE shot_id = csp.shot_id),0)
+WHERE event_time > '2022-05-01 00:00:00'
+....
+
+
+SELECT work_date, shot_no FROM g5_1_cast_shot
+WHERE work_date = '2022-06-02'
+ORDER BY shot_no DESC LIMIT 1

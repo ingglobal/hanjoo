@@ -103,15 +103,14 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
 </div><!-- #graph_wrapper -->
 
 <div class="btn_fixed_top" style="display:no ne;">
-    <a href="./tsdb_shot_sub_multi.php" class="btn_04 btn">겹쳐보기</a>
+    <a href="./tsdb_shot_sub_graph.php" class="btn_04 btn">단일그래프</a>
     <a href="./chart1.php" class="btn_04 btn" style="display:none;">모니터링</a>
 </div>
 
 
 <script>
 // Detail graph
-// Highcharts.getJSON('http://hanjoo.epcs.co.kr/php/hanjoo/device/json/usdeur.json?st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14', function(data) {
-Highcharts.getJSON(g5_url+'/device/rdb/shot_sub.php?<?=$qs?>', function(data) {
+Highcharts.getJSON(g5_url+'/device/rdb/shot_sub.multi.php?<?=$qs?>', function(data) {
 
     var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
         minRate = 1,
