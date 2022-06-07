@@ -59,6 +59,27 @@ if ($config['cf_sms_use'] && $config['cf_icode_id'] && $config['cf_icode_pw']) {
 			</td>
 		</tr>
 		<tr>
+			<th scope="row">모니터별업로드이미지개수</th>
+			<td colspan="3">
+				<?php echo help('예) 3 : 최대 3장 업로드 가능') ?>
+				<input type="text" name="set_monitor_cnt" value="<?php echo $g5['setting']['set_monitor_cnt'] ?>" id="set_monitor_cnt" required class="required frm_input" style="width:60%;">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">모니터이미지로테이션시간</th>
+			<td colspan="3">
+				<?php echo help('예) 3000 : 3초') ?>
+				<input type="text" name="set_monitor_time" value="<?php echo $g5['setting']['set_monitor_time'] ?>" id="set_monitor_time" required class="required frm_input" style="width:60%;">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">모니터페이지리로딩간격시간</th>
+			<td colspan="3">
+				<?php echo help('예) 10000 : 10초') ?>
+				<input type="text" name="set_monitor_reload" value="<?php echo $g5['setting']['set_monitor_reload'] ?>" id="set_monitor_reload" required class="required frm_input" style="width:60%;">
+			</td>
+		</tr>
+		<tr>
 			<th scope="row">분류(카테고리) terms</th>
 			<td colspan="3">
 				<?php echo help('') ?>
@@ -394,6 +415,26 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
 			<td colspan="3">
 				<?php echo help('electricity=전기, consumable=소모품, oil=장비유류대, worker=현장작업자, engineer=장비기사'); ?>
 				<input type="text" name="set_csc_type" value="<?php echo $g5['setting']['set_csc_type']; ?>" class="frm_input" style="width:70%;">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">BOM타입</th>
+			<td colspan="3">
+				<?php echo help('product=완성품,half=반제품,material=자재'); ?>
+				<input type="text" name="set_bom_type" value="<?php echo $g5['setting']['set_bom_type']; ?>" class="frm_input" style="width:70%;">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">BOM구성 표시</th>
+			<td colspan="3">
+				<?php echo help('제품사양 정보 목록에서 BOM 구조를 표시할 BOM타입을 입력하세요. 쉼표로 구분하고 영문만 입력하세요. ex)product,half '); ?>
+				<input type="text" name="set_bom_type_display" value="<?php echo $g5['setting']['set_bom_type_display']; ?>" class="frm_input" style="width:70%;">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">BOM상태</th>
+			<td colspan="3">
+				<input type="text" name="set_bom_status" value="<?php echo $g5['setting']['set_bom_status']; ?>" class="frm_input" style="width:70%;">
 			</td>
 		</tr>
         <tr>

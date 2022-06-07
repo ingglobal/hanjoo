@@ -858,4 +858,81 @@ function send_kosmo_log(){
 	$data = json_decode($result, true);
 }
 }
+
+// update bom_price_history
+// bom_idx, bom_start_date, bom_price
+if(!function_exists('bom_price_history')){
+function bom_price_history($arr) {
+    global $g5;
+
+    // Update price table info. Update for same price and date, Insert for not existing.
+    $sql = "SELECT * FROM {$g5['bom_price_table']}
+        WHERE bom_idx = '".$arr['bom_idx']."'
+            AND bop_start_date = '".$arr['bom_start_date']."'
+    ";
+    $bop = sql_fetch($sql,1);
+    if($bop['bop_idx']) {
+        $sql = "UPDATE {$g5['bom_price_table']} SET
+                    bop_price = '".$arr['bom_price']."',
+                    bop_start_date = '".$arr['bom_start_date']."',
+                    bop_update_dt = '".G5_TIME_YMDHIS."'
+                WHERE bop_idx = '".$bop['bop_idx']."'
+        ";
+        sql_query($sql,1);
+    }
+    else {
+        $sql = " INSERT INTO {$g5['bom_price_table']} SET
+                    bom_idx = '".$arr['bom_idx']."',
+                    bop_price = '".$arr['bom_price']."',
+                    bop_start_date = '".$arr['bom_start_date']."',
+                    bop_reg_dt = '".G5_TIME_YMDHIS."',
+                    bop_update_dt = '".G5_TIME_YMDHIS."'
+        ";
+        sql_query($sql,1);
+        $bop['bop_idx'] = sql_insert_id();
+    }
+
+    return $bop['bop_idx'];
+}
+}
+
+// set the today's proper price according the date registered in the bom_price table.
+if(!function_exists('set_bom_price')){
+function set_bom_price($bom_idx) {
+    global $g5;
+
+    // get the latest price info and update the mms_item table info.
+    $sql = "UPDATE {$g5['bom_table']} AS bom SET
+                    bom_price = (
+                        SELECT bop_price
+                        FROM {$g5['bom_price_table']}
+                        WHERE bom_idx = bom.bom_idx
+                            AND bop_start_date <= '".G5_TIME_YMD."'
+                        ORDER BY bop_start_date DESC
+                        LIMIT 1
+                    )
+                WHERE bom_idx = '".$bom_idx."' AND bom_status NOT IN ('delete','trash')
+    ";
+    sql_query($sql,1);
+
+}
+}
+
+// get the today's proper price according the date registered in the bom_price table.
+if(!function_exists('get_bom_price')){
+function get_bom_price($bom_idx) {
+    global $g5;
+
+    $sql = "SELECT bop_price
+            FROM {$g5['bom_price_table']}
+            WHERE bom_idx = '".$bom_idx."'
+                AND bop_start_date <= '".G5_TIME_YMD."'
+            ORDER BY bop_start_date DESC
+            LIMIT 1
+    ";
+    $row = sql_fetch($sql,1);
+    return (int)$row['bop_price'];
+
+}
+}
 ?>

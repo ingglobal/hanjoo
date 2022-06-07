@@ -122,6 +122,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 <input type="hidden" name="sod" value="<?php echo $sod ?>">
 <input type="hidden" name="page" value="<?php echo $page ?>">
 <input type="hidden" name="token" value="">
+<input type="hidden" name="com_idx" value="<?=$_SESSION['ss_com_idx']?>">
 <input type="hidden" name="ser_trm_idxs" value="<?php echo $ser_trm_idxs ?>">
 <input type="hidden" name="mb_4" value="<?php echo $mb['mb_4'] ?>">
 
@@ -177,7 +178,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
             ?>
             <select name="mb_3" id="mb_3" title="직급선택">
 				<option value="">직급선택</option>
-                <?php echo get_set_options_select('set_mb_ranks',1, 200, $row['cmm']['cmm_title'], $sub_menu) ?>
+                <?=$g5['set_mb_ranks_value_options']?>
 			</select>
 			<script>$('select[name=mb_3]').val('<?=$row['cmm']['cmm_title']?>').attr('selected','selected');</script>
 		</td>

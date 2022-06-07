@@ -46,7 +46,6 @@ $sql_common = "  mb_name = '{$_POST['mb_name']}',
                  mb_addr_jibeon = '{$_POST['mb_addr_jibeon']}',
                  mb_memo = '{$_POST['mb_memo']}',
                  mb_1 = '{$_POST['mb_1']}',
-                 mb_4 = '{$_POST['mb_4']}',
                  mb_5 = '{$_POST['mb_5']}',
                  mb_6 = '{$_POST['mb_6']}'
 ";
@@ -63,6 +62,7 @@ if ($w == '') {
             mb_ip = '{$_SERVER['REMOTE_ADDR']}', 
             mb_level = 4, 
             mb_email_certify = '".G5_TIME_YMDHIS."',
+            mb_4 = '{$_SESSION['ss_com_idx']}', 
             {$sql_common}
     ";
     sql_query($sql,1);
@@ -120,12 +120,12 @@ else
 
 
 // 직함 업데이트
-$sql_common = " com_idx = '".$_POST['mb_4']."'
+$sql_common = " com_idx = '".$_SESSION['ss_com_idx']."'
                 , cmm_title = '".$_POST['mb_3']."'
 ";
 $sql = "SELECT * FROM {$g5['company_member_table']}
         WHERE mb_id = '".$mb_id."'
-            AND com_idx = '".$_POST['mb_4']."'
+            AND com_idx = '".$_SESSION['ss_com_idx']."'
             AND cmm_status = 'ok'
 ";
 $cmm1 = sql_fetch($sql,1);
