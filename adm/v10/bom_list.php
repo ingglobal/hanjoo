@@ -151,16 +151,7 @@ $qstr .= '&sca='.$sca.'&ser_bom_type='.$ser_bom_type; // 추가로 확장해서 
         </th>
         <th scope="col"><?php echo subject_sort_link('bom_name') ?>품명</a></th>
         <th scope="col">파트넘버</th>
-        <th scope="col">고객처</th>
-        <th scope="col">공급처</th>
         <th scope="col">카테고리</th>
-        <th scope="col">단가</th>
-        <th scope="col">재료비</th>
-        <th scope="col">재료비율</th>
-        <!--
-        <th scope="col">평균리드타임</th>
-        <th scope="col">알림개수</th>
-        -->
         <th scope="col">타입</th>
         <th scope="col">관리</th>
     </tr>
@@ -238,19 +229,7 @@ $qstr .= '&sca='.$sca.'&ser_bom_type='.$ser_bom_type; // 추가로 확장해서 
             <input type="hidden" name="bom_part_no[<?php echo $i ?>]" value="<?php echo $row['bom_part_no'] ?>">
             <?=$row['bom_part_no']?>
         </td><!-- 파트넘버 -->
-        <td class="td_com_name"><?=$com_c['com_name']?></td><!-- 고객처/공급처 -->
-        <td class="td_bom_maker"><?=$com_p['com_name']?></td><!-- 메이커 -->
         <td class="td_bct_name"><?=$row['bct_name_tree']?></td><!-- 카테고리 -->
-        <td class="td_bom_price">
-            <label for="price_<?php echo $i; ?>" class="sound_only">단가</label>
-            <input type="text" name="bom_price[<?php echo $i; ?>]" value="<?=number_format($row['bom_price'])?>" id="price_<?php echo $i; ?>" class="tbl_input sit_amt" style="width:100px;" onClick="javascript:chk_Number(this)">
-        </td>
-        <td class="td_bom_material_price"><!-- 재료비 -->
-            <?=$row['bom_price_material_text']?>
-        </td>
-        <td class="td_bom_profit"><!-- 마진율 -->
-            <?=$row['bom_profit_ratio']?>
-        </td>
         <td class="td_bom_type"><?=$g5['set_bom_type_value'][$row['bom_type']]?></td><!-- 타입 -->
         <td class="td_mng">
             <?=(($row['bom_type']!='material')?$s_bom:'')?><!-- 자재가 아닌 경우만 BOM 버튼 -->
@@ -263,7 +242,7 @@ $qstr .= '&sca='.$sca.'&ser_bom_type='.$ser_bom_type; // 추가로 확장해서 
         <td class="td_bom_items_title">
             자재 (구성품)
         </td>
-        <td class="td_bom_items" colspan="11">
+        <td class="td_bom_items" colspan="4">
             <?php
             if(is_array($row['parts_list'])) {
                 echo implode(" ",$row['parts_list']);
@@ -277,7 +256,7 @@ $qstr .= '&sca='.$sca.'&ser_bom_type='.$ser_bom_type; // 추가로 확장해서 
     <?php
     }
     if ($i == 0)
-        echo "<tr><td colspan='11' class=\"empty_table\">자료가 없습니다.</td></tr>";
+        echo "<tr><td colspan='6' class=\"empty_table\">자료가 없습니다.</td></tr>";
     ?>
     </tbody>
     </table>
