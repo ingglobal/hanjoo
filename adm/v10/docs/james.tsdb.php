@@ -4,6 +4,11 @@ SELECT * FROM g5_1_cast_shot_pressure ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot ORDER BY start_time DESC LIMIT 100;
 
+SELECT * FROM pg_stat_activity ORDER BY query_start ASC;
+SELECT pg_cancel_backend(31956);
+
+DELETE FROM g5_1_cast_shot_sub WHERE event_time > '2022-06-04 00:00:00'
+DELETE FROM g5_1_cast_shot_pressure WHERE event_time > '2022-06-04 00:00:00'
 
 ..................................................................................
 
@@ -553,9 +558,10 @@ now program for auto input.
 
 UPDATE g5_1_cast_shot_sub AS css SET
   machine_id = coalesce((SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = css.shot_id),0)
-WHERE event_time > '2022-05-01 00:00:00'
+WHERE event_time > '2022-06-01 00:00:00'
 ....
 UPDATE g5_1_cast_shot_pressure AS csp SET
   machine_id = coalesce((SELECT machine_id FROM g5_1_cast_shot WHERE shot_id = csp.shot_id),0)
-WHERE event_time > '2022-05-01 00:00:00'
+WHERE event_time > '2022-06-01 00:00:00'
 ....
+

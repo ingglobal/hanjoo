@@ -173,14 +173,14 @@ include_once('./_head.sub.php');
                             , MAX(upper_1_temp) AS upper_1_temp_max, MAX(upper_2_temp) AS upper_2_temp_max, MAX(upper_3_temp) AS upper_3_temp_max, MAX(upper_4_temp) AS upper_4_temp_max, MAX(upper_5_temp) AS upper_5_temp_max, MAX(upper_6_temp) AS upper_6_temp_max
                             , MAX(lower_1_temp) AS lower_1_temp_max, MAX(lower_2_temp) AS lower_2_temp_max, MAX(lower_3_temp) AS lower_3_temp_max
                         FROM g5_1_cast_shot_sub
-                        WHERE event_time >= '".$start_dt."' AND event_time >= '".$end_dt."'
+                        WHERE event_time >= '".$start_dt."' AND event_time <= '".$end_dt."'
                             AND machine_id = '".$row['mms_idx2']."'
                         GROUP BY machine_id
             ";
             // echo $sql1.'<br>';
-            // $stmt = sql_query_ps($sql1,1);
-            // for ($j=0; $row1=$stmt->fetch(PDO::FETCH_ASSOC); $j++) {
-            $one[$i] = sql_fetch($sql1,1);
+            $stmt = sql_query_ps($sql1,1);
+            $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
+            // $one[$i] = sql_fetch($sql1,1);
             // print_r2($one[$i]);
             if(is_array($one[$i])) {
                 foreach($one[$i] as $k1=>$v1) {
@@ -203,17 +203,41 @@ include_once('./_head.sub.php');
                                         .'>'.$one[$i]['dta_label'].'</span>';
                 }
             }
-            // for ($j=0; $row1=sql_fetch_array($rs1); $j++) {
-            //     // print_r2($row1);
     
+            // 해당 기간 압력값 추출
+            $sql1 = "   SELECT machine_id, MAX(detect_pressure) AS detect_pressure_max, MAX(target_pressure) AS target_pressure_max
+                            , MAX(control_pressure) AS control_pressure_max
+                            , MAX(deviation_pressure) AS deviation_pressure_max
+                        FROM g5_1_cast_shot_pressure
+                        WHERE event_time >= '".$start_dt."' AND event_time <= '".$end_dt."'
+                            AND machine_id = '".$row['mms_idx2']."'
+                        GROUP BY machine_id
+            ";
+            // echo $sql1.'<br>';
+            $stmt = sql_query_ps($sql1,1);
+            $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            //     // 차트(그래프) 항목 배열
-            //     $row['charts'][] = '<span class="btn_mesaure" mms_idx="'.$row['mms_idx'].'" mms_name="'.$row['mms_name'].'" '
-            //                         .'mms_data_url="'.$row['mms_data_url'].'" '
-            //                         .'dta_type="'.$row1['dta_type'].'" dta_no="'.$row1['dta_no'].'" '
-            //                         .'graph_name="'.$row1['dta_label'].'" '
-            //                         .'>'.$row1['dta_label'].'</span>';
-            // }
+            // $one[$i] = sql_fetch($sql1,1);
+            // print_r2($one[$i]);
+            if(is_array($one[$i])) {
+                foreach($one[$i] as $k1=>$v1) {
+                    if($k1=='machine_id') {continue;} // 건너뛰는 필드
+                    if(!$v1) {continue;} // 값이 없으면(제로) 건너뜀
+                    // echo $k1.'/'.$v1.'<br>';
+                    $one[$i]['data_name_code'] = preg_replace("/_max/","",$k1);
+                    $one[$i]['data_name_text'] = $g5['set_data_name_value'][$one[$i]['data_name_code']];
+                    // 레이블값
+                    $one[$i]['dta_label'] = $one[$i]['data_name_text'] ? $one[$i]['data_name_text'] : $k1;
+                    // echo $one[$i]['dta_label'].'<br>';
+                    // 차트(그래프) 항목 배열
+                    $row['charts'][] = '<span class="btn_mesaure" mms_idx="'.$row['mms_idx'].'" mms_name="'.$row['mms_name'].'" '
+                                        .'mms_data_url="'.$row['mms_data_url'].'" '
+                                        .'dta_type="'.$one[$i]['data_name_code'].'" dta_no="'.$row1['dta_no'].'" '
+                                        .'graph_name="'.$one[$i]['data_name_text'].'" '
+                                        .'>'.$one[$i]['dta_label'].'</span>';
+                }
+            }
+    
         ?>
         <tr>
             <td>
@@ -301,10 +325,10 @@ $(function() {
     });
 
     // 측정그래프 추가
-    $('.btn_mesaure').click(function(e){
+    $(document).on('click','.btn_mesaure',function(e){
         e.preventDefault();
         dta_group = "mea";  // mea, product, run, error
-        dta_json_file = "measure";
+        dta_json_file = "shot_sub.multi";
         dta_data_url = $(this).attr('mms_data_url') || "<?=$g5['set_data_url']?>";
         mms_idx = $(this).attr('mms_idx');
         mms_name = encodeURIComponent($(this).attr('mms_name'));
@@ -318,177 +342,31 @@ $(function() {
         graph_name = encodeURIComponent($(this).attr('graph_name'));
         $('#spinner').show();
 
-        <?php
-        // 측정 그래프 (실측)
-        if($file_name=='data_measure_real_chart'||$file_name=='dashboard_graph_multi_real') {
-        ?>
-            setTimeout(function(e){
-                $("input[name=mms_idx]", opener.document).val( mms_idx );
-                $("input[name=dta_type]", opener.document).val( dta_type );
-                $("input[name=dta_no]", opener.document).val( dta_no );
-                $("#fsearch button[type=submit]", opener.document).trigger('click');
-                window.close();
-            },100);
-        <?php
+        // get graphs attribute for graph info from opener chart div
+        if( $("#chart1", opener.document).attr("graphs") != undefined ) {
+            graphs =  JSON.parse( $("#chart1", opener.document).attr("graphs") );
+            for(i=0;i<graphs.length;i++) {
+                graphs2[i] = graphs[i];
+            }
         }
-        // 측정 그래프 (정주기)
-        else if($file_name=='data_measure_chart'||$file_name=='dashboard_graph_multi'
-                ||$file_name=='dashboard_graph_multi2'
-                ||$file_name=='iframe.graph'||$file_name=='iframe.graph5') {
-        ?>
-
-            // get graphs attribute for graph info from opener chart div
-            if( $("#chart1", opener.document).attr("graphs") != undefined ) {
-                graphs =  JSON.parse( $("#chart1", opener.document).attr("graphs") );
-                for(i=0;i<graphs.length;i++) {
-                    graphs2[i] = graphs[i];
-                }
+        var chr_idx = graphs2.length; // graph count
+        var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
+        for(i=0;i<graphs2.length;i++) {
+            // console.log(i);
+            // console.log(graphs[i].dta_data_url);
+            if( graph_id1 == graphs2[i].graph_id) {
+                chr_idx = i;
             }
-            var chr_idx = graphs2.length; // graph count
-            var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
-            for(i=0;i<graphs2.length;i++) {
-                // console.log(i);
-                // console.log(graphs[i].dta_data_url);
-                if( graph_id1 == graphs2[i].graph_id) {
-                    chr_idx = i;
-                }
-            }
-            // console.log(chr_idx);
-            applyGraphs(chr_idx);
-
-            $("#fsearch button[type=submit]", opener.document).trigger('click');
-            setTimeout(function(e){
-                console.log( $("#chart1", opener.document).attr("graphs") );
-                window.close();
-            }, 400);
-        <?php
         }
-        ?>
-    });
+        // console.log(chr_idx);
+        applyGraphs(chr_idx);
 
-    // 생산그래프 추가 (전제생산, 목표 등 여러 그래프를 함께 입력함)
-    $('.btn_product').click(function(e){
-        e.preventDefault();
-        $('#spinner').show();
+        $("#fsearch button[type=submit]", opener.document).trigger('click');
+        setTimeout(function(e){
+            console.log( $("#chart1", opener.document).attr("graphs") );
+            window.close();
+        }, 400);
 
-        <?php
-        if($file_name=='data_measure_chart'||$file_name=='dashboard_graph_multi'
-                ||$file_name=='dashboard_graph_multi2'
-                ||$file_name=='iframe.graph'||$file_name=='iframe.graph5') {
-        ?>
-
-            // 전제 생산량 (합격+불량) --------------------------------
-            dta_group = "product";  // mea, product, run, error
-            dta_json_file = "output";
-            dta_data_url = $(this).attr('mms_data_url') || "<?=$g5['set_data_url']?>";
-            mms_idx = $(this).attr('mms_idx');
-            mms_name = encodeURIComponent($(this).attr('mms_name'));
-            dta_type = 0;  // 
-            dta_no = 0;    // 
-            shf_no = "";
-            dta_mmi_no = "";
-            dta_defect = "0,1"; // 생산전체(합격, 불량 둘다)
-            dta_defect_type = 0;
-            dta_code = "";
-            graph_type = "column";  // column graph for output
-            graph_line = "solid";
-            graph_name = encodeURIComponent("생산");
-
-            // get graphs attribute for graph info from opener chart div
-            if( $("#chart1", opener.document).attr("graphs") != undefined ) {
-                graphs =  JSON.parse( $("#chart1", opener.document).attr("graphs") );
-                for(i=0;i<graphs.length;i++) {
-                    graphs2[i] = graphs[i];
-                }
-            }
-            var chr_idx = graphs2.length; // graph count
-            var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
-            for(i=0;i<graphs2.length;i++) {
-                if( graph_id1 == graphs2[i].graph_id) {
-                    chr_idx = i;
-                }
-            }
-            applyGraphs(chr_idx);
-
-            // 생산량 (불량) --------------------------------
-            // 중복값은 선언할 필요 없음
-            dta_defect = "1"; // 불량만
-            graph_name = encodeURIComponent("불량");
-
-            // get graphs attribute for graph info from opener chart div
-            if( $("#chart1", opener.document).attr("graphs") != undefined ) {
-                graphs =  JSON.parse( $("#chart1", opener.document).attr("graphs") );
-                for(i=0;i<graphs.length;i++) {
-                    graphs2[i] = graphs[i];
-                }
-            }
-            var chr_idx = graphs2.length; // graph count
-            var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
-            for(i=0;i<graphs2.length;i++) {
-                if( graph_id1 == graphs2[i].graph_id) {
-                    chr_idx = i;
-                }
-            }
-            applyGraphs(chr_idx);
-
-            // 목표 ---------------------------------------------
-            // 중복값은 선언할 필요 없음
-            dta_json_file = "output.target";
-            dta_data_url = "<?=strip_http(G5_ADMIN_URL)?>/v10/ajax";
-            graph_type = "spline";
-            graph_line = "shortdot";    // 점선
-            graph_name = encodeURIComponent("목표");
-
-            // get graphs attribute for graph info from opener chart div
-            if( $("#chart1", opener.document).attr("graphs") != undefined ) {
-                graphs =  JSON.parse( $("#chart1", opener.document).attr("graphs") );
-                for(i=0;i<graphs.length;i++) {
-                    graphs2[i] = graphs[i];
-                }
-            }
-            var chr_idx = graphs2.length; // graph count
-            var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
-            for(i=0;i<graphs2.length;i++) {
-                if( graph_id1 == graphs2[i].graph_id) {
-                    chr_idx = i;
-                }
-            }
-            applyGraphs(chr_idx);
-
-
-            // 가동시간 ---------------------------------------------
-            dta_group = "run";  // mea, product, run, error
-            dta_json_file = "run";
-            dta_data_url = $(this).attr('mms_data_url') || "<?=$g5['set_data_url']?>";
-            graph_type = "spline";
-            graph_line = "solid";    // 실선
-            graph_name = encodeURIComponent("가동시간(분)");
-
-            // get graphs attribute for graph info from opener chart div
-            if( $("#chart1", opener.document).attr("graphs") != undefined ) {
-                graphs =  JSON.parse( $("#chart1", opener.document).attr("graphs") );
-                for(i=0;i<graphs.length;i++) {
-                    graphs2[i] = graphs[i];
-                }
-            }
-            var chr_idx = graphs2.length; // graph count
-            var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
-            for(i=0;i<graphs2.length;i++) {
-                if( graph_id1 == graphs2[i].graph_id) {
-                    chr_idx = i;
-                }
-            }
-            applyGraphs(chr_idx);
-
-            // 전체 그래프 호출
-            $("#fsearch button[type=submit]", opener.document).trigger('click');
-            setTimeout(function(e){
-                console.log( $("#chart1", opener.document).attr("graphs") );
-                window.close();
-            }, 400);
-        <?php
-        }
-        ?>
     });
 
 });
