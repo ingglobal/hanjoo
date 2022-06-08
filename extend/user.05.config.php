@@ -64,3 +64,9 @@ $g5['alarm_send_table']             = NEW_TABLE_PREFIX.'alarm_send';
 $g5['alarm_tag_table']              = NEW_TABLE_PREFIX.'alarm_tag';
 $g5['alarm_tag_send_table']         = NEW_TABLE_PREFIX.'alarm_tag_send';
 $g5['cost_config_table']            = NEW_TABLE_PREFIX.'cost_config';
+
+$g5['bom_table']                = NEW_TABLE_PREFIX.'bom';
+$g5['bom_category_table']       = NEW_TABLE_PREFIX.'bom_category';
+$g5['bom_price_table']          = NEW_TABLE_PREFIX.'bom_price';
+$g5['bom_backup_table']         = NEW_TABLE_PREFIX.'bom_backup';
+$g5['bom_item_table']           = NEW_TABLE_PREFIX.'bom_item';

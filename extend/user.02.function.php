@@ -1244,6 +1244,134 @@ function upload_common_file($srcfile, $destfile, $dir)
 }
 }
 
+//멀티일반파일(이미지가 아닌 파일[복수파일])업로드
+//인수(1:파일배열, )
+if(!function_exists('upload_multi_file')){
+function upload_multi_file($_files=array(),$tbl='',$idx=0,$fle_type=''){
+	global $g5,$config,$member;
+	//echo count($_files['name']);
+	$f_flag = (!count($_files['name']) || !$_files['name'][0]) ? false : true;
+	if($f_flag){
+		for($i=0;$i<count($_files['name']);$i++) {
+			if ($_files['name'][$i]) {
+				$upfile_info = upload_insert_file(array("fle_idx"=>$fle_idx
+									,"mb_id"=>$member['mb_id']
+									,"fle_src_file"=>$_files['tmp_name'][$i]
+									,"fle_orig_file"=>$_files['name'][$i]
+									,"fle_mime_type"=>$_files['type'][$i]
+									,"fle_content"=>''
+									,"fle_path"=>'/data/'.$fle_type		//<---- 저장 디렉토리
+									,"fle_db_table"=>$tbl
+									,"fle_db_id"=>$idx
+									,"fle_type"=>$fle_type
+									,"fle_sort"=>$i
+				));
+				//print_r2($upfile_info);
+			}
+		}
+	}//if($f_flag)
+}
+}
+
+
+//fle_idx로 파일삭제하기
+if(!function_exists('delete_idx_file')) {
+function delete_idx_file($fle_idx_array=array()) {
+	global $g5;
+	//print_r2($fle_idx_array);
+	foreach($fle_idx_array as $k=>$v) {
+		$fr = sql_fetch(" SELECT fle_path, fle_name FROM {$g5['file_table']} WHERE fle_idx = '{$v}' ");
+		@unlink(G5_PATH.'/'.$fr['fle_path'].'/'.$fr['fle_name']);
+		delete_jt_file_thumbnail($fr['fle_path'], $fr['fle_name']);
+		sql_query(" DELETE FROM {$g5['file_table']} WHERE fle_idx = '{$v}' ");
+	}
+}
+}
+
+// Post File 업로드 함수
+//설정 변수: mb_id, fle_src_file, fle_orig_file, fle_mime_type, fle_path, fle_db_table, fle_db_id, fle_sort .... 
+if(!function_exists('upload_insert_file')){
+function upload_insert_file($fle_array){
+	global $g5,$config,$member;
+	
+	//-- 원본 파일명이 없으면 리턴 
+	if($fle_array['fle_orig_file'] == "") 
+		return false;
+	
+	//-- 파일명 재설정, 한글인 경우는 변경
+	$fle_array['fle_dest_file'] = preg_replace("/\s+/", "", $fle_array['fle_orig_file']);
+	$fle_array['fle_dest_file'] = preg_replace("/[#\&\+\-%@=\/\\:;,'\"\^`~\|\!\?\*\$#<>\(\)\[\]\{\}]/", "", $fle_array['fle_dest_file']);
+	$fle_array['fle_dest_file'] = preg_replace_callback(
+							"/[가-힣]+/",
+							create_function('$matches', 'return base64_encode($matches[0]);'),
+							$fle_array['fle_dest_file']);
+	$fle_array['fle_dest_file'] = preg_replace("/\+/", "", $fle_array['fle_dest_file']);	// 한글변환후 + 기호가 있으면 제거해야 함
+	$fle_array['fle_dest_file'] = preg_replace("/\//", "", $fle_array['fle_dest_file']);	// 한글변환후 / 기호가 있으면 제거해야 함
+	
+	// 상태값이 있으면 업데이트
+	if($fle_array['fle_status'])
+		$sql_status = ", fle_status='".$fle_array['fle_status']."' ";
+	else 
+		$sql_status = ", fle_status='ok' ";
+	// 파일의 mime_type 추출
+	if(!$fle_array['fle_mime_type']){
+		$fle_array['fle_mime_type'] = @mime_content_type2($fle_array['fle_orig_file']); 
+	}
+	//print_r2($fle_array);exit;
+	//-- 파일 업로드 처리
+	$upload_file = upload_common_file($fle_array['fle_src_file'], $fle_array['fle_dest_file'], $fle_array['fle_path']);
+	//print_r2($upload_file);
+
+	
+		
+	//-- pst_host 설정
+	$fle_array['fle_host'] = ($fle_array['fle_host']) ? $fle_array['fle_host']:'localhost'; 
+	
+	//-- pst_expire_date 설정
+	$fle_array['fle_expire_date'] = ($fle_array['fle_expire_date']) ? $fle_array['fle_expire_date']:'9999-12-31';
+	
+
+	$sql = " INSERT INTO {$g5['file_table']} SET
+					mb_id='$fle_array[mb_id]'
+					, fle_db_table='$fle_array[fle_db_table]'
+					, fle_db_id='$fle_array[fle_db_id]'
+					, fle_type='$fle_array[fle_type]'
+					, fle_host='$fle_array[fle_host]'
+					, fle_path='$fle_array[fle_path]'
+					, fle_name='".$upload_file[0]."'
+					, fle_name_orig='$fle_array[fle_orig_file]'
+					, fle_width='".$upload_file[1]."'
+					, fle_height='".$upload_file[2]."'
+					, fle_content='$fle_array[fle_content]'
+					, fle_password='$fle_array[fle_password]'
+					, fle_down_level='$fle_array[fle_down_level]'
+					, fle_down_max='$fle_array[fle_max]'
+					, fle_expire_date='$fle_array[fle_expire_date]'
+					, fle_sort='$fle_array[fle_sort]'
+					, fle_mime_type='$fle_array[fle_mime_type]'
+					, fle_filesize='".$upload_file[3]."'
+					, fle_token='$fle_array[fle_token]'
+					{$sql_status}
+					, fle_reg_dt='".G5_TIME_YMDHIS."' ";
+	sql_query($sql);
+	$fle_idx = sql_insert_id();
+
+	//$fle_return[0] = $upload_file[0];
+	//$fle_return[1] = $upload_file[1];
+	//$fle_return[2] = $upload_file[2];
+	//$fle_return[3] = $upload_file[3];
+	//$fle_return[4] = $pfl['fle_idx'];
+	//return $fle_return;
+	return array("upfile_name"=>$upload_file[0]
+					,"upfile_width"=>$upload_file[1]
+					,"upfile_height"=>$upload_file[2]
+					,"upfile_filesize"=>$upload_file[3]
+					,"upfile_fle_idx"=>$fle_idx
+					,"upfile_fle_sort"=>$fle_array['fle_sort']
+					);
+}
+}
+
 
 //--- 용여 관계 변수 저장 ---//
 //-- 관련 변수: tmr_db_table, tmr_db_key, trm_idx, tmr_db_id, dup_permit(1->복수허용)
@@ -1488,6 +1616,177 @@ function mime_content_type($filename) {
 }
 }
 
+// 파일의 mime_type 추출하는 함수
+if (!function_exists('mime_content_type2')) {
+function mime_content_type2($filename = '') {
+	$idx = explode( '.', $filename );
+	$count_explode = count($idx);
+	$idx = strtolower($idx[$count_explode-1]);
+	$mimet = array(
+		'ai' =>'application/postscript',
+		'aif' =>'audio/x-aiff',
+		'aifc' =>'audio/x-aiff',
+		'aiff' =>'audio/x-aiff',
+		'asc' =>'text/plain',
+		'atom' =>'application/atom+xml',
+		'avi' =>'video/x-msvideo',
+		'bcpio' =>'application/x-bcpio',
+		'bmp' =>'image/bmp',
+		'cdf' =>'application/x-netcdf',
+		'cgm' =>'image/cgm',
+		'cpio' =>'application/x-cpio',
+		'cpt' =>'application/mac-compactpro',
+		'crl' =>'application/x-pkcs7-crl',
+		'crt' =>'application/x-x509-ca-cert',
+		'csh' =>'application/x-csh',
+		'css' =>'text/css',
+		'dcr' =>'application/x-director',
+		'dir' =>'application/x-director',
+		'djv' =>'image/vnd.djvu',
+		'djvu' =>'image/vnd.djvu',
+		'doc' =>'application/msword',
+		'dtd' =>'application/xml-dtd',
+		'dvi' =>'application/x-dvi',
+		'dxr' =>'application/x-director',
+		'eps' =>'application/postscript',
+		'etx' =>'text/x-setext',
+		'ez' =>'application/andrew-inset',
+		'gif' =>'image/gif',
+		'gram' =>'application/srgs',
+		'grxml' =>'application/srgs+xml',
+		'gtar' =>'application/x-gtar',
+		'hdf' =>'application/x-hdf',
+		'hqx' =>'application/mac-binhex40',
+		'html' =>'text/html',
+		'html' =>'text/html',
+		'ice' =>'x-conference/x-cooltalk',
+		'ico' =>'image/x-icon',
+		'ics' =>'text/calendar',
+		'ief' =>'image/ief',
+		'ifb' =>'text/calendar',
+		'iges' =>'model/iges',
+		'igs' =>'model/iges',
+		'jpe' =>'image/jpeg',
+		'jpeg' =>'image/jpeg',
+		'jpg' =>'image/jpeg',
+		'js' =>'application/x-javascript',
+		'kar' =>'audio/midi',
+		'latex' =>'application/x-latex',
+		'm3u' =>'audio/x-mpegurl',
+		'man' =>'application/x-troff-man',
+		'mathml' =>'application/mathml+xml',
+		'me' =>'application/x-troff-me',
+		'mesh' =>'model/mesh',
+		'mid' =>'audio/midi',
+		'midi' =>'audio/midi',
+		'mif' =>'application/vnd.mif',
+		'mov' =>'video/quicktime',
+		'movie' =>'video/x-sgi-movie',
+		'mp2' =>'audio/mpeg',
+		'mp3' =>'audio/mpeg',
+		'mpe' =>'video/mpeg',
+		'mpeg' =>'video/mpeg',
+		'mpg' =>'video/mpeg',
+		'mpga' =>'audio/mpeg',
+		'ms' =>'application/x-troff-ms',
+		'msh' =>'model/mesh',
+		'mxu m4u' =>'video/vnd.mpegurl',
+		'nc' =>'application/x-netcdf',
+		'oda' =>'application/oda',
+		'ogg' =>'application/ogg',
+		'pbm' =>'image/x-portable-bitmap',
+		'pdb' =>'chemical/x-pdb',
+		'pdf' =>'application/pdf',
+		'pgm' =>'image/x-portable-graymap',
+		'pgn' =>'application/x-chess-pgn',
+		'php' =>'application/x-httpd-php',
+		'php4' =>'application/x-httpd-php',
+		'php3' =>'application/x-httpd-php',
+		'phtml' =>'application/x-httpd-php',
+		'phps' =>'application/x-httpd-php-source',
+		'png' =>'image/png',
+		'pnm' =>'image/x-portable-anymap',
+		'ppm' =>'image/x-portable-pixmap',
+		'ppt' =>'application/vnd.ms-powerpoint',
+		'ps' =>'application/postscript',
+		'qt' =>'video/quicktime',
+		'ra' =>'audio/x-pn-realaudio',
+		'ram' =>'audio/x-pn-realaudio',
+		'ras' =>'image/x-cmu-raster',
+		'rdf' =>'application/rdf+xml',
+		'rgb' =>'image/x-rgb',
+		'rm' =>'application/vnd.rn-realmedia',
+		'roff' =>'application/x-troff',
+		'rtf' =>'text/rtf',
+		'rtx' =>'text/richtext',
+		'sgm' =>'text/sgml',
+		'sgml' =>'text/sgml',
+		'sh' =>'application/x-sh',
+		'shar' =>'application/x-shar',
+		'shtml' =>'text/html',
+		'silo' =>'model/mesh',
+		'sit' =>'application/x-stuffit',
+		'skd' =>'application/x-koan',
+		'skm' =>'application/x-koan',
+		'skp' =>'application/x-koan',
+		'skt' =>'application/x-koan',
+		'smi' =>'application/smil',
+		'smil' =>'application/smil',
+		'snd' =>'audio/basic',
+		'spl' =>'application/x-futuresplash',
+		'src' =>'application/x-wais-source',
+		'sv4cpio' =>'application/x-sv4cpio',
+		'sv4crc' =>'application/x-sv4crc',
+		'svg' =>'image/svg+xml',
+		'swf' =>'application/x-shockwave-flash',
+		't' =>'application/x-troff',
+		'tar' =>'application/x-tar',
+		'tcl' =>'application/x-tcl',
+		'tex' =>'application/x-tex',
+		'texi' =>'application/x-texinfo',
+		'texinfo' =>'application/x-texinfo',
+		'tgz' =>'application/x-tar',
+		'tif' =>'image/tiff',
+		'tiff' =>'image/tiff',
+		'tr' =>'application/x-troff',
+		'tsv' =>'text/tab-separated-values',
+		'txt' =>'text/plain',
+		'ustar' =>'application/x-ustar',
+		'vcd' =>'application/x-cdlink',
+		'vrml' =>'model/vrml',
+		'vxml' =>'application/voicexml+xml',
+		'wav' =>'audio/x-wav',
+		'wbmp' =>'image/vnd.wap.wbmp',
+		'wbxml' =>'application/vnd.wap.wbxml',
+		'wml' =>'text/vnd.wap.wml',
+		'wmlc' =>'application/vnd.wap.wmlc',
+		'wmlc' =>'application/vnd.wap.wmlc',
+		'wmls' =>'text/vnd.wap.wmlscript',
+		'wmlsc' =>'application/vnd.wap.wmlscriptc',
+		'wmlsc' =>'application/vnd.wap.wmlscriptc',
+		'wrl' =>'model/vrml',
+		'xbm' =>'image/x-xbitmap',
+		'xht' =>'application/xhtml+xml',
+		'xhtml' =>'application/xhtml+xml',
+		'xls' =>'application/vnd.ms-excel',
+		'xml xsl' =>'application/xml',
+		'xpm' =>'image/x-xpixmap',
+		'xslt' =>'application/xslt+xml',
+		'xul' =>'application/vnd.mozilla.xul+xml',
+		'xwd' =>'image/x-xwindowdump',
+		'xyz' =>'chemical/x-xyz',
+		'zip' =>'application/zip'
+	);
+	
+	if (isset( $mimet[$idx] )) {
+		return $mimet[$idx];
+	}
+	else {
+		return 'application/octet-stream';
+	}
+}
+}
+
 // 파일을 업로드 함
 if(!function_exists('upload_file2')){
 	function upload_file2($srcfile, $destfile, $dir)
@@ -1571,4 +1870,16 @@ function strip_g5_url($url)
 }
 }
 
+
+
+if(!function_exists('category_tree_array')){
+function category_tree_array($cat_code){
+	$cat_arr = array();
+	$cnt = strlen($cat_code)/2;
+	for($i=1;$i<=$cnt;$i++){
+		array_push($cat_arr,substr($cat_code,0,$i*2));
+	}
+	return $cat_arr;
+}
+}
 ?>
