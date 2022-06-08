@@ -808,6 +808,13 @@ FROM g5_1_cast_shot_sub
 WHERE event_time >= '2022-06-02 04:51:37' AND machine_id = 45
 GROUP BY machine_id
 ....
+SELECT machine_id, MAX(detect_pressure) AS detect_pressure_max, MAX(target_pressure) AS target_pressure_max
+  , MAX(control_pressure) AS control_pressure_max
+  , MAX(deviation_pressure) AS deviation_pressure_max
+FROM g5_1_cast_shot_pressure
+WHERE event_time >= '2022-06-02 04:51:37' AND machine_id = 45
+GROUP BY machine_id
+....
 
 
 SELECT machine_id, machine_no

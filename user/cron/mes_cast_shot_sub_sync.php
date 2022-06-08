@@ -134,7 +134,9 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     $sql2 = "   SELECT machine_id, shot_no FROM g5_1_cast_shot WHERE shot_id = '".$arr['shot_id']."' ";
     // echo $sql2.'<br>';
     $csh = sql_fetch($sql2,1);
+    if(!$csh['machine_id']) {continue;}
     $sql_commons[$i][] = " machine_id = '".$csh['machine_id']."' ";
+    $sql_commons[$i][] = " shot_no = '".$csh['shot_no']."' ";
     $sql_field_arr[$i][] = " machine_id ";  // for timescaleDB
     $sql_value_arr[$i][] = " '".$csh['machine_id']."' ";    // for timescaleDB
     $sql_field_arr[$i][] = " shot_no ";  // for timescaleDB
