@@ -165,6 +165,7 @@ input[type="file"]::after{display:block;content:'파일선택\A(드래그앤드�
             </td>
         </tr>
         <?php } ?>
+        <?php if(false) {?>
         <tr>
             <th scope="row"><label for="multi_file1">모니터 이미지파일#1</label></th>
             <td>
@@ -261,6 +262,7 @@ input[type="file"]::after{display:block;content:'파일선택\A(드래그앤드�
                 ?>
             </td>	
         </tr>
+        <?php } ?>
         </tbody>
         </table>
     </div>

@@ -158,112 +158,33 @@ input[type="file"]::after{display:block;content:'파일선택\A(드래그앤드�
 		<th scope="row">카테고리</th>
 		<td>
             <?php
-            $cat = new category_list(${$pre}['bct_id']);
-            echo $cat->run();
+            $csql = " SELECT bct_id,bct_name FROM {$g5['bom_category_table']} WHERE com_idx = '{$_SESSION['ss_com_idx']}' AND LENGTH(bct_id) = 2 ORDER BY bct_order, bct_id ";
+            // echo $csql;
+            $cresult = sql_query($csql,1);
+            if($cresult->num_rows){
+                echo '<select name="bct_id" id="bct_id" class="frm_input">'.PHP_EOL;
+                    echo '<option value="">카테고리 선택</option>'.PHP_EOL;
+                    for($i=0;$row=sql_fetch_array($cresult);$i++){
+                    ?>
+                    <option value="<?=$row['bct_id']?>"><?=$row['bct_name']?></option>
+                    <?php
+                    }
+                echo '</select>'.PHP_EOL;
+                if($w == 'u'){
+                ?>
+                <script>
+                $('#bct_id').val('<?=${$pre}['bct_id']?>');
+                </script>
+                <?php
+                }
+            }
             ?>
 		</td>
-		<th scope="row">납품회사(고객처)</th>
-		<td>
-            <input type="hidden" name="com_idx_customer" value="<?=$bom['com_idx_customer']?>"><!-- 고객처번호 -->
-			<input type="text" name="com_name" value="<?php echo $com['com_name'] ?>" id="com_name" class="frm_input readonly" readonly>
-            <a href="javascript:" link="./customer_select.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_02" id="btn_customer">고객처찾기</a>
-		</td>
-    </tr>
-    <tr>
         <th scope="row">제품코드(P/NO)</th>
         <td>
             <input type="text" name="bom_part_no" value="<?php echo ${$pre}['bom_part_no'] ?>" id="bom_part_no" required class="frm_input required" style="width:150px;" onkeyup="javascript:chk_Code(this)">
             <span id="sp_notice"></span>
         </td>
-        <th scope="row">공급회사(매입처)</th>
-		<td>
-            <input type="hidden" name="com_idx_provider" value="<?=$bom['com_idx_provider']?>"><!-- 고객처번호 -->
-			<input type="text" name="com_name2" value="<?php echo $com2['com_name'] ?>" id="com_name2" class="frm_input required" required readonly>
-            <a href="jvaascript:" link="./customer_provider_select.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_02" id="btn_provider">공급처찾기</a>
-		</td>
-    </tr>
-    <tr>
-        <?php
-        $ar['id'] = 'bom_moq';
-        $ar['name'] = '최소구매수량';
-        $ar['type'] = 'input';
-        $ar['value'] = ${$pre}[$ar['id']];
-        $ar['value_type'] = 'number';
-        $ar['help'] = '구매단위를 숫자로 입력하세요.';
-        $ar['width'] = '50px';
-        $ar['unit'] = '개';
-        $ar['form_script'] = 'onClick="javascript:chk_Number(this)"';
-        echo create_td_input($ar);
-        unset($ar);
-        ?>
-        <th scope="row">규격</th>
-		<td>
-            <input type="text" name="bom_standard" value="<?php echo ${$pre}['bom_standard'] ?>" id="bom_standard" class="frm_input" style="width:300px;">
-		</td>
-    </tr>
-    <tr>
-        <th scope="row">가격정보</th>
-        <td>
-            <?php
-            $sql = " SELECT * FROM {$g5['bom_price_table']} WHERE bom_idx = '".${$pre}['bom_idx']."' ORDER BY bop_start_date ";
-            // echo $sql.'<br>';
-            $rs = sql_query($sql,1);
-            for($i=0;$row=sql_fetch_array($rs);$i++) {
-                // print_r2($row);
-                echo '  <div class="div_bop">'
-                            .number_format($row['bop_price']).' 원 <span class="bop_price">'.$row['bop_start_date'].'~</span>
-                            <span class="btn_bop_delete" bop_idx="'.$row['bop_idx'].'">삭제</span>
-                        </div>';
-            }
-            if(!$i) {
-                echo '<div class="div_empty">가격 정보를 입력하세요.</div>';
-            }
-
-            if($w=='u')
-                echo '<a href="javascript:" class="btn_price_add">추가</a>';
-            ?>
-        </td>
-        <?php
-        $ar['id'] = 'bom_notax';
-        $ar['name'] = '비과세';
-        $ar['type'] = 'radio';
-        $ar['width'] = '80px';
-        $ar['help'] = "비과세 상품인 경우만 '예'를 선택하세요.";
-        $ar['value'] = ${$pre}[$ar['id']];
-        echo create_td_input($ar);
-        unset($ar);
-        ?>
-    </tr>
-    <?php if(${$pre}['bom_type'] == 'product'){ ?>
-    <tr>
-        <th scope="row">고객업체(외부)라벨</th>
-        <td colspan="3">
-            <input type="text" name="bom_ex_label" value="<?php echo ${$pre}['bom_ex_label'] ?>" id="bom_ex_label" class="frm_input" style="width:150px;text-transform:uppercase;" onkeyup="javascript:chk_exCode(this)">
-            <span id="sp_ex_notice"></span>
-        </td>
-    </tr>
-    <?php } ?>
-    <tr class="tr_price" style="display:<?=($w=='u')?'none':''?>">
-        <?php
-        $ar['id'] = 'bom_price';
-        $ar['name'] = '단가';
-        $ar['type'] = 'input';
-        $ar['value'] = ${$pre}[$ar['id']];
-        $ar['unit'] = '원';
-        $ar['value_type'] = 'number';
-        $ar['form_script'] = 'onClick="javascript:chk_Number(this)"';
-        echo create_td_input($ar);
-        unset($ar);
-        ?>
-        <?php
-        $ar['id'] = 'bom_start_date';
-        $ar['name'] = '적용시작일';
-        $ar['type'] = 'input';
-        $ar['width'] = '90px';
-        $ar['value'] = ${$pre}[$ar['id']];
-        echo create_td_input($ar);
-        unset($ar);
-        ?>
     </tr>
     <?php
     $ar['id'] = 'bom_memo';
@@ -275,12 +196,8 @@ input[type="file"]::after{display:block;content:'파일선택\A(드래그앤드�
     unset($ar);
     ?>
     <tr>
-        <th scope="row">알림최소재고수량</th>
-        <td>
-            <input type="text" name="bom_min_cnt" id="bom_min_cnt" value="<?=${$pre}[$pre.'_min_cnt']?>" class="frm_input" style="width:50px;text-align:right;" onclick="javascript:chk_Number(this)">개
-        </td>
         <th scope="row">상태</th>
-        <td>
+        <td colspan="3">
             <select name="<?=$pre?>_status" id="<?=$pre?>_status"
                 <?php if (auth_check($auth[$sub_menu],"d",1)) { ?>onFocus='this.initialSelect=this.selectedIndex;' onChange='this.selectedIndex=this.initialSelect;'<?php } ?>>
                 <?=$g5['set_bom_status_options']?>
@@ -288,105 +205,6 @@ input[type="file"]::after{display:block;content:'파일선택\A(드래그앤드�
             <script>$('select[name="<?=$pre?>_status"]').val('<?=${$pre}[$pre.'_status']?>');</script>
         </td>
     </tr>
-    <?php if($w == 'u' && ${$pre}['bom_type'] == 'product'){ ?>
-    <tr>
-        <th scope="row"><label for="multi_file1">모니터 이미지파일#1</label></th>
-        <td colspan="3">
-            <?php echo help("모니터 이미지파일#1을 등록하고 관리해 주시면 됩니다."); ?>
-            <input type="file" id="multi_file1" name="bom_f1[]" multiple class="bom_file">
-            <?php
-            //print_r3($row);
-            if(@count($rowb['bom_bomf1'])){
-                echo '<ul>'.PHP_EOL;
-                for($i=0;$i<count($rowb['bom_bomf1']);$i++) {
-                    echo "<li>[".($i+1).']'.$rowb['bom_bomf1'][$i]['file']."</li>".PHP_EOL;
-                }
-                echo '</ul>'.PHP_EOL;
-            }
-            ?>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><label for="multi_file2">모니터 이미지파일#2</label></th>
-        <td colspan="3">
-            <?php echo help("모니터 이미지파일#2을 등록하고 관리해 주시면 됩니다."); ?>
-            <input type="file" id="multi_file2" name="bom_f2[]" multiple class="bom_file">
-            <?php
-            if(@count($rowb['bom_bomf2'])){
-                echo '<ul>'.PHP_EOL;
-                for($i=0;$i<count($rowb['bom_bomf2']);$i++) {
-                    echo "<li>[".($i+1).']'.$rowb['bom_bomf2'][$i]['file']."</li>".PHP_EOL;
-                }
-                echo '</ul>'.PHP_EOL;
-            }
-            ?>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><label for="multi_file3">모니터 이미지파일#3</label></th>
-        <td colspan="3">
-            <?php echo help("모니터 이미지파일#3을 등록하고 관리해 주시면 됩니다."); ?>
-            <input type="file" id="multi_file3" name="bom_f3[]" multiple class="bom_file">
-            <?php
-            if(@count($rowb['bom_bomf3'])){
-                echo '<ul>'.PHP_EOL;
-                for($i=0;$i<count($rowb['bom_bomf3']);$i++) {
-                    echo "<li>[".($i+1).']'.$rowb['bom_bomf3'][$i]['file']."</li>".PHP_EOL;
-                }
-                echo '</ul>'.PHP_EOL;
-            }
-            ?>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><label for="multi_file4">모니터 이미지파일#4</label></th>
-        <td colspan="3">
-            <?php echo help("모니터 이미지파일#4을 등록하고 관리해 주시면 됩니다."); ?>
-            <input type="file" id="multi_file4" name="bom_f4[]" multiple class="bom_file">
-            <?php
-            if(@count($rowb['bom_bomf4'])){
-                echo '<ul>'.PHP_EOL;
-                for($i=0;$i<count($rowb['bom_bomf4']);$i++) {
-                    echo "<li>[".($i+1).']'.$rowb['bom_bomf4'][$i]['file']."</li>".PHP_EOL;
-                }
-                echo '</ul>'.PHP_EOL;
-            }
-            ?>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><label for="multi_file5">모니터 이미지파일#5</label></th>
-        <td colspan="3">
-            <?php echo help("모니터 이미지파일#5을 등록하고 관리해 주시면 됩니다."); ?>
-            <input type="file" id="multi_file5" name="bom_f5[]" multiple class="bom_file">
-            <?php
-            if(@count($rowb['bom_bomf5'])){
-                echo '<ul>'.PHP_EOL;
-                for($i=0;$i<count($rowb['bom_bomf5']);$i++) {
-                    echo "<li>[".($i+1).']'.$rowb['bom_bomf5'][$i]['file']."</li>".PHP_EOL;
-                }
-                echo '</ul>'.PHP_EOL;
-            }
-            ?>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><label for="multi_file6">모니터 이미지파일#6</label></th>
-        <td colspan="3">
-            <?php echo help("모니터 이미지파일#6을 등록하고 관리해 주시면 됩니다."); ?>
-            <input type="file" id="multi_file6" name="bom_f6[]" multiple class="bom_file">
-            <?php
-            if(@count($rowb['bom_bomf6'])){
-                echo '<ul>'.PHP_EOL;
-                for($i=0;$i<count($rowb['bom_bomf6']);$i++) {
-                    echo "<li>[".($i+1).']'.$rowb['bom_bomf6'][$i]['file']."</li>".PHP_EOL;
-                }
-                echo '</ul>'.PHP_EOL;
-            }
-            ?>
-        </td>
-    </tr>
-    <?php } ?>
 	</tbody>
 	</table>
 </div>
@@ -401,19 +219,8 @@ input[type="file"]::after{display:block;content:'파일선택\A(드래그앤드�
 $(function() {
     //코드형식에 맞는지 확인
     chk_Code(document.getElementById('bom_part_no'));
-    <?php if(${$pre}['bom_type'] == 'product'){ ?>
-    chk_exCode(document.getElementById('bom_ex_label'));
-    <?php } ?>
 
-    <?php if($w == 'u' && ${$pre}['bom_type'] == 'product'){ ?>
-    var bom_file_cnt = $('.bom_file').length;
-    for(var i=1; i<=bom_file_cnt; i++){
-        $('#multi_file'+i).MultiFile({
-            max: <?=$g5['setting']['set_monitor_cnt']?>,
-            accept: 'gif|jpg|png'
-        });
-    }
-    <?php } ?>
+
 
     $("input[name$=_date]").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99" });
 
@@ -426,21 +233,6 @@ $(function() {
            $('.tr_price').hide();
 	});
 
-    // 거래처찾기 버튼 클릭
-	$("#btn_customer").click(function(e) {
-		e.preventDefault();
-        var href = $(this).attr('link');
-		winCustomerSelect = window.open(href, "winCustomerSelect", "left=300,top=150,width=550,height=600,scrollbars=1");
-        winCustomerSelect.focus();
-	});
-
-    // 공급처찾기 버튼 클릭
-    $("#btn_provider").click(function(e) {
-        e.preventDefault();
-        var href = $(this).attr('link');
-        winProviderSelect = window.open(href, "winProviderSelect", "left=300,top=150,width=550,height=600,scrollbars=1");
-        winProviderSelect.focus();
-    });
 
     // 가격 입력 쉼표 처리
 	$(document).on( 'keyup','input[name$=_price], #bom_moq, #bom_lead_time',function(e) {
@@ -448,33 +240,6 @@ $(function() {
 //		console.log( $(this).val().replace(/,/g,'') );
         if(!isNaN($(this).val().replace(/,/g,'')))
             $(this).val( thousand_comma( $(this).val().replace(/,/g,'') ) );
-	});
-
-	// 가격삭제
-	$(document).on('click','.btn_bop_delete',function(e) {
-		e.preventDefault();
-		var bop_idx = $(this).attr('bop_idx');
-
-		if(confirm('가격 정보를 삭제하시겠습니까?')) {
-
-			//-- 디버깅 Ajax --//
-			$.ajax({
-				url:g5_user_admin_url+'/ajax/bom_price.php',
-				data:{"aj":"del","bop_idx":bop_idx},
-				dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
-			//$.getJSON(g5_user_admin_url+'/ajax/com_item.json.php',{"aj":"del","bop_idx":bop_idx},function(res) {
-				//alert(res.sql);
-				if(res.result == true) {
-                    // self.location.reload();
-                    $('span[bop_idx='+bop_idx+']').closest('div.div_bop').remove();
-				}
-				else {
-					alert(res.msg);
-				}
-
-				}, error:this_ajax_error	//<-- 디버깅 Ajax --//
-			});
-		}
 	});
 
 });
@@ -537,48 +302,11 @@ function chk_Code(object){
     }
 }
 
-<?php if(${$pre}['bom_type'] == 'product'){ ?>
-function chk_exCode(object){
-    var ex = /[\{\}\[\]\/?.,;:|\)*~`!^\+┼<>@\#$%&\'\"\\\(\=ㄱ-ㅎㅏ-ㅣ가-힣]*/g;
-    var hx = /[A-Z0-9-_]{5,20}/;
-    
-    //var pt = /^[^-_][a-zA-Z0-9]+[-_]?[a-zA-Z0-9]+[-_]?[a-zA-Z0-9]+[^-_]$/;
-    //var hx = /^[^-_][a-zA-Z0-9]+[-][a-zA-Z0-9]+[-][a-zA-Z0-9]+[^-_]$/; //한국수지만의 패턴
-    object.value = object.value.replace(ex,"");//-_제외한 특수문자,한글입력 불가
-    var str = object.value;  
-    
-    if(hx.test(str)){
-        var st = $.trim(str.toUpperCase());
-        var msg = '등록 가능한 외부라벨코드입니다.';
-        object.value = st;
-        document.getElementById('sp_ex_notice').textContent = msg;
-        $('#sp_ex_notice').removeClass('sp_error');
-    }
-    else {
-        if(str){
-            document.getElementById('sp_ex_notice').textContent = '코드규칙에 맞지않습니다.';
-            $('#sp_ex_notice').removeClass('sp_error');
-            $('#sp_ex_notice').addClass('sp_error');
-        }
-        else {
-            document.getElementById('sp_ex_notice').textContent = '코드가 입력되지 않았습니다.';
-            $('#sp_ex_notice').removeClass('sp_error');
-        }
-    }
-}
-<?php } ?>
-
 function form01_submit(f) {
 
     if($('#sp_notice').hasClass('sp_error')){
         alert('올바른 제품코드를 입력해 주세요.');
         $('input[name="bom_part_no"]').focus();
-        return false;
-    }
-
-    if($('#sp_ex_notice').hasClass('sp_error')){
-        alert('올바른 외부라벨 코드를 입력해 주세요.');
-        $('input[name="bom_ex_label"]').focus();
         return false;
     }
 
