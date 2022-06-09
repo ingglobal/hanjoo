@@ -846,3 +846,12 @@ temp_min=온도최소
 hum_avg=평균습도
 hum_max=습도최대
 hum_min=습도최소
+
+
+how to program python.
+1. 개발환경 vscode, pycharm?
+2. 프로그램 백그라운드 실행? 
+  현재 프로그램 실행중이 아닌 듯!!
+3. 엣지1에 opcua-client 설치
+  - GUI 버전!!
+4. 
