@@ -213,9 +213,9 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td>
 			<input type="text" name="mms_sort" value="<?php echo $mms['mms_sort'] ?>" id="mms_sort" class="frm_input" style="width:50px;">
 		</td>
-		<th scope="row">데이타 URL</th>
+		<th scope="row">데이타 서버 Host</th>
 		<td>
-			<input type="text" name="mms_data_url" value="<?php echo $mms['mms_data_url'] ?>" id="mms_data_url" class="frm_input" style="width:200px;">
+			<input type="text" name="mms_data_url_host" value="<?php echo $mms['mms_data_url_host'] ?>" id="mms_data_url_host" class="frm_input" style="width:200px;">
 		</td>
 	</tr>
 	<tr>

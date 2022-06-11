@@ -85,7 +85,72 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
 
 
 <script>
-// Detail graph
+// ==========================================================================================
+// 그래프 호출 =================================================================================
+// ==========================================================================================
+$(document).on('click','#fsearch button[type=submit]',function(e){
+    e.preventDefault();
+    var frm = $('#fsearch');
+    var st_date = frm.find('#st_date').val() || '';
+    var st_time = frm.find('#st_time').val() || '';
+    var en_date = frm.find('#en_date').val() || '';
+    var en_time = frm.find('#en_time').val() || '';
+    var dta_url = (dta_item=='minute'||dta_item=='second') ? '' : '.sum'; // measure.php(그룹핑), measure.sum.php(일자이상)
+    var dta_file = (dta_item=='minute'||dta_item=='second') ? '' : '.sum'; // measure.php(그룹핑), measure.sum.php(일자이상)
+    if(st_date==''||en_date=='') {
+        alert('검색 날짜를 입력하세요.');
+        return false;
+    }
+
+    dta_loading('show');
+ 
+    // get the graphs attribute form target object div
+    var graphs =  JSON.parse( $("#chart1").attr("graphs") );
+    // console.log(graphs);
+    // console.log(graphs.length);
+
+    // 다중 그래프 표현
+    for(i=0;i<graphs.length;i++) {
+        // console.log(i+' --------------- ');
+        var dta_data_url = graphs[i].dta_data_url;
+        var dta_json_file = graphs[i].dta_json_file;
+        var dta_group = graphs[i].dta_group;
+        var mms_idx = graphs[i].mms_idx;
+        var mms_name = graphs[i].mms_name;
+        var dta_type = graphs[i].dta_type;
+        var dta_no = graphs[i].dta_no;
+        var shf_no = graphs[i].shf_no;
+        var dta_mmi_no = graphs[i].dta_mmi_no;
+        var dta_defect = graphs[i].dta_defect;
+        var dta_defect_type = graphs[i].dta_defect_type;
+        var dta_code = graphs[i].dta_code;
+        var graph_name = graphs[i].graph_name;
+        var graph_id1 = getGraphId(dta_json_file, dta_group, mms_idx, dta_type, dta_no, shf_no, dta_mmi_no, dta_defect, dta_defect_type, dta_code);
+        // console.log(i+'. '+graph_id1);
+
+        // 그래프 호출 URL
+        var dta_url = '//'+dta_data_url+'/'+dta_json_file+dta_file+'.php?token=1099de5drf09'
+                        +'&mms_idx='+mms_idx+'&dta_group='+dta_group+'&shf_no='+shf_no+'&dta_mmi_no='+dta_mmi_no
+                        +'&dta_type='+dta_type+'&dta_no='+dta_no
+                        +'&dta_defect='+dta_defect+'&dta_defect_type='+dta_defect_type
+                        +'&dta_code='+dta_code
+                        +'&dta_item='+dta_item+'&dta_unit='+dta_unit
+                        +'&st_date='+st_date+'&st_time='+st_time+'&en_date='+en_date+'&en_time='+en_time
+                        +'&graph_id='+graph_id1;
+        // console.log(dta_url);
+
+        Highcharts.getJSON(
+            dta_url,
+            drawChart
+        );
+
+    }
+    dta_loading('hide');
+    $('.div_btn_add').show();
+
+});
+
+// Detail graph ---------------
 Highcharts.getJSON(g5_url+'/device/rdb/shot_sub.multi.php?<?=$qs?>', function(data) {
 
     var startDate = new Date(data[data.length - 1][0]), // Get year of last data point
@@ -145,7 +210,20 @@ Highcharts.getJSON(g5_url+'/device/rdb/shot_sub.multi.php?<?=$qs?>', function(da
     });
 });
 
-// 그래프 불러오기
+// 로딩 spinner 이미지 표시/비표시
+function dta_loading(flag) {
+    var img_loading = $('<i class="fa fa-spin fa-spinner" id="spinner" style="position:absolute;top:80px;left:46%;font-size:4em;"></i>');
+    if(flag=='show') {
+        // console.log('show');
+        $('#chart1').append(img_loading);
+    }
+    else if(flag=='hide') {
+        // console.log('hide');
+        $('#spinner').remove();
+    }
+}
+
+// 그래프 불러오기 (팝업모달)
 $(document).on('click','.btn_add_chart',function(e){
     e.preventDefault();
     var frm = $('#fsearch');

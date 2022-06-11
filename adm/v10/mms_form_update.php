@@ -30,7 +30,7 @@ $sql_common = "  com_idx = '{$_POST['com_idx']}'
                 , mms_install_date = '{$_POST['mms_install_date']}'
                 , mms_set_output = '{$_POST['mms_set_output']}'
                 , mms_set_error = '{$_POST['mms_set_error']}'
-                , mms_data_url = '{$_POST['mms_data_url']}'
+                , mms_data_url_host = '{$_POST['mms_data_url_host']}'
                 , mms_linecode = '{$_POST['mms_linecode']}'
                 , mms_output_yn = '{$_POST['mms_output_yn']}'
                 , mms_default_yn = '{$_POST['mms_default_yn']}'
@@ -183,6 +183,8 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
     $list[$row['mms_idx']]['output'] = $row['mms_set_output'];
     $list[$row['mms_idx']]['imp_idx'] = $row['imp_idx'];
     $list[$row['mms_idx']]['trm_idx_category'] = $row['trm_idx_category'];
+    $list[$row['mms_idx']]['mms_data_url_host'] = $row['mms_data_url_host'];
+    $list[$row['mms_idx']]['mms_idx2'] = $row['mms_idx2'];
 
     // 교대시간
     $sql = "SELECT *
@@ -196,11 +198,13 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
     $list1 = array();
     for($j=0;$row1=sql_fetch_array($rs);$j++) {
         //print_r2($row);
+        $row2['shf_name'] = $row1['shf_name'];
         $row2['shf_start_dt'] = $row1['shf_start_dt'];
         $row2['shf_end_dt'] = $row1['shf_end_dt'];
         $row2['shf_start_time'] = $row1['shf_start_time'];
         $row2['shf_end_time'] = $row1['shf_end_time'];
         $row2['shf_end_nextday'] = $row1['shf_end_nextday'];
+        $row2['shf_period_type'] = $row1['shf_period_type'];
         $list1[] = $row2;
     }
     $list[$row['mms_idx']]['shift'] = $list1;
