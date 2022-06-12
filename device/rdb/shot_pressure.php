@@ -48,9 +48,10 @@ else if($_REQUEST['mms_idx']){
                     AND start_time <= '".$end."'
                     AND machine_id = '".$mms_idx."'
             )
+            ORDER BY event_time ASC
     ";
-//    echo $sql.'<br>';
-//    exit;
+    // echo $sql.'<br>';
+    // exit;
 	$rs = sql_query($sql,1);
 	$list = array();
 	for($i=0;$row=sql_fetch_array($rs);$i++){

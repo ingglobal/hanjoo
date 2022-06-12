@@ -19,17 +19,18 @@ if(basename($_SERVER["SCRIPT_FILENAME"]) == 'login_check.php') {
 	            unlink($each_file);
 	    }
     }
-    
-    // // 5년이 지난 데이터 삭제
-    // $del_limit_year = $g5['setting']['set_applicant_del_year'] ? $g5['setting']['set_applicant_del_year'] : 5;
-    // $sql = "DELETE FROM {$g5['applicant_table']}
-    //         WHERE apc_reg_dt < DATE_ADD(now() , INTERVAL -".$del_limit_year." YEAR)
-    // ";
-    // sql_query($sql,1);
-//    echo $sql.'<br>';
-//    exit;
-
 }
+
+
+$mms_code_file = G5_DATA_PATH.'/cache/mms-code.php';
+if( file_exists($mms_code_file) ) {
+    include($mms_code_file);
+}
+$mms_setting_file = G5_DATA_PATH.'/cache/mms-setting.php';
+if( file_exists($mms_setting_file) ) {
+    include($mms_setting_file);
+}
+
 
 
 // 뿌리오 발송결과

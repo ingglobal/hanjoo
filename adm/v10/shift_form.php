@@ -21,7 +21,7 @@ if ($w == '') {
     
     ${$pre}['com_idx'] = $_SESSION['ss_com_idx'];
     ${$pre}['shf_period_type'] = 0;
-    // ${$pre}['mms_idx'] = rand(1,4);
+    ${$pre}['mms_idx'] = 0; // 모둔설비
     ${$pre}[$pre.'_start_time'] = '09:00:00';
     ${$pre}[$pre.'_end_time'] = '23:59:59';
     ${$pre}[$pre.'_target_1'] = 100;
@@ -91,6 +91,7 @@ include_once ('./_head.php');
 <input type="hidden" name="token" value="">
 <input type="hidden" name="<?=$pre?>_idx" value="<?php echo ${$pre."_idx"} ?>">
 <input type="hidden" name="ser_mms_idx" value="<?php echo $ser_mms_idx ?>">
+<input type="hidden" name="com_idx" value="<?=$_SESSION['ss_com_idx']?>">
 
 <div class="local_desc01 local_desc" style="display:none;">
     <p>각종 고유번호(설비번호, IMP번호..)들은 내부적으로 다른 데이타베이스 연동을 통해서 정보를 가지고 오게 됩니다.</p>
@@ -121,7 +122,7 @@ include_once ('./_head.php');
 		<th scope="row">설비선택</th>
 		<td>
             <select name="mms_idx" id="mms_idx">
-                <option value="">설비선택</option>
+                <option value="0">모든설비</option>
                 <?php
                 // 해당 범위 안의 모든 설비를 select option으로 만들어서 선택할 수 있도록 한다.
                 // Get all the mms_idx values to make them optionf for selection.

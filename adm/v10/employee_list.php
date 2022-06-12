@@ -196,18 +196,6 @@ $colspan = 16;
 <?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;page='); ?>
 
 <script>
-    // 마우스 hover 설정
-    $(".tbl_head01 tbody tr").on({
-        mouseenter: function () {
-            $('tr[tr_id='+$(this).attr('tr_id')+']').find('td').css('background','#0b1938');
-            
-        },
-        mouseleave: function () {
-            $('tr[tr_id='+$(this).attr('tr_id')+']').find('td').css('background','unset');
-        }    
-    });
-    
-
 function fmemberlist_submit(f)
 {
     if (!is_checked("chk[]")) {

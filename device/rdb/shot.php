@@ -1,5 +1,5 @@
 <?php
-// http://hanjoo.epcs.co.kr/php/hanjoo/device/rdb/shot.php?token=1099de5drf09&mms_idx=45&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
+// http://hanjoo.epcs.co.kr/device/rdb/shot.php?token=1099de5drf09&mms_idx=45&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
 header("Content-Type: text/plain; charset=utf-8");
 include_once('./_common.php');
 if(isset($_SERVER['HTTP_ORIGIN'])){

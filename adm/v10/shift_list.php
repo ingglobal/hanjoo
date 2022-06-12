@@ -94,21 +94,20 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 // arr0:name, arr1:colspan, arr2:rowspan, arr3: sort
 $items1 = array(
     "mms_idx"=>array("설비",0,0,1)
-    ,"shf_range_1"=>array("1교대",0,0,0)
-    ,"shf_range_2"=>array("2교대",0,0,0)
-    ,"shf_range_3"=>array("3교대",0,0,0)
-    ,"shf_target_1"=>array("1목표",0,0,0)
-    ,"shf_target_2"=>array("2목표",0,0,0)
-    ,"shf_target_3"=>array("3목표",0,0,0)
-    ,"shf_period"=>array("적용기간",0,0,0)
+    ,"shf_name"=>array("교대(구간)명",0,0,0)
+    ,"shf_start_time"=>array("교대시작",0,0,0)
+    ,"shf_end_nextday"=>array("다음날",0,0,0)
+    ,"shf_end_time"=>array("교대종료",0,0,0)
+    ,"shf_period"=>array("타입",0,0,0)
     ,"shf_start_dt"=>array("적용시작일시",0,0,1)
     ,"shf_end_dt"=>array("적용종료일시",0,0,0)
-    ,"shf_reg_dt"=>array("등록일시",0,0,0)
+    ,"shf_reg_dt"=>array("등록일",0,0,0)
     ,"shf_status"=>array("상태",0,0,0)
 );
 ?>
 <style>
 .td_mms_idx {text-align:left !important;}
+.td_shf_end_nextday {width:44px !important;}
 .ui-dialog .ui-dialog-titlebar-close span {
     display: unset;
     margin: -8px 0 0 -8px;
@@ -124,11 +123,29 @@ $items1 = array(
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
-<input type="text" name="ser_mms_idx" value="<?=$ser_mms_idx?>" id="ser_mms_idx" class="frm_input" autocomplete="off" style="width:65px;" placeholder="설비번호">
+<select name="ser_mms_idx" id="ser_mms_idx">
+    <option value="">설비전체</option>
+    <?php
+    // 해당 범위 안의 모든 설비를 select option으로 만들어서 선택할 수 있도록 한다.
+    // Get all the mms_idx values to make them optionf for selection.
+    $sql2 = "SELECT mms_idx, mms_name
+            FROM {$g5['mms_table']}
+            WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+            ORDER BY mms_idx       
+    ";
+    // echo $sql2.'<br>';
+    $result2 = sql_query($sql2,1);
+    for ($i=0; $row2=sql_fetch_array($result2); $i++) {
+        // print_r2($row2);
+        echo '<option value="'.$row2['mms_idx'].'" '.get_selected($ser_mms_idx, $row2['mms_idx']).'>'.$row2['mms_name'].'</option>';
+    }
+    ?>
+</select>
+<script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
 <select name="sfl" id="sfl">
     <option value="">검색항목</option>
     <?php
-    $skips = array('com_idx','mms_idx','mmg_idx','shf_period');
+    $skips = array('com_idx','mms_idx','mmg_idx');
     if(is_array($items1)) {
         foreach($items1 as $k1 => $v1) {
             if(in_array($k1,$skips)) {continue;}
@@ -228,22 +245,19 @@ $items1 = array(
                 else if(preg_match("/_dt$/",$k1)) {
                     $list[$k1] = '<span class="font_size_8">'.substr($row[$k1],0,16).'</span>';
                 }
-                else if(preg_match("/^shf_target_/",$k1)) {
-                    $list[$k1] = '<input type="text" name="'.$k1.'['.$i.']" value="'.$row[$k1].'" class="tbl_input full_input" style="width:50px;text-align:center;">';
+                else if(preg_match("/_time$/",$k1)) {
+                    $list[$k1] = '<input type="text" name="'.$k1.'['.$i.']" value="'.$row[$k1].'" class="tbl_input" style="width:60px;text-align:center;">';
+                }
+                else if($k1=='shf_end_nextday') {
+                    $list[$k1] = ($row['shf_end_nextday']==1) ? '<i class="fa fa-check"></i>' : '';
                 }
                 else if($k1=='mms_idx') {
-                    $list[$k1] = '<a href="./shift_list.php?sfl=shf.mms_idx&stx='.$row[$k1].'">'.$row[$k1].'  <span class="font_size_8">'.$row['mms']['mms_name'].'</span></a>';
-                }
-                else if($k1=='com_name') {
-                    $list[$k1] = '<a href="?sfl=shf.com_idx&stx='.$row['com_idx'].'">'.$row[$k1].'</a>';
-                }
-                else if($k1=='com_idx') {
-                    $list[$k1] = '<a href="./company_list.php?sfl=com.com_idx&stx='.$row[$k1].'">'.$row[$k1].'</a>';
+                    $list[$k1] = '<a href="./shift_list.php?ser_mms_idx='.$row[$k1].'">'.$row['mms']['mms_name'].'  <span class="font_size_8">'.$row[$k1].'</span></a>';
                 }
                 // 적용기간
                 else if($k1=='shf_period') {
-                    $row['shf_period_range'] = ($row['shf_period_type']==1) ? '전체기간' : $row['shf_start_dt'].'~'.$row['shf_end_dt'];
-                    $list[$k1] = $row[$k1].' <span class="font_size_8">'.$row['shf_period_range'].'</span>';
+                    $row['shf_period_range'] = ($row['shf_period_type']==1) ? '전체기간' : $row['shf_start_dt'].' ~ '.$row['shf_end_dt'];
+                    $list[$k1] = $row[$k1].' '.$row['shf_period_range'];
                 }
 
                 $row['colspan'] = ($v1[1]>1) ? ' colspan="'.$v1[1].'"' : '';   // colspan 설정
@@ -354,7 +368,7 @@ function form01_submit(f)
 		$('input[name="w"]').val('u');
 	}
 	if(document.pressed == "선택삭제") {
-		if (!confirm("선택한 항목(들)을 정말 삭제 하시겠습니까?\n복구가 어려우니 신중하게 결정 하십시오.")) {
+		if (!confirm("선택한 항목(들)을 정말 삭제 하시겠습니까?")) {
 			return false;
 		}
 		else {
