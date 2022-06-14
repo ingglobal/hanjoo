@@ -8,7 +8,7 @@ include_once('./_head.php');
 echo $g5['container_sub_title'];
 
 // 검색 조건
-$st_time_ahead = 3600*5;  // 5hour ahead.
+$st_time_ahead = 3600*1;  // 5hour ahead.
 // $st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
 // $st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
 // $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
@@ -36,12 +36,22 @@ $item_type = ($item_type) ? $item_type : 'hold_temp';
 $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&item_type='.$item_type;
 ?>
 <style>
+#chart1 {background:black;}
+#chart1 .text01{color:yellow;}
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
 .graph_detail ul li {float:left;width:32%;margin-right:10px;margin-bottom:10px;}
 .graph_detail ul li > div{border:solid 1px #ddd;height:300px;}
 .div_btn_add {float:right;}
 #fsearch {display:block;}
 #fsearch .div_btn_add {margin:0 !important;}
+#fchart {margin:0 0;}
+#fchart .chr_name {font-weight:bold;font-size:1.5em;margin-right:6px;}
+.table01 {width:auto;margin:0 auto;}
+.table01 td {padding:7px 9px;}
+.table01 td input {width:84px;-moz-outline: none;outline: none;ie-dummy: expression(this.hideFocus=true);}
+.ui-slider-handle {-moz-outline: none;outline: none;ie-dummy: expression(this.hideFocus=true);}
+.chr_control {display:none;}
+#chr_type, #chr_line {height:30px;-moz-outline: none;outline: none;ie-dummy: expression(this.hideFocus=true);}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
@@ -72,9 +82,121 @@ $qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$s
     <div class="graph_wrap">
         <!-- 차트 -->
         <div id="chart1" style="position:relative;width:100%; height:500px;line-height:300px;text-align:center;border:solid 1px #ddd;">
-            그래프를 추가하세요.
+            <span class="text01">그래프를 추가하세요.</span>
         </div>
     </div><!-- .graph_wrap -->
+
+    <!-- 컨트롤 -->
+    <div class="chr_control" style="text-align:center;">
+        <form name="fchart" id="fchart" method="post">
+        <input type="hidden" name="chr_idx" style="width:20px">
+    
+            <table class="table01">
+            <tbody>
+                <tr>
+                    <td class="td_" style="vertical-align:bottom;">
+                        <span class="chr_name">항목명</span>
+                    </td>
+                    <td class="td_" style="display:no ne;">
+                        <label for="chr_amp_value">증폭</label>
+                        <input type="text" id="chr_amp_value" style="border:0; color:#f6931f; font-weight:bold;" autocomplete="off">
+                        <div id="chr_amp" style="width:150px;"></div>
+                    </td>
+                    <td class="td_" style="display:no ne;">
+                        <label for="chr_move_value">이동</label>
+                        <input type="text" id="chr_move_value" style="border:0; color:#f6931f; font-weight:bold;" autocomplete="off">
+                        <div id="chr_move" style="width:150px;"></div>
+                    </td>
+                    <td class="td_" style="padding-top:14px;">
+                        <select name="chr_type" id="chr_type" autocomplete="off">
+                            <option value="">그래프타입</option>
+                            <option value="spline">꺽은선1</option>
+                            <option value="line">꺽은선2</option>
+                            <option value="column">막대</option>
+                        </select>
+                    </td>
+                    <td class="td_" style="padding-top:14px;">
+                        <select name="chr_line" id="chr_line" autocomplete="off">
+                            <option value="">선종류</option>
+                            <option value="solid">실선</option>
+                            <option value="shortdot">점선</option>
+                        </select>
+                    </td>
+                    <td class="td_" style="vertical-align:bottom;">
+                        <button type="submit" class="btn btn_03"><i class="fa fa-check"></i> 적용</button>
+                        <a href="javascript:" class="btn btn_02 btn_chr_del" title="제거">제거 <i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:" class="btn btn_02 btn_chr_close" title="닫기">닫기 <i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+        </form>
+    </div>
+    <script>
+    // 컨트롤 부분 변경
+    $("#fchart").on('submit', function(e){
+        e.preventDefault();
+        var frm = $('#fchart');
+        // console.log( frm.find('#chr_amp_value').val() );
+        // console.log( frm.find('#chr_move_value').val() );
+
+        var chr_idx_chg = parseInt(frm.find('input[name=chr_idx]').val());
+        var chr_amp = parseFloat(frm.find('#chr_amp_value').val());
+        var chr_move = parseInt(frm.find('#chr_move_value').val());
+        var chr_type = frm.find('#chr_type').val();
+        var chr_line = frm.find('#chr_line').val();
+        
+        // console.log( $('#chr_amp').slider('option','min') );
+        // console.log( chr_amp_slider.slider("option","max") );
+        // 증폭값 설정
+        if(chr_amp<chr_amp_slider.slider("option","min")) {
+           alert('증폭 최소값은 '+chr_amp_slider.slider("option","min")+'입니다.');
+           return false;
+        }
+        if(chr_amp>chr_amp_slider.slider("option","max")) {
+           chr_amp_slider.slider("option", "max", chr_amp);
+           chr_amp_slider.slider("option", "value", chr_amp);
+        }
+        // 이동값 설정
+        if(chr_move<chr_move_slider.slider("option","min")) {
+           alert('이동 최소값은 '+chr_move_slider.slider("option","min")+'입니다.');
+           return false;
+        }
+        if(chr_move>chr_move_slider.slider("option","max")) {
+            alert('이동 최대값은 '+chr_move_slider.slider("option","max")+'입니다.');
+           return false;
+        }
+
+        // chr_move_slider.slider("option", "value", 0);
+        if(isNaN(chr_idx_chg) == false) {
+            // console.log(seriesOptions[chr_idx_chg]);
+            old_type = seriesOptions[chr_idx_chg].type;
+            old_line = seriesOptions[chr_idx_chg].dashStyle;
+            old_yamp = seriesOptions[chr_idx_chg].data[0].yamp;
+            old_ymove = seriesOptions[chr_idx_chg].data[0].ymove;
+            // console.log( chr_idx_chg );
+            // console.log( old_yamp +'/'+ chr_amp +'//'+ old_ymove +'/'+ chr_move +'//'+ old_type +'/'+ chr_type );
+            // console.log( '----' );
+            // 증폭, 이동값, 그래프 종류가 바뀐 경우만 수정 그래프 변형
+            if(old_yamp!=chr_amp || old_ymove!=chr_move || old_type!=chr_type || old_line!=chr_line) {
+                for(i=0;i<seriesOptions[chr_idx_chg].data.length;i++) {
+                    // console.log(seriesOptions[chr_idx_chg].data[i]);
+                    raw_y = seriesOptions[chr_idx_chg].data[i].yraw;    // original Y value
+                    amp_y = raw_y*chr_amp;  // amplified value
+                    new_y = amp_y+chr_move;  // amplified+moved value
+                    // console.log( raw_y +'/'+ chr_amp );
+                    seriesOptions[chr_idx_chg].type = chr_type;
+                    seriesOptions[chr_idx_chg].dashStyle = chr_line;
+                    seriesOptions[chr_idx_chg].data[i].yamp = chr_amp;
+                    seriesOptions[chr_idx_chg].data[i].ymove = chr_move;
+                    seriesOptions[chr_idx_chg].data[i].y = new_y;
+                    // console.log(seriesOptions[chr_idx_chg].data[i].y);
+                }
+                createChart();
+            }
+        }
+    });
+    </script>    
 
 </div><!-- #graph_wrapper -->
 
@@ -316,6 +438,7 @@ function drawChart(data) {
     if( $("#chart1").attr("graphs") != undefined ) {
         graphs =  JSON.parse( $("#chart1").attr("graphs") );
         for(i=0;i<graphs.length;i++) {
+            // console.log( graph_id +'=='+ graphs[i].graph_id );
             if( graph_id == graphs[i].graph_id ) {
                 var chr_idx = i;
             }
@@ -344,6 +467,7 @@ function drawChart(data) {
 
         // Create chart when all data loaded.
         seriesCounter += 1;
+        // console.log(graphs.length + ' graphs.length == '+ seriesCounter + ' seriesCounter.');
         if (seriesCounter == graphs.length) {
             console.log('graph drawing .................................');
             console.log('seriesOptions length: ' + seriesOptions.length);
@@ -368,6 +492,7 @@ $(document).on('click','#fsearch button[type=submit]',function(e){
     }
 
     dta_loading('show');
+    seriesCounter = 0;
  
     // get the graphs attribute form target object div
     var graphs =  JSON.parse( $("#chart1").attr("graphs") );
@@ -402,15 +527,46 @@ $(document).on('click','#fsearch button[type=submit]',function(e){
         );
 
     }
-    dta_loading('hide');
+    // dta_loading('hide');
     $('.div_btn_add').show();
 
+});
+
+// 차트 제거하기
+$(document).on('click','.btn_chr_del',function(e){
+    e.preventDefault();
+    // 차트가 한개뿐이면 제거 안 함
+    if(seriesOptions.length<=1) {
+        alert('기본 차트는 제거할 수 없습니다.');
+        return false;
+    }
+    var frm = $('#fchart');
+    var chr_id_del = frm.find('input[name=chr_id]').val();
+    var chr_idx_del = frm.find('input[name=chr_idx]').val();
+    if(chr_id_del=='') {
+        alert('제거할 차트를 선택하세요.');
+        return false;
+    }
+    else {
+        seriesOptions.splice(chr_idx_del,1);
+        $('.div_dta_type a[id='+chr_id_del+']').removeAttr('chr_id');
+        frm.find('input[name=chr_id]').val('');    // 폼초기화
+        createChart();
+        $('.chr_control').hide();
+    }
+
+});
+
+// 차트 설정 닫기
+$(document).on('click','.btn_chr_close',function(e){
+    e.preventDefault();
+    $('.chr_control').hide();
 });
 
 
 // 로딩 spinner 이미지 표시/비표시
 function dta_loading(flag) {
-    var img_loading = $('<i class="fa fa-spin fa-spinner" id="spinner" style="position:absolute;top:80px;left:46%;font-size:4em;"></i>');
+    var img_loading = $('<i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:80px;left:46%;font-size:4em;color:gray;"></i>');
     if(flag=='show') {
         // console.log('show');
         $('#chart1').append(img_loading);

@@ -158,7 +158,7 @@ include_once('./_head.sub.php');
     </div>
 
     <div class="tbl_head01 tbl_wrap new_win_con">
-        <i class="fa fa-spin fa-spinner" id="spinner" style="position:absolute;top:280px;left:46%;font-size:4em;"></i>
+        <i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:280px;left:46%;font-size:4em;z-index:100;"></i>
         <table>
         <caption>검색결과</caption>
         <tbody>
@@ -201,12 +201,12 @@ include_once('./_head.sub.php');
                                         .'mms_data_url_path="/device/rdb" '
                                         .'mms_data_url_file="shot_sub.php" '
                                         .'dta_type="'.$one[$i]['data_name_code'].'" dta_no="'.$row1['dta_no'].'" '
-                                        .'graph_name="'.$one[$i]['data_name_text'].'" '
+                                        .'graph_name="'.$row['mms_name'].' '.$one[$i]['data_name_text'].'" '
                                         .'>'.$one[$i]['dta_label'].'</span>';
                 }
             }
     
-            // 해당 기간 압력값 추출
+            // 압력
             $sql1 = "   SELECT machine_id, MAX(detect_pressure) AS detect_pressure_max, MAX(target_pressure) AS target_pressure_max
                             , MAX(control_pressure) AS control_pressure_max
                             , MAX(deviation_pressure) AS deviation_pressure_max
@@ -237,7 +237,7 @@ include_once('./_head.sub.php');
                                         .'mms_data_url_path="/device/rdb" '
                                         .'mms_data_url_file="shot_pressure.php" '
                                         .'dta_type="'.$one[$i]['data_name_code'].'" dta_no="'.$row1['dta_no'].'" '
-                                        .'graph_name="'.$one[$i]['data_name_text'].'" '
+                                        .'graph_name="'.$row['mms_name'].' '.$one[$i]['data_name_text'].'" '
                                         .'>'.$one[$i]['dta_label'].'</span>';
                 }
             }

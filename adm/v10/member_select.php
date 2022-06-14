@@ -3,7 +3,8 @@
 // 호출페이지들
 // /adm/v10/applicant_list.php: 지원자관리 - 검색
 // /adm/v10/recruit_form.php: 채용공고수정 - 검색
-include_once('./_common.php');
+// /adm/v10/manager_form.php: 관리자등록시 회원검색
+    include_once('./_common.php');
 
 if($member['mb_level']<4)
 	alert_close('접근할 수 없는 페이지입니다.');
@@ -120,8 +121,30 @@ $('.btn_select').click(function(e){
         $("input[name=ser_mb_name]", opener.document).val( mb_name );
     <?php
     }
+    // 관리자 추가인 경우
+    else if($file_name=='manager_form') {
+        ?>
+        window.opener.document.getElementById('reg_mb_id').value = val1;
+        window.opener.document.getElementById('mb_name').value = val2;
+        window.opener.document.getElementById('reg_mb_nick').value = val4;
+		window.opener.document.getElementById('reg_mb_email').value = val_email;
+		window.opener.document.getElementById('reg_mb_hp').value = val_hp;
+        <?php
+    }
+    // 사원 추가인 경우
+    else if($file_name=='employee_form') {
+        ?>
+        window.opener.document.getElementById('reg_mb_id').value = val1;
+        window.opener.document.getElementById('mb_name').value = val2;
+        window.opener.document.getElementById('reg_mb_nick').value = val4;
+		window.opener.document.getElementById('reg_mb_email').value = val_email;
+		window.opener.document.getElementById('reg_mb_hp').value = val_hp;
+		window.opener.document.getElementById('reg_mb_tel').value = val_tel;
+        $("#mb_password", window.opener.document).remove();
+        <?php
+    }
     // 지원자등록(수정)
-    if($file_name=='recruit_form') {
+    else if($file_name=='recruit_form') {
     ?>
         $("input[name=mb_id]", opener.document).val( mb_id );
         $("input[name=mb_name]", opener.document).val( mb_name );
@@ -143,7 +166,7 @@ $('.btn_select').click(function(e){
 		}
     }
     // 게시판 글쓰기
-    if($file_name=='write'||$file_name=='error_code_form') {
+    else if($file_name=='write'||$file_name=='error_code_form') {
     ?>
         $("input[name=com_idx]", parent.document).val( com_idx );
         $("input[name=com_name]", parent.document).val( com_name );
@@ -152,6 +175,11 @@ $('.btn_select').click(function(e){
         $("input[name=imp_idx]", parent.document).val( imp_idx );
         $("input[name=imp_name]", parent.document).val( imp_name );
         $("#mms_info", parent.document).hide();
+    <?php
+    }
+    else if($file_name=='manager_auth_setting') {
+    ?>
+        $("input[name=mb_id_saler]", opener.document).val( mb_id );
     <?php
     }
     ?>
