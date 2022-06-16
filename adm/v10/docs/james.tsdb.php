@@ -2,6 +2,7 @@ pgAdmin..
 ..................................................................................
 SELECT * FROM g5_1_cast_shot_pressure ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100;
+SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot ORDER BY start_time DESC LIMIT 100;
 
 SELECT * FROM pg_stat_activity ORDER BY query_start ASC;
@@ -12,36 +13,73 @@ DELETE FROM g5_1_cast_shot_pressure WHERE event_time > '2022-06-04 00:00:00'
 
 ..................................................................................
 
-CREATE TABLE `g5_1_cast_shot` (
-  `csh_idx` bigint(20) NOT NULL,
-  `shot_id` int(11) NOT NULL COMMENT '샷ID',
-  `work_date` date DEFAULT '0000-00-00' COMMENT '작업일',
-  `work_shift` int(11) NOT NULL COMMENT '주(1)/야(2)',
-  `start_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '시작시각',
-  `end_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '종료시각',
-  `elapsed_time` int(11) NOT NULL COMMENT '경과시간',
-  `machine_id` double NOT NULL COMMENT '설비ID',
-  `machine_no` double NOT NULL COMMENT '설비번호',
-  `item_no` double NOT NULL COMMENT '금형번호',
-  `item_name` double NOT NULL COMMENT '제품명',
-  `mold_no` double NOT NULL COMMENT '금형번호',
-  `shot_no` int(11) NOT NULL COMMENT '샷번호',
-  `pv_cycletime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'PV사이클타임',
-  `machine_cycletime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '설비사이클타임',
-  `product_cycletime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '제품사이클타임',
-  `hold_temp` double NOT NULL COMMENT '보온로온도',
-  `upper_heat` double NOT NULL COMMENT '상형히트',
-  `lower_heat` double NOT NULL COMMENT '하형히트',
-  `upper_1_temp` double NOT NULL COMMENT '상금형1',
-  `upper_2_temp` double NOT NULL COMMENT '상금형2',
-  `upper_3_temp` double NOT NULL COMMENT '상금형3',
-  `upper_4_temp` double NOT NULL COMMENT '상금형4',
-  `upper_5_temp` double NOT NULL COMMENT '상금형5',
-  `upper_6_temp` double NOT NULL COMMENT '상금형6',
-  `lower_1_temp` double NOT NULL COMMENT '하금형1',
-  `lower_2_temp` double NOT NULL COMMENT '하금형2',
-  `lower_3_temp` double NOT NULL COMMENT '하금형3'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE g5_1_data_measure_58 (
+  dta_idx SERIAL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_dt TIMESTAMPTZ NOT NULL
+);
+SELECT create_hypertable('g5_1_data_measure_58', 'dta_dt');
+CREATE INDEX data_measure_58_idx_type ON g5_1_data_measure_58 (dta_type);
+CREATE INDEX data_measure_58_idx_type_no ON g5_1_data_measure_58 (dta_type, dta_no);
+
+CREATE TABLE g5_1_data_measure_59 (
+  dta_idx SERIAL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_dt TIMESTAMPTZ NOT NULL
+);
+SELECT create_hypertable('g5_1_data_measure_59', 'dta_dt');
+CREATE INDEX data_measure_59_idx_type ON g5_1_data_measure_59 (dta_type);
+CREATE INDEX data_measure_59_idx_type_no ON g5_1_data_measure_59 (dta_type, dta_no);
+
+CREATE TABLE g5_1_data_measure_60 (
+  dta_idx SERIAL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_dt TIMESTAMPTZ NOT NULL
+);
+SELECT create_hypertable('g5_1_data_measure_60', 'dta_dt');
+CREATE INDEX data_measure_60_idx_type ON g5_1_data_measure_60 (dta_type);
+CREATE INDEX data_measure_60_idx_type_no ON g5_1_data_measure_60 (dta_type, dta_no);
+
+CREATE TABLE g5_1_data_measure_61 (
+  dta_idx SERIAL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_dt TIMESTAMPTZ NOT NULL
+);
+SELECT create_hypertable('g5_1_data_measure_61', 'dta_dt');
+CREATE INDEX data_measure_61_idx_type ON g5_1_data_measure_61 (dta_type);
+CREATE INDEX data_measure_61_idx_type_no ON g5_1_data_measure_61 (dta_type, dta_no);
+
+CREATE TABLE g5_1_data_measure_62 (
+  dta_idx SERIAL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_dt TIMESTAMPTZ NOT NULL
+);
+SELECT create_hypertable('g5_1_data_measure_62', 'dta_dt');
+CREATE INDEX data_measure_62_idx_type ON g5_1_data_measure_62 (dta_type);
+CREATE INDEX data_measure_62_idx_type_no ON g5_1_data_measure_62 (dta_type, dta_no);
+
+CREATE TABLE g5_1_data_measure_63 (
+  dta_idx SERIAL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_dt TIMESTAMPTZ NOT NULL
+);
+SELECT create_hypertable('g5_1_data_measure_63', 'dta_dt');
+CREATE INDEX data_measure_63_idx_type ON g5_1_data_measure_63 (dta_type);
+CREATE INDEX data_measure_63_idx_type_no ON g5_1_data_measure_63 (dta_type, dta_no);
+
+
 
 
 CREATE TABLE g5_1_cast_shot_sub (
@@ -565,3 +603,12 @@ UPDATE g5_1_cast_shot_pressure AS csp SET
 WHERE event_time > '2022-06-01 00:00:00'
 ....
 
+
+SELECT * FROM pg_tables;
+SELECT 1 as flag FROM pg_tables WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58';
+SELECT COUNT(*) FROM pg_tables WHERE tableowner='postgres' AND tablename='g5_1_charge_in';
+SELECT 1 FROM pg_tables WHERE schemaname='postgres' AND tablename='g5_1_data_measure_58';
+
+SELECT EXISTS (
+  SELECT 1 FROM pg_tables WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58'
+) AS flag
