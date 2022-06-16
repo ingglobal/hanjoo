@@ -1,18 +1,20 @@
 <?php
-$sub_menu = "925130";
+$sub_menu = "940150";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
 
 $g5['title'] = '주조공정(SUB)';
-include_once('./_top_menu_db.php');
+include_once('./_top_menu_rdb.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
 // // 검색 조건
-$st_date = ($st_date) ? $st_date : G5_TIME_YMD;
-//$en_date = ($en_date) ? $en_date : '2016-03-31';
+$st_time_ahead = 3600*1;  // 1hour ahead.
+$st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
+$st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
 $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
+$en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
 
 if($st_date > $en_date)
 	alert("시작일이 종료일보다 큰 값이면 안 됩니다.");
@@ -41,10 +43,12 @@ if ($stx) {
 
 // 날자 검색
 if ($st_date) {
-    $where[] = " event_time >= '".$st_date." 00:00:00' ";
+    $st_time = $st_time ?: '00:00:00';
+    $where[] = " event_time >= '".$st_date." ".$st_time."' ";
 }
 if ($en_date) {
-    $where[] = " event_time <= '".$en_date." 23:59:59' ";
+    $en_time = $en_time ?: '23:59:59';
+    $where[] = " event_time <= '".$en_date." ".$en_time."' ";
 }
 
 // 최종 WHERE 생성
@@ -59,28 +63,31 @@ if (!$sst) {
 $sql_order = " ORDER BY {$sst} {$sod} ";
 
 
-$sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
-$row = sql_fetch($sql,1);
-$total_count = $row['cnt'];
-
+// $sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
+// $row = sql_fetch($sql,1);
+// $total_count = $row['cnt'];
+// $total_count = 34486;
 
 // $rows = $config['cf_page_rows'];
 $rows = 100;
-$total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
-if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
+if (!$page) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
-$sql = "SELECT *
+$sql = "SELECT SQL_CALC_FOUND_ROWS *
         {$sql_common} {$sql_search} {$sql_order}
 		LIMIT {$from_record}, {$rows}
 ";
 // echo $sql.'<br>';
 $result = sql_query($sql,1);
+$count = sql_fetch_array( sql_query(" SELECT FOUND_ROWS() as total ") ); 
+$total_count = $count['total'];
+$total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
+
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
 // 넘겨줄 변수가 추가로 있어서 qstr 별도 설정
-$qstr = $qstr."&st_date=$st_date&en_date=$en_date";
+$qstr = $qstr."&st_date=$st_date&en_date=$en_date&st_time=$st_time&en_time=$en_time";
 ?>
 <style>
 .tbl_body td {text-align:center;}
@@ -98,8 +105,11 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
 기간:
-<input type="text" name="st_date" value="<?php echo $st_date ?>" id="st_date" class="frm_input" style="width:80px;"> ~
+<input type="text" name="st_date" value="<?php echo $st_date ?>" id="st_date" class="frm_input" style="width:80px;">
+<input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
+~
 <input type="text" name="en_date" value="<?php echo $en_date ?>" id="en_date" class="frm_input" style="width:80px;">
+<input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;">
 &nbsp;&nbsp;
 <select name="sfl" id="sfl">
     <option value="WORK_SHIFT" <?=get_selected($sfl, 'WORK_SHIFT')?>>주야간</option>
@@ -159,7 +169,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 		';
 	}
 	if ($i == 0)
-		echo '<tr class="no-data"><td colspan="8" class="text-center">등록(검색)된 자료가 없습니다.</td></tr>';
+		echo '<tr class="no-data"><td colspan="20" class="text-center">등록(검색)된 자료가 없습니다.</td></tr>';
 	?>
     </tbody>
     </table>

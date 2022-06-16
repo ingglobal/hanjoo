@@ -113,6 +113,8 @@ function create_td_input($arr) {
     $form_unit = ($arr['unit']) ? ' '.$arr['unit'] : '';
     // 설명
     $form_help = ($arr['help']) ? ' '.help($arr['help']) : '';
+    // placeholder
+    $arr['placeholder'] = ($arr['placeholder']) ? ' placeholder="'.$arr['placeholder'].'"' : '';
     // 한줄 두항목
     $form_span = ($arr['colspan']) ? ' colspan="'.$arr['colspan'].'"' : '';
     // value_type==number
@@ -161,7 +163,7 @@ function create_td_input($arr) {
     }
     // 기본 디폴트는 INPUTBOX
     else {
-        $item_form = '<input type="text" name="'.$arr['id'].'" id="'.$arr['id'].'" value="'.$arr['value'].'" '.$arr['required'].'
+        $item_form = '<input type="text" name="'.$arr['id'].'" id="'.$arr['id'].'" value="'.$arr['value'].'" '.$arr['required'].' '.$arr['placeholder'].'
                         class="frm_input '.$arr['required'].'" style="'.$arr['form_style'].';'.$form_width.'" '.$arr['form_script'].'>'.$form_unit;
     }
 

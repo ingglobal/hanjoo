@@ -197,7 +197,7 @@ include_once('./_head.sub.php');
                     // echo $one[$i]['dta_label'].'<br>';
                     // 차트(그래프) 항목 배열
                     $row['charts'][] = '<span class="btn_mesaure" mms_idx="'.$row['mms_idx'].'" mms_name="'.$row['mms_name'].'" '
-                                        .'mms_data_url="'.$row['mms_data_url'].'" '
+                                        .'mms_data_url_host="'.$row['mms_data_url_host'].'" '
                                         .'dta_type="'.$one[$i]['data_name_code'].'" dta_no="'.$row1['dta_no'].'" '
                                         .'graph_name="'.$one[$i]['data_name_text'].'" '
                                         .'>'.$one[$i]['dta_label'].'</span>';
@@ -231,7 +231,7 @@ include_once('./_head.sub.php');
                     // echo $one[$i]['dta_label'].'<br>';
                     // 차트(그래프) 항목 배열
                     $row['charts'][] = '<span class="btn_mesaure" mms_idx="'.$row['mms_idx'].'" mms_name="'.$row['mms_name'].'" '
-                                        .'mms_data_url="'.$row['mms_data_url'].'" '
+                                        .'mms_data_url_host="'.$row['mms_data_url_host'].'" '
                                         .'dta_type="'.$one[$i]['data_name_code'].'" dta_no="'.$row1['dta_no'].'" '
                                         .'graph_name="'.$one[$i]['data_name_text'].'" '
                                         .'>'.$one[$i]['dta_label'].'</span>';
@@ -283,7 +283,7 @@ var graphs2 =[];
 // idx = graphs2.length; // graph count
 
 // 아래 전역 변수들를 만들어 두고 바꿔가면서 applyGraphs()함수를 실행하여 graphs 배열변수를 생성(추가)한다.
-var dta_data_url;
+var dta_data_url_host;
 var dta_json_file;
 var dta_group;  // mea, product, run, error
 var mms_idx;
@@ -305,11 +305,11 @@ $(function() {
     $(".btn_test").click(function() {
         var tests =[];
         tests[0] = {
-            dta_data_url: "icmms.co.kr/device/json",
+            dta_data_url_host: "icmms.co.kr/device/json",
             dta_no: 0,
         };
         tests[1] = {
-            dta_data_url: "icmms.co.kr/device/json",
+            dta_data_url_host: "icmms.co.kr/device/json",
             dta_no: 1,
         };
         $("#chart1", opener.document).attr("tests",JSON.stringify(tests) );
@@ -329,7 +329,7 @@ $(function() {
         e.preventDefault();
         dta_group = "mea";  // mea, product, run, error
         dta_json_file = "shot_sub.multi";
-        dta_data_url = $(this).attr('mms_data_url') || "<?=$g5['set_data_url']?>";
+        dta_data_url_host = $(this).attr('mms_data_url_host') || "<?=$g5['set_data_url_host']?>";
         mms_idx = $(this).attr('mms_idx');
         mms_name = encodeURIComponent($(this).attr('mms_name'));
         dta_type = $(this).attr('dta_type');  // 
@@ -353,7 +353,7 @@ $(function() {
         var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
         for(i=0;i<graphs2.length;i++) {
             // console.log(i);
-            // console.log(graphs[i].dta_data_url);
+            // console.log(graphs[i].dta_data_url_host);
             if( graph_id1 == graphs2[i].graph_id) {
                 chr_idx = i;
             }
@@ -375,7 +375,7 @@ $(function() {
 function applyGraphs(idx) {
     var graph_id1 = getGraphId(dta_json_file,dta_group,mms_idx,dta_type,dta_no,shf_no,dta_mmi_no,dta_defect,dta_defect_type,dta_code);
     graphs2[idx] = {
-        dta_data_url: dta_data_url,
+        dta_data_url_host: dta_data_url_host,
         dta_json_file: dta_json_file,
         dta_group: dta_group,
         mms_idx: mms_idx,

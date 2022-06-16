@@ -1,5 +1,5 @@
 <?php
-// http://hanjoo.epcs.co.kr/php/hanjoo/device/rdb/shot_sub.php?token=1099de5drf09&mms_idx=45&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
+// http://hanjoo.epcs.co.kr/device/rdb/shot_sub.php?token=1099de5drf09&mms_idx=60&st_date=2022-06-02&st_time=13:33:14&en_date=2022-06-02&en_time=14:33:14
 header("Content-Type: text/plain; charset=utf-8");
 include_once('./_common.php');
 if(isset($_SERVER['HTTP_ORIGIN'])){
@@ -28,6 +28,15 @@ else if($_REQUEST['mms_idx']){
 		exit;
     }
 
+    // machine_id 추출
+    $machine_id = $g5['mms'][$_REQUEST['mms_idx']]['mms_idx2'];
+    if(!$machine_id) {
+        $list = array("code"=>700,"message"=>"machine id error");
+        echo json_encode( array($list) );
+		exit;
+    }
+
+
     $where = array();
     $where[] = " (1) ";   // 디폴트 검색조건
     
@@ -46,25 +55,41 @@ else if($_REQUEST['mms_idx']){
                 SELECT shot_id FROM g5_1_cast_shot
                 WHERE start_time >= '".$start."'
                     AND start_time <= '".$end."'
-                    AND machine_id = '".$mms_idx."'
-            )
+                    AND machine_id = '".$machine_id."'
+                )
+                AND event_time >= '".$start."'
+                AND event_time <= '".$end."'
+            ORDER BY event_time ASC
     ";
-//    echo $sql.'<br>';
-//    exit;
+    // echo $sql.'<br>';
+    // exit;
 	$rs = sql_query($sql,1);
 	$list = array();
 	for($i=0;$row=sql_fetch_array($rs);$i++){
         $row['no'] = $i;
         $row['timestamp'] = strtotime($row['event_time']);
-        $dta1[$i][0] = $row['timestamp']*1000;
-        $dta1[$i][1] = (float)$row[$item_type];
-        // 좌표값
+        // 좌표에 표현할 value
+        $dta1[$i]['x'] = $row['timestamp']*1000;
+        $dta1[$i]['y'] = (float)$row[$dta_type];
+        $dta1[$i]['machine_id'] = (int)$row['machine_id'];
+        $dta1[$i]['shot_no'] = (int)$row['shot_no'];
+        $dta1[$i]['yraw'] = ($dta1[$i]['y']) ?: 0;
+        $dta1[$i]['yamp'] = 1;
+        $dta1[$i]['ymove'] = 0;
+        // 좌표 list array
         $list[$i] = $dta1[$i];
     }
     //print_r2($dta1);
+
+    // in case of no data.
     if(!$list[0]) {
-        $dta1[0][0] = G5_SERVER_TIME*1000;
-        $dta1[0][1] = 0;
+        $dta1[0]['x'] = G5_SERVER_TIME*1000;
+        $dta1[0]['y'] = 0;
+        $dta1[0]['machine_id'] = null;
+        $dta1[0]['shot_no'] = null;
+        $dta1[0]['yraw'] = 0;
+        $dta1[0]['yamp'] = 1;
+        $dta1[0]['ymove'] = 0;
         $list[0] = $dta1[0];
     }
 

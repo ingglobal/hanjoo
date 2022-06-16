@@ -846,3 +846,17 @@ temp_min=온도최소
 hum_avg=평균습도
 hum_max=습도최대
 hum_min=습도최소
+
+
+how to program python.
+1. 개발환경 vscode, pycharm?
+2. 프로그램 백그라운드 실행? 
+  현재 프로그램 실행중이 아닌 듯!!
+3. 엣지1에 opcua-client 설치
+  - GUI 버전!!
+4. 
+
+
+SELECT * FROM g5_1_cast_shot_sub WHERE shot_id IN ( SELECT shot_id FROM g5_1_cast_shot WHERE start_time >= '2022-06-10 19:46:31' AND start_time <= '2022-06-11 05:46:31' AND machine_id = '45' ) ORDER BY event_time ASC;
+SELECT shot_id, start_time FROM g5_1_cast_shot WHERE start_time >= '2022-06-10 19:46:31' AND start_time <= '2022-06-11 05:46:31' AND machine_id = '45'
+SELECT shot_id, start_time FROM g5_1_cast_shot WHERE start_time >= '2022-06-10 19:46:31' AND start_time <= '2022-06-11 05:46:31' AND machine_id = '45' ORDER BY start_time

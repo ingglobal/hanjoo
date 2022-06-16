@@ -2,6 +2,36 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 
+// Message send_type setting
+// array: prefix, com_idx, value
+if(!function_exists('set_send_type')){
+function set_send_type($arr) {
+	global $g5;
+	
+    // Get the company info.
+    $com = get_table_meta('company','com_idx',$arr['com_idx']);
+
+    $set_values = explode(',', preg_replace("/\s+/", "", $g5['setting']['set_send_type']));
+    foreach ($set_values as $set_value) {
+        list($key, $value) = explode('=', $set_value);
+        // echo $key.'/',$value.'<br>';
+        // 해당 업체 발송 설정을 먼저 체크해서 비활성 표현
+        if(!preg_match("/".$key."/i",$com['com_send_type'])) {
+            ${"disable_".$key} = ' disabled'; 
+        }
+        ${"checked_".$key} = (preg_match("/".$key."/i",$arr['value'])) ? 'checked':''; 
+        $str .= '<label for="set_send_type_'.$key.'" class="set_send_type" '.${"disable_".$key}.'>
+                <input type="checkbox" id="set_send_type_'.$key.'"
+                    name="'.$arr['prefix'].'_send_type[]" value="'.$key.'"
+                     '.${"checked_".$key}.${"disable_".$key}.'>'.$value.'('.$key.')
+            </label>';
+    }
+
+    return $str;
+}
+}
+
+
 // 직책, 직급을 SELECT 형식으로 얻음
 if(!function_exists('get_set_options_select')){
 function get_set_options_select($set_variable, $start=0, $end=200, $selected="",$sub_menu)
