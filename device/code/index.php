@@ -11,7 +11,7 @@ include_once('./_common.php');
 
 $rawBody = file_get_contents("php://input"); // 본문을 불러옴
 $getData = array(json_decode($rawBody,true)); // 데이터를 변수에 넣고
-//print_r2($getData);
+// print_r2($getData);
 //echo $getData[0]['token'];
 //print_r2($getData[0]['list']);
 //echo json_encode(array('result_code' => '200', 'result'=>$getData));
