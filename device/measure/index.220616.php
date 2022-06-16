@@ -21,13 +21,17 @@ else if(is_array($getData[0]['list'])) {
     for($i=0;$i<sizeof($getData[0]['list']);$i++) {
         $arr = $getData[0]['list'][$i];
 
-        // $arr['dta_dt'] = strtotime(preg_replace('/\./','-',$arr['dta_date'])." ".$arr['dta_time']);
-        $arr['dta_date'] = preg_replace('/\./','-',$arr['dta_date']);
-        $arr['dta_dt'] = $arr['dta_date']." ".$arr['dta_time'];
-        $table_name = 'g5_1_data_measure_'.$arr['mms_idx'];
+        $arr['dta_status'] = '0';
+        $arr['dta_dt'] = strtotime(preg_replace('/\./','-',$arr['dta_date'])." ".$arr['dta_time']);
+        $arr['dta_date1'] = date("Y-m-d",$arr['dta_dt']);   // 2 or 4 digit format(20 or 2020) no problem.
+        $arr['st_time'] = strtotime($arr['dta_date1']." 00:00:00"); // 해당 날짜의 시작
+        $arr['en_time'] = strtotime($arr['dta_date1']." 23:59:59"); // 해당 날짜의 끝
+        // echo $arr['dta_date1'].PHP_EOL;
+        // echo $arr['st_time'].'~'.$arr['en_time'].PHP_EOL;
+        $table_name = 'g5_1_data_measure_'.$arr['mms_idx'].'_'.$arr['dta_type'].'_'.$arr['dta_no'];
 
 
-        // db table create if not exists.
+        // checkout db table exists and create if not exists.
         $sql = "SELECT EXISTS (
                     SELECT 1 FROM Information_schema.tables
                     WHERE TABLE_SCHEMA = '".G5_MYSQL_DB."'
@@ -36,30 +40,53 @@ else if(is_array($getData[0]['list'])) {
         ";
         $tb1 = sql_fetch($sql,1);
         if(!$tb1['flag']) {
-            $file = file('./sql_write2.sql');
+            $file = file('./sql_write.sql');
             $file = get_db_create_replace($file);
             $sql = implode("\n", $file);
             $source = array('/__TABLE_NAME__/', '/;/');
             $target = array($table_name, '');
             $sql = preg_replace($source, $target, $sql);
             sql_query($sql, FALSE);
-            sql_query(" ALTER TABLE $table_name ADD INDEX idx_type (dta_type) ;", false);
-            sql_query(" ALTER TABLE $table_name ADD INDEX idx_type_no (dta_type,dta_no) ;", false);
         }
 
-        // insert record.
-        $sql = "INSERT INTO {$table_name} SET 
-                    dta_dt = '".$arr['dta_dt']."'
-                    , dta_type = '".$arr['dta_type']."'
-                    , dta_no = '".$arr['dta_no']."'
-                    , dta_value = '".$arr['dta_value']."'
+        // 중복체크
+        $sql_dta = "   SELECT dta_idx FROM {$table_name}
+                        WHERE dta_dt = '".$arr['dta_dt']."'
         ";
-        // echo $sql.'<br>';
-        sql_query($sql,1);
-        $dta['dta_idx'] = sql_insert_id();
+        //echo $sql_dta.'<br>';
+		$dta = sql_fetch($sql_dta,1);
+        
+		// 정보 업데이트
+		if($dta['dta_idx']) {
+			
+			$sql = "UPDATE {$table_name} SET 
+                        dta_value = '".$arr['dta_value']."'
+						, dta_update_dt = '".G5_SERVER_TIME."'
+					WHERE dta_idx = '".$dta['dta_idx']."'";
+			sql_query($sql,1);
+            $result_arr[$i]['code'] = 200;
+            $result_arr[$i]['message'] = "Updated OK!";
+
+		}
+        // 정보 입력
+        else{
+
+			$sql = "INSERT INTO {$table_name} SET 
+						dta_dt = '".$arr['dta_dt']."'
+                        , dta_value = '".$arr['dta_value']."'
+						, dta_reg_dt = '".G5_SERVER_TIME."'
+						, dta_update_dt = '".G5_SERVER_TIME."'
+            ";
+			sql_query($sql,1);
+//            echo $sql.'<br>';
+            $dta['dta_idx'] = sql_insert_id();
+            $result_arr[$i]['code'] = 200;
+            $result_arr[$i]['message'] = "Inserted OK!";
+        
+        }
         $result_arr[$i]['dta_idx'] = $dta['dta_idx'];   // 고유번호
-        $result_arr[$i]['code'] = 200;
-        $result_arr[$i]['message'] = "Inserted OK!";
+
+
 
 
 
@@ -247,7 +274,7 @@ else if(is_array($getData[0]['list'])) {
                         else {
                             $msg_body = $cod['tgc_memo'];
                         }
-
+        
                         // 메시지 발송 함수
                         $ar['arm_table'] = 'alarm_tag';
                         $ar['arm_idx'] = $arm_idx;  // 알람용
@@ -278,6 +305,76 @@ else if(is_array($getData[0]['list'])) {
         }
         //// 태그 설정 정보가 존재할 때만
 
+
+
+
+
+
+
+        // 일간 sum 합계 입력
+        $sum_common = " mms_idx = '".$arr['mms_idx']."'
+                        AND dta_type = '".$arr['dta_type']."'
+                        AND dta_no = '".$arr['dta_no']."'
+        ";
+        // 쿼리는 좌변을 가공하면 속도가 느리다.
+        $sql = "SELECT ROUND(AVG(dta_value),2) AS dta_avg
+                        , SUM(dta_value) AS dta_sum
+                        , MAX(dta_value) AS dta_max
+                        , MIN(dta_value) AS dta_min
+                FROM {$table_name}
+                WHERE dta_dt >= '".$arr['st_time']."' AND dta_dt <= '".$arr['en_time']."'
+        ";
+        // $sql = "SELECT ROUND(AVG(dta_value),2) AS dta_avg
+        //                 , SUM(dta_value) AS dta_sum
+        //                 , MAX(dta_value) AS dta_max
+        //                 , MIN(dta_value) AS dta_min
+        //         FROM {$table_name}
+        //         WHERE FROM_UNIXTIME(dta_dt,'%Y-%m-%d') = '".$arr['dta_date1']."'
+        // ";
+        // sql_query(" INSERT INTO {$g5['meta_table']} SET mta_value = 'sum: ".addslashes($sql)."' ");
+        $sum1 = sql_fetch($sql,1); // 일 평균 데이터값 추출 
+
+        // 있으면 업데이트, 없으면 생성
+        $sql_sum = "   SELECT dta_idx FROM {$g5['data_measure_sum_table']} 
+                        WHERE {$sum_common}
+                            AND dta_date = '".$arr['dta_date1']."'
+        ";
+        //echo $sql_sum.'<br>';
+		$sum = sql_fetch($sql_sum,1);
+		// 정보 업데이트
+		if($sum['dta_idx']) {
+            $sql = "UPDATE {$g5['data_measure_sum_table']} SET
+                        dta_avg = '".$sum1['dta_avg']."'
+                        , dta_sum = '".$sum1['dta_sum']."'
+                        , dta_max = '".$sum1['dta_max']."'
+                        , dta_min = '".$sum1['dta_min']."'
+                    WHERE {$sum_common}
+                        AND dta_date = '".$arr['dta_date1']."'
+            ";
+            // sql_query(" INSERT INTO {$g5['meta_table']} SET mta_value = 'up: ".addslashes($sql)."' ");
+            $result = sql_query($sql);
+        }
+        else {
+            $sql = " INSERT INTO {$g5['data_measure_sum_table']} SET
+                        com_idx = '".$arr['com_idx']."'
+                        , imp_idx = '".$arr['imp_idx']."'
+                        , mms_idx = '".$arr['mms_idx']."'
+                        , mmg_idx = '".$g5['mms'][$arr['mms_idx']]['mmg_idx']."'
+                        , dta_shf_no = '".$arr['dta_shf_no']."'
+                        , dta_mmi_no = '".$arr['dta_mmi_no']."'
+                        , dta_group = '".$arr['dta_group']."'
+                        , dta_type = '".$arr['dta_type']."'
+                        , dta_no = '".$arr['dta_no']."'
+                        , dta_date = '".$arr['dta_date1']."'
+                        , dta_avg = '".$sum1['dta_avg']."'
+                        , dta_sum = '".$sum1['dta_sum']."'
+                        , dta_max = '".$sum1['dta_max']."'
+                        , dta_min = '".$sum1['dta_min']."'
+            ";
+            // sql_query(" INSERT INTO {$g5['meta_table']} SET mta_value = 'in: ".addslashes($sql)."' ");
+            $result = sql_query($sql);
+        }
+    
     }
 	
 }

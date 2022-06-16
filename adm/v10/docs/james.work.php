@@ -1,5 +1,16 @@
 This is james work memo.
 
+CREATE TABLE `g5_1_data_measure_58` (
+  `dta_idx` bigint(20) NOT NULL AUTO_INCREMENT,
+  `dta_type` tinyint(4) NOT NULL COMMENT '전류,전압등',
+  `dta_no` int(11) NOT NULL DEFAULT '0' COMMENT '측정번호',
+  `dta_value` double DEFAULT '0' COMMENT '데이터값',
+  `dta_datetime` int(11) DEFAULT NULL COMMENT '일시 timestamp',
+  `dta_dt` int(11) DEFAULT NULL COMMENT '일시 datetime',
+  PRIMARY KEY (`dta_idx`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE `g5_1_cast_shot_sub` (
   `css_idx` bigint(20) NOT NULL AUTO_INCREMENT,
   `shot_id` int(11) NOT NULL COMMENT '샷ID',
@@ -860,3 +871,10 @@ how to program python.
 SELECT * FROM g5_1_cast_shot_sub WHERE shot_id IN ( SELECT shot_id FROM g5_1_cast_shot WHERE start_time >= '2022-06-10 19:46:31' AND start_time <= '2022-06-11 05:46:31' AND machine_id = '45' ) ORDER BY event_time ASC;
 SELECT shot_id, start_time FROM g5_1_cast_shot WHERE start_time >= '2022-06-10 19:46:31' AND start_time <= '2022-06-11 05:46:31' AND machine_id = '45'
 SELECT shot_id, start_time FROM g5_1_cast_shot WHERE start_time >= '2022-06-10 19:46:31' AND start_time <= '2022-06-11 05:46:31' AND machine_id = '45' ORDER BY start_time
+
+
+ALTER TABLE g5_1_data_measure_58 ADD INDEX idx_type (dta_type);
+ALTER TABLE g5_1_data_measure_58 DROP INDEX idx_type;
+ALTER TABLE g5_1_data_measure_58 ADD INDEX idx_type_no (dta_type,dta_no);
+ALTER TABLE g5_1_data_measure_58 DROP INDEX idx_type_no;
+

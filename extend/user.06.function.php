@@ -1,6 +1,384 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// 임계치 범위 추출
+if(!function_exists('get_range')){
+function get_range($val, $arr) {
+    global $g5;
+
+    $str = 'ok';  // 정상
+    if(!$arr[0]||!$arr[1]||!$arr[2]||!$arr[3]||!$arr[4]||!$arr[5]) {
+        return $str;
+    }
+    if($val >= $arr[2])
+        $str = 't3';    // 상단위험
+    else if($val >= $arr[1])
+        $str = 't2';    // 상단경고
+    else if($val >= $arr[0])
+        $str = 't1';    // 상단주의
+    else if($val <= $arr[5])
+        $str = 'b3';    // 하단위험
+    else if($val <= $arr[4])
+        $str = 'b2';    // 하단경고
+    else if($val <= $arr[3])
+        $str = 'b1';    // 하단주의
+
+    return $str;
+}
+}    
+
+
+// 알람 메시지 발송 업데이트
+if(!function_exists('update_alarm_send')){
+function update_alarm_send($arr) {
+    global $g5;
+
+    $sql = " INSERT INTO {$g5['alarm_send_table']} SET
+            arm_idx = '".$arr['alarm_idx']."'
+            , mms_idx = '".$arr['mms_idx']."'
+            , ars_cod_code = '".$arr['code']."'
+            , ars_send_type = '".$arr['send_type']."'
+            , ars_hp = '".$arr['hp']."'
+            , ars_email = '".$arr['email']."'
+            , ars_status = 'ok'
+            , ars_reg_dt = '".G5_TIME_YMDHIS."'
+    ";
+    sql_query($sql,1);
+    $idx = sql_insert_id();
+
+    return $idx;
+}
+}    
+
+// 태그알람 메시지 발송 업데이트
+if(!function_exists('update_alarm_tag_send')){
+function update_alarm_tag_send($arr) {
+    global $g5;
+
+    $sql = " INSERT INTO {$g5['alarm_tag_send_table']} SET
+            amt_idx = '".$arr['alarm_idx']."'
+            , mms_idx = '".$arr['mms_idx']."'
+            , ats_tgc_code = '".$arr['code']."'
+            , ats_send_type = '".$arr['send_type']."'
+            , ats_hp = '".$arr['hp']."'
+            , ats_email = '".$arr['email']."'
+            , ats_status = 'ok'
+            , ats_reg_dt = '".G5_TIME_YMDHIS."'
+    ";
+    // echo $sql.PHP_EOL;
+    sql_query($sql,1);
+    $idx = sql_insert_id();
+
+    return $idx;
+}
+}    
+
+
+// 푸시발송함수
+// send_number, arm_table=('alarm','alarm_tag'),towhom_hp, arm_name, alarm_idx, mms_idx, arm_code, msg_body, push_url
+if(!function_exists('send_push')){
+function send_push($arr) {
+    global $g5,$config;
+
+    $arr["push_title"] = '['.$arr['arm_code'].'] '.$arr['arm_name'];
+
+    for($j=0;$j<sizeof($arr['towhom_hp']);$j++) {
+        // 회원정보 검색
+        $sql = "SELECT mb_id, mb_6 FROM {$g5['member_table']}
+                WHERE mb_leave_date = ''
+                    AND REPLACE(mb_hp,'-','') = '".preg_replace('/-/','',$arr['towhom_hp'][$j])."'
+                LIMIT 1
+        ";
+        // echo $sql.'<br>';
+        $mb = sql_fetch($sql,1);
+        if(!$mb['mb_id']||!$mb['mb_6']) {
+            return false;
+        }
+        $arr['push_key'] = $mb['mb_6']; // 푸시키 정보 추출
+
+        $headings = array(
+            "en" => $arr["push_title"]
+        );
+        $content = array(
+            "en" => $arr["msg_body"]
+        );
+        $fields = array(
+            'app_id' => $g5['setting']['set_onesignal_id'],
+            'include_player_ids' => array($arr['push_key']),
+            'data' => array(
+                "url" => $arr['push_url']
+            ),
+            'headings' => $headings,
+            'contents' => $content
+        );
+        $fields = json_encode($fields);
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json; charset=utf-8',
+            'Authorization: Basic '.$g5['setting']['set_onesignal_key']
+        ));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // 발송기록 저장
+        $ar['alarm_idx'] = $arr['alarm_idx'];
+        $ar['mms_idx'] = $arr['mms_idx'];
+        $ar['code'] = $arr['arm_code'];
+        $ar['send_type'] = 'push';
+        $ar['hp'] = $arr['towhom_hp'][$j];
+        $ar['email'] = '';
+        $response['alarm_idx'] = ($arr['arm_table']=='alarm') ? update_alarm_send($ar):update_alarm_tag_send($ar);
+        unset($ar);
+    }
+    // print_r2($response);
+
+    return $response;
+}
+}    
+
+// 문자발송함수
+// arm_table=('alarm','alarm_tag'),towhom_hp, send_number, alarm_idx, mms_idx, arm_code, msg_body
+if(!function_exists('send_sms_lms')){
+function send_sms_lms($arr) {
+    global $g5,$config;
+
+    if($config['cf_sms_type'] == 'LMS') {
+        $port_setting = get_icode_port_type($config['cf_icode_id'], $config['cf_icode_pw']);
+
+        // SMS 모듈 클래스 생성
+        if($port_setting !== false) {
+            $SMS = new LMS;
+            $SMS->SMS_con($config['cf_icode_server_ip'], $config['cf_icode_id'], $config['cf_icode_pw'], $port_setting);
+
+            for($j=0;$j<sizeof($arr['towhom_hp']);$j++) {
+
+                $strDest[]   = preg_replace("/[^0-9]/", "", $arr['towhom_hp'][$j]);
+
+                // 발송기록 저장, 일단 발송했다고 봄
+                $ar['alarm_idx'] = $arr['alarm_idx'];
+                $ar['mms_idx'] = $arr['mms_idx'];
+                $ar['code'] = $arr['arm_code'];
+                $ar['send_type'] = 'lms';
+                $ar['hp'] = $arr['towhom_hp'][$j];
+                $ar['email'] = '';
+                $alarm_idx = ($arr['arm_table']=='alarm') ? update_alarm_send($ar):update_alarm_tag_send($ar);
+                unset($ar);
+
+            }
+            // $strDest[]   = $receive_number;
+            $strCallBack = $arr['send_number'];
+            $strCaller   = iconv_euckr(trim($config['cf_title']));
+            $strSubject  = '';
+            $strURL      = '';
+            $strData     = iconv_euckr($arr['msg_body']);
+            $strDate     = '';
+            $nCount      = count($strDest);
+
+            $res = $SMS->Add($strDest, $strCallBack, $strCaller, $strSubject, $strURL, $strData, $strDate, $nCount);
+
+            $SMS->Send();
+            $SMS->Init(); // 보관하고 있던 결과값을 지웁니다.
+        }
+    }
+    else {
+        $SMS = new SMS; // SMS 연결
+        $SMS->SMS_con($config['cf_icode_server_ip'], $config['cf_icode_id'], $config['cf_icode_pw'], $config['cf_icode_server_port']);
+        // $SMS->Add($receive_number, $arr['send_number'], $config['cf_icode_id'], iconv_euckr(stripslashes($arr['msg_body'])), "");
+        for($j=0;$j<sizeof($arr['towhom_hp']);$j++) {
+
+            $SMS->Add(preg_replace("/[^0-9]/", "", $arr['towhom_hp'][$j]), $arr['send_number'], $config['cf_icode_id'], iconv_euckr(stripslashes($arr['msg_body'])), "");
+
+            // 발송기록 저장, 일단 발송했다고 봄
+            $ar['alarm_idx'] = $arr['alarm_idx'];
+            $ar['mms_idx'] = $arr['mms_idx'];
+            $ar['code'] = $arr['arm_code'];
+            $ar['send_type'] = 'sms';
+            $ar['hp'] = $arr['towhom_hp'][$j];
+            $ar['email'] = '';
+            $alarm_idx = ($arr['arm_table']=='alarm') ? update_alarm_send($ar):update_alarm_tag_send($ar);
+            unset($ar);
+        }
+        $SMS->Send();
+        $SMS->Init(); // 보관하고 있던 결과값을 지웁니다.
+    }
+
+    return $alarm_idx;
+}
+}    
+
+// 이메일발송함수
+// arm_table=('alarm','alarm_tag'),towhom_email, towhom_name, mms_name, arm_name, arm_code, alarm_idx, mms_idx, msg_body
+if(!function_exists('send_email')){
+function send_email($arr) {
+    global $g5,$config;
+
+    for($j=0;$j<sizeof($arr['towhome_email']);$j++) {
+
+        $sw = preg_match("/[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+)*@[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+)*/", $arr['towhome_email'][$j]);
+        // 올바른 메일 주소 & if is is under today limit
+        if ($sw == true) {
+            // echo $arr['towhome_email'][$j].'<br>';
+            $patterns = array ( '/{이름}/'
+                                ,'/{설비명}/','/{코드명}/'
+                                ,'/{코드}/','/{내용}/'
+                                ,'/{년월일}/','/{HOME_URL}/'
+                            );
+                            // print_r2($patterns);
+            $replace = array (  $arr['towhom_name'][$j]
+                                ,$arr['mms_name'], $arr['arm_name']
+                                ,$arr['arm_code'], conv_content($arr['msg_body'],2)
+                                ,G5_TIME_YMD, G5_URL
+                            );
+                            // print_r2($replace);
+
+            $towhom['subject'] = preg_replace($patterns,$replace
+                                            ,$g5['setting']['set_tag_subject']);
+            $towhom['content'] = preg_replace($patterns,$replace
+                                            ,$g5['setting']['set_tag_content']);
+            // echo $towhom['subject'].'<br>';
+            // echo $towhom['content'].'<br>';
+
+            // 메일발송
+            mailer($config['cf_admin_email_name'].'(발신전용)', $config['cf_admin_email'], $arr['towhome_email'][$j], $towhom['subject'], $towhom['content'], 1);
+
+            // 발송기록 저장
+            $ar['alarm_idx'] = $arr['alarm_idx'];
+            $ar['mms_idx'] = $arr['mms_idx'];
+            $ar['code'] = $arr['arm_code'];
+            $ar['send_type'] = 'email';
+            $ar['hp'] = '';
+            $ar['email'] = $arr['towhome_email'][$j];
+            $alarm_idx = ($arr['arm_table']=='alarm') ? update_alarm_send($ar):update_alarm_tag_send($ar);
+            unset($ar);
+        
+        }
+
+    }
+    return $alarm_idx;
+}
+}  
+
+// 메시지 발송 함수
+// arm_table=('alarm','alarm_tag'), arm_idx=알람번호, amt_idx=알람태그번호, msg_type=메세지타입(sms,push,email), com_msg_type=업체메시지타입, mms_idx=설비번호, mms_name=설비명
+// arm_code=태그코드, arm_name=태그명, reports=알림대상(json), msg_limit=알림과부하설정, msg_body=내용
+if(!function_exists('send_message')){
+function send_message($arr)
+{
+    global $g5, $config;
+
+    // 하루 메시지(모든 메시지 email, sms, push 전부 중에서..) 발송 횟수를 넘어가면 발송 중지
+    if($arr['arm_table']=='alarm') {
+        $sql = "SELECT COUNT(ars_idx) AS cnt FROM {$g5['alarm_send_table']}
+                WHERE mms_idx = '".$arr['mms_idx']."' AND ars_cod_code = '".$arr['arm_code']."'
+                    AND ars_reg_dt > DATE_ADD(now(), INTERVAL -24 HOUR)
+        ";
+    }
+    else {
+        $sql = "SELECT COUNT(ats_idx) AS cnt FROM {$g5['alarm_tag_send_table']}
+                WHERE mms_idx = '".$arr['mms_idx']."' AND ats_tgc_code = '".$arr['arm_code']."'
+                    AND ats_reg_dt > DATE_ADD(now(), INTERVAL -24 HOUR)
+        ";
+    }
+    // echo $sql.PHP_EOL;
+	$one = sql_fetch($sql);
+    if($one['cnt'] >= $arr['msg_limit']) {
+        return 0;
+    }
+
+    // 발신자번호
+    $send_number = preg_replace("/[^0-9]/", "", $g5['setting']['set_from_number']);
+
+    // 발송자 정보 추출
+    $infos = json_decode($arr['reports'], true);
+    if(is_array($infos)) {
+        foreach($infos as $k1 => $v1) {
+            // echo $k1.'<br>';
+            // print_r2($v1);
+            for($j=0;$j<sizeof($v1);$j++) {
+                // cell phone array
+                if($k1=='r_name') {
+                    $towhom_name[] = trim($v1[$j]);
+                }
+                // cell phone array, remove '-' mark from hp numbers.
+                if($k1=='r_hp') {
+                    $towhom_hp[] = preg_replace("/[^0-9]/","",trim($v1[$j]));
+                }
+                // set email array
+                else if($k1=='r_email') {
+                    $towhom_email[] = trim($v1[$j]);
+                }
+            }
+        }
+    }
+    // print_r2($towhom_hp);
+    // print_r2($towhom_email);
+
+    // 메시지 발송 타입
+    $msg_types = explode(",",$arr['msg_type']);
+
+	//문자 발송
+	if(in_array("sms",$msg_types)) {
+        // 문자 발송
+        if ($config['cf_sms_use'] == 'icode' && count($towhom_hp) > 0) {
+            // send_number, arm_table=('alarm','alarm_tag'),towhom_hp, alarm_idx, mms_idx, arm_code, msg_body
+            $ar['send_number'] = $send_number;
+            $ar['arm_table'] = $arr['arm_table'];
+            $ar['towhom_hp'] = $towhom_hp;
+            $ar['alarm_idx'] = ($arr['arm_table']=='alarm') ? $arr['arm_idx'] : $arr['amt_idx'];
+            $ar['mms_idx'] = $arr['mms_idx'];
+            $ar['arm_code'] = $arr['arm_code']; // tgc_code or cod_code
+            $ar['msg_body'] = $arr['msg_body'];
+            send_sms_lms($ar);  // 함수 호출
+            // print_r2($ar);
+            unset($ar);
+        }
+	}
+
+	//이메일 발송
+	if(in_array("email",$msg_types)) {
+        // arm_table=('alarm','alarm_tag'),towhom_email, towhom_name, mms_name, arm_name, arm_code, alarm_idx, mms_idx
+        $ar['arm_table'] = $arr['arm_table'];
+        $ar['towhome_email'] = $towhom_email;
+        $ar['towhom_name'] = $towhom_name;
+        $ar['mms_name'] = $arr['mms_name'];
+        $ar['arm_name'] = $arr['arm_name'];
+        $ar['alarm_idx'] = ($arr['arm_table']=='alarm') ? $arr['arm_idx'] : $arr['amt_idx'];
+        $ar['mms_idx'] = $arr['mms_idx'];
+        $ar['arm_code'] = $arr['arm_code']; // tgc_code or cod_code
+        $ar['msg_body'] = $arr['msg_body'];
+        send_email($ar);  // 함수 호출
+        unset($ar);
+	}
+
+	//푸시 발송
+	if(in_array("push",$msg_types)) {
+        if (count($towhom_hp) > 0) {
+            // send_number, arm_table=('alarm','alarm_tag'),towhom_hp, arm_name, alarm_idx, mms_idx, arm_code, msg_body
+            $ar['send_number'] = $send_number;
+            $ar['arm_table'] = $arr['arm_table'];
+            $ar['towhom_hp'] = $towhom_hp;
+            $ar['arm_name'] = $arr['arm_name'];
+            $ar['alarm_idx'] = ($arr['arm_table']=='alarm') ? $arr['arm_idx'] : $arr['amt_idx'];
+            $ar['mms_idx'] = $arr['mms_idx'];
+            $ar['arm_code'] = $arr['arm_code']; // tgc_code or cod_code
+            $ar['msg_body'] = $arr['msg_body'];
+            $ar['push_url'] = G5_USER_ADMIN_URL.'/message_list.php';
+            send_push($ar);  // 함수 호출
+            unset($ar);
+        }
+	}
+
+    return true;
+}
+}
 
 // Message send_type setting
 // array: prefix, com_idx, value

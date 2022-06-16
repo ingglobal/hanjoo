@@ -7,8 +7,31 @@ include_once('./_common.php');
 // $com_idx_array = array(9999,67,66,65,64,10000);
 $com_idx_array = array($_SESSION['ss_com_idx']);
 $group_array = array('mea','mea');
+
+// imp
+$sql = "SELECT GROUP_CONCAT(imp_idx) AS imp_idxs
+		FROM {$g5['mms_table']}
+		WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+		ORDER BY mms_idx       
+";
+// echo $sql.'<br>';
+$one = sql_fetch($sql,1);
+// print_r2($one);
+$imp_idx_array = explode(",",$one['imp_idxs']);
+// print_r2($imp_idx_array);
+
+// mms
 // $mms_idx_array = array(7,8,9,10);
-$mms_idx_array = array(33,33);
+$sql = "SELECT GROUP_CONCAT(mms_idx) AS mms_idxs
+		FROM {$g5['mms_table']}
+		WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+		ORDER BY mms_idx       
+";
+// echo $sql.'<br>';
+$one = sql_fetch($sql,1);
+// print_r2($one);
+$mms_idx_array = explode(",",$one['mms_idxs']);
+// print_r2($mms_idx_array);
 ?>
 <style>
     #hd_login_msg {display:none;}
@@ -29,7 +52,7 @@ Token(암호코드)
 1번
 <table>
 	<tr><td>업체 idx1</td><td><input type="text" name="com_idx[]" value="<?=$com_idx_array[rand(0,sizeof($com_idx_array)-1)]?>"></td></tr>
-	<tr><td>IMP idx1</td><td><input type="text" name="imp_idx[]" value="<?=rand(1,16)?>"></td></tr>
+	<tr><td>IMP idx1</td><td><input type="text" name="imp_idx[]" value="<?=$imp_idx_array[rand(0,sizeof($imp_idx_array)-1)]?>"></td></tr>
 	<tr><td>MMS idx1</td><td><input type="text" name="mms_idx[]" value="<?=$mms_idx_array[rand(0,sizeof($mms_idx_array)-1)]?>"></td></tr>
 	<tr><td>교대번호1</td><td><input type="text" name="dta_shf_no[]" value="<?=rand(1,2)?>"></td></tr>
 	<tr><td>총교대수1</td><td><input type="text" name="dta_shf_max[]" value="<?=rand(2,3)?>"></td></tr>
@@ -46,7 +69,7 @@ Token(암호코드)
 2번
 <table>
 	<tr><td>업체 idx2</td><td><input type="text" name="com_idx[]" value="<?=$com_idx_array[rand(0,sizeof($com_idx_array)-1)]?>"></td></tr>
-	<tr><td>IMP idx2</td><td><input type="text" name="imp_idx[]" value="<?=rand(1,16)?>"></td></tr>
+	<tr><td>IMP idx2</td><td><input type="text" name="imp_idx[]" value="<?=$imp_idx_array[rand(0,sizeof($imp_idx_array)-1)]?>"></td></tr>
 	<tr><td>MMS idx2</td><td><input type="text" name="mms_idx[]" value="<?=$mms_idx_array[rand(0,sizeof($mms_idx_array)-1)]?>"></td></tr>
 	<tr><td>교대번호2</td><td><input type="text" name="dta_shf_no[]" value="<?=rand(1,3)?>"></td></tr>
 	<tr><td>총교대수2</td><td><input type="text" name="dta_shf_max[]" value="3"></td></tr>
@@ -60,24 +83,5 @@ Token(암호코드)
 </table>
 
 <hr>
-3번
-<table>
-	<tr><td>업체 idx3</td><td><input type="text" name="com_idx[]" value="<?=$com_idx_array[rand(0,sizeof($com_idx_array)-1)]?>"></td></tr>
-	<tr><td>IMP idx3</td><td><input type="text" name="imp_idx[]" value="<?=rand(1,16)?>"></td></tr>
-	<tr><td>MMS idx3</td><td><input type="text" name="mms_idx[]" value="<?=$mms_idx_array[rand(0,sizeof($mms_idx_array)-1)]?>"></td></tr>
-	<tr><td>교대번호3</td><td><input type="text" name="dta_shf_no[]" value="<?=rand(1,2)?>"></td></tr>
-	<tr><td>총교대수3</td><td><input type="text" name="dta_shf_max[]" value="<?=rand(2,3)?>"></td></tr>
-	<tr><td>기종3</td><td><input type="text" name="dta_mmi_no[]" value="<?=rand(0,1)?>"></td></tr>
-	<tr><td>데이터그룹3</td><td><input type="text" name="dta_group[]" value="<?=$group_array[rand(0,sizeof($group_array)-1)]?>"></td></tr>
-	<tr><td>타입3</td><td><input type="text" name="dta_type[]" value="<?=rand(1,9)?>"></td></tr>
-	<tr><td>측정번호3</td><td><input type="text" name="dta_no[]" value="<?=rand(1,4)?>"></td></tr>
-	<tr><td>날짜3</td><td><input type="text" name="dta_date[]" value="<?=date("y.m.d",time()-86400*2)?>"></td></tr>
-	<tr><td>시간3</td><td><input type="text" name="dta_time[]" value="<?=date("H:i:s",time()-rand(0,86400))?>"></td></tr>
-	<tr><td>값3</td><td><input type="text" name="dta_value[]" value="<?=rand(1,600)?>"></td></tr>
-</table>
-
-<hr>
 <button type="submit">확인</button>
 </form>
-
-

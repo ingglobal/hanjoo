@@ -1,9 +1,5 @@
 <?php
 include_once('./_common.php');
-// 인스타 로그인후 인스타쪽 피드 배열을 받아서 올스타에 업데이트하는 폼을 임시로 구현한 페이지입니다.
-// 실제로는 member_log.php가 크롤링 서버에서 정보를 받아서 저장합니다.
-// 파일명이 실제로는 member_feed_log.php가 더 적합할 수도..
-
 include(G5_PATH.'/head.sub.php');
 
 $arr['token'] = $_REQUEST['token'];
@@ -57,7 +53,8 @@ if(is_array($_REQUEST)) {
 $(document).on('click','#btn_submit',function(e) {
     e.preventDefault();
     $.ajax({
-        url:'./index.php',
+        // url:'./index.php',
+        url:'./index2.php',
         type:'post',
         data : "<?=addslashes(json_encode($arr));?>",
         dataType:'json',
