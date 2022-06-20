@@ -222,7 +222,14 @@ if (!isset($_POST['wr_subject']) || !trim($_POST['wr_subject']))
 $wr_seo_title = exist_seo_title_recursive('bbs', generate_seo_title($wr_subject), $write_table, $wr_id);
 
 $options = array($html,$secret,$mail);
-$wr_option = implode(',', array_filter($options, function($v) { return trim($v); }));
+// php 5.3버전 이상부터 익명함수가 가능합니다.
+// $wr_option = implode(',', array_filter($options, function($v) { return trim($v); }));
+if(! function_exists('wr_option_filter_trim')) {
+    function wr_option_filter_trim($v){
+        return trim($v);
+    }
+}
+$wr_option = implode(',', array_filter($options, 'wr_option_filter_trim'));
 
 if ($w == '' || $w == 'r') {
 
@@ -570,7 +577,7 @@ if(isset($_FILES['bf_file']['name']) && is_array($_FILES['bf_file']['name'])) {
             $shuffle = implode('', $chars_array);
 
             // 첨부파일 첨부시 첨부파일명에 공백이 포함되어 있으면 일부 PC에서 보이지 않거나 다운로드 되지 않는 현상이 있습니다. (길상여의 님 090925)
-            $upload[$i]['file'] = abs(ip2long($_SERVER['REMOTE_ADDR'])).'_'.substr($shuffle,0,8).'_'.replace_filename($filename);
+            $upload[$i]['file'] = md5(sha1($_SERVER['REMOTE_ADDR'])).'_'.substr($shuffle,0,8).'_'.replace_filename($filename);
 
             $dest_file = G5_DATA_PATH.'/file/'.$bo_table.'/'.$upload[$i]['file'];
 

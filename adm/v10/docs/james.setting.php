@@ -4,8 +4,6 @@
 
 # 네이티브 코어 버전 동기화 파일들입니다.
 1. /config.php
-    // 모바일 기기에서 DHTML 에디터 사용여부를 설정합니다.
-    define('G5_IS_MOBILE_DHTML_USE', true); // editor in Mobile.
     define('G5_DB_ENGINE', 'MyISAM');
     ...
     // define('G5_SMTP',      '127.0.0.1');

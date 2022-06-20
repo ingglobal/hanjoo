@@ -128,7 +128,7 @@ $items = array_merge($items1,$items2);
 <input type="submit" class="btn_submit" value="검색">
 </form>
 
-<div class="local_desc01 local_desc" style="display:no ne;">
+<div class="local_desc01 local_desc" style="display:none;">
     <p>프레스, 트랜스퍼, 인덕션히트와 같은 설비장치들(iMMS)들을 관리하는 페이지입니다. 설비를 최대 <?=$g5['setting']['set_imp_count']?>개씩 묶어서 iMP로 관리합니다.</p>
 </div>
 
