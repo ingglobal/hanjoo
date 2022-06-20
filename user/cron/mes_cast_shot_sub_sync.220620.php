@@ -12,9 +12,9 @@ $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
 $sleepsec = 200;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
-$table1 = 'MES_CAST_SHOT_PRESSURE';
+$table1 = 'MES_CAST_SHOT_SUB';
 
-$table2 = 'g5_1_cast_shot_pressure';
+$table2 = 'g5_1_cast_shot_sub';
 $fields2 = sql_field_names($table2);
 
 // NEXT YMD Default
@@ -48,14 +48,13 @@ else if($ym) {
 }
 // 하루씩
 else if($ymd) {
-    $st_time = ($ymd=='2020-11-07') ? '12:39:08':'00:00:00';
     // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
-    $search1 = " WHERE EVENT_TIME >= '".$ymd." ".$st_time."' AND EVENT_TIME <= '".$ymd." 23:59:59' ";
+    $search1 = " WHERE EVENT_TIME >= '".$ymd." 00:00:00' AND EVENT_TIME <= '".$ymd." 23:59:59' ";
     // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
 }
 else {
-    // 데이터의 마지막 일 ------
-    $sql = " SELECT event_time FROM {$table2} ORDER BY csp_idx DESC LIMIT 1 ";
+    // 데이터의 마지막 일시 ------
+    $sql = " SELECT event_time FROM {$table2} ORDER BY css_idx DESC LIMIT 1 ";
     $dat = sql_fetch($sql,1);
     $ymdhis = $dat['event_time'];
 
@@ -96,7 +95,7 @@ ob_flush();
 ob_end_flush();
 
 $cnt=0;
-// 정보 입력
+// 캠페인 정보 입력
 for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	$cnt++;
     // print_r2($row);
@@ -119,7 +118,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
-    $skips = array('csp_idx','machine_id','shot_no');
+    $skips = array('css_idx','machine_id','shot_no');
     for($j=0;$j<sizeof($fields2);$j++) {
         if(in_array($fields2[$j],$skips)) {continue;}
         $arr[$fields2[$j]] = ($fields21[$fields2[$j]]) ? $arr[$fields21[$fields2[$j]]] : $arr[$fields2[$j]];
@@ -132,10 +131,9 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     // $sql_commons[$i][] = " trm_idx_department = '".$mb2['mb_2']."' ";
 
     // machine_id 추출
-    $sql2 = " SELECT machine_id, shot_no FROM g5_1_cast_shot WHERE shot_id = '".$arr['shot_id']."' ";
+    $sql2 = "   SELECT machine_id, shot_no FROM g5_1_cast_shot WHERE shot_id = '".$arr['shot_id']."' ";
     // echo $sql2.'<br>';
     $csh = sql_fetch($sql2,1);
-    // 주조공정 shot_it 가 없으면 건너뜀
     if(!$csh['machine_id']) {continue;}
     $sql_commons[$i][] = " machine_id = '".$csh['machine_id']."' ";
     $sql_commons[$i][] = " shot_no = '".$csh['shot_no']."' ";
@@ -150,18 +148,17 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     // 최종 변수 생성
     $sql_text[$i] = (is_array($sql_commons[$i])) ? implode(",",$sql_commons[$i]) : '';
 
-
     // Record update
-    $sql3 = "   SELECT csp_idx FROM {$table2}
+    $sql3 = "   SELECT css_idx FROM {$table2}
                 WHERE shot_id = '".$arr['shot_id']."' AND event_time = '".$arr['event_time']."'
     ";
-    // echo $sql3.'<br>';
+    //echo $sql3.'<br>';
     $row3 = sql_fetch($sql3,1);
     // 정보 업데이트
-    if($row3['csp_idx']) {
+    if($row3['css_idx']) {
 		$sql = "UPDATE {$table2} SET
 					$sql_text[$i]
-				WHERE csp_idx = '".$row3['csp_idx']."'
+				WHERE css_idx = '".$row3['css_idx']."'
 		";
 		if(!$demo) {sql_query($sql,1);}
 	    else {echo $sql.'<br><br>';}
@@ -175,22 +172,16 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	    else {echo $sql.'<br><br>';}
     }
 
-
     // 공통쿼리 생성
     $sql_fields[$i] = (is_array($sql_field_arr[$i])) ? "(".implode(",",$sql_field_arr[$i]).")" : '';
     $sql_values[$i] = (is_array($sql_value_arr[$i])) ? "(".implode(",",$sql_value_arr[$i]).")" : '';
-    // PgSQL insert record.
+    // timescaleDB insert record.
     $sql3 = "INSERT INTO {$table2}
                 {$sql_fields[$i]} VALUES {$sql_values[$i]} 
-            RETURNING csp_idx 
+            RETURNING css_idx 
 	";
     if(!$demo) {sql_query_ps($sql3,1);}
     else {echo $sql3.'<br><br>';}
-
-    // g5_1_data_measure_58 디비 구조에 추가로 입력
-    // echo $csh['machine_id'].'<br>';
-    // echo $g5['mms_idx2'][$csh['machine_id']].'<br>';
-
 
 
 

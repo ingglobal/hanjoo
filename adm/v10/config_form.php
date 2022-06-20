@@ -501,6 +501,18 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
 				<input type="text" name="set_data_name" value="<?php echo $g5['setting']['set_data_name']; ?>" class="frm_input" style="width:60%;">
 			</td>
 		</tr>
+		<tr>
+			<th scope="row">한주 온도 번호</th>
+			<td colspan="3">
+				<input type="text" name="set_data_temp_no" value="<?php echo $g5['setting']['set_data_temp_no']; ?>" class="frm_input" style="width:60%;">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">한주 압력 번호</th>
+			<td colspan="3">
+				<input type="text" name="set_data_pressure_no" value="<?php echo $g5['setting']['set_data_pressure_no']; ?>" class="frm_input" style="width:60%;">
+			</td>
+		</tr>
         </tbody>
 		</table>
 	</div>

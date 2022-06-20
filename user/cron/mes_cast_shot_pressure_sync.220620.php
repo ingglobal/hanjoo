@@ -59,7 +59,7 @@ else {
     $dat = sql_fetch($sql,1);
     $ymdhis = $dat['event_time'];
 
-    $search1 = " WHERE EVENT_TIME > '".$ymdhis."' ";
+    $search1 = " WHERE EVENT_TIME >= '".$ymdhis."' ";
     $latest = 1;
 }
 
@@ -96,7 +96,7 @@ ob_flush();
 ob_end_flush();
 
 $cnt=0;
-// 정보 입력
+// 캠페인 정보 입력
 for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	$cnt++;
     // print_r2($row);
@@ -132,10 +132,8 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     // $sql_commons[$i][] = " trm_idx_department = '".$mb2['mb_2']."' ";
 
     // machine_id 추출
-    $sql2 = " SELECT machine_id, shot_no FROM g5_1_cast_shot WHERE shot_id = '".$arr['shot_id']."' ";
-    // echo $sql2.'<br>';
+    $sql2 = "   SELECT machine_id, shot_no FROM g5_1_cast_shot WHERE shot_id = '".$arr['shot_id']."' ";
     $csh = sql_fetch($sql2,1);
-    // 주조공정 shot_it 가 없으면 건너뜀
     if(!$csh['machine_id']) {continue;}
     $sql_commons[$i][] = " machine_id = '".$csh['machine_id']."' ";
     $sql_commons[$i][] = " shot_no = '".$csh['shot_no']."' ";
@@ -179,19 +177,13 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     // 공통쿼리 생성
     $sql_fields[$i] = (is_array($sql_field_arr[$i])) ? "(".implode(",",$sql_field_arr[$i]).")" : '';
     $sql_values[$i] = (is_array($sql_value_arr[$i])) ? "(".implode(",",$sql_value_arr[$i]).")" : '';
-    // PgSQL insert record.
+    // timescaleDB insert record.
     $sql3 = "INSERT INTO {$table2}
                 {$sql_fields[$i]} VALUES {$sql_values[$i]} 
             RETURNING csp_idx 
 	";
     if(!$demo) {sql_query_ps($sql3,1);}
     else {echo $sql3.'<br><br>';}
-
-    // g5_1_data_measure_58 디비 구조에 추가로 입력
-    // echo $csh['machine_id'].'<br>';
-    // echo $g5['mms_idx2'][$csh['machine_id']].'<br>';
-
-
 
 
     echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['shot_id']." (".$arr['event_time'].") 완료<br>'; </script>\n";
