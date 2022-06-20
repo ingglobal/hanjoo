@@ -21,8 +21,8 @@ else if(is_array($getData[0]['list'])) {
     for($i=0;$i<sizeof($getData[0]['list']);$i++) {
         $arr = $getData[0]['list'][$i];
 
-        // $arr['dta_dt'] = strtotime(preg_replace('/\./','-',$arr['dta_date'])." ".$arr['dta_time']);
-        $arr['dta_date'] = preg_replace('/\./','-',$arr['dta_date']);
+        $arr['dta_datetime'] = strtotime(preg_replace('/\./','-',$arr['dta_date'])." ".$arr['dta_time']);
+        $arr['dta_date'] = date("Y-m-d",$arr['dta_datetime']);
         $arr['dta_dt'] = $arr['dta_date']." ".$arr['dta_time'];
         $table_name = 'g5_1_data_measure_'.$arr['mms_idx'];
 
@@ -46,27 +46,28 @@ else if(is_array($getData[0]['list'])) {
             sql_query(" ALTER TABLE $table_name ADD INDEX idx_type (dta_type) ;", false);
             sql_query(" ALTER TABLE $table_name ADD INDEX idx_type_no (dta_type,dta_no) ;", false);
         }
+
         // PgSQL db table create if not exists.
         $sql = "SELECT EXISTS (
                     SELECT 1 FROM pg_tables 
-                    WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58'
-                    SELECT 1 FROM Information_schema.tables
-                    WHERE TABLE_SCHEMA = '".G5_MYSQL_DB."'
-                    AND TABLE_NAME = '".$table_name."'
+                    WHERE tableowner='".G5_PGSQL_USER."' AND tablename='".$table_name."'
                 ) AS flag
         ";
         $tb1 = sql_fetch_ps($sql,1);
         if(!$tb1['flag']) {
-            $file = file('./sql_write2.sql');
-            $file = get_db_create_replace($file);
+            $file = file('./pgsql_write.sql');
+            // $file = get_db_create_replace($file);
             $sql = implode("\n", $file);
             $source = array('/__TABLE_NAME__/', '/;/');
             $target = array($table_name, '');
             $sql = preg_replace($source, $target, $sql);
-            sql_query($sql, FALSE);
-            sql_query(" ALTER TABLE $table_name ADD INDEX idx_type (dta_type) ;", false);
-            sql_query(" ALTER TABLE $table_name ADD INDEX idx_type_no (dta_type,dta_no) ;", false);
+            sql_query_ps($sql, FALSE);
+            sql_query_ps(" SELECT create_hypertable('".$table_name."', 'dta_dt'); ;", false);
+            sql_query_ps(" CREATE INDEX ".$table_name."_idx_type ON ".$table_name." (dta_type); ;", false);
+            sql_query_ps(" CREATE INDEX ".$table_name."_idx_type_no ON ".$table_name." (dta_type,dta_no); ;", false);
         }
+
+
 
         // MySQL insert record.
         $sql = "INSERT INTO {$table_name} SET 
@@ -79,6 +80,15 @@ else if(is_array($getData[0]['list'])) {
         sql_query($sql,1);
         $dta['dta_idx'] = sql_insert_id();
         $result_arr[$i]['dta_idx'] = $dta['dta_idx'];   // 고유번호
+
+        // PgSQL insert record.
+        $sql = "INSERT INTO {$table_name} (dta_type,dta_no,dta_value,dta_dt) VALUES
+                    ('".$arr['dta_type']."','".$arr['dta_no']."','".$arr['dta_value']."','".$arr['dta_dt']."')
+                RETURNING dta_idx
+        ";
+        // echo $sql.'<br>';
+        sql_query_ps($sql,1);
+
         $result_arr[$i]['code'] = 200;
         $result_arr[$i]['message'] = "Inserted OK!";
 
