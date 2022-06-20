@@ -87,7 +87,7 @@ else if(is_array($getData[0]['list'])) {
                 RETURNING dta_idx
         ";
         // echo $sql.'<br>';
-        sql_query_ps($sql,1);
+        // sql_query_ps($sql,1);
 
         $result_arr[$i]['code'] = 200;
         $result_arr[$i]['message'] = "Inserted OK!";

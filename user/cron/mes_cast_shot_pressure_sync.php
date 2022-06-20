@@ -187,9 +187,42 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     if(!$demo) {sql_query_ps($sql3,1);}
     else {echo $sql3.'<br><br>';}
 
+
     // g5_1_data_measure_58 디비 구조에 추가로 입력
     // echo $csh['machine_id'].'<br>';
     // echo $g5['mms_idx2'][$csh['machine_id']].'<br>';
+    $mms_idx = $g5['mms_idx2'][$csh['machine_id']];
+    $pg_table = 'g5_1_data_measure_'.$mms_idx;
+
+    // $sql = "SELECT EXISTS (
+    //         SELECT 1 FROM pg_tables 
+    //         WHERE tableowner='".G5_PGSQL_USER."' AND tablename='".$pg_table."'
+    //     ) AS flag
+    // ";
+    // $tb1 = sql_fetch_ps($sql,1);
+    // // if table exists.
+    // if($tb1['flag']) {
+        // print_r2($g5['set_data_pressure_no_value']);
+        if(is_array($g5['set_data_pressure_no_value'])) {
+            $j = 0;
+            foreach($g5['set_data_pressure_no_value'] as $k1 => $v1) {
+                if($arr[$k1]>0) {
+                    // echo $k1.'='.$arr[$k1].'<br>';
+                    // $field_arr[$j][] = " ".strtolower($k1)." "; // for PgSQL
+                    // $value_arr[$j][] = " '".$arr[$k1]."' ";     // for PgSQL
+                    $sql3 = "INSERT INTO {$pg_table}
+                                (dta_type,dta_no,dta_value,dta_1,dta_2,dta_dt) VALUES
+                                ('8','".$v1."','".$arr[$k1]."','".$arr['shot_id']."','".$csh['shot_no']."','".$arr['event_time']."')
+                            RETURNING dta_idx
+                    ";
+                    if(!$demo) {sql_query_ps($sql3,false);}
+                    else {echo $sql3.'<br><br>';}
+                    // echo $sql3.'<br><br>';
+                }
+                $j++;
+            }
+        }
+    // }
 
 
 
