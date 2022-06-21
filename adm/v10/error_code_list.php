@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "940140";
+$sub_menu = "925800";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
@@ -12,7 +12,7 @@ $pre = substr($fields[0],0,strpos($fields[0],'_'));
 $fname = preg_replace("/_list/","",$g5['file_name']); // _list을 제외한 파일명
 $qstr .= '&ser_cod_group='.$ser_cod_group.'&ser_cod_type='.$ser_cod_type; // 추가로 확장해서 넘겨야 할 변수들
 
-$g5['title'] = '코드별예지 설정';
+$g5['title'] = '알람(에러)코드 관리';
 //include_once('./_top_menu_data.php');
 include_once('./_head.php');
 //echo $g5['container_sub_title'];

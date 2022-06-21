@@ -1,16 +1,15 @@
 <?php
-$sub_menu = "925800";
+$sub_menu = "925700";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu], 'w');
 
 // 변수 설정, 필드 구조 및 prefix 추출
-$table_name = 'code';
+$table_name = 'alarm';
 $g5_table_name = $g5[$table_name.'_table'];
 $fields = sql_field_names($g5_table_name);
 $pre = substr($fields[0],0,strpos($fields[0],'_'));
 $fname = preg_replace("/_update/","",$g5['file_name']); // _update을 제외한 파일명
-$qstr .= '&mms_idx='.$mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 
 
 if (!count($_POST['chk'])) {
@@ -58,6 +57,9 @@ else if($w == 'd') {
 if ($msg)
     alert($msg);
     //echo '<script> alert("'.$msg.'"); </script>';
-	
+
+// 넘겨줄 변수가 추가로 있어서 qstr 추가 (한글이 있으면 encoding)
+$qstr = $qstr."&st_date=$st_date&st_time=$st_time&en_date=$en_date&en_time=$en_time&ser_mms_idx=$ser_mms_idx";
+
 goto_url('./'.$fname.'.php?'.$qstr, false);
 ?>

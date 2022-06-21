@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "940140";
+$sub_menu = "925800";
 include_once('./_common.php');
 include_once(G5_LIB_PATH.'/mailer.lib.php');
 
