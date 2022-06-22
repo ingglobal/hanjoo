@@ -246,7 +246,7 @@ $items1 = array(
                     $list[$k1] = '<span class="font_size_8">'.substr($row[$k1],0,16).'</span>';
                 }
                 else if($k1=='mms_idx') {
-                    $list[$k1] = $row[$k1].'  <span class="font_size_8">'.cut_str($row['mms']['mms_name'],8,'..').'</span>';
+                    $list[$k1] = cut_str($row['mms']['mms_name'],8,'..').'  <span class="font_size_8">'.$row[$k1].'</span>';
                 }
                 else if($k1=='com_idx') {
                     $list[$k1] = $row[$k1].'  <span class="font_size_8">'.cut_str($row['com']['com_name'],8,'..').'</span>';
