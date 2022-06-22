@@ -3,6 +3,7 @@
 define('G5_USER_DIR',                       'user');
 define('G5_USER_ADMIN_DIR',                 'v10');
 define('G5_AJAX_DIR',                       'ajax');
+define('G5_HOOK_DIR',                       'hook');
 define('G5_USER_PATH',                      G5_PATH.'/'.G5_USER_DIR);
 define('G5_USER_URL',                       G5_URL.'/'.G5_USER_DIR);
 define('G5_USER_ADMIN_PATH',                G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR);

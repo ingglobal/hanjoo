@@ -7,7 +7,10 @@ $g5['dir_name'] = substr($path_info['dirname'],strrpos($path_info['dirname'],'/'
 $g5['dir_path'] = preg_replace("|".G5_PATH."|", "", $path_info['dirname']);
 $g5['file_name'] = $path_info['filename'];
 $g5['file_path'] = substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], '/'.$g5['file_name']));
-//$g5['hook_file_path'] = (preg_match("|/adm/|",$g5['file_path'].'/')) ? preg_replace("|/adm|", "/adm/".G5_USER_ADMIN_DIR."/".G5_HOOK_DIR, $g5['file_path']) : preg_replace("|".G5_PATH."|", G5_PATH."/".G5_USER_DIR."/".G5_HOOK_DIR, $g5['file_path']) ;
+$g5['hook_file_path'] = (preg_match("|/adm/|",$g5['file_path'].'/')) ? 
+                            preg_replace("|/adm|", "/adm/".G5_USER_ADMIN_DIR."/".G5_HOOK_DIR, $g5['file_path'])
+                            : preg_replace("|".G5_PATH."|", G5_PATH."/".G5_USER_DIR."/".G5_HOOK_DIR, $g5['file_path']) ;
+// echo $g5['hook_file_path'];
 
 // /adm 디렉토리에 있는 경우 v10 관리자로 넘김
 // echo $g5['dir_name'].'<br>';
