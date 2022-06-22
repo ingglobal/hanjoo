@@ -174,9 +174,10 @@ $cache_file = G5_DATA_PATH.'/cache/mms-setting.php';
 @unlink($cache_file);
     
 $list = array();
+// $list_idx2 = array();
 $sql = "SELECT * FROM {$g5['mms_table']} ORDER BY mms_idx";
 $result = sql_query($sql,1);
-//echo $sql;
+// echo $sql;
 for($i=0; $row=sql_fetch_array($result); $i++) {
     $list[$row['mms_idx']]['mmg_idx'] = $row['mmg_idx'];
     $list[$row['mms_idx']]['mms_name'] = $row['mms_name'];
@@ -210,14 +211,19 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
     $list[$row['mms_idx']]['shift'] = $list1;
     // print_r2($list[$row['mms_idx']]['shift']);
 
+	$list_idx2[$row['mms_idx2']] = $row['mms_idx'];
+	echo $row['mms_idx2'].'<br>';
+
 }
 // print_r2($list);
+// print_r2($list_idx2);
 
 // 캐시파일 생성
 $handle = fopen($cache_file, 'w');
 $cache_content = "<?php\n";
 $cache_content .= "if (!defined('_GNUBOARD_')) exit;\n";
 $cache_content .= "\$g5['mms']=".var_export($list, true).";\n";
+$cache_content .= "\$g5['mms_idx2']=".var_export($list_idx2, true).";\n";
 $cache_content .= "?>";
 fwrite($handle, $cache_content);
 fclose($handle);

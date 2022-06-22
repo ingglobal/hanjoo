@@ -96,7 +96,7 @@ $total_count = sql_num_rows($result);
     <span class="btn_ov01"><span class="ov_txt">총분류수 </span><span class="ov_num"> <?php echo number_format($total_count) ?>개 </span></span>
 </div>
 
-<div class="local_ov02" style="margin-bottom:40px;display:none;">
+<div class="local_ov02" style="margin-bottom:40px;display:no ne;">
     <div class="display_inline_block float_right">
         <select name="taxonomy" class="cp_field" title="분류선택">
             <option value="">분류 선택</option>

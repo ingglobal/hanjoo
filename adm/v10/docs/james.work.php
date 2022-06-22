@@ -878,3 +878,28 @@ ALTER TABLE g5_1_data_measure_58 DROP INDEX idx_type;
 ALTER TABLE g5_1_data_measure_58 ADD INDEX idx_type_no (dta_type,dta_no);
 ALTER TABLE g5_1_data_measure_58 DROP INDEX idx_type_no;
 
+ALTER TABLE `g5_1_data_measure_59` ADD `dta_1` INT NOT NULL DEFAULT '0' COMMENT '추가정보1' AFTER `dta_value`, ADD `dta_2` INT NOT NULL DEFAULT '0' COMMENT '추가정보2' AFTER `dta_1`;
+ALTER TABLE `g5_1_data_measure_60` ADD `dta_1` INT NOT NULL DEFAULT '0' COMMENT '추가정보1' AFTER `dta_value`, ADD `dta_2` INT NOT NULL DEFAULT '0' COMMENT '추가정보2' AFTER `dta_1`;
+ALTER TABLE `g5_1_data_measure_61` ADD `dta_1` INT NOT NULL DEFAULT '0' COMMENT '추가정보1' AFTER `dta_value`, ADD `dta_2` INT NOT NULL DEFAULT '0' COMMENT '추가정보2' AFTER `dta_1`;
+ALTER TABLE `g5_1_data_measure_62` ADD `dta_1` INT NOT NULL DEFAULT '0' COMMENT '추가정보1' AFTER `dta_value`, ADD `dta_2` INT NOT NULL DEFAULT '0' COMMENT '추가정보2' AFTER `dta_1`;
+ALTER TABLE `g5_1_data_measure_63` ADD `dta_1` INT NOT NULL DEFAULT '0' COMMENT '추가정보1' AFTER `dta_value`, ADD `dta_2` INT NOT NULL DEFAULT '0' COMMENT '추가정보2' AFTER `dta_1`;
+ALTER TABLE `g5_1_data_measure_64` ADD `dta_1` INT NOT NULL DEFAULT '0' COMMENT '추가정보1' AFTER `dta_value`, ADD `dta_2` INT NOT NULL DEFAULT '0' COMMENT '추가정보2' AFTER `dta_1`;
+
+ALTER TABLE `g5_1_data_measure_58` ADD `dta_3` INT DEFAULT '0' COMMENT '추가정보3' AFTER `dta_2`;
+ALTER TABLE `g5_1_data_measure_59` ADD `dta_3` INT DEFAULT '0' COMMENT '추가정보3' AFTER `dta_2`;
+ALTER TABLE `g5_1_data_measure_60` ADD `dta_3` INT DEFAULT '0' COMMENT '추가정보3' AFTER `dta_2`;
+ALTER TABLE `g5_1_data_measure_61` ADD `dta_3` INT DEFAULT '0' COMMENT '추가정보3' AFTER `dta_2`;
+ALTER TABLE `g5_1_data_measure_62` ADD `dta_3` INT DEFAULT '0' COMMENT '추가정보3' AFTER `dta_2`;
+ALTER TABLE `g5_1_data_measure_63` ADD `dta_3` INT DEFAULT '0' COMMENT '추가정보3' AFTER `dta_2`;
+ALTER TABLE `g5_1_data_measure_64` ADD `dta_3` INT DEFAULT '0' COMMENT '추가정보3' AFTER `dta_2`;
+
+DELETE FROM g5_1_cast_shot_pressure WHERE event_time > '2022-06-20 16:07:54';
+DELETE FROM g5_1_cast_shot_sub WHERE event_time > '2022-06-20 16:07:54';
+
+SELECT MIN(shot_id), MAX(shot_id) FROM MES_CAST_SHOT_SUB
+WHERE EVENT_TIME >= '2022-06-20 20:08:33'
+
+SELECT machine_id FROM g5_1_cast_shot
+WHERE shot_id >= 437005
+AND shot_id <= 437719
+GROUP BY machine_id

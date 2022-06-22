@@ -1,7 +1,10 @@
 pgAdmin..
 ..................................................................................
-SELECT * FROM g5_1_cast_shot_pressure ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100;
+SELECT count(*) FROM g5_1_cast_shot_sub;
+SELECT * FROM g5_1_cast_shot_pressure ORDER BY event_time DESC LIMIT 100;
+SELECT * FROM g5_1_melting_temp ORDER BY event_time DESC LIMIT 100;
+SELECT * FROM g5_1_factory_temphum ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot ORDER BY start_time DESC LIMIT 100;
 
@@ -15,69 +18,101 @@ DELETE FROM g5_1_cast_shot_pressure WHERE event_time > '2022-06-04 00:00:00'
 
 CREATE TABLE g5_1_data_measure_58 (
   dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
   dta_type integer NOT NULL,
   dta_no integer NOT NULL,
   dta_value DOUBLE PRECISION NULL,
-  dta_dt TIMESTAMPTZ NOT NULL
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
 );
 SELECT create_hypertable('g5_1_data_measure_58', 'dta_dt');
-CREATE INDEX data_measure_58_idx_type ON g5_1_data_measure_58 (dta_type);
-CREATE INDEX data_measure_58_idx_type_no ON g5_1_data_measure_58 (dta_type, dta_no);
+CREATE INDEX g5_1_data_measure_58_idx_type ON g5_1_data_measure_58 (dta_type);
+CREATE INDEX g5_1_data_measure_58_idx_type_no ON g5_1_data_measure_58 (dta_type, dta_no);
 
 CREATE TABLE g5_1_data_measure_59 (
   dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
   dta_type integer NOT NULL,
   dta_no integer NOT NULL,
   dta_value DOUBLE PRECISION NULL,
-  dta_dt TIMESTAMPTZ NOT NULL
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
 );
 SELECT create_hypertable('g5_1_data_measure_59', 'dta_dt');
-CREATE INDEX data_measure_59_idx_type ON g5_1_data_measure_59 (dta_type);
-CREATE INDEX data_measure_59_idx_type_no ON g5_1_data_measure_59 (dta_type, dta_no);
+CREATE INDEX g5_1_data_measure_59_idx_type ON g5_1_data_measure_59 (dta_type);
+CREATE INDEX g5_1_data_measure_59_idx_type_no ON g5_1_data_measure_59 (dta_type, dta_no);
 
 CREATE TABLE g5_1_data_measure_60 (
   dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
   dta_type integer NOT NULL,
   dta_no integer NOT NULL,
   dta_value DOUBLE PRECISION NULL,
-  dta_dt TIMESTAMPTZ NOT NULL
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
 );
 SELECT create_hypertable('g5_1_data_measure_60', 'dta_dt');
-CREATE INDEX data_measure_60_idx_type ON g5_1_data_measure_60 (dta_type);
-CREATE INDEX data_measure_60_idx_type_no ON g5_1_data_measure_60 (dta_type, dta_no);
+CREATE INDEX g5_1_data_measure_60_idx_type ON g5_1_data_measure_60 (dta_type);
+CREATE INDEX g5_1_data_measure_60_idx_type_no ON g5_1_data_measure_60 (dta_type, dta_no);
 
 CREATE TABLE g5_1_data_measure_61 (
   dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
   dta_type integer NOT NULL,
   dta_no integer NOT NULL,
   dta_value DOUBLE PRECISION NULL,
-  dta_dt TIMESTAMPTZ NOT NULL
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
 );
 SELECT create_hypertable('g5_1_data_measure_61', 'dta_dt');
-CREATE INDEX data_measure_61_idx_type ON g5_1_data_measure_61 (dta_type);
-CREATE INDEX data_measure_61_idx_type_no ON g5_1_data_measure_61 (dta_type, dta_no);
+CREATE INDEX g5_1_data_measure_61_idx_type ON g5_1_data_measure_61 (dta_type);
+CREATE INDEX g5_1_data_measure_61_idx_type_no ON g5_1_data_measure_61 (dta_type, dta_no);
 
 CREATE TABLE g5_1_data_measure_62 (
   dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
   dta_type integer NOT NULL,
   dta_no integer NOT NULL,
   dta_value DOUBLE PRECISION NULL,
-  dta_dt TIMESTAMPTZ NOT NULL
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
 );
 SELECT create_hypertable('g5_1_data_measure_62', 'dta_dt');
-CREATE INDEX data_measure_62_idx_type ON g5_1_data_measure_62 (dta_type);
-CREATE INDEX data_measure_62_idx_type_no ON g5_1_data_measure_62 (dta_type, dta_no);
+CREATE INDEX g5_1_data_measure_62_idx_type ON g5_1_data_measure_62 (dta_type);
+CREATE INDEX g5_1_data_measure_62_idx_type_no ON g5_1_data_measure_62 (dta_type, dta_no);
 
 CREATE TABLE g5_1_data_measure_63 (
   dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
   dta_type integer NOT NULL,
   dta_no integer NOT NULL,
   dta_value DOUBLE PRECISION NULL,
-  dta_dt TIMESTAMPTZ NOT NULL
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
 );
 SELECT create_hypertable('g5_1_data_measure_63', 'dta_dt');
-CREATE INDEX data_measure_63_idx_type ON g5_1_data_measure_63 (dta_type);
-CREATE INDEX data_measure_63_idx_type_no ON g5_1_data_measure_63 (dta_type, dta_no);
+CREATE INDEX g5_1_data_measure_63_idx_type ON g5_1_data_measure_63 (dta_type);
+CREATE INDEX g5_1_data_measure_63_idx_type_no ON g5_1_data_measure_63 (dta_type, dta_no);
+
+CREATE TABLE g5_1_data_measure_64 (
+  dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
+);
+SELECT create_hypertable('g5_1_data_measure_64', 'dta_dt');
+CREATE INDEX g5_1_data_measure_64_idx_type ON g5_1_data_measure_64 (dta_type);
+CREATE INDEX g5_1_data_measure_64_idx_type_no ON g5_1_data_measure_64 (dta_type, dta_no);
 
 
 

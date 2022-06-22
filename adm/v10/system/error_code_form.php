@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "940140";
+$sub_menu = "925800";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],'w');
@@ -103,7 +103,7 @@ for ($i=0;$i<sizeof($check_array);$i++) {
 }
 
 $html_title = ($w=='')?'추가':'수정'; 
-$g5['title'] = '코드별예지 '.$html_title;
+$g5['title'] = '알람(에러)코드 '.$html_title;
 //include_once('./_top_menu_data.php');
 include_once ('./_head.php');
 //echo $g5['container_sub_title'];
