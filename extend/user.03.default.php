@@ -170,13 +170,37 @@ if(basename($_SERVER["SCRIPT_FILENAME"]) == 'login_check.php') {
 
 // Admin mode default hooking
 if(defined('G5_IS_ADMIN')){
-
+    add_event('adm_board_form_before', 'u_adm_board_form_before', 10);
 	add_event('tail_sub', 'u_tail_sub', 10);
 	
 	// if(G5_IS_MOBILE){
 	// 	add_replace('head_css_url','get_mobile_admin_css',10,1);
 	// }
 	
+    function u_adm_board_form_before(){
+		global $g5;
+		$column_query_arr = array(
+			" SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_1' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_2' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_3' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_4' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_5' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_6' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_7' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_8' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_9' "
+			," SHOW COLUMNS FROM `{$g5['board_table']}` LIKE 'bo_10' "
+		);
+		//print_r3($column_query_arr);
+		for($i=0;$i<count($column_query_arr);$i++){
+			$n = $i+1;
+			${'colt'.$i} = sql_fetch($column_query_arr[$i]);
+			if(${'colt'.$i}['Type'] != 'longtext'){
+				sql_query(" ALTER TABLE `{$g5['board_table']}` MODIFY `bo_{$n}` longtext ",1);
+			}
+		}
+	}
+
 	function u_tail_sub(){
 		global $g5,$member,$default,$config,$board,$menu,$w,$print_version;
 
@@ -198,6 +222,7 @@ if(defined('G5_IS_ADMIN')){
 		echo 'var g5_user_admin_mobile_url = "'.G5_USER_ADMIN_MOBILE_URL.'";'.PHP_EOL;
 		echo 'var g5_print_version = "'.$print_version.'";'.PHP_EOL;
 		echo 'var get_device_change_url = "'.get_device_change_url().'"'.PHP_EOL;
+		echo 'var cf_company_title = "'.$config['cf_title'].'"'.PHP_EOL;
 		echo '$(function(e){'.PHP_EOL;
 		// Test db display, Need to know what DB is using.
 		if(!preg_match("/people0702/",G5_MYSQL_DB) && !G5_IS_MOBILE) {
@@ -210,42 +235,28 @@ if(defined('G5_IS_ADMIN')){
 		echo '});'.PHP_EOL;
 		echo '</script>'.PHP_EOL;
 
-		// if(G5_IS_MOBILE) {
-		// 	//기존 admin.css 추가적인 스타일을 위해서 adm.css를 추가
-		// 	add_stylesheet('<link type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />', 0);
-		// 	if(is_file(G5_USER_ADMIN_MOBILE_CSS_PATH.'/adm.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_MOBILE_CSS_URL.'/adm.css">',0);
-		// 	if(is_file(G5_USER_ADMIN_MOBILE_CSS_PATH.'/user.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_MOBILE_CSS_URL.'/user.css">',0);
-		// 	if( $board['gr_id']=='intra') { // 게시판인 경우
-		// 		if(is_file(G5_USER_ADMIN_MOBILE_CSS_PATH.'/board.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_MOBILE_CSS_URL.'/board.css">',1);
-		// 	}
-		// 	// 사용자 정의 css, 파일명과 같은 css가 있으면 자동으로 추가됨
-		// 	if(is_file(G5_USER_ADMIN_MOBILE_CSS_PATH.'/'.$g5['file_name'].'.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_MOBILE_CSS_URL.'/'.$g5['file_name'].'.css">',0);
+		
+        //기존 admin.css 추가적인 스타일을 위해서 adm.css를 추가
+        add_stylesheet('<link type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />', 0);
+        if(is_file(G5_USER_ADMIN_CSS_PATH.'/adm.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/adm.css">',0);
+        if(is_file(G5_USER_ADMIN_CSS_PATH.'/user.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/user.css">',0);
+        // 팝업창 관련 css
+		if(is_file(G5_USER_ADMIN_CSS_PATH.'/user_popup.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/user_popup.css">',1);
+        // 사용자 정의 css, 파일명과 같은 css가 있으면 자동으로 추가됨
+        if(is_file(G5_USER_ADMIN_CSS_PATH.'/'.$g5['file_name'].'.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/'.$g5['file_name'].'.css">',0);
 
-		// 	// js 추가
-		// 	if(is_file(G5_USER_ADMIN_MOBILE_JS_PATH.'/function.js')) add_javascript('<script src="'.G5_USER_ADMIN_MOBILE_JS_URL.'/function.js"></script>',0);
-		// 	if(is_file(G5_USER_ADMIN_MOBILE_JS_PATH.'/common.js')) add_javascript('<script src="'.G5_USER_ADMIN_MOBILE_JS_URL.'/common.js"></script>',0);
-		// 	add_javascript('<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>',0);
-		// 	// 사용자 정의 함수, 파일명과 같은 js가 있으면 자동으로 추가됨
-		// 	if(is_file(G5_USER_ADMIN_MOBILE_JS_PATH.'/'.$g5['file_name'].'.js')) echo '<script src="'.G5_USER_ADMIN_MOBILE_JS_URL.'/'.$g5['file_name'].'.js"></script>'.PHP_EOL;
-		// }
-		// else {
-			//기존 admin.css 추가적인 스타일을 위해서 adm.css를 추가
-			add_stylesheet('<link type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />', 0);
-			if(is_file(G5_USER_ADMIN_CSS_PATH.'/adm.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/adm.css">',0);
-			if(is_file(G5_USER_ADMIN_CSS_PATH.'/user.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/user.css">',0);
-			// 사용자 정의 css, 파일명과 같은 css가 있으면 자동으로 추가됨
-			if(is_file(G5_USER_ADMIN_CSS_PATH.'/'.$g5['file_name'].'.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/'.$g5['file_name'].'.css">',0);
-
-			if(is_file(G5_THEME_PATH.'/css/recruit.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_THEME_URL.'/css/recruit.css">',0);
-        
-			// js 추가
-			if(is_file(G5_USER_ADMIN_JS_PATH.'/function.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/function.js"></script>',0);
-			if(is_file(G5_USER_ADMIN_JS_PATH.'/common.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/common.js"></script>',0);
-			add_javascript('<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>',0);
-			// 사용자 정의 함수, 파일명과 같은 js가 있으면 자동으로 추가됨
-			if(is_file(G5_USER_ADMIN_JS_PATH.'/'.$g5['file_name'].'.js')) echo '<script src="'.G5_USER_ADMIN_JS_URL.'/'.$g5['file_name'].'.js"></script>'.PHP_EOL;
-		// }
-        
+        if(is_file(G5_THEME_PATH.'/css/recruit.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_THEME_URL.'/css/recruit.css">',0);
+    
+        // js 추가
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/function.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/function.js"></script>',0);
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/common.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/common.js"></script>',0);
+        add_javascript('<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>',0);
+        // 사용자 정의 함수, 파일명과 같은 js가 있으면 자동으로 추가됨
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/'.$g5['file_name'].'.js')) echo '<script src="'.G5_USER_ADMIN_JS_URL.'/'.$g5['file_name'].'.js"></script>'.PHP_EOL;
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/tail.js')) echo '<script src="'.G5_USER_ADMIN_JS_URL.'/tail.js"></script>'.PHP_EOL;
+		
+        // 후킹 추가
+        @include_once($g5['hook_file_path'].'/'.$g5['file_name'].'.tail.php');
 	}
 	
     function get_mobile_admin_css(){

@@ -130,7 +130,7 @@ $(function(e) {
     }
 	
     // ADMINISTRATOR 클릭시 인트라메인으로
-    $('#logo a').attr('href',g5_user_admin_url);
+    $('#logo a').attr('href',g5_user_admin_url).text('EPCS ADMIN').css({'font-size':'1.4em;'});
 
     // if localhost, favicon input
     $('<link rel="shortcut icon" href="'+g5_url+'/favicon.ico" type="image/x-ico" />').insertBefore($('title'));
