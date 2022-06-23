@@ -46,6 +46,7 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
                 $g5[$row['set_name'].'_value'][$key] = $value;
                 $g5[$row['set_name'].'_reverse'][$value] = $key;
                 $g5[$row['set_name'].'_arr'][] = $key;
+                $g5[$row['set_name'].'_value_arr'][] = $value;
                 $g5[$row['set_name'].'_radios'] .= '<label for="'.$row['set_name'].'_'.$key.'" class="'.$row['set_name'].'"><input type="radio" id="'.$row['set_name'].'_'.$key.'" name="'.$row['set_name'].'" value="'.$key.'">'.$value.'('.$key.')</label>';
                 $g5[$row['set_name'].'_options'] .= '<option value="'.trim($key).'">'.trim($value).' ('.$key.')</option>';
                 $g5[$row['set_name'].'_value_options'] .= '<option value="'.trim($key).'">'.trim($value).'</option>';
@@ -213,7 +214,7 @@ if(defined('G5_IS_ADMIN')){
                 echo '<div class="debug_msg">'.$g5['debug_msg'][$i].'</div>'.PHP_EOL;
             }
         }
-
+        $dta_types = json_encode($g5['set_data_type_value_arr']);
         echo '<script>'.PHP_EOL;
 		echo 'var file_name = "'.$g5['file_name'].'";'.PHP_EOL;
 		echo 'var dir_path = "'.$g5['dir_path'].'";'.PHP_EOL;
@@ -222,10 +223,12 @@ if(defined('G5_IS_ADMIN')){
 		echo 'var mb_level = "'.$member['mb_level'].'";'.PHP_EOL;
 		echo 'var g5_community_use = "'.G5_COMMUNITY_USE.'";'.PHP_EOL;
 		echo 'var g5_user_admin_url = "'.G5_USER_ADMIN_URL.'";'.PHP_EOL;
+		echo 'var g5_user_admin_ajax_url = "'.G5_USER_ADMIN_AJAX_URL.'";'.PHP_EOL;
 		echo 'var g5_user_admin_mobile_url = "'.G5_USER_ADMIN_MOBILE_URL.'";'.PHP_EOL;
 		echo 'var g5_print_version = "'.$print_version.'";'.PHP_EOL;
-		echo 'var get_device_change_url = "'.get_device_change_url().'"'.PHP_EOL;
-		echo 'var cf_company_title = "'.$config['cf_title'].'"'.PHP_EOL;
+		echo 'var get_device_change_url = "'.get_device_change_url().'";'.PHP_EOL;
+		echo 'var cf_company_title = "'.$config['cf_title'].'";'.PHP_EOL;
+		echo 'var dta_types = Object.values('.$dta_types.');'.PHP_EOL;
 		echo '$(function(e){'.PHP_EOL;
 		// Test db display, Need to know what DB is using.
 		if(!preg_match("/people0702/",G5_MYSQL_DB) && !G5_IS_MOBILE) {
@@ -247,9 +250,22 @@ if(defined('G5_IS_ADMIN')){
 		if(is_file(G5_USER_ADMIN_CSS_PATH.'/user_popup.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/user_popup.css">',1);
         // 사용자 정의 css, 파일명과 같은 css가 있으면 자동으로 추가됨
         if(is_file(G5_USER_ADMIN_CSS_PATH.'/'.$g5['file_name'].'.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/'.$g5['file_name'].'.css">',0);
-
+        //채용관련 css
         if(is_file(G5_THEME_PATH.'/css/recruit.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_THEME_URL.'/css/recruit.css">',0);
-    
+        //날짜픽커의 다크테마를 위한 css
+        add_stylesheet('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css">', 1);
+        //jquery-ui structure css
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/jquery-ui-1.12.1/jquery-ui.structure.min.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_JS_URL.'/jquery-ui-1.12.1/jquery-ui.structure.min.css">', 1);
+        //타임픽커 css
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/bwg_timepicker.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_JS_URL.'/bwg_timepicker.css">', 1);
+        //컬러픽커
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/colpick/colpick.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_JS_URL.'/colpick/colpick.css">', 1);
+        //데이터타임픽커
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/datetimepicker/jquery.datetimepicker.min.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_JS_URL.'/datetimepicker/jquery.datetimepicker.min.css">',1);
+        if( $board['gr_id']=='intra' && ($g5['file_name'] == 'board' || $g5['file_name'] == 'write')) { // 게시판인 경우
+            if(is_file(G5_USER_ADMIN_CSS_PATH.'/board.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/board.css">',1);
+        }
+
         // js 추가
         if(is_file(G5_USER_ADMIN_JS_PATH.'/function.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/function.js"></script>',0);
         if(is_file(G5_USER_ADMIN_JS_PATH.'/common.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/common.js"></script>',0);
@@ -257,6 +273,17 @@ if(defined('G5_IS_ADMIN')){
         // 사용자 정의 함수, 파일명과 같은 js가 있으면 자동으로 추가됨
         if(is_file(G5_USER_ADMIN_JS_PATH.'/'.$g5['file_name'].'.js')) echo '<script src="'.G5_USER_ADMIN_JS_URL.'/'.$g5['file_name'].'.js"></script>'.PHP_EOL;
         if(is_file(G5_USER_ADMIN_JS_PATH.'/tail.js')) echo '<script src="'.G5_USER_ADMIN_JS_URL.'/tail.js"></script>'.PHP_EOL;
+
+        //날짜픽커 한국어패치
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/bwg_datepicker-ko.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/bwg_datepicker-ko.js"></script>',1);
+        //날짜픽커
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/bwg_datepicker.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/bwg_datepicker.js"></script>',1);
+        //타임픽커
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/bwg_timepicker.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/bwg_timepicker.js"></script>',1);
+        //컬러픽커
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/colpick/colpick.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/colpick/colpick.js"></script>',1);
+        //날짜타임픽커
+        if(is_file(G5_USER_ADMIN_JS_PATH.'/datetimepicker/jquery.datetimepicker.full.min.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/datetimepicker/jquery.datetimepicker.full.min.js"></script>',1);
 		
         // 후킹 추가
         @include_once($g5['hook_file_path'].'/'.$g5['file_name'].'.tail.php');

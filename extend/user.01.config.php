@@ -8,6 +8,8 @@ define('G5_USER_PATH',                      G5_PATH.'/'.G5_USER_DIR);
 define('G5_USER_URL',                       G5_URL.'/'.G5_USER_DIR);
 define('G5_USER_ADMIN_PATH',                G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR);
 define('G5_USER_ADMIN_URL',                 G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR);
+define('G5_USER_ADMIN_AJAX_PATH',           G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/'.G5_AJAX_DIR);
+define('G5_USER_ADMIN_AJAX_URL',            G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/'.G5_AJAX_DIR);
 define('G5_USER_ADMIN_CSS_PATH',            G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/'.G5_CSS_DIR);
 define('G5_USER_ADMIN_CSS_URL',             G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/'.G5_CSS_DIR);
 define('G5_USER_ADMIN_IMG_PATH',            G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/'.G5_IMG_DIR);
