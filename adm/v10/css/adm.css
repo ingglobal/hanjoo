@@ -53,7 +53,8 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 
 /* 배경 컬러 */
 #hd_top {background:#060d1b;border-bottom: solid 1px #142546;}
-#logo {background: #020710;width:230px;padding:15px 0 15px 50px;}
+#logo {background: #020710;width:230px;padding:10px 0 10px 50px;}
+#logo a{font-size:1.2em;}
 #logo a img{display:none;}
 #btn_gnb {width:50px;background:url(https://icongr.am/clarity/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(270deg);}
 #btn_gnb.btn_gnb_open{background:url(https://icongr.am/clarity/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(90deg);}
