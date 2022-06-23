@@ -53,13 +53,13 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 
 /* 배경 컬러 */
 #hd_top {background:#060d1b;border-bottom: solid 1px #142546;}
-#logo {background: #020710;width:230px;padding:15px 0 15px 60px;}
+#logo {background: #020710;width:230px;padding:15px 0 15px 50px;}
 #logo a img{display:none;}
-#btn_gnb {background-color:#0b1838;width:60px;}
+#btn_gnb {width:50px;background:url(https://icongr.am/clarity/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(270deg);}
+#btn_gnb.btn_gnb_open{background:url(https://icongr.am/clarity/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(90deg);}
 #gnb .gnb_oparea {background: #162c52;}
 #btn_gnb.btn_gnb_open {
     background-color:#0f1e3b;
-    width:60px;
 }
 #gnb .gnb_li .btn_op {background-color:#363c5e;}
 #tnb .tnb_community:hover {
@@ -69,58 +69,60 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 /* 관리자단 왼편 하단 아이콘 */
 #gnb .gnb_ul {
     background: #0B1838;
-    width:60px;
 }
 #gnb .gnb_li .btn_op{background-color:#0f1e3b}
 #gnb .on .btn_op{background-color:#162c52; font-size:0;}
 #gnb .gnb_li .btn_op{background:url(../img/menu_default.png) 50% 24% no-repeat #0f1e3b; font-size:0;}
 #gnb .on .btn_op{background:url(../img/menu_default_on.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-100{background:url(https://icongr.am/clarity/cog.svg?size=20&color=bbbbbb) 50% 24% no-repeat #0f1e3b;}
-#gnb .on .btn_op.menu-100{background:url(https://icongr.am/clarity/cog.svg?size=20&color=efefef) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-200{background:url(../img/menu-2-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-200{background:url(../img/menu-2.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-300{background:url(../img/menu-3-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-300{background:url(../img/menu-3.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-400{background:url(../img/menu-7-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-400{background:url(../img/menu-7.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-500{background:url(../img/menu-6-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-500{background:url(../img/menu-6.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-900{background:url(../img/menu-4-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-900{background:url(../img/menu-4.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-910{background:url(../img/menu-950-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-910{    background:url(../img/menu-950.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-915{background:url(../img/menu-960-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-915{    background:url(../img/menu-960.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-917{background:url(../img/menu-960-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-917{    background:url(../img/menu-960.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-919{background:url(../img/menu-950-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-919{    background:url(../img/menu-950.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-920{background:url(../img/menu-950-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-920{    background:url(../img/menu-950.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-930{background:url(../img/menu-950-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-930{    background:url(../img/menu-950.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-935{background:url(../img/menu-960-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-935{    background:url(../img/menu-960.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-940{background:url(../img/menu-950-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-940{    background:url(../img/menu-950.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-945{background:url(../img/menu-960-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-945{    background:url(../img/menu-960.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-955{background:url(../img/menu-960-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-955{    background:url(../img/menu-960.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-960{background:url(../img/menu-950-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-960{    background:url(../img/menu-950.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-965{background:url(../img/menu-960-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-965{    background:url(../img/menu-960.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-990{background:url(../img/menu-960-1.png) 50% 24% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-990{    background:url(../img/menu-960.png) 50% 24% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-100{background:url(https://icongr.am/clarity/cog.svg?size=20&color=bbbbbb) 50% 50% no-repeat #0f1e3b;}
+#gnb .on .btn_op.menu-100{background:url(https://icongr.am/clarity/cog.svg?size=20&color=efefef) 50% 50% no-repeat #162c52;}
+#gnb .gnb_li .btn_op.menu-200{background:url(https://icongr.am/clarity/group.svg?size=21&color=bbbbbb) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-200{background:url(https://icongr.am/clarity/group.svg?size=21&color=efefef) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-300{background:url(https://icongr.am/clarity/clipboard.svg?size=20&color=bbbbbb) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-300{background:url(https://icongr.am/clarity/clipboard.svg?size=20&color=efefef) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-400{background:url(https://icongr.am/clarity/shield.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-400{background:url(https://icongr.am/clarity/shield.svg?size=20&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-500{background:url(../img/menu-6-1.png) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-500{background:url(../img/menu-6.png) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-900{background:url(../img/menu-4-1.png) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-900{background:url(../img/menu-4.png) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-910{background:url(https://icongr.am/clarity/file-settings.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-910{background:url(https://icongr.am/clarity/file-settings.svg?size=20&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-915{background:url(https://icongr.am/clarity/dashboard.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-915{background:url(https://icongr.am/clarity/dashboard.svg?size=20&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-917{background:url(https://icongr.am/clarity/scroll.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-917{background:url(https://icongr.am/clarity/scroll.svg?size=20&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-919{background:url(../img/menu-950-1.png) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-919{background:url(../img/menu-950.png) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-920{background:url(https://icongr.am/clarity/slider.svg?size=22&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-920{background:url(https://icongr.am/clarity/slider.svg?size=22&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-925{background:url(https://icongr.am/clarity/factory.svg?size=21&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-925{background:url(https://icongr.am/clarity/factory.svg?size=21&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-930{background:url(https://icongr.am/clarity/wrench.svg?size=22&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-930{    background:url(https://icongr.am/clarity/wrench.svg?size=22&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-935{background:url(https://icongr.am/clarity/line-chart.svg?size=21&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-935{    background:url(https://icongr.am/clarity/line-chart.svg?size=21&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-940{background:url(https://icongr.am/clarity/success-standard.svg?size=21&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-940{    background:url(https://icongr.am/clarity/success-standard.svg?size=21&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-945{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-945{    background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-955{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-955{    background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-960{background:url(https://icongr.am/clarity/block.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-960{    background:url(https://icongr.am/clarity/block.svg?size=20&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-965{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-965{    background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-990{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-990{    background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
 
 #gnb .gnb_li {border-bottom:none;}
 #gnb .gnb_li button:hover {background-color: #030c1d;}
 
 /* 왼편 메뉴 부분 */
 #gnb .gnb_oparea {color: #bdb5b5;}
+#gnb .gnb_oparea h3 {font-size:0.95em;}
 #gnb .gnb_oparea li{line-height:25px;}
-#gnb .gnb_oparea li a {color: #cccccc;}
+#gnb .gnb_oparea li a {color: #cccccc;font-size:0.95em;}
 #gnb .gnb_oparea li a:hover, #gnb .gnb_oparea li .on {color: #ecb859 !important;}
 #container_title {
     background: #292d37;
@@ -130,7 +132,7 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
     -webkit-box-shadow: none;
     -moz-box-shadow: 2px 0 2px rgba(150,150,150,0.1);
     box-shadow: none;
-    left:60px;
+    left:50px;
 }
 
 /*관리자단 메뉴숨김*/
@@ -150,7 +152,7 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
     border: 0;
     display:block;
     position:relative;
-    width: 60px;
+    width: 50px;
     height: 36px;
     text-indent:inherit;
     /*text-indent: -999px;
