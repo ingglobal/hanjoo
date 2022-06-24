@@ -87,8 +87,8 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 #gnb .on .btn_op.menu-500{background:url(../img/menu-6.png) 50% 50% no-repeat #162c52}
 #gnb .gnb_li .btn_op.menu-900{background:url(../img/menu-4-1.png) 50% 50% no-repeat #0f1e3b }
 #gnb .on .btn_op.menu-900{background:url(../img/menu-4.png) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-910{background:url(https://icongr.am/clarity/file-settings.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-910{background:url(https://icongr.am/clarity/file-settings.svg?size=20&color=f08abe) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op.menu-910{background:url(https://icongr.am/clarity/file-settings.svg?size=20&color=00b894) 50% 50% no-repeat #0f1e3b }
+#gnb .on .btn_op.menu-910{background:url(https://icongr.am/clarity/file-settings.svg?size=20&color=55efc4) 50% 50% no-repeat #162c52}
 #gnb .gnb_li .btn_op.menu-915{background:url(https://icongr.am/clarity/dashboard.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
 #gnb .on .btn_op.menu-915{background:url(https://icongr.am/clarity/dashboard.svg?size=20&color=f08abe) 50% 50% no-repeat #162c52}
 #gnb .gnb_li .btn_op.menu-917{background:url(https://icongr.am/clarity/scroll.svg?size=20&color=cc5b95) 50% 50% no-repeat #0f1e3b }
