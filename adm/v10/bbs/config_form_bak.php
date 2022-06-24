@@ -32,54 +32,43 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
 
 
 <div id="anc_basic" class="tbl_frm01 tbl_wrap">
-	<h2 class="h2_frm">기본설정</h2>
+	<h2 class="h2_frm">기본정보</h2>
 	<?php echo $pg_anchor ?>
 	<table>
 		<colgroup>
-			<col class="grid_4" style="width:5%;">
-			<col style="width:25%;">
-			<col style="width:70%;">
-		</colgroup>
-        <thead>
-            <th style="text-align:center;">번호</th>
-            <th style="text-align:center;">설정요약</th>
-            <th style="text-align:center;">설정상세내용</th>
-        </thead>
-		<tbody>
-        <?php for($i=1;$i<=10;$i++){ ?>
-        <tr>
-            <td><?=$i?></td>
-            <td scope="row">
-                ( bo_<?=$i?>_subj )&nbsp;
-                <input type="text" name="bo_<?=$i?>_subj" value="<?php echo ($i==1)?'관리자단메뉴코드':$board['bo_'.$i.'_subj'] ?>" style="width:70%;background:#2f343e;"<?=(($i==1)?' readonly':'')?> class="frm_input<?=(($i==1)?' readonly':'')?>">
-            </td>
-            <td scope="row">
-                ( bo_<?=$i?> )&nbsp;
-                <input type="text" name="bo_<?=$i?>" value="<?php echo $board['bo_'.$i] ?>"<?=(($i==1)?' readonly':'')?> style="width:85%;background:#2f343e;" class="frm_input<?=(($i==1)?' readonly':'')?>">
-            </td>
-        </tr>
-        <?php } ?>
-		</tbody>
-	</table>
-</div>
-<div id="anc_basic" class="tbl_frm01 tbl_wrap">
-	<h2 class="h2_frm">추가설정</h2>
-	<?php echo $pg_anchor ?>
-	<table>
-		<colgroup>
-			<col class="grid_4" style="width:5%;">
-			<col style="width:25%;">
-			<col style="width:70%;">
+			<col class="grid_4" style="width:15%;">
+			<col style="width:35%;">
+			<col class="grid_4" style="width:15%;">
+			<col style="width:35%;">
 		</colgroup>
 		<tbody>
-        <tr>
-            <td>11</td>
-            <td scope="row">
-                <input type="text" value="관리자단 스킨선택" style="width:70%;background:#2f343e;" readonly class="frm_input readonly">
-            </td>
-            <td scope="row">
-            <?php echo get_skin_adm_select('board', 'set_skin_adm', $board['set_skin_adm']); ?>
-            </td>
+            <tr>
+                <th scope="row">관리자단 스킨</th>
+                <td colspan="3">
+                    <input type="text" name="set_skin_adm" value="<?php echo $board['set_skin_adm'] ?>" style="width:100px;" class="frm_input required" required placeholder="관리자단 스킨">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">상태값 (bo_9)</th>
+                <td colspan="3">
+                    <?=help('pending=대기,ok=정상,hide=숨김,trash=삭제')?>
+                    <input type="text" name="bo_9" id="bo_9" value="<?php echo $board['bo_9'] ?>" style="width:85%;" class="frm_input" placeholder="상태값">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">타입 (bo_8)</th>
+                <td colspan="3">
+                    <?=help('ssak=싹산악회,seokuk=서국회,ansi=안시회,jaein=재인회,jaeseo=재서골...')?>
+                    <input type="text" name="bo_8" id="bo_8" value="<?php echo $board['bo_8'] ?>" style="width:85%;" class="frm_input" placeholder="타입 설정">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">등록 초기상태값</th>
+                <td colspan="3">
+                    <?=help('상태값 항목값을 참고하셔서 값을 정확히 입력해 주세요. pending(대기)상태로 설정하면 완료로 바뀌기 전까지는 노출되지 않습니다.')?>
+                    <input type="text" name="set_default_status" id="set_default_status" value="<?php echo $board['set_default_status'] ?>" style="width:100px;" class="frm_input" placeholder="예약초기상태값">
+                </td>
+            </tr>
         </tr>
 		</tbody>
 	</table>

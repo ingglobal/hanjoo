@@ -34,7 +34,7 @@ $sql_board = '  bo_read_level = 8
 ';
 
 $sql = "UPDATE {$g5['board_table']} SET 
-            bo_6_subj = '".$bo_6_subj."'
+            bo_6_subj = 'bo_6 설정'
             , bo_6 = '".$bo_6."'
             , bo_7_subj = '환경설정 확장(serial)'
             , bo_7 = '".$bo_7."'
