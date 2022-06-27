@@ -41,8 +41,7 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 
 .btn_top_menu_active {color:#bb4700 !important;}
 /* 레이아웃 (default_project에서 width:1100px 선언된 부분 무력화  */
-#container {width: inherit;background:#060D1B;padding:0 0 0 240px;}
-#container.container-small{padding-left:70px;}
+#container {width: inherit;background:#060D1B;}
 #container_title {font-size: 1.1em;border-bottom:1px solid #142546;padding-left:250px;}
 #container.container-small #container_title{padding-left:84px;}
 .container_wr {padding: 15px 15px;}
