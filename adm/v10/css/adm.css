@@ -46,6 +46,7 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 #container.container-small #container_title{padding-left:84px;}
 .container_wr {padding: 15px 15px;}
 #ft{background:#020710;}
+#ft strong {line-height:unset;}
 /*검색영역*/
 .local_sch select{border:1px solid #2a3241;}
 .local_sch01 .btn_submit{border:1px solid #222222;background-color:#111111 !important;}
