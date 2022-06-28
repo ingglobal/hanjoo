@@ -8,6 +8,6 @@ setTimeout(function(){
 },2000);
 $(function(){
     var ft_p = $('#ft p');
-    ft_p.find('span').text('EPCS');
+    // ft_p.find('span').text('EPCS');
     $('<strong style="color:#fff;"><span style="color:yellow;">'+cf_company_title+'</span> SYSTEM</strong>').appendTo(ft_p);
 });

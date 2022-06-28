@@ -41,12 +41,13 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 
 .btn_top_menu_active {color:#bb4700 !important;}
 /* 레이아웃 (default_project에서 width:1100px 선언된 부분 무력화  */
-#container {width: inherit;background:#060D1B;padding:0 0 0 240px;}
-#container.container-small{padding-left:70px;}
+#container {width: inherit;background:#060D1B;}
 #container_title {font-size: 1.1em;border-bottom:1px solid #142546;padding-left:250px;}
 #container.container-small #container_title{padding-left:84px;}
 .container_wr {padding: 15px 15px;}
 #ft{background:#020710;}
+#ft p{line-height:unset;padding:15px 0;}
+#ft strong{line-height:40px;}
 /*검색영역*/
 .local_sch select{border:1px solid #2a3241;}
 .local_sch01 .btn_submit{border:1px solid #222222;background-color:#111111 !important;}
@@ -197,6 +198,7 @@ a.btn_frmline{background:#095D9D;border-radius:0;}
 .btn_submit:hover {background: #1270b8;}
 a.ov_listall {background: #1e2531;}
 a.ov_listall:hover {background: #5b6b8a;}
+#container_title a.ov_listall {font-weight:normal;border: solid 1px #4d4d4d;}
 .btn_03, a.btn_03 {background: #09829d;}
 .btn_04, a.btn_04 {background: #D33838;color:#fff !important;}
 .btn_confirm{text-align:center;}
@@ -204,9 +206,7 @@ a.ov_listall:hover {background: #5b6b8a;}
 a.btn_cancel{background:#43535C;border:1px solid #434343;}
 .td_mng button, .td_mng button.btn{line-height:26px;border-radius:0;}
 .new_win .win_btn button{background:#D33838;color:#fff;}
-.btn_list03 a {
-    height:38px;
-}
+.btn_list03 a {height:30px;line-height:30px;}
 .tnb_mes{border:1px solid #354667;}
 
 /* 테이블 관련 */

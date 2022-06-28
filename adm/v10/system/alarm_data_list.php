@@ -13,7 +13,7 @@ $fname = preg_replace("/_list/","",$g5['file_name']); // _list을 제외한 파�
 //$qstr .= '&mms_idx='.$mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 $manager_display = (!$member['mb_manager_yn'] && auth_check($auth[$sub_menu],"w",1)!='') ? 'none' : 'none';   // manager가 아니면 display:none;
 
-$g5['title'] = '알람목록 전체조회';
+$g5['title'] = '알람목록';
 // include_once('./_top_menu_data.php');
 include_once('./_head.php');
 // echo $g5['container_sub_title'];
@@ -375,24 +375,7 @@ $(function(e) {
         showButtonPanel: true,
         yearRange: "c-99:c+99",
         //maxDate: "+0d"
-    });
-    
-    // 마우스 hover 설정
-    $(".tbl_head01 tbody tr").on({
-        mouseenter: function () {
-            //stuff to do on mouse enter
-            //console.log($(this).attr('od_id')+' mouseenter');
-            //$(this).find('td').css('background','red');
-            $('tr[tr_id='+$(this).attr('tr_id')+']').find('td').css('background','#e6e6e6 ');
-            
-        },
-        mouseleave: function () {
-            //stuff to do on mouse leave
-            //console.log($(this).attr('od_id')+' mouseleave');
-            //$(this).find('td').css('background','unset');
-            $('tr[tr_id='+$(this).attr('tr_id')+']').find('td').css('background','unset');
-        }    
-    });
+    });    
 
 });
 

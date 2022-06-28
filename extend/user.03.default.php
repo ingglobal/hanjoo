@@ -80,6 +80,13 @@ if ($co_id) {
 		$cont[$row["mta_key"]] = $row["mta_value"];
 }
 
+//업체 정보 추출
+if ($_SESSION['ss_com_idx']) {
+	$com = get_table('company','com_idx',$_SESSION['ss_com_idx']);
+    // print_r3($com);
+    $g5['com'] = $com;
+}
+
 
 // 로그인을 할 때마다 로그 파일 삭제해야 용량을 확보할 수 있음 
 if(basename($_SERVER["SCRIPT_FILENAME"]) == 'login_check.php') {
@@ -227,11 +234,11 @@ if(defined('G5_IS_ADMIN')){
 		echo 'var g5_user_admin_mobile_url = "'.G5_USER_ADMIN_MOBILE_URL.'";'.PHP_EOL;
 		echo 'var g5_print_version = "'.$print_version.'";'.PHP_EOL;
 		echo 'var get_device_change_url = "'.get_device_change_url().'";'.PHP_EOL;
-		echo 'var cf_company_title = "'.$config['cf_title'].'";'.PHP_EOL;
+		echo 'var cf_company_title = "'.$g5['com']['com_name'].'";'.PHP_EOL;
 		echo 'var dta_types = Object.values('.$dta_types.');'.PHP_EOL;
 		echo '$(function(e){'.PHP_EOL;
 		// Test db display, Need to know what DB is using.
-		if(!preg_match("/people0702/",G5_MYSQL_DB) && !G5_IS_MOBILE) {
+		if(!preg_match("/_www/",G5_MYSQL_DB) && !G5_IS_MOBILE) {
 			echo "$('#ft p').prepend('<span style=\"color:darkorange;\">".G5_MYSQL_DB."</span>');".PHP_EOL;
 		}
         // 관리자 디버깅 메시지 (있는 경우만 나타남)
