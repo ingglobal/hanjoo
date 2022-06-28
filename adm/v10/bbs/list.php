@@ -185,7 +185,7 @@ if ($is_search_bbs) {
 
 // sql 문장 재선언
 @include_once($board_skin_path.'/list.sql.php');
-
+// print_r2($board_skin_path);exit;
 // 페이지의 공지개수가 목록수 보다 작을 때만 실행
 if($page_rows > 0) {
     $result = sql_query($sql);

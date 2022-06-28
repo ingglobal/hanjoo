@@ -494,7 +494,7 @@ function get_meta($db_table,$db_id,$code64=1)
 	
 	if(!$db_table||!$db_id)
 		return false;
-
+	//db_table: table name, mta_db_id = xxx_idx or board name
     $sql = " SELECT mta_key, mta_value FROM {$g5['meta_table']} WHERE mta_db_table = '".$db_table."' AND mta_db_id = '".$db_id."' ";
     //echo $sql.'<br>';
 	$rs = sql_query($sql,1);
