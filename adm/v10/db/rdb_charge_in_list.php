@@ -114,7 +114,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 </form>
 
 
-<div class="tbl_head02 tbl_wrap">
+<div class="tbl_head01 tbl_wrap">
 	<table>
 	<caption><?php echo $g5['title']; ?> 목록</caption>
 	<thead>
@@ -142,7 +142,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
         $s_copy = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=c&chi_idx='.$row['chi_idx'].'" class="btn btn_03">복제</a>';
 
         echo '
-			<tr style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
+			<tr tr_id="'.$i.'" style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
 				<td>'.$s_mod_a.$row['chi_idx'].'</a></td>
 				<td>'.$row['work_date'].'</td>
 				<td>'.$g5['set_work_shift'][$row['work_shift']].'</td>

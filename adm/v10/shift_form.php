@@ -174,10 +174,10 @@ include_once ('./_head.php');
             <label for="shf_period_type_1"><input type="radio" name="shf_period_type" id="shf_period_type_1" value="1" <?=$shf_period_type_1?>> 전체기간</label>
             <div class="div_shf_period" style="display:<?=(${$pre}['shf_period_type'])?'none':''?>">
                 <input type="text" name="shf_start_dt" value="<?=${$pre}['shf_start_dt']?>"
-                    class="frm_input" style="width:130px;">
+                    class="frm_input" style="width:133px;">
                 <span class="span_wave">~</span>
                 <input type="text" name="shf_end_dt" value="<?=${$pre}['shf_end_dt']?>"
-                    class="frm_input" style="width:130px;">
+                    class="frm_input" style="width:133px;">
             </div>
             <script>
             // 기간선택, 전체기간

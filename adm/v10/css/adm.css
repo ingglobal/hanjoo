@@ -24,8 +24,8 @@ font-family: 'Noto Sans KR', sans-serif;
 
 body {font-family: 'Noto Sans KR', sans-serif;background: #060D1B !important;font-size:1em;color:#e1e1e1;}
 h1, h2, h3, h4, h5, h6 {font-family: 'Noto Sans KR', sans-serif;}
-input, button {font-family: 'Noto Sans KR', sans-serif;}
-textarea, select {font-family: 'Noto Sans KR', sans-serif;}
+input, button {font-family: 'Noto Sans KR', sans-serif;font-size:0.83em;}
+textarea, select {font-family: 'Noto Sans KR', sans-serif;font-size:0.83em;}
 select{background-color:#2a3241 !important;color:#aaa;border:1px solid #2a3241;}
 .required{background: url(../../img/wrest.png) top right no-repeat #2a3241 !important}
 input[type="text"],input[type="url"],input[type="password"],input[type="email"],textarea{background:#1e2531 !important;color:#aaa !important;border:1px solid #2a3241 !important;}
@@ -42,8 +42,8 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 .btn_top_menu_active {color:#bb4700 !important;}
 /* 레이아웃 (default_project에서 width:1100px 선언된 부분 무력화  */
 #container {width: inherit;background:#060D1B;}
-#container_title {font-size: 1.1em;border-bottom:1px solid #142546;padding-left:250px;}
-#container.container-small #container_title{padding-left:84px;}
+#container_title {font-size: 1.1em;border-bottom:1px solid #142546;padding-left:235px;}
+#container.container-small #container_title{padding-left:64px;}
 .container_wr {padding: 15px 15px;}
 #ft{background:#020710;}
 #ft p{line-height:unset;padding:15px 0;}
@@ -182,7 +182,7 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 
 /*버튼관련*/
 .btn{height: 26px;line-height: 26px;}
-a.btn{border-radius:0;font-weight:normal;height: 26px;line-height: 26px;font-size:0.9em;}
+a.btn{border-radius:0;font-weight:normal;height: 24px;line-height:24px;font-size:0.9em;}
 .btn_01, a.btn_01{background:#0891D1 !important;color:efefef !important;}
 a.btn_01:link, a.btn_01:link,a.btn_01:visited, a.btn_01:visited{color:#fff !important;}
 .btn_01:hover, a.btn_01:hover {background:#0891D1;}
@@ -192,15 +192,15 @@ a.btn_01:link, a.btn_01:link,a.btn_01:visited, a.btn_01:visited{color:#fff !impo
 a.btn_ov02, a.ov_listall{border-radius:0;}
 .td_mng a.btn, .td_mng a{border-radius:0;}
 .anchor a{background:#242F4B;border:1px solid #2f3a67;}
-a.btn_frmline{background:#095D9D;border-radius:0;}
+a.btn_frmline{background:#095D9D;border-radius:0;height:30px;line-height:30px;}
 .btn_frmline{background:#095D9D;border-radius:0;height:26px;line-height:26px;}
 .btn_submit{background:#095D9D;color: #efefef !important;}
-.btn_submit:hover {background: #1270b8;}
+.btn_submit:hover {background-color:#122958 !important;}
 a.ov_listall {background: #1e2531;}
 a.ov_listall:hover {background: #5b6b8a;}
 #container_title a.ov_listall {font-weight:normal;border: solid 1px #4d4d4d;}
-.btn_03, a.btn_03 {background: #09829d;}
-.btn_04, a.btn_04 {background: #D33838;color:#fff !important;}
+.btn_03, a.btn_03 {background: #09829d;font-size:0.8em;}
+.btn_04, a.btn_04 {background: #D33838;color:#fff !important;line-height:30px !important;}
 .btn_confirm{text-align:center;}
 .btn_confirm .btn_submit{color:#fff !important;}
 a.btn_cancel{background:#43535C;border:1px solid #434343;}
@@ -283,7 +283,7 @@ td.td_grpset{border-left:1px solid #4b5465;}
 .new_win h1{background:#020710;border-bottom:1px solid #142546;font-size:0.9em;}
 .new_win_con{background:#060D1B;}
 #scp_list_find{background:#060D1B;border:1px solid #142546;}
-#scp_list_find .btn_frmline{height:35px;line-height:35px;}
+#scp_list_find .btn_frmline{height:30px;line-height:30px;}
 
 /*높이 클래*/
 .ht26{height:26px;}
