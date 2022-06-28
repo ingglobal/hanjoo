@@ -13,7 +13,7 @@ $fname = preg_replace("/_list/","",$g5['file_name']); // _list을 제외한 파�
 //$qstr .= '&mms_idx='.$mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 $manager_display = (!$member['mb_manager_yn'] && auth_check($auth[$sub_menu],"w",1)!='') ? 'none' : 'none';   // manager가 아니면 display:none;
 
-$g5['title'] = '알람목록 전체조회';
+$g5['title'] = '알람목록';
 // include_once('./_top_menu_data.php');
 include_once('./_head.php');
 // echo $g5['container_sub_title'];
