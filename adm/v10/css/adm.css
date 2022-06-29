@@ -4,6 +4,7 @@
 @import url('./_mdl.css');
 @import url('./_frm.css');
 @import url('./_kfrm.css');
+
 /* 영카트 기본 관리자단의 후킹을 위한 css */
 /* /adm/css/admin.css 내부에서 @import된 파일입니다. */
 /* 영카트 기본 관리자단에 없는 영역이 추가될 때, 기본관리자단에서도 존재해야 하는 스타일이면 현재 파일에 설정해야 됩니다. ex. 왼편메뉴 아이콘 설정.. */
@@ -182,11 +183,11 @@ input[type="checkbox"]:checked:after{font-family:FontAwesome;position:absolute;c
 
 /*버튼관련*/
 .btn{height: 26px;line-height: 26px;}
-a.btn{border-radius:0;font-weight:normal;height: 24px;line-height:24px;font-size:0.9em;}
+a.btn{border-radius:0;font-weight:normal;height: 28px;line-height:28px;font-size:0.9em;}
 .btn_01, a.btn_01{background:#0891D1 !important;color:efefef !important;}
 a.btn_01:link, a.btn_01:link,a.btn_01:visited, a.btn_01:visited{color:#fff !important;}
 .btn_01:hover, a.btn_01:hover {background:#0891D1;}
-.btn_02, a.btn_02{background:#095D9D;}
+.btn_02, a.btn_02{background:#095D9D;font-size:0.8em;}
 .btn_ov01 .ov_txt{background:#1e2531;border-radius:0;font-weight: normal;}
 .btn_ov01 .ov_num{background:#000204;color:#fff;border-radius:0;font-weight: normal;padding:0 10px 0 5px;}
 a.btn_ov02, a.ov_listall{border-radius:0;}
