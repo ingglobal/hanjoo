@@ -113,13 +113,13 @@ label[for^=set_] input[type=radio] {margin-right:2px;}
 .btn_setting {cursor:pointer;}
 .btn {
     display: inline-block;
-    height: 26px;
-    line-height: 26px;
+    height: 34px;
+    line-height: 34px;
     padding: 0 10px;
     font-weight: normal;
     font-size: 0.9em;
     vertical-align: middle;
-    border-radius:0;
+    border-radius:5px;
 }
 .btns {
     display: inline-block;

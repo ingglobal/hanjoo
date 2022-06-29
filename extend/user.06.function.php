@@ -1343,4 +1343,51 @@ function get_bom_price($bom_idx) {
 
 }
 }
+
+
+// 사원 정보를 얻는다. (외부 인트라인 경우 내부인트라에서 )
+if(!function_exists('get_saler_idx')){
+function get_saler_idx($mb_name, $mb_intra='', $mb_intra_id='') {
+    global $g5;
+    
+    if(!$mb_name)
+        return false;
+
+    $sql = " SELECT mb_2, mb_9 FROM {$g5['member_table']} WHERE mb_name = TRIM('$mb_name') ";
+    $rs = sql_query($sql,1);
+    // 한명 이상인 경우는 mb_9 keys 값을 분리해서 해당 회원을 찾아야 함
+    if(sql_num_rows($rs) > 1) {
+        for($i=0;$row=sql_fetch_array($rs);$i++) {
+            // mb9에 기존 인트라 정보 저장됨 (:mb_intra=31:,:mb_intra31_id=jamesjoa:,)
+            $row['keys'] = get_keys($row['mb_9']);
+            if($row['keys']['mb_intra']==$mb_intra && $row['keys']['mb_intra'.$mb_intra.'_id']==$mb_intra_id)
+            $trm_idx = $row['mb_2'];
+        }
+    }
+    else {
+        $mb = sql_fetch($sql);
+        $trm_idx = $mb['mb_2'];
+    }
+
+    return $trm_idx;
+}
+}
+
+
+// 게시판 변수설정들을 불려온다. wr_7 serialized 풀어서 배열로 가지고 옴
+if(!function_exists('get_board')){
+function get_board($bo_table) {
+    global $g5;
+    
+    $sql = " SELECT * FROM ".$g5['board_table']." WHERE bo_table = '$bo_table' ";
+    $board = sql_fetch($sql,1);
+    $unser = unserialize($board['bo_7']);
+    if( is_array($unser) ) {
+        foreach ($unser as $k1=>$v1) {
+            $board[$k1] = stripslashes64($v1);
+        }    
+    }
+    return $board;
+}
+}
 ?>

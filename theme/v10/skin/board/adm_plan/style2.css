@@ -7,7 +7,7 @@ a.btn_b01, .btn_b01 {display: inline-block;background: #4c4f6f;color: #fff;text-
 a.btn_admin, .btn_admin {display: inline-block;background: #abb3c0;color: #fff;text-decoration: none;vertical-align: middle;padding: 0 10px;}
 a.btn_cancel {display: inline-block;padding: 0 10px;border: 1px solid #ccc;background: #fafafa;color: #000;text-decoration: none;vertical-align: middle;}
 .full_input, .frm_address {width: 100%;}
-.frm_input {height: 40px;padding-left:5px;}
+.frm_input {height: 34px;line-height:34px;padding-left:5px;}
 #bo_list .tbl_head01 td {padding-top:8px;padding-bottom:8px;}
 
 
@@ -39,7 +39,7 @@ a.btn_cancel {display: inline-block;padding: 0 10px;border: 1px solid #ccc;backg
 
 /*글쓰기*/
 .bo_user:after {display:block;visibility:hidden;clear:both;content:'';}
-.bo_user .frm_input {float:left;width:24.6%;margin-right:0.5%;}
+.bo_user .frm_input {float:left;margin-right:0.5%;}
 .bo_user .frm_input:last-child {margin-right:0;}
 #wr_content {padding:8px;}
 
@@ -120,9 +120,9 @@ a.btn_cancel {display: inline-block;padding: 0 10px;border: 1px solid #ccc;backg
 #bo_report ul li span {margin-right:5px;}
 
 /* 글쓰기 */
-.towhom_wrapper {border:solid 1px #ddd;background:#f5f5f5;padding:10px;}
+.towhom_wrapper {border:solid 1px #5e6454;background:#2d2d2d;padding:10px;}
 .towhom_form {margin-top:10px;}
-.towhom_info {min-height:80px;border:solid 1px #ddd;background:#fff;padding:10px;margin-top:5px;}
+.towhom_info {min-height:80px;border:solid 1px #5e5454;background:#1e2531;padding:10px;margin-top:5px;}
 
 /* 댓글 */
 .bo_comment_file {margin-top:5px;}

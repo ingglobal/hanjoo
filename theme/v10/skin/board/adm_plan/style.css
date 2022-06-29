@@ -290,7 +290,7 @@ box-shadow: inset 0 2px 5px rgb(33, 135, 202);
 #bo_v_sns:after {display:block;visibility:hidden;clear:both;content:""}
 #bo_v_sns:before{content: "";position: absolute;bottom: -7px;left: 84px;width: 0;height: 0;border-style: solid;border-width: 7px 6px 0 6px;border-color: #415b92 transparent transparent transparent;}
 #bo_v_sns li {float:left;width:60px;text-align:center}
-#bo_v_sns li a{height:40px;padding:10px 0;}
+#bo_v_sns li a{height:34px;line-height:34px;padding:0px 10px;}
 #bo_v_sns li .sns_f{display:block;background:#415b92}
 #bo_v_sns li .sns_t{display:block;background:#35b3dc}
 #bo_v_sns li .sns_g{display:block;background:#d5503a}
@@ -344,8 +344,8 @@ box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);}
 #bo_vc_sns {display:inline-block;margin:0;padding:0;list-style:none;zoom:1}
 #bo_vc_sns:after {display:block;visibility:hidden;clear:both;content:""}
 #bo_vc_sns li {float:left;margin:0 5px 0 0}
-#bo_vc_sns .sns_li_f{border-radius:3px;background:#3a589b;height:40px;line-height:40px;padding:0 0 0 10px}
-#bo_vc_sns .sns_li_t{border-radius:3px;background:#00aced;height:40px;line-height:40px;padding:0 0 0 10px}
+#bo_vc_sns .sns_li_f{border-radius:3px;background:#3a589b;height:34px;line-height:34px;padding:0 0 0 10px}
+#bo_vc_sns .sns_li_t{border-radius:3px;background:#00aced;height:34px;line-height:34px;padding:0 0 0 10px}
 #bo_vc_sns .sns_li_off{background:#bbb}
 #bo_vc_sns a{display:inline-block;padding:0 15px 0 5px;}
 #bo_vc_sns input {margin:0 5px 0 0 }
@@ -364,7 +364,7 @@ box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);}
 #bo_w .bo_w_link .frm_input{padding-left:50px}
 #bo_w .bo_w_flie .lb_icon{position:absolute;top:0px;left:0px;border-radius:3px 0 0 3px;height:38px;line-height:38px;width:40px;background:#eee;text-align:center;color:#888}
 #bo_w .bo_w_flie .frm_file{padding-left:50px;}
-#bo_w .bo_w_flie .file_wr{border:1px solid #ccc;background:#fff;color:#000;vertical-align:middle;border-radius:3px;padding:5px;height:40px;margin:0}
+#bo_w .bo_w_flie .file_wr{border:1px solid #ccc;background:#fff;color:#000;vertical-align:middle;border-radius:3px;padding:0 10px;height:34px;line-height:34px;margin:0}
 #bo_w .bo_w_flie .frm_input{margin:10px 0 0 }
 #bo_w .bo_w_flie .file_del{position:absolute;top:10px;right:10px;font-size:0.92em;color:#7d7d7d}
 #bo_w .bo_w_select select{border:1px solid #3497d9;height:40px;border-radius:3px}

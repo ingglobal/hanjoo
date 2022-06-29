@@ -28,7 +28,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
         <?php if ($rss_href || $write_href) { ?>
         <ul class="btn_bo_user">
             <?php if ($rss_href) { ?><li><a href="<?php echo $rss_href ?>" class="btn_b01 btn"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a></li><?php } ?>
-            <?php if ($is_admin) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $board_skin_url ?>/config_form.php?bo_table=<?php echo $bo_table;?>" class="btn_admin btn"><i class="fa fa-gear" aria-hidden="true"></i> 환경설정</a></li><?php } ?>
+            <?php if ($is_admin && false) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $board_skin_url ?>/config_form.php?bo_table=<?php echo $bo_table;?>" class="btn_admin btn"><i class="fa fa-gear" aria-hidden="true"></i> 환경설정</a></li><?php } ?>
             <?php if ($admin_href) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $admin_href ?>" class="btn_admin btn"><i class="fa fa-user-circle" aria-hidden="true"></i> 관리자</a></li><?php } ?>
             <?php if ($admin_href) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $admin_href ?>" class="btn_admin btn btn_company"><i class="fa fa-list-alt" aria-hidden="true"></i> 업체검색</a></li><?php } ?>
             <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn_b02 btn"><i class="fa fa-pencil" aria-hidden="true"></i> 등록</a></li><?php } ?>
@@ -180,7 +180,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
             <td class="td_status"><?=$mb1['mb_name']?></td><!-- 등록자 -->
             <td class="td_status"><?=$g5['set_board_status_value'][$list[$i]['wr_10']]?></td><!-- 상태 -->
             <td class="td_modify sv_use" style="display:<?=(!$member['mb_manager_yn'])?'none':''?>;"><!-- 수정 -->
-                <a href="<?php echo G5_BBS_URL?>/write.php?w=u&bo_table=<?php echo $bo_table?>&wr_id=<?php echo $list[$i]['wr_id']?>&<?php echo $qstr?>">수정</a>
+                <a href="<?php echo G5_USER_ADMIN_BBS_URL?>/write.php?w=u&bo_table=<?php echo $bo_table?>&wr_id=<?php echo $list[$i]['wr_id']?>&<?php echo $qstr?>">수정</a>
             </td>
         </tr>
         <?php } ?>
