@@ -4,7 +4,7 @@ $sub_menu = $board['bo_1'];
 
 $g5['title'] = $board['bo_subject'].' 환경설정';
 include_once('./_head.php');
-
+/*
 // bo_7=>longtext 환경설정 확장변수로 사용하기 위함
 $q = sql_query( 'DESCRIBE '.$g5['board_table'] );
 while($row = sql_fetch_array($q)) {
@@ -13,6 +13,9 @@ while($row = sql_fetch_array($q)) {
         sql_query(" ALTER TABLE `{$g5['board_table']}` CHANGE `bo_7` `bo_7` longtext ", true);
     }
 }
+*/
+
+// print_r2($board_skin_url);exit;
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
@@ -50,12 +53,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
         <tr>
             <td><?=$i?></td>
             <td scope="row">
-                ( bo_<?=$i?>_subj )&nbsp;
-                <input type="text" name="bo_<?=$i?>_subj" value="<?php echo ($i==1)?'관리자단메뉴코드':$board['bo_'.$i.'_subj'] ?>" style="width:70%;background:#2f343e;"<?=(($i==1)?' readonly':'')?> class="frm_input<?=(($i==1)?' readonly':'')?>">
+                <input type="text" name="bo_<?=$i?>_subj" value="<?php echo ($i==1)?'관리자단메뉴코드':$board['bo_'.$i.'_subj'] ?>" style="width:55%;background:#2f343e;"<?=(($i==1)?' readonly':'')?> class="frm_input<?=(($i==1)?' readonly':'')?>">&nbsp;( bo_<?=$i?>_subj )
             </td>
             <td scope="row">
-                ( bo_<?=$i?> )&nbsp;
-                <input type="text" name="bo_<?=$i?>" value="<?php echo $board['bo_'.$i] ?>"<?=(($i==1)?' readonly':'')?> style="width:85%;background:#2f343e;" class="frm_input<?=(($i==1)?' readonly':'')?>">
+                
+                <input type="text" name="bo_<?=$i?>" value="<?php echo $board['bo_'.$i] ?>"<?=(($i==1)?' readonly':'')?> style="width:85%;background:#2f343e;" class="frm_input<?=(($i==1)?' readonly':'')?>">&nbsp;( bo_<?=$i?> )
             </td>
         </tr>
         <?php } ?>
@@ -64,6 +66,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
 </div>
 <div id="anc_basic" class="tbl_frm01 tbl_wrap">
 	<h2 class="h2_frm">추가설정</h2>
+    <p class="local_desc01 local_desc">여기에 추가하는 <strong style="color:#ff0000;">name</strong> 설정값의 변수에는 반드시 "<strong style="color:orange;">bo_adm_xxxx</strong>" 와 같이 "<strong style="color:yellow;">bo_adm_</strong>" 으로 시작하도록 작성해 주세요.</p>
 	<?php echo $pg_anchor ?>
 	<table>
 		<colgroup>
@@ -75,10 +78,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
         <tr>
             <td>11</td>
             <td scope="row">
-                <input type="text" value="관리자단 스킨선택" style="width:70%;background:#2f343e;" readonly class="frm_input readonly">
+                <input type="text" value="관리자단 스킨선택" style="width:55%;background:#2f343e;" readonly class="frm_input readonly">
             </td>
             <td scope="row">
-            <?php echo get_skin_adm_select('board', 'set_skin_adm', $board['set_skin_adm']); ?>
+            <?php echo get_skin_adm_select('board', 'bo_adm_skin', 'bo_adm_skin', $board['bo_adm_skin']); ?>
+            &nbsp;( bo_adm_skin )
             </td>
         </tr>
 		</tbody>
