@@ -1,6 +1,6 @@
 <?php
 // 호출페이지들
-// /adm/v10/data_measure_real_chart.php: 차트추가하기
+// /adm/v10/system/graph.php: 차트추가하기
 include_once('./_common.php');
 
 if($member['mb_level']<4)
@@ -21,14 +21,13 @@ $start = strtotime($start_dt);
 $end = strtotime($en_dt);
 
 
-// 설비 정보 호출
 $sql_common = " FROM {$g5['mms_table']} AS mms
                     LEFT JOIN {$g5['company_table']} AS com ON com.com_idx = mms.com_idx
 ";
+
 $where = array();
 // 디폴트 검색조건
 $where[] = " mms_status NOT IN ('trash','delete') ";
-$where[] = " imp_idx != 31 ";
 
 // 업체조건
 $where[] = " mms.com_idx = '".$com_idx."' ";
@@ -92,17 +91,15 @@ include_once('./_head.sub.php');
 .div_title .spsn_mms_name {font-size:1.2em;}
 .div_title .spsn_mms_name:before {content:'\2713';margin-right:5px;}
 .div_title .spsn_mms_group {position:absolute;top:1px;right:10px;}
-.btn_mesaure, .btn_product {
+.btn_mesaure {
     cursor:pointer;margin:2px 2px 2px 0;
     border: solid 1px #ddd;
     border-radius: 15px;
     padding: 0 10px;
-    background: #fff;
 }
-.div_measure, .div_product {padding:2px 0;}
-.div_product {margin-top:7px;}
-.div_measure {margin:10px 5px 30px;}
-.btn_mesaure:hover, .btn_product:hover {color:yellow;background: #000;}
+.div_measure {padding:10px 0;}
+.div_measure {margin-bottom:30px;}
+.btn_mesaure:hover {color:yellow;background: #000;}
 #spinner {display:none;}
 .tbl_head01 tbody td {
     text-align:left;
@@ -137,7 +134,7 @@ include_once('./_head.sub.php');
             // Get all the mms_idx values to make them optionf for selection.
             $sql2 = "   SELECT mms_idx, mms_name
                         FROM {$g5['mms_table']}
-                        WHERE com_idx = '".$com_idx."' AND imp_idx != 31
+                        WHERE com_idx = '".$com_idx."'
                         ORDER BY mms_idx
             ";
             // echo $sql2.'<br>';
@@ -154,11 +151,11 @@ include_once('./_head.sub.php');
     
     <div class="local_desc01 local_desc" style="display:no ne;">
         <p>항목을 클릭하면 그래프가 추가됩니다.</p>
-        <p>기간 선택 범위 및 좌표갯수에 <span class="color_red">그래프 로딩 시간이 꽤 많이</span> 걸릴 수 있습니다.</p>
+        <p>데이터가 방대하면 그래프를 로딩하는 데 시간이 걸립니다.</p>
     </div>
 
     <div class="tbl_head01 tbl_wrap new_win_con">
-        <i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:280px;left:46%;font-size:4em;z-index:100;"></i>
+        <i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:280px;left:46%;font-size:4em;"></i>
         <table>
         <caption>검색결과</caption>
         <tbody>
@@ -168,81 +165,30 @@ include_once('./_head.sub.php');
             $row['group'] = get_table_meta('mms_group','mmg_idx',$row['mmg_idx']);
             // print_r2($row);
 
-            // 해당 기간 온도값 추출
-            $sql1 = "   SELECT machine_id, MAX(hold_temp) AS hold_temp_max, MAX(upper_heat) AS upper_heat_max, MAX(lower_heat) AS lower_heat_max
-                            , MAX(upper_1_temp) AS upper_1_temp_max, MAX(upper_2_temp) AS upper_2_temp_max, MAX(upper_3_temp) AS upper_3_temp_max, MAX(upper_4_temp) AS upper_4_temp_max, MAX(upper_5_temp) AS upper_5_temp_max, MAX(upper_6_temp) AS upper_6_temp_max
-                            , MAX(lower_1_temp) AS lower_1_temp_max, MAX(lower_2_temp) AS lower_2_temp_max, MAX(lower_3_temp) AS lower_3_temp_max
-                        FROM g5_1_cast_shot_sub
-                        WHERE event_time >= '".$start_dt."' AND event_time <= '".$end_dt."'
-                            AND machine_id = '".$row['mms_idx2']."'
-                        GROUP BY machine_id
+            // 해당 기간 내 각 측정값 추출
+            $sql1 = "   SELECT dta_type, dta_no
+                        FROM g5_1_data_measure_".$row['mms_idx']."
+                        WHERE dta_dt >= '".$start_dt."' AND dta_dt <= '".$end_dt."'
+                        GROUP BY dta_type, dta_no
+                        ORDER BY dta_type, dta_no
             ";
             // echo $sql1.'<br>';
             $stmt = sql_query_ps($sql1,1);
-            $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
-            // $one[$i] = sql_fetch($sql1,1);
-            // print_r2($one[$i]);
-            if(is_array($one[$i])) {
-                foreach($one[$i] as $k1=>$v1) {
-                    if($k1=='machine_id') {continue;} // 건너뛰는 필드
-                    if(!$v1) {continue;} // 값이 없으면(제로) 건너뜀
-                    // echo $k1.'/'.$v1.'<br>';
-                    // if( $g5['set_data_name'][preg_replace("/_max/","",$k1)] ) {
-                    //     echo $g5['set_data_name_value'][preg_replace("/_max/","",$k1)].'<br>';
-                    // }
-                    $one[$i]['data_name_code'] = preg_replace("/_max/","",$k1);
-                    $one[$i]['data_name_text'] = $g5['set_data_name_value'][$one[$i]['data_name_code']];
-                    // 레이블값
-                    $one[$i]['dta_label'] = $one[$i]['data_name_text'] ? $one[$i]['data_name_text'] : $k1;
-                    // echo $one[$i]['dta_label'].'<br>';
-                    // 차트(그래프) 항목 배열
-                    $row['charts'][] = '<span class="btn_mesaure" mms_idx="'.$row['mms_idx'].'" mms_name="'.$row['mms_name'].'" '
-                                        .'mms_data_url_host="'.$row['mms_data_url_host'].'" '
-                                        .'mms_data_url_path="/device/rdb" '
-                                        .'mms_data_url_file="shot_sub.php" '
-                                        .'dta_type="'.$one[$i]['data_name_code'].'" dta_no="'.$row1['dta_no'].'" '
-                                        .'graph_name="'.$row['mms_name'].' '.$one[$i]['data_name_text'].'" '
-                                        .'>'.$one[$i]['dta_label'].'</span>';
-                }
+            for ($j=0; $row1=$stmt->fetch(PDO::FETCH_ASSOC); $j++) {
+                // 레이블값, 입력된 레이블값이 없으면 환경설정 측정명+번호
+                $row1['dta_label'] = $row['mta']['dta_type_label-'.$row1['dta_type'].'-'.$row1['dta_no']] ?:
+                                        $g5['set_data_type_value'][$row1['dta_type']].$row1['dta_no'];
+                $row1['dta_label_type_no'] = $row1['dta_type'].'-'.$row1['dta_no'];
+                // 차트(그래프) 항목 배열
+                $row['charts'][] = '<span class="btn_mesaure" mms_idx="'.$row['mms_idx'].'" mms_name="'.$row['mms_name'].'" '
+                                    .'mms_data_url_host="'.$row['mms_data_url_host'].'" '
+                                    .'mms_data_url_path="/user/json" '
+                                    .'mms_data_url_file="measure.php" '
+                                    .'dta_type="'.$row1['dta_type'].'" dta_no="'.$row1['dta_no'].'" '
+                                    .'graph_name="'.$row1['dta_label'].'" '
+                                    .'>'.$row1['dta_label'].'</span>';
             }
-    
-            // 압력
-            $sql1 = "   SELECT machine_id, MAX(detect_pressure) AS detect_pressure_max, MAX(target_pressure) AS target_pressure_max
-                            , MAX(control_pressure) AS control_pressure_max
-                            , MAX(deviation_pressure) AS deviation_pressure_max
-                        FROM g5_1_cast_shot_pressure
-                        WHERE event_time >= '".$start_dt."' AND event_time <= '".$end_dt."'
-                            AND machine_id = '".$row['mms_idx2']."'
-                        GROUP BY machine_id
-            ";
-            // echo $sql1.'<br>';
-            $stmt = sql_query_ps($sql1,1);
-            $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // $one[$i] = sql_fetch($sql1,1);
-            // print_r2($one[$i]);
-            if(is_array($one[$i])) {
-                foreach($one[$i] as $k1=>$v1) {
-                    if($k1=='machine_id') {continue;} // 건너뛰는 필드
-                    if(!$v1) {continue;} // 값이 없으면(제로) 건너뜀
-                    // echo $k1.'/'.$v1.'<br>';
-                    $one[$i]['data_name_code'] = preg_replace("/_max/","",$k1);
-                    $one[$i]['data_name_text'] = $g5['set_data_name_value'][$one[$i]['data_name_code']];
-                    // 레이블값
-                    $one[$i]['dta_label'] = $one[$i]['data_name_text'] ? $one[$i]['data_name_text'] : $k1;
-                    // echo $one[$i]['dta_label'].'<br>';
-                    // 차트(그래프) 항목 배열
-                    $row['charts'][] = '<span class="btn_mesaure" mms_idx="'.$row['mms_idx'].'" mms_name="'.$row['mms_name'].'" '
-                                        .'mms_data_url_host="'.$row['mms_data_url_host'].'" '
-                                        .'mms_data_url_path="/device/rdb" '
-                                        .'mms_data_url_file="shot_pressure.php" '
-                                        .'dta_type="'.$one[$i]['data_name_code'].'" dta_no="'.$row1['dta_no'].'" '
-                                        .'graph_name="'.$row['mms_name'].' '.$one[$i]['data_name_text'].'" '
-                                        .'>'.$one[$i]['dta_label'].'</span>';
-                }
-            }
-    
-        ?>
+       ?>
         <tr>
             <td>
                 <div class="div_title">
@@ -272,6 +218,10 @@ include_once('./_head.sub.php');
         <a href="javascript:" class="btn btn_test" style="display:<?=($member['mb_level']<8)?'none':''?>;">테스트</a>
     </div>
 
+    <div class="btn_fixed_top">
+        <a href="javascript:window.close();" id="member_add" class="btn btn_02">창닫기</a>
+    </div>
+
 </div>
 
 <script>
@@ -290,16 +240,10 @@ var graphs2 =[];
 var dta_data_url_host;
 var dta_data_url_path;
 var dta_data_url_file;
-var dta_group;  // mea, product, run, error
 var mms_idx;
 var mms_name;
 var dta_type;  // 
 var dta_no;    // 
-var shf_no = 0;
-var dta_mmi_no = 0;
-var dta_defect = "0,1";
-var dta_defect_type = 0;
-var dta_code = "";
 var graph_type = "spline";
 var graph_line = "solid";
 var graph_name = "Graph";
@@ -321,18 +265,10 @@ $(function() {
         window.close();
     });
 
-    // btn company click.
-    $("#btn_company").click(function() {
-        var href = $(this).attr("href");
-        winCompany = window.open(href, "winCompany", "left=70,top=70,width=520,height=600,scrollbars=1");
-        winCompany.focus();
-        return false;
-    });
-
     // 측정그래프 추가
-    $(document).on('click','.btn_mesaure',function(e){
+    $('.btn_mesaure').click(function(e){
         e.preventDefault();
-        dta_data_url_host = $(this).attr('mms_data_url_host') || "<?=$g5['set_data_url_host']?>";
+        dta_data_url_host = $(this).attr('mms_data_url_host') || "<?=$g5['set_data_url']?>";
         dta_data_url_path = $(this).attr('mms_data_url_path');
         dta_data_url_file = $(this).attr('mms_data_url_file');
         mms_idx = $(this).attr('mms_idx');
@@ -361,6 +297,7 @@ $(function() {
         // console.log(chr_idx);
         applyGraphs(chr_idx);
 
+        // 부모창의 [확인]버튼 클릭
         $("#fsearch button[type=submit]", opener.document).trigger('click');
         setTimeout(function(e){
             console.log( $("#chart1", opener.document).attr("graphs") );
@@ -392,7 +329,6 @@ function applyGraphs(idx) {
 
 </script>
 
-<br><br>
 <?php
 include_once('./_tail.sub.php');
 ?>

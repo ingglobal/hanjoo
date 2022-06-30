@@ -112,9 +112,8 @@ $items1 = array(
     "arm_idx"=>array("번호",0,0,0)
     ,"mms_idx"=>array("설비명",0,0,0,'16%')
     ,"arm_cod_code"=>array("코드",0,0,0)
-    ,"cod_name"=>array("알람내용",0,0,0,'25%')
+    ,"cod_name"=>array("알람내용",0,0,0)
     ,"trm_idx_category"=>array("분류",0,0,0)
-    ,"com_idx"=>array("업체번호",0,0,0)
     ,"arm_reg_dt"=>array("발생일시",0,0,0)
 );
 
@@ -296,9 +295,6 @@ function sch_submit(f){
                 }
                 else if($k1=='arm_cod_type') {
                     $list[$k1] = ' <span class="font_size_8">'.$g5['set_cod_type_value'][$row[$k1]].'</span>';
-                }
-                else if($k1=='com_idx') {
-                    $list[$k1] = $row[$k1].'  <span class="font_size_8">'.cut_str($row['com']['com_name'],8,'..').'</span>';
                 }
                 else if($k1=='arm_send') {
                     $list[$k1] = $row['ars'];
