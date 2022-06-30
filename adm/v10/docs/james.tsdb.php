@@ -647,3 +647,20 @@ SELECT 1 FROM pg_tables WHERE schemaname='postgres' AND tablename='g5_1_data_mea
 SELECT EXISTS (
   SELECT 1 FROM pg_tables WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58'
 ) AS flag
+
+SELECT dta_type, COUNT(*) AS sum_dta_type FROM g5_1_data_measure_58 GROUP BY dta_type
+SELECT dta_type, COUNT(*) AS sum_dta_type FROM g5_1_data_measure_59 GROUP BY dta_type
+SELECT dta_type, COUNT(*) AS sum_dta_type FROM g5_1_data_measure_60 GROUP BY dta_type
+SELECT dta_type, COUNT(*) AS sum_dta_type FROM g5_1_data_measure_61 GROUP BY dta_type
+SELECT dta_type, dta_no, COUNT(*) AS sum_dta_type FROM g5_1_data_measure_61 GROUP BY dta_type, dta_no
+
+DELETE FROM g5_1_data_measure_61 WHERE dta_type = 0
+
+// db exists?
+SELECT * FROM pg_tables 
+WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58'
+
+SELECT * FROM pg_tables 
+WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58'
+
+SELECT dta_type, dta_no FROM g5_1_data_measure_61 GROUP BY dta_type, dta_no ORDER BY dta_type, dta_no
