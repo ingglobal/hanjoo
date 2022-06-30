@@ -37,6 +37,7 @@ foreach($board as $bo_key => $bo_val){
     }
 }
 
+@include_once($board_skin_path.'/_common.php');
 // print_r3($board);
 // exit;
 if ($member['mb_level'] < 5)

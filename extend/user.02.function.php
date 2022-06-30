@@ -2086,51 +2086,7 @@ function get_list3($write_row, $board, $skin_url, $subject_len=40){
 	
 	$board_notice = array_map('trim', explode(',', $board['bo_notice']));
 	$list['is_notice'] = in_array($list['wr_id'], $board_notice);
-	/*
-	if ($subject_len)
-		$list['subject'] = conv_subject($list['wr_subject'], $subject_len, '…');
-	else
-		$list['subject'] = conv_subject($list['wr_subject'], $board['bo_subject_len'], '…');
-	*/
-
-	// 목록에서 내용 미리보기 사용한 게시판만 내용을 변환함 (속도 향상) : kkal3(커피)님께서 알려주셨습니다.
-	/*
-	if ($board['bo_use_list_content'])
-	{
-		$html = 0;
-		if (strstr($list['wr_option'], 'html1'))
-			$html = 1;
-		else if (strstr($list['wr_option'], 'html2'))
-			$html = 2;
-
-		$list['content'] = conv_content($list['wr_content'], $html);
-	}
-	*/
-
-	// 당일인 경우 시간으로 표시함
-	/*
-	$list['datetime'] = substr($list['wr_datetime'],0,10);
-	$list['datetime2'] = $list['wr_datetime'];
-	if ($list['datetime'] == G5_TIME_YMD)
-		$list['datetime2'] = substr($list['datetime2'],11,5);
-	else
-		$list['datetime2'] = substr($list['datetime2'],5,5);
-	// 4.1
-	$list['last'] = substr($list['wr_last'],0,10);
-	$list['last2'] = $list['wr_last'];
-	if ($list['last'] == G5_TIME_YMD)
-		$list['last2'] = substr($list['last2'],11,5);
-	else
-		$list['last2'] = substr($list['last2'],5,5);
 	
-
-	$tmp_name = get_text(cut_str($list['wr_name'], $config['cf_cut_name'])); // 설정된 자리수 만큼만 이름 출력
-	$tmp_name2 = cut_str($list['wr_name'], $config['cf_cut_name']); // 설정된 자리수 만큼만 이름 출력
-	if ($board['bo_use_sideview'])
-		$list['name'] = get_sideview($list['mb_id'], $tmp_name2, $list['wr_email'], $list['wr_homepage']);
-	else
-		$list['name'] = '<span class="'.($list['mb_id']?'sv_member':'sv_guest').'">'.$tmp_name.'</span>';
-	*/
 
 	// 분류명 링크
 	$list['ca_name_href'] = G5_USER_ADMIN_BBS_URL.'/board.php?bo_table='.$board['bo_table'].'&amp;sca='.urlencode($list['ca_name']);
@@ -2155,5 +2111,11 @@ function get_list3($write_row, $board, $skin_url, $subject_len=40){
 	return $list;
 }
 }
-	
+
+// 관리자단 해당 wr_id의 게시물 정보가져오기
+if(!function_exists('get_view2')){
+function get_view2($write_row, $board, $skin_url){
+    return get_list2($write_row, $board, $skin_url, 255);
+}
+}
 ?>

@@ -4,7 +4,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 0);
-//print_r2($g5);
+// print_r3($write);
 ?>
 <style>
     .towhom_info .fa {cursor:pointer;}
@@ -75,7 +75,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
 
     <div class="write_div">
         <label for="wr_cart" class="sound_only">설비</label>
-        <input type="hidden" name="com_idx" value="<?=$write['wr_1']?>"><!-- 업체번호 -->
+        <input type="hidden" name="com_idx" value="<?=(($w == '')?$_SESSION['ss_com_idx']:$write['wr_1'])?>"><!-- 업체번호 -->
         <input type="hidden" name="mms_idx" value="<?=$write['wr_2']?>"><!-- 설비번호 -->
         <input type="hidden" name="com_name" value="<?=$write['com_name']?>"><!-- 업체명 -->
 

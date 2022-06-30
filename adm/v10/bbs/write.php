@@ -432,6 +432,13 @@ $editor_js .= chk_editor_js('wr_content', $is_dhtml_editor);
 // 임시 저장된 글 수
 $autosave_count = autosave_count($member['mb_id']);
 
+
+// 기존 $write 배열 값에 meta_bale에서 추출한 값을 병합한다.
+$write = @array_merge($write,get_meta('board/'.$bo_table,$wr_id));
+
+
+@include_once($board_skin_path.'/_write.php');
+
 include_once(G5_PATH.'/head.sub.php');
 @include_once ($board_skin_path.'/write.head.skin.php');
 include_once('./board_head.php');

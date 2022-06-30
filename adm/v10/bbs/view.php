@@ -115,7 +115,7 @@ if ($is_member) {
         $nogood_href = G5_BBS_URL.'/good.php?bo_table='.$bo_table.'&amp;wr_id='.$wr_id.'&amp;good=nogood';
 }
 
-$view = get_view($write, $board, $board_skin_path);
+$view = get_view2($write, $board, $board_skin_path);
 
 if (strstr($sfl, 'subject'))
     $view['subject'] = search_font($stx, $view['subject']);
@@ -138,6 +138,9 @@ function conv_rich_content($matches)
 }
 $view['rich_content'] = preg_replace_callback("/{이미지\:([0-9]+)[:]?([^}]*)}/i", "conv_rich_content", $view['content']);
 
+// 기존 $view 배열 값에 meta_bale에서 추출한 값을 병합한다.
+$view = @array_merge($view,get_meta('board/'.$bo_table,$wr_id));
+
 $is_signature = false;
 $signature = '';
 if ($board['bo_use_signature'] && $view['mb_id']) {
@@ -147,7 +150,7 @@ if ($board['bo_use_signature'] && $view['mb_id']) {
 
     $signature = conv_content($signature, 1);
 }
-
+@include_once($board_skin_path.'/_view.php');
 include_once($board_skin_path.'/view.skin.php');
 
 @include_once($board_skin_path.'/view.tail.skin.php');

@@ -1,7 +1,6 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 include_once($board_skin_path.'/_common.php');
-include_once($board_skin_path.'/list.php');
 
 // 선택옵션으로 인해 셀합치기가 가변적으로 변함
 $colspan = 10;
@@ -24,16 +23,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
             <span>Total <?php echo number_format($total_count) ?>건</span>
             <?php echo $page ?> 페이지
         </div>
-
-        <?php if ($rss_href || $write_href) { ?>
-        <ul class="btn_bo_user">
-            <?php if ($rss_href) { ?><li><a href="<?php echo $rss_href ?>" class="btn_b01 btn"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a></li><?php } ?>
-            <?php if ($is_admin && false) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $board_skin_url ?>/config_form.php?bo_table=<?php echo $bo_table;?>" class="btn_admin btn"><i class="fa fa-gear" aria-hidden="true"></i> 환경설정</a></li><?php } ?>
-            <?php if ($admin_href) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $admin_href ?>" class="btn_admin btn"><i class="fa fa-user-circle" aria-hidden="true"></i> 관리자</a></li><?php } ?>
-            <?php if ($admin_href) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $admin_href ?>" class="btn_admin btn btn_company"><i class="fa fa-list-alt" aria-hidden="true"></i> 업체검색</a></li><?php } ?>
-            <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn_b02 btn"><i class="fa fa-pencil" aria-hidden="true"></i> 등록</a></li><?php } ?>
-        </ul>
-        <?php } ?>
     </div>
     <!-- } 게시판 페이지 정보 및 버튼 끝 -->
 
@@ -60,7 +49,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
         <div class="bo_sch_group">
             <select name="ser_wr_10" id="ser_wr_10" style="display:no ne;">
                 <option value="">상태값전체 &nbsp;</option>
-                <?php echo $g5['set_board_status_options'];?>
+                <?php echo $board['bo_10_key_options'];?>
             </select>
             <script>$('#ser_wr_10').val('<?php echo $ser_wr_10;?>').attr('selected','selected');</script>
 
@@ -120,21 +109,21 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
         for ($i=0; $i<count($list); $i++) {
             // print_r2($list[$i]);
             // wr_9 serialized 추출
-            $list[$i]['sried'] = get_serialized($list[$i]['wr_9']);
+            // $list[$i]['sried'] = get_serialized($list[$i]['wr_9']);
             // print_r3($list[$i]['sried']);
 
             $mb1 = get_member($list[$i]['mb_id'],'mb_name');
 
             // report people.
-            $list[$i]['wr_7s'] = json_decode($list[$i]['wr_7'], true);
-            // print_r2($list[$i]['wr_7']);
-            if( is_array($list[$i]['wr_7s']) ) {
-                foreach($list[$i]['wr_7s'] as $k1 => $v1) {
-                    for($j=0;$j<@sizeof($v1);$j++) {
-                        $list[$i]['wr_reports'][$j][$k1] = $v1[$j];
-                    }
-                }
-            }
+            // $list[$i]['wr_7s'] = json_decode($list[$i]['wr_7'], true);
+            // // print_r2($list[$i]['wr_7']);
+            // if( is_array($list[$i]['wr_7s']) ) {
+            //     foreach($list[$i]['wr_7s'] as $k1 => $v1) {
+            //         for($j=0;$j<@sizeof($v1);$j++) {
+            //             $list[$i]['wr_reports'][$j][$k1] = $v1[$j];
+            //         }
+            //     }
+            // }
             // print_r2($list[$i]['wr_reports']);
 
         ?>
@@ -155,7 +144,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
                 echo $list[$i]['num'];
              ?>
             </td>
-            <td class="td_mms_name"><?=$list[$i]['sried']['mms_name']?></td><!-- 설비명 -->
+            <td class="td_mms_name"><?=$list[$i]['mms_name']?></td><!-- 설비명 -->
             <!-- 제목 -->
             <td class="td_subject" style="padding-left:<?php echo $list[$i]['reply'] ? (strlen($list[$i]['wr_reply'])*10) : '5'; ?>px">
                 <?php
@@ -175,10 +164,10 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
             </td>
             <td class="td_plan_date"><?=$list[$i]['wr_3']?></td><!-- 정비일 -->
             <td class="td_prior_day"><?=$list[$i]['wr_4']?>일 전부터</td><!-- 몇일전부터 -->
-            <td class="td_period"><?=$g5['set_board_period_value'][$list[$i]['wr_5']]?></td><!-- 알림주기 -->
+            <td class="td_period"><?=$board['bo_8_key_arr'][$list[$i]['wr_5']]?></td><!-- 알림주기 -->
             <td class="td_to_whom"><?=@count($list[$i]['wr_reports'])?>명</td><!-- 알림대상 -->
             <td class="td_status"><?=$mb1['mb_name']?></td><!-- 등록자 -->
-            <td class="td_status"><?=$g5['set_board_status_value'][$list[$i]['wr_10']]?></td><!-- 상태 -->
+            <td class="td_status"><?=$board['bo_10_key_arr'][$list[$i]['wr_10']]?></td><!-- 상태 -->
             <td class="td_modify sv_use" style="display:<?=(!$member['mb_manager_yn'])?'none':''?>;"><!-- 수정 -->
                 <a href="<?php echo G5_USER_ADMIN_BBS_URL?>/write.php?w=u&bo_table=<?php echo $bo_table?>&wr_id=<?php echo $list[$i]['wr_id']?>&<?php echo $qstr?>">수정</a>
             </td>
@@ -190,15 +179,19 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
     </div>
 
     <?php if ($list_href || $is_checkbox || $write_href) { ?>
-    <div class="bo_fx">
+    <div class="btn_fixed_top" style="top:57px;">
         <?php if ($list_href || $write_href) { ?>
         <ul class="btn_bo_user">
             <?php if ($is_checkbox) { ?>
             <li style="display:none;"><button type="submit" name="btn_submit" value="선택수정" onclick="document.pressed=this.value" class="btn btn_admin"><i class="fa fa-edit" aria-hidden="true"></i> 선택수정</button></li>
+            <?php if ($admin_href) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $admin_href ?>" class="btn_admin btn"><i class="fa fa-user-circle" aria-hidden="true"></i> 관리자</a></li><?php } ?>
             <li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><button type="submit" name="btn_submit" value="선택삭제" onclick="document.pressed=this.value" class="btn btn_admin"><i class="fa fa-trash-o" aria-hidden="true"></i> 선택삭제</button></li>
+            <?php if(false){ ?>
             <li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><button type="submit" name="btn_submit" value="선택복사" onclick="document.pressed=this.value" class="btn btn_admin"><i class="fa fa-files-o" aria-hidden="true"></i> 선택복사</button></li>
             <li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><button type="submit" name="btn_submit" value="선택이동" onclick="document.pressed=this.value" class="btn btn_admin"><i class="fa fa-arrows" aria-hidden="true"></i> 선택이동</button></li>
             <?php } ?>
+            <?php } ?>
+            <?php if ($admin_href) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $admin_href ?>" class="btn_admin btn btn_company"><i class="fa fa-list-alt" aria-hidden="true"></i> 업체검색</a></li><?php } ?>
             <?php if ($list_href) { ?><li><a href="<?php echo $list_href ?>" class="btn_b01 btn"><i class="fa fa-list" aria-hidden="true"></i> 목록</a></li><?php } ?>
             <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn_b02 btn"><i class="fa fa-pencil" aria-hidden="true"></i> 등록</a></li><?php } ?>
         </ul>

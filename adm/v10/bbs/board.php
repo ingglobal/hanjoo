@@ -1,7 +1,7 @@
 <?php
 include_once('./_common.php');
 $sub_menu = $board['bo_1'];
-
+// print_r2($board);exit;
 if (!$board['bo_table']) {
    alert('존재하지 않는 게시판입니다.', G5_URL);
 }

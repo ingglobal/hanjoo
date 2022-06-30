@@ -34,10 +34,10 @@ if ($sop != 'and' && $sop != 'or')
 // 분류 선택 또는 검색어가 있다면
 $stx = trim($stx);
 //검색인지 아닌지 구분하는 변수 초기화
-$is_search_bbs = false;
+$is_search_bbs = $board['bo_use_search'];
 
 if ($sca || $stx || $stx === '0') {     //검색이면
-    $is_search_bbs = true;      //검색구분변수 true 지정
+    // $is_search_bbs = true;      //검색구분변수 true 지정
     $sql_search = get_sql_search($sca, $sfl, $stx, $sop);
 
     // 가장 작은 번호를 얻어서 변수에 저장 (하단의 페이징에서 사용)
@@ -48,6 +48,9 @@ if ($sca || $stx || $stx === '0') {     //검색이면
     if (!$spt) $spt = $min_spt;
 
     $sql_search .= " and (wr_num between {$spt} and ({$spt} + {$config['cf_search_part']})) ";
+    
+    //추가적인 검색조건을 정의할때
+    @include_once($board_skin_path.'/sql_search.add.php');
 
     // 원글만 얻는다. (코멘트의 내용도 검색하기 위함)
     // 라엘님 제안 코드로 대체 http://sir.kr/g5_bug/2922
@@ -61,10 +64,17 @@ if ($sca || $stx || $stx === '0') {     //검색이면
     */
 } else {
     $sql_search = "";
-
-    $total_count = $board['bo_count_write'];
+    //추가적인 검색조건을 정의할때
+    @include_once($board_skin_path.'/sql_search.add.php');
+    if($sql_search != ""){
+        $sql = " SELECT COUNT(DISTINCT `wr_parent`) AS `cnt` FROM {$write_table} WHERE {$sql_search} ";
+        $row = sql_fetch($sql);
+        $total_count = $row['cnt'];
+    }else{
+        $total_count = $board['bo_count_write'];
+    }
 }
-
+// print_r3($sql);
 if(G5_IS_MOBILE) {
     $page_rows = $board['bo_mobile_page_rows'];
     $list_page_rows = $board['bo_mobile_page_rows'];
@@ -102,7 +112,7 @@ if (!$is_search_bbs) {
 
         if($k < $from_notice_idx) continue;
 
-        $list[$i] = get_list($row, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
+        $list[$i] = get_list2($row, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
         $list[$i]['is_notice'] = true;
         $list[$i]['num'] = 0;
         $i++;
@@ -182,7 +192,8 @@ if ($is_search_bbs) {
         $sql .= " and wr_id not in (".implode(', ', $notice_array).") ";
     $sql .= " {$sql_order} limit {$from_record}, $page_rows ";
 }
-
+// print_r3($sql);
+// echo $is_search_bbs;
 // sql 문장 재선언
 @include_once($board_skin_path.'/list.sql.php');
 // print_r2($board_skin_path);exit;
@@ -205,6 +216,10 @@ if($page_rows > 0) {
         $list[$i]['is_notice'] = false;
         $list_num = $total_count - ($page - 1) * $list_page_rows - $notice_count;
         $list[$i]['num'] = $list_num - $k;
+
+        // 기존 $write 배열 값에 meta_bale에서 추출한 값을 병합한다.
+        $list[$i] = @array_merge($list[$i],get_meta('board/'.$bo_table,$list[$i]['wr_id']));
+
 
         $i++;
         $k++;
@@ -262,4 +277,5 @@ if ($board['bo_use_rss_view']) {
 }
 
 $stx = get_text(stripslashes($stx));
+@include_once($board_skin_path.'/_list.php');
 include_once($board_skin_path.'/list.skin.php');

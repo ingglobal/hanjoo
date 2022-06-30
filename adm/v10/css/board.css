@@ -41,7 +41,7 @@ select{background:#1e2531;}
 
 /*게시판 버튼관련*/
 .btn{border-radius:0;}
-a.btn_admin,.btn_admin{background:#D05153;color:#fff !important;}
+a.btn_admin,.btn_admin{background:#75492a;color:#fff !important;}
 a.btn_b02, .btn_b02{background:#0891D1;color:#fff !important;}
 
 /*게시판 보기*/
