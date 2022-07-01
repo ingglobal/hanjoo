@@ -56,7 +56,7 @@ else if($_REQUEST['mms_idx']){
     ";
     // echo $sql.'<br>';
     // exit;
-    $stmt = sql_query_pg($sql,1);
+    $result = sql_query_pg($sql,1);
 	$list = array();
     for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
         $row['no'] = $i;

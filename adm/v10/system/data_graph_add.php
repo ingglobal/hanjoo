@@ -173,8 +173,8 @@ include_once('./_head.sub.php');
                         ORDER BY dta_type, dta_no
             ";
             // echo $sql1.'<br>';
-            $stmt = sql_query_pg($sql1,1);
-            for ($j=0; $row1=$stmt->fetch(PDO::FETCH_ASSOC); $j++) {
+            $rs1 = sql_query_pg($sql1,1);
+            for ($j=0; $row1=sql_fetch_array_pg($rs1); $j++) {
                 // 레이블값, 입력된 레이블값이 없으면 환경설정 측정명+번호
                 $row1['dta_label'] = $row['mta']['dta_type_label-'.$row1['dta_type'].'-'.$row1['dta_no']] ?:
                                         $g5['set_data_type_value'][$row1['dta_type']].$row1['dta_no'];
