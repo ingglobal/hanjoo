@@ -56,9 +56,9 @@ else if($_REQUEST['mms_idx']){
     ";
     // echo $sql.'<br>';
     // exit;
-    $stmt = sql_query_ps($sql,1);
+    $stmt = sql_query_pg($sql,1);
 	$list = array();
-    for ($i=0; $row=$stmt->fetch(PDO::FETCH_ASSOC); $i++) {
+    for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
         $row['no'] = $i;
         $row['timestamp'] = strtotime($row['dta_dt']);
         // 좌표에 표현할 value

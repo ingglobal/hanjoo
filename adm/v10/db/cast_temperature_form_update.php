@@ -45,7 +45,7 @@ if ($w == ''||$w == 'c') {
                 {$sql_fields} VALUES {$sql_values} 
             RETURNING css_idx 
 	";
-    // sql_query_ps($sql,1);
+    // sql_query_pg($sql,1);
     // $sql = " SELECT currval(pg_get_serial_sequence('g5_1_cast_shot_sub','css_idx')) ";
     $stmt = $db->query($sql);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -55,7 +55,7 @@ if ($w == ''||$w == 'c') {
 }
 else if ($w == 'u') {
 
-	${$pre} = get_table_ps($table_name, $pre.'_idx', ${$pre."_idx"});
+	${$pre} = get_table_pg($table_name, $pre.'_idx', ${$pre."_idx"});
     if (!${$pre}[$pre.'_idx'])
 		alert('존재하지 않는 자료입니다.');
  
@@ -63,13 +63,13 @@ else if ($w == 'u') {
                 {$sql_fields} = {$sql_values} 
             WHERE ".$pre."_idx = '".${$pre."_idx"}."' 
 	";
-    sql_query_ps($sql,1);
+    sql_query_pg($sql,1);
         
 }
 else if ($w == 'd') {
 
     $sql = "DELETE FROM {$g5_table_name} WHERE ".$pre."_idx = '".${$pre."_idx"}."' ";
-    sql_query_ps($sql,1);
+    sql_query_pg($sql,1);
     goto_url('./'.$fname.'_list.php?'.$qstr, false);
     
 }

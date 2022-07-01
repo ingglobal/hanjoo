@@ -141,7 +141,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         </form>
     </div>
     <script>
-    // 컨트롤 부분 변경
+    // 컨트롤 부분 변경 (증푹 & 이동)
     $("#fchart").on('submit', function(e){
         e.preventDefault();
         var frm = $('#fchart');
@@ -204,13 +204,11 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
             }
         }
     });
-    </script>    
-
+    </script>
 </div><!-- #graph_wrapper -->
 
 <div class="btn_fixed_top" style="display:no ne;">
-    <a href="./tsdb_shot_sub_graph.php" class="btn_04 btn">단일그래프</a>
-    <a href="./chart1.php" class="btn_04 btn" style="display:none;">모니터링</a>
+    <a href="./tsdb_shot_sub_graph.php" class="btn_04 btn"><i class="fa fa-line-chart"></i> 내보내기</a>
 </div>
 
 
@@ -593,7 +591,7 @@ function removeLogo() {
     },10);
 }
 
-// amplification setting
+// 증폭값 설정
 var chr_amp_slider = $( "#chr_amp" ).slider({
     range: "max",
     step: 0.5,
@@ -609,9 +607,10 @@ var chr_amp_slider = $( "#chr_amp" ).slider({
         $('#fchart button[type=submit]').trigger('click');
     }
 });
-$( "#chr_amp_value" ).val( $( "#chr_amp" ).slider( "value" ) );   // default value display
+// 증폭값 디폴트값 입력
+$( "#chr_amp_value" ).val( $( "#chr_amp" ).slider( "value" ) );
 
-// value move setting
+// 이동값 설정
 var chr_move_slider = $( "#chr_move" ).slider({
     range: "max",
     min: -200,
@@ -626,7 +625,8 @@ var chr_move_slider = $( "#chr_move" ).slider({
         $('#fchart button[type=submit]').trigger('click');
     }
 });
-$( "#chr_move_value" ).val( $( "#chr_move" ).slider( "value" ) );   // default value display
+// 이동값 디폴트값 입력
+$( "#chr_move_value" ).val( $( "#chr_move" ).slider( "value" ) );
 
 
 // 그래프 불러오기 (팝업모달)

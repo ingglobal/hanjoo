@@ -1,6 +1,107 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+
+/*************************************************************************
+PgSQL 관련 함수 모음
+*************************************************************************/
+
+// DB 연결
+if(!function_exists('sql_connect_pg')){
+function sql_connect_pg($host, $user, $pass, $db=G5_PGSQL_DB)
+{
+    $pg_link = @pg_connect(" host = $host dbname = $db user = $user password = $pass ") or die('PgSQL Host, User, Password, DB 정보에 오류가 있습니다.');
+    $stat = pg_connection_status($pg_link);
+    if ($stat) {
+        die('Connect Error: '.$pg_link);
+    } 
+    return $pg_link;
+}
+}
+
+if(!function_exists('sql_query_pg')){
+function sql_query_pg($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)
+{
+    global $g5;
+
+    if(!$link)
+        $link = $g5['connect_pg'];
+
+    // Blind SQL Injection 취약점 해결
+    $sql = trim($sql);
+
+    if ($error) {
+        $result = pg_query($link, $sql) or die("<p>$sql</p> <p>error file : {$_SERVER['SCRIPT_NAME']}</p>");
+    } else {
+        try {
+            $result = @pg_query($link, $sql);
+        } catch (Exception $e) {
+            $result = null;
+        }
+    }
+
+    return $result;
+}
+}
+
+if(!function_exists('sql_num_rows_pg')){
+function sql_num_rows_pg($result)
+{
+    return pg_num_rows($result);
+    // return pg_num_rows($result);
+}
+}
+
+// 쿼리를 실행한 후 결과값에서 한행을 얻는다.
+if(!function_exists('sql_fetch_pg')){
+function sql_fetch_pg($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)
+{
+    global $g5;
+
+    if(!$link)
+        $link = $g5['connect_pg'];
+
+    $result = sql_query_pg($sql, $error, $link);
+    $row = sql_fetch_array_pg($result);
+    return $row;
+}
+}
+
+// 결과값에서 한행 연관배열(이름으로)로 얻는다.
+if(!function_exists('sql_fetch_array_pg')){
+function sql_fetch_array_pg($result)
+{
+    if( ! $result) return array();
+
+    try {
+        $row = @pg_fetch_assoc($result);
+    } catch (Exception $e) {
+        $row = null;
+    }
+
+    return $row;
+}
+}
+
+// TimescaleDB 
+// get_table_pg('g5_shop_item','it_id',215021535,'it_name')	// 4번째 매개변수는 테이블명과 같으면 생략할 수 있다.
+if(!function_exists('get_table_pg')){
+function get_table_pg($db_table,$db_field,$db_id,$db_fields='*')
+{
+    global $db;
+
+	if(!$db_table||!$db_field||!$db_id)
+		return false;
+    
+    $table_name = 'g5_1_'.$db_table;
+    $sql = " SELECT ".$db_fields." FROM ".$table_name." WHERE ".$db_field." = '".$db_id."' LIMIT 1 ";
+    $row = sql_fetch_pg($sql);
+    return $row;
+}
+}
+/*************************************************************************/
+
+
 // make token 함수
 if(!function_exists('make_token1')){
 function make_token1() {

@@ -58,8 +58,7 @@ if(sizeof($where)<=1) {
 else {
     $sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 }
-$stmt = sql_query_ps($sql,1);
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$row = sql_fetch_pg($sql,1);
 $total_count = $row['cnt'];
 
 
@@ -74,8 +73,7 @@ $sql = "SELECT *
 		LIMIT {$rows} OFFSET {$from_record}
 ";
 // echo $sql.'<br>';
-$stmt = sql_query_ps($sql,1);
-// $stmt = $db->query($sql);
+$result = sql_query_pg($sql,1);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
@@ -128,7 +126,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 	</thead>
 	<tbody class="tbl_body">
 	<?php
-    for ($i=0; $row=$stmt->fetch(PDO::FETCH_ASSOC); $i++) {
+    for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
 
 		// 스타일
 		// $row['tr_bgcolor'] = ($i==0) ? '#fff7ea' : '' ;

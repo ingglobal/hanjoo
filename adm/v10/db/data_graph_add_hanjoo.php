@@ -178,7 +178,7 @@ include_once('./_head.sub.php');
                         GROUP BY machine_id
             ";
             // echo $sql1.'<br>';
-            $stmt = sql_query_ps($sql1,1);
+            $stmt = sql_query_pg($sql1,1);
             $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
             // $one[$i] = sql_fetch($sql1,1);
             // print_r2($one[$i]);
@@ -216,7 +216,7 @@ include_once('./_head.sub.php');
                         GROUP BY machine_id
             ";
             // echo $sql1.'<br>';
-            $stmt = sql_query_ps($sql1,1);
+            $stmt = sql_query_pg($sql1,1);
             $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // $one[$i] = sql_fetch($sql1,1);

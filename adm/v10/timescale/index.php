@@ -70,7 +70,7 @@ try {
     // // var_dump(json_encode($result));
     // // echo count($result);
     // // echo '<br>';
-    // for ($i=0; $row=$stmt->fetch(PDO::FETCH_ASSOC); $i++) {
+    // for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
     // // for($i = 0; $i < count($result); $i++) {
     //     var_dump($row);
     //     printf ("%s : %s <br />", $result[$i][0], $result[$i][1]);
@@ -79,7 +79,7 @@ try {
     // var_dump(json_encode($result));
     // echo count($result);
     // echo '<br>';
-    for ($i=0; $row=$stmt->fetch(PDO::FETCH_ASSOC); $i++) {
+    for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
         var_dump($row);
         echo '<br>';
         echo $row['avg_fill_level'].'<br>';
