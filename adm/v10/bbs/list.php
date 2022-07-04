@@ -277,5 +277,6 @@ if ($board['bo_use_rss_view']) {
 }
 
 $stx = get_text(stripslashes($stx));
+$board_adm_basic_url = G5_USER_ADMIN_BBS_URL.'/board.php?bo_table='.$bo_table;
 @include_once($board_skin_path.'/_list.php');
 include_once($board_skin_path.'/list.skin.php');

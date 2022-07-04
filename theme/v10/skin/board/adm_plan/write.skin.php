@@ -275,11 +275,15 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
     <div class="bo_user write_div">
         <label for="wr_10" class="sound_only">상태</label>
         <select name="wr_10" id="wr_10" class="frm_input">
-            <option value="">상태를 선택하세요</option>
             <?php echo $board['bo_10_key_options'] ?>
         </select>
         <script>
+            <?php if($w == ''){ ?>
+            // alert($('select[name=wr_10]').find('option').eq(0).val());
+            $('select[name=wr_10]').val($('select[name=wr_10]').find('option').eq(0).val());
+            <?php } else { ?>
             $('select[name=wr_10]').val('<?php echo $write['wr_10'] ?>').attr('selected','selected');
+            <?php } ?>
             $('select[name=wr_10]').css('margin-right','0');
         </script>
 
@@ -288,7 +292,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
     <div class="btn_fixed_top" style="top:57px;">
         <a href="javascript:history.back();" class="btn_cancel btn">취소</a>
         <input type="submit" value="작성완료" id="btn_submit" accesskey="s" class="btn_submit btn">
-        <a href="<?=$delete_href?>" class="btn_delete btn btn_03 float_right" style="display:<?=(!$member['mb_manager_yn'])?'none':''?>;margin-left:3px;">삭제</a>
     </div>
     </form>
 

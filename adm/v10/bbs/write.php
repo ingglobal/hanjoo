@@ -436,6 +436,7 @@ $autosave_count = autosave_count($member['mb_id']);
 // 기존 $write 배열 값에 meta_bale에서 추출한 값을 병합한다.
 $write = @array_merge($write,get_meta('board/'.$bo_table,$wr_id));
 
+// $delete_href = G5_USER_ADMIN_BBS_URL.'/delete.php?bo_table='.$bo_table.'&amp;wr_id='.$wr_id.'&amp;token='.$token.'&amp;page='.$page.urldecode($qstr);
 
 @include_once($board_skin_path.'/_write.php');
 

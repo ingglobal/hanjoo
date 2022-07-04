@@ -12,19 +12,17 @@ if ($is_nogood) $colspan++;
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 0);
-?>
 
+$listall = '<a href="'.$board_adm_basic_url.'" class="ov_listall">전체목록</a>';
+?>
+<!-- 게시판 페이지 정보 및 버튼 시작 { -->
+<div class="local_ov01 local_ov">
+    <?php echo $listall ?>
+    <span class="btn_ov01"><span class="ov_txt">총</span><span class="ov_num"> <?php echo number_format($total_count) ?></span>건,&nbsp;&nbsp;&nbsp;<?php echo $page ?> 페이지</span>
+</div>
+<!-- } 게시판 페이지 정보 및 버튼 끝 -->
 <!-- 게시판 목록 시작 { -->
 <div id="bo_list" style="width:<?php echo $width; ?>">
-
-    <!-- 게시판 페이지 정보 및 버튼 시작 { -->
-    <div id="bo_btn_top">
-        <div id="bo_list_total">
-            <span>Total <?php echo number_format($total_count) ?>건</span>
-            <?php echo $page ?> 페이지
-        </div>
-    </div>
-    <!-- } 게시판 페이지 정보 및 버튼 끝 -->
 
     <!-- 게시판 카테고리 시작 { -->
     <?php if ($is_category) { ?>
