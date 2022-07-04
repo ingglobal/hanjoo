@@ -1,7 +1,7 @@
 <?php
 include_once('./_common.php');
 $sub_menu = $board['bo_1'];
-// print_r2($board);exit;
+
 if (!$board['bo_table']) {
    alert('존재하지 않는 게시판입니다.', G5_URL);
 }
@@ -247,7 +247,11 @@ if ($member['mb_level'] >= $board['bo_list_level'] && $board['bo_use_list_view']
 
 // include_once(G5_BBS_PATH.'/board_tail.php');
 include_once('./board_tail.php');
+if(G5_IS_MOBILE){
+    echo "\n<!-- 사용스킨 : ".($board['bo_adm_mobile_skin'] ? $board['bo_adm_mobile_skin'] : $board['bo_mobile_skin'])." -->\n";
+} else {
+    echo "\n<!-- 사용스킨 : ".($board['bo_adm_skin'] ? $board['bo_adm_skin'] : $board['bo_skin'])." -->\n";
 
-echo "\n<!-- 사용스킨 : ".(G5_IS_MOBILE ? $board['bo_adm_mobile_skin'] : $board['bo_adm_skin_adm'])." -->\n";
+}
 
 include_once(G5_PATH.'/tail.sub.php');

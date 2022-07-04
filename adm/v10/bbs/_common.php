@@ -1,15 +1,16 @@
 <?php
 define('G5_IS_ADMIN', true);
 include_once('../../../common.php');
-
 // 기존 $board 배열 값에 meta_bale에서 추출한 값을 병합한다.
-$board = @array_merge($board,get_meta('board/'.$bo_table,$bo_table));
+$mta_board = get_meta('board/'.$bo_table,$bo_table);
+$board = ($mta_board)?@array_merge($board,$mta_board):$board;
+// print_r2($board);
 if (G5_IS_MOBILE) {
-    $board_skin_path    = @get_skin_path('board', $board['bo_adm_mobile_skin']);
-    $board_skin_url     = @get_skin_url('board', $board['bo_adm_mobile_skin']);
+    $board_skin_path    = ($board['bo_adm_mobile_skin'])?@get_skin_path('board', $board['bo_adm_mobile_skin']):@get_skin_path('board', $board['bo_mobile_skin']);
+    $board_skin_url     = ($board['bo_adm_mobile_skin'])?@get_skin_url('board', $board['bo_adm_mobile_skin']):@get_skin_url('board', $board['bo_mobile_skin']);
 } else {
-    $board_skin_path    = @get_skin_path('board', $board['bo_adm_skin']);
-    $board_skin_url     = @get_skin_url('board', $board['bo_adm_skin']);
+    $board_skin_path    = ($board['bo_adm_skin'])?@get_skin_path('board', $board['bo_adm_skin']):@get_skin_path('board', $board['bo_skin']);
+    $board_skin_url     = ($board['bo_adm_skin'])?@get_skin_url('board', $board['bo_adm_skin']):@get_skin_url('board', $board['bo_skin']);
 }
 //[0-9a-zA-Z_|0-9ㄱ-ㅎ가-힣_]{1,}=
 foreach($board as $bo_key => $bo_val){
