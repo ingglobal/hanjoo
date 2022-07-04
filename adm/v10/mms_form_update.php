@@ -179,6 +179,7 @@ $sql = "SELECT * FROM {$g5['mms_table']} ORDER BY mms_idx";
 $result = sql_query($sql,1);
 // echo $sql;
 for($i=0; $row=sql_fetch_array($result); $i++) {
+    $list[$row['mms_idx']]['com_idx'] = $row['com_idx'];
     $list[$row['mms_idx']]['mmg_idx'] = $row['mmg_idx'];
     $list[$row['mms_idx']]['mms_name'] = $row['mms_name'];
     $list[$row['mms_idx']]['output'] = $row['mms_set_output'];

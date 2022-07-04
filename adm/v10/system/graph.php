@@ -40,7 +40,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 ?>
 <script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
 <style>
-#chart1 {background:#0c172c;}
+#chart1 {background:#0c172c;position:relative;width:100%; height:500px;line-height:300px;text-align:center;border:solid 1px #333;overflow:hidden;}
 #chart1 .text01{color:yellow;}
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
 .graph_detail ul li {float:left;width:32%;margin-right:10px;margin-bottom:10px;}
@@ -60,6 +60,11 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 .ui-timepicker-list:hover .ui-timepicker-selected {color: #909090;background-color: #1c335d;}
 .ui-timepicker-wrapper {border: 1px solid #555;}
 #chr_amp_value, #chr_move_value {border:0 !important; color:#f6931f !important; font-weight:bold;background-color: unset !important;}
+.xbuttons {position:absolute;top:-36px;right:0px;}
+.xbuttons a {margin-left:2px;border:solid 1px #ddd;padding:2px 6px;}
+.graph_wrap {position:relative;}
+#report {display:none;position:absolute;top:-42px;right:100px;}
+#report:after {display:block;visibility:hidden;clear:both;content:'';}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
@@ -71,25 +76,29 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
-    <input type="hidden" name="dta_minsec" value="<?=$dta_minsec?>" id="dta_minsec" class="frm_input" style="width:20px;">
     <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
     <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
     ~
     <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" class="frm_input" autocomplete="off" style="width:80px;">
     <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;">
     <button type="submit" class="btn btn_01 btn_search">확인</button>
-
-    <div class="div_btn_add" style="float:right;display:no ne;">
-        <a href="./data_graph_add.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_03 btn_add_chart"><i class="fa fa-bar-chart"></i>불러오기</a>
-        <a href="javascript:alert('설정된 그래프를 대시보드로 내보냅니다.');" class="btn btn_03 btn_add_dash" style="display:none;"><i class="fa fa-line-chart"></i> 내보내기</a>
-    </div>
 </form>
 
 <div id="graph_wrapper">
-
     <div class="graph_wrap">
+        <div id="report">
+            <input type="text" id="xmin" placeholder="xmin">
+            <input type="text" id="xmax" placeholder="xmax">
+            <input type="text" id="ymin" placeholder="ymin">
+            <input type="text" id="ymax" placeholder="ymax">
+        </div>
+        <div class="xbuttons">
+            <a href="javascript:" class="btn_orig" title="초기화"><i class="fa fa-bars"></i></a>
+            <a href="javascript:" class="btn_smaller" title="작게"><i class="fa fa-compress"></i></a>
+            <a href="javascript:" class="btn_bigger" title="크게"><i class="fa fa-expand"></i></a>
+        </div>
         <!-- 차트 -->
-        <div id="chart1" style="position:relative;width:100%; height:500px;line-height:300px;text-align:center;border:solid 1px #333;">
+        <div id="chart1">
             <span class="text01">그래프를 추가하세요.</span>
         </div>
     </div><!-- .graph_wrap -->
@@ -97,8 +106,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <!-- 컨트롤 -->
     <div class="chr_control" style="text-align:center;">
         <form name="fchart" id="fchart" method="post">
-        <input type="hidden" name="chr_idx" style="width:20px">
-    
+        <input type="hidden" name="chr_idx" style="width:20px"><!-- 차트고유번호 (클릭할 때마다 바뀜) -->
             <table class="table01">
             <tbody>
                 <tr>
@@ -166,6 +174,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
            chr_amp_slider.slider("option", "value", chr_amp);
         }
         // 이동값 설정
+        console.log( chr_move+'<'+chr_move_slider.slider("option","min") );
         if(chr_move<chr_move_slider.slider("option","min")) {
            alert('이동 최소값은 '+chr_move_slider.slider("option","min")+'입니다.');
            return false;
@@ -207,8 +216,12 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     </script>
 </div><!-- #graph_wrapper -->
 
+<div class="div_btn_add" style="float:right;display:no ne;">
+</div>
+
 <div class="btn_fixed_top" style="display:no ne;">
-    <a href="./tsdb_shot_sub_graph.php" class="btn_04 btn"><i class="fa fa-line-chart"></i> 내보내기</a>
+    <a href="javascript:alert('설정된 그래프를 대시보드로 내보냅니다.');" class="btn btn_03 btn_add_dash" style="display:none;"><i class="fa fa-line-chart"></i> 내보내기</a>
+    <a href="./data_graph_add.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_03 btn_add_chart"><i class="fa fa-bar-chart"></i>불러오기</a>
 </div>
 
 
@@ -252,28 +265,35 @@ function createChart() {
         chart: {
             renderTo: 'chart1',
             // type: 'spline',   // line, spline, area, areaspline, column, bar, pie, scatter, gauge, arearange, areasplinerange, columnrange
+            // 챠트를 불러올 때 이동범위 초기값 입력
             events: {
-                redraw: function() {
+                redraw: function(event) {
                     $('#xmin').val(this.xAxis[0].min);
                     $('#xmax').val(this.xAxis[0].max);
                     $('#ymin').val(this.yAxis[0].min);
                     $('#ymax').val(this.yAxis[0].max);
+                    console.log('redraw');
                     // console.log(this.yAxis[0].max);
                     // console.log(this.yAxis[0].min);
-                    // bottom slider min, max change
-                    chr_move_slider.slider("option", "min", parseInt(this.yAxis[0].min));
-                    chr_move_slider.slider("option", "max", parseInt(this.yAxis[0].max));
+                    // // bottom slider min, max change
+                    // chr_move_slider.slider("option", "min", parseInt(this.yAxis[0].min));
+                    // chr_move_slider.slider("option", "max", parseInt(this.yAxis[0].max));
                 },
                 load: function() {
                     $('#xmin').val(this.xAxis[0].min);
                     $('#xmax').val(this.xAxis[0].max);
                     $('#ymin').val(this.yAxis[0].min);
                     $('#ymax').val(this.yAxis[0].max);
-                    // console.log(this.yAxis[0].max);
-                    // console.log(this.yAxis[0].min);
-                    // bottom slider min, max change
-                    chr_move_slider.slider("option", "min", parseInt(this.yAxis[0].min));
-                    chr_move_slider.slider("option", "max", parseInt(this.yAxis[0].max));
+                    console.log('load');
+                    // console.log(this);
+                    // console.log(this.series[0].dataMax);
+                    // console.log(this.series[1].dataMax);
+                    // console.log(event);
+                    // // console.log(this.yAxis[0].max);
+                    // // console.log(this.yAxis[0].min);
+                    // // bottom slider min, max change
+                    // chr_move_slider.slider("option", "min", parseInt(this.yAxis[0].min));
+                    // chr_move_slider.slider("option", "max", parseInt(this.yAxis[0].max));
                 }
             },
         },
@@ -315,21 +335,23 @@ function createChart() {
                 showInNavigator: true,
                 turboThreshold: 0,
                 events: {
+                    // 그래프 하단 챠트이름 클릭
                     legendItemClick: function (e) {
                         e.preventDefault();
-                        // console.log(this);
-                        // console.log(this.userOptions);
-                        // console.log(this.userOptions.data[0]);
-                        var chr_idx = this.userOptions._colorIndex; // _symbolIndex가 undefined일 때가 있어서 _colorIndex로 대체함
-                        var chr_name = this.userOptions.name;
-                        var old_type = this.userOptions.type;
-                        var old_dashStyle = this.userOptions.dashStyle;
-                        var old_amp = this.userOptions.data[0].yamp;
-                        var old_move = this.userOptions.data[0].ymove;
-                        $('#fchart input[name=chr_idx]').val(chr_idx);
-                        $('#fchart .chr_name').text(chr_name);
 
-                        // reset value of amplification, move
+                        // 챠트 정보 추출
+                        var chr_idx = this.userOptions._colorIndex; // _symbolIndex가 undefined일 때가 있어서 _colorIndex로 대체함
+                        var chr_name = this.userOptions.name;   // 챠트 이름
+                        var old_type = this.userOptions.type;   // 챠트 타입 (spline..)
+                        var old_dashStyle = this.userOptions.dashStyle;
+                        var old_amp = this.userOptions.data[0].yamp;    // 증폭값
+                        var old_move = this.userOptions.data[0].ymove;  // 이동값
+
+                        // 폼에 값 변경
+                        $('#fchart input[name=chr_idx]').val(chr_idx);  // 차트 고유번호
+                        $('#fchart .chr_name').text(chr_name);          // 차트이름 변경
+
+                        // 증푹값, 이동값 Reset
                         chr_amp_slider.slider("option", "value", old_amp);
                         chr_move_slider.slider("option", "value", old_move);
                         $('#chr_amp_value').val(old_amp);
@@ -338,6 +360,37 @@ function createChart() {
                         $('#chr_type').val(old_type);
                         $('#chr_line').val(old_dashStyle);
 
+                        // 각 차트의 최대 최소값 추출
+                        // console.log(seriesOptions.length);
+                        // console.log(this.yAxis.max);
+                        // console.log(this.yAxis.min);
+                        var chart_max = this.yAxis.max;
+                        var chart_min = this.yAxis.min;
+                        
+                        // console.log(chr_idx + '번 그래프 항목 클릭');
+                        // 이동범위 계산, 
+                        // 참고(구글슬라이드): https://docs.google.com/presentation/d/1PgyOrKMaDaHxMUC_Atl_1dbZH5TenVj58-DGzIXqZhk/edit?usp=sharing
+                        // for(i=0;i<seriesOptions.length;i++) {
+                        //     // console.log(seriesOptions[i].data);
+                        //     console.log(i);
+                        //     console.log(getMinMax2DArr(seriesOptions[i].data, 'y'));
+                        // }
+                        // console.log(seriesOptions);
+                        // console.log(this);
+                        // console.log(this.userOptions);
+                        // console.log(this.userOptions.data[0]); 
+                        var my_range_arr = getMinMax2DArr(seriesOptions[chr_idx].data, 'y');
+                        // console.log(my_range_arr);
+
+                        // 이동 하한값 = 나의 max - 그래프 min
+                        // 이동 상한값 = 그래프 max - 나의 min
+                        var move_value_min = my_range_arr[0] - chart_min;
+                        var move_value_max = chart_max - my_range_arr[1];
+                        console.log( -parseInt(move_value_min) + '~' + parseInt(move_value_max));
+                        chr_move_slider.slider("option", "min", -parseInt(move_value_min));
+                        chr_move_slider.slider("option", "max", parseInt(move_value_max));
+
+                        // 챠트수정 폼 보이기
                         $('.chr_control').show();
                     }
                 },
@@ -429,6 +482,13 @@ function createChart() {
     removeLogo();
     // console.log( chart.series );
     
+}
+
+// 2차 배열값에서 min, max 추출
+function getMinMax2DArr(arr, idx) {
+  const min = Math.min.apply(null, arr.map((el) => el[idx]));
+  const max = Math.max.apply(null, arr.map((el) => el[idx]));
+  return [max,min];
 }
 
 // As we're loading the data asynchronously, we don't know what order it will arrive.
@@ -538,6 +598,66 @@ $(document).on('click','#fsearch button[type=submit]',function(e){
 
 });
 
+// Y축 스케일 조정 (크게, 작게, 제쟈리로)
+$('.btn_bigger, .btn_orig, .btn_smaller').click(function(e) {
+    var act = $(this).attr('class');    // btn_bigger, btn_orig, btn_smaller
+    // $("#chart1").empty();
+    y1 = parseInt($('#ymin').val());
+    y2 = parseInt($('#ymax').val());
+    ydiff = parseInt($('#ymax').val()) - parseInt($('#ymin').val());
+    yhalf = ydiff/2;    // 작게 할 때는 1/2 단위 기준으로 양쪽 한 단위값 추가해서 작게 보이게..
+    yquar = ydiff/4;    // 크게 할 때 1/4 단위 기준으로 양쪽 한 단위값 제거해서 크게 보이게
+    xmin = parseInt($('#xmin').val());   // 크게 작게 하더라도 x좌표 현재값은 유지되어야 함
+    xmax = parseInt($('#xmax').val());   // 크게 작게 하더라도 x좌표 현재값은 유지되어야 함
+    if(act=='btn_bigger') {
+        ymin = y1 + yquar;
+        ymax = y2 - yquar;
+        ytick = parseInt((ymax-ymin)/8);     // tickInterval
+    }
+    else if(act=='btn_smaller') {
+        ymin = y1 - yhalf;
+        ymax = y2 + yhalf;
+        ytick = parseInt((ymax-ymin)/8);     // tickInterval
+    }
+    else {
+        // xmin = null,   // 초기화 x좌표 초기화
+        // xmax = null,   // 초기화 x좌표 초기화
+        ymin = null;
+        ymax = null;
+        ytick = null;     // tickInterval
+    }
+
+    options.xAxis = {
+        min: xmin,
+        max: xmax,
+        labels: {
+            formatter: function() {
+                return moment(this.value).format("MM/DD HH:mm");
+            }
+        },
+        events: {
+            setExtremes: function (e) {
+                $('#xmin').val(e.min);
+                $('#xmax').val(e.max);
+            }
+        }
+    };
+    options.yAxis = {
+        min: ymin,
+        max: ymax,
+        showLastLabel: true,    // 위 아래 마지막 label 보임 (이게 없으면 끝label이 안 보임)
+        scrollbar: {
+            enabled: true
+        },
+        opposite: false,
+        tickInterval: ytick,    // 눈금 크기(로그, 대수 형태로 계산한다는 데.. 모르겠다.)
+    };
+    chart = new Highcharts.stockChart(options);
+    removeLogo();
+
+});
+
+
 // 차트 제거하기
 $(document).on('click','.btn_chr_del',function(e){
     e.preventDefault();
@@ -627,6 +747,11 @@ var chr_move_slider = $( "#chr_move" ).slider({
 });
 // 이동값 디폴트값 입력
 $( "#chr_move_value" ).val( $( "#chr_move" ).slider( "value" ) );
+// setTimeout(function(e){
+//     chr_move_slider.slider("option", "min", -88);
+//     chr_move_slider.slider("option", "max", 400);
+// },2000);
+
 
 
 // 그래프 불러오기 (팝업모달)
