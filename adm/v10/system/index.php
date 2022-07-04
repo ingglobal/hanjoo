@@ -4,7 +4,7 @@ include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
 
-$g5['title'] = '실시간모니터링';
+$g5['title'] = '설비 실시간모니터링';
 // include_once('./_top_menu_db.php');
 include_once('./_head.php');
 // echo $g5['container_sub_title'];

@@ -51,7 +51,7 @@ else if($_REQUEST['mms_idx']){
     
     //1. 마지막 날짜를 추출해서 종료일자로 설정해 둔다.
     $sql = " SELECT * FROM {$table_name} {$sql_search} ORDER BY event_time DESC LIMIT 1 ";
-    $en1 = sql_fetch_ps($sql,1);
+    $en1 = sql_fetch_pg($sql,1);
     // print_r2($en1);
     // echo substr($en1['event_time'],0,10).'<br>';
     // echo substr($en1['event_time'],11,8).'<br>';

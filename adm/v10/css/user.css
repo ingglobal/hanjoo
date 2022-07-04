@@ -113,8 +113,8 @@ label[for^=set_] input[type=radio] {margin-right:2px;}
 .btn_setting {cursor:pointer;}
 .btn {
     display: inline-block;
-    height: 34px;
-    line-height: 34px;
+    height: 30px;
+    line-height: 30px;
     padding: 0 10px;
     font-weight: normal;
     font-size: 0.9em;

@@ -138,7 +138,7 @@ include_once('./_head.sub.php');
             $sql2 = "   SELECT mms_idx, mms_name
                         FROM {$g5['mms_table']}
                         WHERE com_idx = '".$com_idx."' AND imp_idx != 31
-                            ORDER BY mms_idx
+                        ORDER BY mms_idx
             ";
             // echo $sql2.'<br>';
             $result2 = sql_query($sql2,1);
@@ -178,7 +178,7 @@ include_once('./_head.sub.php');
                         GROUP BY machine_id
             ";
             // echo $sql1.'<br>';
-            $stmt = sql_query_ps($sql1,1);
+            $stmt = sql_query_pg($sql1,1);
             $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
             // $one[$i] = sql_fetch($sql1,1);
             // print_r2($one[$i]);
@@ -216,7 +216,7 @@ include_once('./_head.sub.php');
                         GROUP BY machine_id
             ";
             // echo $sql1.'<br>';
-            $stmt = sql_query_ps($sql1,1);
+            $stmt = sql_query_pg($sql1,1);
             $one[$i] = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // $one[$i] = sql_fetch($sql1,1);

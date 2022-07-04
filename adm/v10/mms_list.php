@@ -81,7 +81,7 @@ $items1 = array(
     ,"mms_model"=>array("모델명",0,0,1)
     ,"mms_parts"=>array("부속품수",0,0,0)
     ,"mms_maintain"=>array("정비횟수",0,0,0)
-    ,"com_name"=>array("업체명",0,0,0)
+    ,"mms_graph_tag"=>array("태그수",0,0,0)
     ,"mms_idx"=>array("DB고유번호",0,0,1)
     ,"mms_reg_dt"=>array("등록일",0,0,1)
 );
@@ -199,7 +199,7 @@ $items = array_merge($items1,$items2);
                 WHERE fle_db_table = 'mms' AND fle_db_id = '".$row['mms_idx']."'
                     AND fle_type = 'mms_img'
                     AND fle_sort = 0
-                ";
+        ";
 //        echo $sql.'<br>';
         $rs1 = sql_query($sql,1);
         for($j=0;$row1=sql_fetch_array($rs1);$j++) {
@@ -223,30 +223,38 @@ $items = array_merge($items1,$items2);
         $sql = "SELECT count(mmp_idx) AS total_count FROM {$g5['mms_parts_table']}
                 WHERE mms_idx = '".$row['mms_idx']."'
                     AND mmp_status NOT IN ('trash','delete')
-                ";
+        ";
         $row['parts'] = sql_fetch($sql,1);
 
         // 기종 추출
         $sql = "SELECT count(mmi_idx) AS total_count FROM {$g5['mms_item_table']}
                 WHERE mms_idx = '".$row['mms_idx']."'
                     AND mmi_status NOT IN ('trash','delete')
-                ";
+        ";
         $row['item'] = sql_fetch($sql,1);
 
         // 점검항목 추출
         $sql = "SELECT count(mmc_idx) AS total_count FROM {$g5['mms_checks_table']}
                 WHERE mms_idx = '".$row['mms_idx']."'
                     AND mmc_status NOT IN ('trash','delete')
-                ";
+        ";
         $row['checks'] = sql_fetch($sql,1);
 
         // 정비 추출
         $sql = "SELECT count(mnt_idx) AS total_count FROM {$g5['maintain_table']}
                 WHERE mms_idx = '".$row['mms_idx']."'
                     AND mnt_status NOT IN ('trash','delete')
-                ";
+        ";
         $row['maintain'] = sql_fetch($sql,1);
 
+        // 태그수 (PgSQL에서 추출)
+        $sql = "SELECT dta_type, dta_no
+                FROM g5_1_data_measure_".$row['mms_idx']."
+                GROUP BY dta_type, dta_no
+                ORDER BY dta_type, dta_no
+        ";
+        $rs1 = sql_query_pg($sql,1);
+        $row['tag_count'] = sql_num_rows_pg($rs1);
         
         // 관리 버튼
         $s_mod = '<a href="./mms_form.php?'.$qstr.'&amp;w=u&amp;mms_idx='.$row['mms_idx'].'&amp;ser_mms_type='.$ser_mms_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'">수정</a>';
@@ -283,6 +291,9 @@ $items = array_merge($items1,$items2);
                 }
                 else if($k1=='mms_maintain') {
                     $row[$k1] = '<a href="./maintain_list.php?mms_idx='.$row['mms_idx'].'" class="btn_maintain">'.$row['maintain']['total_count'].'</a>';
+                }
+                else if($k1=='mms_graph_tag') {
+                    $row[$k1] = '<a href="./mms_graph_setting.php?mms_idx='.$row['mms_idx'].'" class="btn_graph_tag">'.$row['tag_count'].'</a>';
                 }
                 else if($k1=='trm_idx_category') {
                     $row[$k1] = ($row[$k1]) ? $g5['mms_type_name'][$row[$k1]] : '-';
@@ -386,6 +397,15 @@ $(function(e) {
         var href = $(this).attr('href');
         winParts = window.open(href, "winParts", "left=100,top=100,width=520,height=600,scrollbars=1");
         winParts.focus();
+        return false;
+    });
+
+    // 태그수
+	$(document).on('click','.btn_graph_tag',function(e){
+        e.preventDefault();
+        var href = $(this).attr('href');
+        winGraphTag = window.open(href, "winGraphTag", "left=100,top=100,width=520,height=600,scrollbars=1");
+        winGraphTag.focus();
         return false;
     });
 

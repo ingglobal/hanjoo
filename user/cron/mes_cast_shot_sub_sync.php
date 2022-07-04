@@ -182,7 +182,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
                 {$sql_fields[$i]} VALUES {$sql_values[$i]} 
             RETURNING css_idx 
 	";
-    if(!$demo) {sql_query_ps($sql3,1);}
+    if(!$demo) {sql_query_pg($sql3,1);}
     else {echo $sql3.'<br><br>';}
 
 
@@ -197,7 +197,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     //         WHERE tableowner='".G5_PGSQL_USER."' AND tablename='".$pg_table."'
     //     ) AS flag
     // ";
-    // $tb1 = sql_fetch_ps($sql,1);
+    // $tb1 = sql_fetch_pg($sql,1);
     // // if table exists.
     // if($tb1['flag']) {
         // print_r2($g5['set_data_temp_no_value']);
@@ -213,7 +213,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
                                 ('1','".$v1."','".$arr[$k1]."','".$arr['shot_id']."','".$csh['shot_no']."','".$arr['event_time']."')
                             RETURNING dta_idx
                     ";
-                    if(!$demo) {sql_query_ps($sql3,false);}
+                    if(!$demo) {sql_query_pg($sql3,false);}
                     else {echo $sql3.'<br><br>';}
                     // echo $sql3.'<br><br>';
                 }

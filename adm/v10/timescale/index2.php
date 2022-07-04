@@ -19,7 +19,7 @@ $sql = "  SELECT time_bucket('5 minutes', event_time) AS five_min, avg(lower_hea
             ORDER BY five_min DESC LIMIT 10
 ";
 $stmt = $db->query($sql);
-for ($i=0; $row=$stmt->fetch(PDO::FETCH_ASSOC); $i++) {
+for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
     var_dump($row);
     echo '<br>';
     echo $row['five_min'].'<br>';

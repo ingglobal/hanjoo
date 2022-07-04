@@ -180,7 +180,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
                 {$sql_fields[$i]} VALUES {$sql_values[$i]} 
             RETURNING css_idx 
 	";
-    if(!$demo) {sql_query_ps($sql3,1);}
+    if(!$demo) {sql_query_pg($sql3,1);}
     else {echo $sql3.'<br><br>';}
 
 

@@ -23,7 +23,7 @@ if ($w == '') {
 else if ($w == 'u'||$w == 'c') {
     $u_display_none = ';display:none;';  // 수정에서 숨김
 
-	${$pre} = get_table_ps($table_name, $pre.'_idx', ${$pre."_idx"});
+	${$pre} = get_table_pg($table_name, $pre.'_idx', ${$pre."_idx"});
     if (!${$pre}[$pre.'_idx'])
 		alert('존재하지 않는 자료입니다.');
     // print_r3(${$pre});

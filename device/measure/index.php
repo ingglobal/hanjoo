@@ -53,7 +53,7 @@ else if(is_array($getData[0]['list'])) {
                     WHERE tableowner='".G5_PGSQL_USER."' AND tablename='".$table_name."'
                 ) AS flag
         ";
-        $tb1 = sql_fetch_ps($sql,1);
+        $tb1 = sql_fetch_pg($sql,1);
         if(!$tb1['flag']) {
             $file = file('./pgsql_write.sql');
             // $file = get_db_create_replace($file);
@@ -61,10 +61,10 @@ else if(is_array($getData[0]['list'])) {
             $source = array('/__TABLE_NAME__/', '/;/');
             $target = array($table_name, '');
             $sql = preg_replace($source, $target, $sql);
-            sql_query_ps($sql, FALSE);
-            sql_query_ps(" SELECT create_hypertable('".$table_name."', 'dta_dt'); ;", false);
-            sql_query_ps(" CREATE INDEX ".$table_name."_idx_type ON ".$table_name." (dta_type); ;", false);
-            sql_query_ps(" CREATE INDEX ".$table_name."_idx_type_no ON ".$table_name." (dta_type,dta_no); ;", false);
+            sql_query_pg($sql, FALSE);
+            sql_query_pg(" SELECT create_hypertable('".$table_name."', 'dta_dt'); ;", false);
+            sql_query_pg(" CREATE INDEX ".$table_name."_idx_type ON ".$table_name." (dta_type); ;", false);
+            sql_query_pg(" CREATE INDEX ".$table_name."_idx_type_no ON ".$table_name." (dta_type,dta_no); ;", false);
         }
 
 
@@ -87,7 +87,10 @@ else if(is_array($getData[0]['list'])) {
                 RETURNING dta_idx
         ";
         // echo $sql.'<br>';
-        // sql_query_ps($sql,1);
+        // 한주를 위해서.. 온도,습도가 아닌 경우만 측정값 저장, 한주의 온도,습도는 MES를 통해서 입력받아요.
+        if(!in_array($arr['dta_type'],array(0,1,8))) {
+            sql_query_pg($sql,1);
+        }
 
         $result_arr[$i]['code'] = 200;
         $result_arr[$i]['message'] = "Inserted OK!";

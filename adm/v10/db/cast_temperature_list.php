@@ -137,7 +137,7 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 	</thead>
 	<tbody class="tbl_body">
 	<?php
-    for ($i=0; $row=$stmt->fetch(PDO::FETCH_ASSOC); $i++) {
+    for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
 
 		// 스타일
 		// $row['tr_bgcolor'] = ($i==0) ? '#fff7ea' : '' ;

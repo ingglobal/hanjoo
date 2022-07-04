@@ -287,7 +287,7 @@ td.td_grpset{border-left:1px solid #4b5465;}
 .pg_current {display:inline-block;background:#1f2738;color:#fff;font-weight:normal}
 
 /*팝업윈도 win*/
-.new_win h1{background:#020710;border-bottom:1px solid #142546;font-size:0.9em;}
+.new_win h1{background:#020710;border-bottom:1px solid #142546;font-size:1.1em;}
 .new_win_con{background:#060D1B;}
 #scp_list_find{background:#060D1B;border:1px solid #142546;}
 #scp_list_find .btn_frmline{height:30px;line-height:30px;}

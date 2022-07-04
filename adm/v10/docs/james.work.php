@@ -915,3 +915,205 @@ GROUP BY machine_id
 - 고객 맞춤 알람(예지) 시스템 (단계별, 레벨별 메시징)
 - 주요 지표의 통합 모니터링 및 분석 기능 설계, 구현
 - 다양한 디바이스에서 표현하도록 하여 UI/UX 확장
+
+SELECT * FROM `g5_5_meta` WHERE `mta_db_id` LIKE '58' ORDER BY `mta_key` ASC
+
+
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-5', '구배 압력 P0S 0 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-6', '구배 압력 P0S 1 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-7', '구배 압력 P0S 2 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-8', '구배 압력 P0S 3 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-9', '구배 압력 P0S 4 SV  SETTING', '2022-07-01 18:45:47');
+...
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-10', '구배 시간 P0S 0 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-11', '구배 시간 P0S 1 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-12', '구배 시간 P0S 2 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-13', '구배 시간 P0S 3 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-14', '구배 시간 P0S 4 SV  SETTING', '2022-07-01 18:45:47');
+...
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-15', '목표 압력 (구배+증분xShot=작업영역)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+  (NULL, '', 'mms', '58', 'dta_type_label-13-16', '조작압력 MV', '2022-07-01 18:45:47');
+.............
+.............
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-1', '보온로온도', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-10', '하금형1', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-11', '하금형2', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-12', '하금형3', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-2', '상형히트', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-3', '하형히트', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-4', '상금형1', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-5', '상금형2', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-6', '상금형3', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-7', '상금형4', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-8', '상금형5', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-1-9', '상금형6', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-1', '형 가열온도 #1 SV_T', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-10', '구배시간 P0S 0 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-11', '구배시간 P0S 1 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-12', '구배시간 P0S 2 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-13', '구배시간 P0S 3 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-14', '구배시간 P0S 4 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-15', '목표 압력 (구배+증분xShot=작업영역)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-16', '조작압력 MV', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-17', '압력 Keep (9-STEP) 완료 COUNT', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-19', '가압 자동 운전중 COUNT', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-2', '형 가열온도 #2 SV_T', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-20', '주조기 일시정지 PB', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-21', '자동 운전 중', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-22', '배기 대 밸브 SOL', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-23', '상금형 M/C ON', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-24', '하금형 M/C ON', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-3', '작동유 온도 SV_T', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-31', 'BoolData1', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-32', '상형#1 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-33', '상형#1 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-34', '상형#2 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-35', '상형#2 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-36', '상형#7 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-37', '상형#7 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-38', '하형#1 냉각 시간설정 - 물 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-39', '하형#1 냉각 시간설정 - 공기 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-4', '검출 압력 PV DISPLAY', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-40', '상형#1 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-41', '상형#1 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-42', '상형#2 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-43', '상형#2 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-44', '상형#7 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-45', '상형#7 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-46', '하형#1 냉각 지연 시간 설정 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-47', '하형#1 냉각 총 시간 설정 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-5', '구배 압력 P0S 0 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-6', '구배 압력 P0S 1 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-7', '구배 압력 P0S 2 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-8', '구배 압력 P0S 3 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-13-9', '구배 압력 P0S 4 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-8-1', '검출압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-8-2', '목표압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-8-3', '조작압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '59', 'dta_type_label-8-4', '편차', '2022-07-01 18:38:43');
+.............
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-1', '보온로온도', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-10', '하금형1', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-11', '하금형2', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-12', '하금형3', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-2', '상형히트', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-3', '하형히트', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-4', '상금형1', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-5', '상금형2', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-6', '상금형3', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-7', '상금형4', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-8', '상금형5', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-1-9', '상금형6', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-1', '형 가열온도 #1 SV_T', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-10', '구배시간 P0S 0 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-11', '구배시간 P0S 1 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-12', '구배시간 P0S 2 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-13', '구배시간 P0S 3 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-14', '구배시간 P0S 4 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-15', '목표 압력 (구배+증분xShot=작업영역)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-16', '조작압력 MV', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-17', '압력 Keep (9-STEP) 완료 COUNT', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-19', '가압 자동 운전중 COUNT', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-2', '형 가열온도 #2 SV_T', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-20', '주조기 일시정지 PB', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-21', '자동 운전 중', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-22', '배기 대 밸브 SOL', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-23', '상금형 M/C ON', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-24', '하금형 M/C ON', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-3', '작동유 온도 SV_T', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-31', 'BoolData1', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-32', '상형#1 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-33', '상형#1 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-34', '상형#2 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-35', '상형#2 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-36', '상형#7 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-37', '상형#7 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-38', '하형#1 냉각 시간설정 - 물 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-39', '하형#1 냉각 시간설정 - 공기 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-4', '검출 압력 PV DISPLAY', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-40', '상형#1 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-41', '상형#1 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-42', '상형#2 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-43', '상형#2 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-44', '상형#7 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-45', '상형#7 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-46', '하형#1 냉각 지연 시간 설정 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-47', '하형#1 냉각 총 시간 설정 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-5', '구배 압력 P0S 0 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-6', '구배 압력 P0S 1 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-7', '구배 압력 P0S 2 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-8', '구배 압력 P0S 3 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-13-9', '구배 압력 P0S 4 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-8-1', '검출압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-8-2', '목표압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-8-3', '조작압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '60', 'dta_type_label-8-4', '편차', '2022-07-01 18:38:43');
+.............
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-1', '보온로온도', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-10', '하금형1', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-11', '하금형2', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-12', '하금형3', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-2', '상형히트', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-3', '하형히트', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-4', '상금형1', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-5', '상금형2', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-6', '상금형3', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-7', '상금형4', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-8', '상금형5', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-1-9', '상금형6', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-1', '형 가열온도 #1 SV_T', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-10', '구배시간 P0S 0 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-11', '구배시간 P0S 1 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-12', '구배시간 P0S 2 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-13', '구배시간 P0S 3 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-14', '구배시간 P0S 4 SV', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-15', '목표 압력 (구배+증분xShot=작업영역)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-16', '조작압력 MV', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-17', '압력 Keep (9-STEP) 완료 COUNT', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-19', '가압 자동 운전중 COUNT', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-2', '형 가열온도 #2 SV_T', '2022-07-01 18:42:03');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-20', '주조기 일시정지 PB', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-21', '자동 운전 중', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-22', '배기 대 밸브 SOL', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-23', '상금형 M/C ON', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-24', '하금형 M/C ON', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-3', '작동유 온도 SV_T', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-31', 'BoolData1', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-32', '상형#1 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-33', '상형#1 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-34', '상형#2 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-35', '상형#2 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-36', '상형#7 냉각 시간설정 - 물', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-37', '상형#7 냉각 시간설정 - 공기', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-38', '하형#1 냉각 시간설정 - 물 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-39', '하형#1 냉각 시간설정 - 공기 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-4', '검출 압력 PV DISPLAY', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-40', '상형#1 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-41', '상형#1 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-42', '상형#2 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-43', '상형#2 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-44', '상형#7 냉각 지연 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-45', '상형#7 냉각 총 시간 설정', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-46', '하형#1 냉각 지연 시간 설정 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-47', '하형#1 냉각 총 시간 설정 (#9)', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-5', '구배 압력 P0S 0 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-6', '구배 압력 P0S 1 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-7', '구배 압력 P0S 2 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-8', '구배 압력 P0S 3 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-13-9', '구배 압력 P0S 4 SV  SETTING', '2022-07-01 18:45:47');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-1', '검출압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-2', '목표압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-3', '조작압력', '2022-07-01 18:38:43');
+INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-4', '편차', '2022-07-01 18:38:43');
