@@ -660,7 +660,16 @@ DELETE FROM g5_1_data_measure_61 WHERE dta_type = 0
 SELECT * FROM pg_tables 
 WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58'
 
-SELECT * FROM pg_tables 
+SELECT * FROM pg_tables
 WHERE tableowner='postgres' AND tablename='g5_1_data_measure_58'
 
 SELECT dta_type, dta_no FROM g5_1_data_measure_61 GROUP BY dta_type, dta_no ORDER BY dta_type, dta_no
+
+SELECT * FROM pg_tables
+WHERE tableowner='postgres' AND REGEXP_MATCHES(tablename, 'g5_1_data_measure_[0-9]+_[0-9]+_[0-9]+$', 'g')
+....
+SELECT * FROM pg_tables
+WHERE tableowner='postgres' AND tablename='g5_1_data_measure_[0-9]+$'
+....
+SELECT * FROM pg_tables
+WHERE tableowner='postgres' AND tablename~'g5_1_data_measure_[0-9]+$'

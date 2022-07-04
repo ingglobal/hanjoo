@@ -58,6 +58,7 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 /*검색영역*/
 .local_sch select{border:1px solid #2a3241;}
 .local_sch01 .btn_submit{border:1px solid #222222;background-color:#111111 !important;}
+.local_sch01 div{margin:0;}
 
 /* 배경 컬러 */
 #hd_top {background:#060d1b;border-bottom: solid 1px #142546;}
@@ -189,7 +190,7 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 
 /*버튼관련*/
 .btn{height: 34px;line-height: 34px;border-radius:5px;}
-a.btn{border-radius:5px;font-weight:normal;height: 34px !important;line-height:34px;font-size:0.9em;}
+a.btn{border-radius:5px;font-weight:normal;height: 30px !important;line-height:30px;font-size:0.9em;}
 .btn_01, a.btn_01{background:#0891D1 !important;color:efefef !important;}
 a.btn_01:link, a.btn_01:link,a.btn_01:visited, a.btn_01:visited{color:#fff !important;}
 .btn_01:hover, a.btn_01:hover {background:#0891D1;}
