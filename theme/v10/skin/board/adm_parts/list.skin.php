@@ -3,7 +3,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 include_once($board_skin_path.'/_common.php');
 
 // 선택옵션으로 인해 셀합치기가 가변적으로 변함
-$colspan = 10;
+$colspan = 7;
 
 if ($is_checkbox) $colspan++;
 if ($is_good) $colspan++;
@@ -45,19 +45,11 @@ $listall = '<a href="'.$board_adm_basic_url.'" class="ov_listall">전체목록</
         <label for="sfl" class="sound_only">검색대상</label>
         
         <div class="bo_sch_group">
-            <select name="ser_wr_10" id="ser_wr_10" style="display:no ne;">
-                <option value="">상태값전체 &nbsp;</option>
-                <?php echo $board['bo_10_key_options'];?>
-            </select>
-            <script>$('#ser_wr_10').val('<?php echo $ser_wr_10;?>').attr('selected','selected');</script>
-
             <select name="sfl" id="sfl">
-                <option value="wr_subject"<?php echo get_selected($sfl, 'wr_subject', true); ?>>제목</option>
+                <option value="wr_subject"<?php echo get_selected($sfl, 'wr_subject', true); ?>>부품명</option>
                 <option value="wr_content"<?php echo get_selected($sfl, 'wr_content', true); ?>>내용</option>
                 <option value="mms_name"<?php echo get_selected($sfl, 'mms_name', true); ?>>설비명</option>
-                <?php if($member['mb_manager_yn']) { ?>
                 <option value="wr_2"<?php echo get_selected($sfl, 'wr_2', true); ?>>설비번호</option>
-                <?php } ?>
             </select>
             <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
             <input type="text" name="stx" value="<?php echo stripslashes($stx) ?>" id="stx" class="sch_input" size="25" maxlength="20" placeholder="검색어를 입력해주세요">
@@ -92,40 +84,17 @@ $listall = '<a href="'.$board_adm_basic_url.'" class="ov_listall">전체목록</
             <?php } ?>
             <th scope="col">번호</th>
             <th scope="col" style="width:180px;">설비명</th>
-            <th scope="col">제목</th>
-            <th scope="col">정비일</th>
-            <th scope="col">몇일전부터</th>
-            <th scope="col">알림주기</th>
-            <th scope="col">알림대상</th>
-            <th scope="col">등록자</th>
-            <th scope="col">상태</th>
+            <th scope="col">부품명</th>
+            <th scope="col">수량</th>
+            <th scope="col">단가</th>
             <th scope="col" style="width:50px;display:<?=(!$member['mb_manager_yn'])?'none':''?>;">수정</th>
         </tr>
         </thead>
         <tbody>
         <?php
         for ($i=0; $i<count($list); $i++) {
-            // print_r2($list[$i]);
-            // wr_9 serialized 추출
-            // $list[$i]['sried'] = get_serialized($list[$i]['wr_9']);
-            // print_r3($list[$i]['sried']);
-
-            $mb1 = get_member($list[$i]['mb_id'],'mb_name');
-
-            // report people.
-            // $list[$i]['wr_7s'] = json_decode($list[$i]['wr_7'], true);
-            // // print_r2($list[$i]['wr_7']);
-            // if( is_array($list[$i]['wr_7s']) ) {
-            //     foreach($list[$i]['wr_7s'] as $k1 => $v1) {
-            //         for($j=0;$j<@sizeof($v1);$j++) {
-            //             $list[$i]['wr_reports'][$j][$k1] = $v1[$j];
-            //         }
-            //     }
-            // }
-            // print_r2($list[$i]['wr_reports']);
-
         ?>
-        <tr class="<?php if ($list[$i]['is_notice']) echo "bo_notice"; ?> status_<?php echo $list[$i]['wr_10'];?>">
+        <tr class="<?php if ($list[$i]['is_notice']) echo "bo_notice"; ?> status_<?php echo $list[$i]['wr_10'];?>" wr_id="<?=$list[$i]['wr_id']?>">
             <?php if ($is_checkbox) { ?>
             <td class="td_chk">
                 <label for="chk_wr_id_<?php echo $i ?>" class="sound_only"><?php echo $list[$i]['subject'] ?></label>
@@ -145,28 +114,18 @@ $listall = '<a href="'.$board_adm_basic_url.'" class="ov_listall">전체목록</
             <td class="td_mms_name"><?=$list[$i]['mms_name']?></td><!-- 설비명 -->
             <!-- 제목 -->
             <td class="td_subject" style="padding-left:<?php echo $list[$i]['reply'] ? (strlen($list[$i]['wr_reply'])*10) : '5'; ?>px">
-                <?php
-                if ($is_category && $list[$i]['ca_name']) {
-				?>
-                <a href="<?php echo $list[$i]['ca_name_href'] ?>" class="bo_cate_link"><?php echo $list[$i]['ca_name'] ?></a>
-                <?php } ?>
-                <div class="bo_tit">
-                    <a href="<?php echo $list[$i]['href'] ?>">
-                        <?php echo $list[$i]['subject'] ?>
-                    </a>
-                    <?php
-                    if ($list[$i]['icon_new']) echo "<span class=\"new_icon\">N<span class=\"sound_only\">새글</span></span>";
-                    ?>
-                    <?php if ($list[$i]['comment_cnt']) { ?><span class="sound_only">댓글</span><span class="cnt_cmt"><?php echo $list[$i]['wr_comment']; ?></span><span class="sound_only">개</span><?php } ?>
+                <?php echo $list[$i]['subject'] ?>
+            </td>
+            <!-- 수량 -->
+            <td class="td_parts_count">
+                <div class="parts_count_box">
+                    <span class="parts_count"><?=$list[$i]['wr_4']?></span>
+                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-minus"></i>
                 </div>
             </td>
-            <td class="td_plan_date"><?=$list[$i]['wr_3']?></td><!-- 정비일 -->
-            <td class="td_prior_day"><?=$list[$i]['wr_4']?>일 전부터</td><!-- 몇일전부터 -->
-            <td class="td_period"><?=$board['bo_8_key_arr'][$list[$i]['wr_5']]?></td><!-- 알림주기 -->
-            <td class="td_to_whom"><?=@count($list[$i]['wr_reports'])?>명</td><!-- 알림대상 -->
-            <td class="td_status"><?=$mb1['mb_name']?></td><!-- 등록자 -->
-            <td class="td_status"><?=$board['bo_10_key_arr'][$list[$i]['wr_10']]?></td><!-- 상태 -->
-            <td class="td_modify sv_use" style="display:<?=(!$member['mb_manager_yn'])?'none':''?>;"><!-- 수정 -->
+            <td class="td_period"><?=($list[$i]['wr_3'])?number_format($list[$i]['wr_3']):0?></td><!-- 단가 -->
+            <td class="td_modify sv_use"><!-- 수정 -->
                 <a href="<?php echo G5_USER_ADMIN_BBS_URL?>/write.php?w=u&bo_table=<?php echo $bo_table?>&wr_id=<?php echo $list[$i]['wr_id']?>&<?php echo $qstr?>">수정</a>
             </td>
         </tr>
@@ -223,7 +182,67 @@ $(document).on('click','.btn_company',function(e){
     winCompany = window.open(href, "winCompany", "left=70,top=70,width=520,height=600,scrollbars=1");
     winCompany.focus();
     return false;
-})
+});
+
+
+
+var idx1 = 0;
+$(document).on('click','.td_parts_count .fa',function(e){
+    // console.log(idx1);
+    if(idx1==1) {
+        alert('수량 변경이 적용된 다음에 클릭하세요.');
+        e.preventDefault();
+   }
+    idx1 = 1;
+
+    var this_td = $(this).closest('td');
+    if( $(this).hasClass('fa-plus') ) {
+        var flag = 'plus';
+    }
+    else {
+        var flag = 'minus';
+    }
+    var this_count = this_td.find('.parts_count').text();
+    var this_wr_id = $(this).closest('tr').attr('wr_id');
+
+    if(this_count==0 && flag=='minus') {
+        alert('수량은 0 이상이어야 합니다.');
+        return false;
+    }
+    // alert('<?php ;//echo $board_skin_url?>/ajax/list.ajax.php');return false;
+    //-- 디버깅 Ajax --//
+    $.ajax({
+        type:"POST",
+        url:'<?php echo $board_skin_url?>/ajax/list.ajax.php',
+        data:{"aj":"set","bo_table":"<?=$bo_table?>","wr_id":this_wr_id,"parts_count":this_count,"flag":flag},
+        dataType:'json', 
+        timeout:10000, 
+        beforeSend:function(){}, 
+        success:function(res){
+            // console.log(res);
+            //var prop1; for(prop1 in res.rows) { console.log( prop1 +': '+ res.rows[prop1] ); }
+            
+            if(res.result == true) {
+                this_td.find('.parts_count').text('변경완료');
+                setTimeout(() => {
+                    this_td.find('.parts_count').text(res.parts_count);
+                }, 500);
+                // console.log(res.parts_count + '수량 적용 완료!');
+            }
+            else {
+                alert(res.msg);
+            }
+
+            idx1 = 0;
+            
+        },
+        error:function(xmlRequest) {
+            alert('Status: ' + xmlRequest.status + ' \n\rstatusText: ' + xmlRequest.statusText 
+                + ' \n\rresponseText: ' + xmlRequest.responseText);
+        }
+    });
+});
+
 </script>
 
 

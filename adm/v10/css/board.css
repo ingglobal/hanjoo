@@ -30,7 +30,9 @@ select{background:#1e2531;}
 #bo_sch .sch_btn{background:#1e2531;color:#efefef;}
 #bo_list_total{border-radius:0;background:#43535C;color:#efefef;}
 
-.td_parts_count .fa{border:1px solid #3c5b99;color:#3c5b99;}
+.td_parts_count .parts_count_box {display:inline-block;position:relative;text-align:right;width:60px;}
+.td_parts_count .parts_count {display:inline-block;position:absolute;top:0;right:100%;min-width:70px;}
+.td_parts_count .fa{border:1px solid #6586c7;color:#6586c7;cursor:pointer;padding:3px 4px;}
 
 
 /*게시판목록 테이블관련*/

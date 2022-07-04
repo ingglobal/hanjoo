@@ -38,7 +38,7 @@ $is_search_bbs = $board['bo_use_search'];
 
 if ($sca || $stx || $stx === '0') {     //검색이면
     // $is_search_bbs = true;      //검색구분변수 true 지정
-    $sql_search = get_sql_search($sca, $sfl, $stx, $sop);
+    $sql_search = "";//get_sql_search2($sca, $sfl, $stx, $sop);
 
     // 가장 작은 번호를 얻어서 변수에 저장 (하단의 페이징에서 사용)
     $sql = " select MIN(wr_num) as min_wr_num from {$write_table} ";
@@ -47,7 +47,7 @@ if ($sca || $stx || $stx === '0') {     //검색이면
 
     if (!$spt) $spt = $min_spt;
 
-    $sql_search .= " and (wr_num between {$spt} and ({$spt} + {$config['cf_search_part']})) ";
+    // $sql_search .= " and (wr_num between {$spt} and ({$spt} + {$config['cf_search_part']})) ";
     
     //추가적인 검색조건을 정의할때
     @include_once($board_skin_path.'/sql_search.add.php');
@@ -55,6 +55,7 @@ if ($sca || $stx || $stx === '0') {     //검색이면
     // 원글만 얻는다. (코멘트의 내용도 검색하기 위함)
     // 라엘님 제안 코드로 대체 http://sir.kr/g5_bug/2922
     $sql = " SELECT COUNT(DISTINCT `wr_parent`) AS `cnt` FROM {$write_table} WHERE {$sql_search} ";
+    // print_r3($sql);
     $row = sql_fetch($sql);
     $total_count = $row['cnt'];
     /*
@@ -225,7 +226,7 @@ if($page_rows > 0) {
         $k++;
     }
 }
-
+// print_r3($list);
 g5_latest_cache_data($board['bo_table'], $list);
 
 // $write_pages = get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, get_pretty_url($bo_table, '', $qstr.'&amp;page='));

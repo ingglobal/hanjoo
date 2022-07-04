@@ -11,46 +11,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
     .ui-widget-shadow {opacity: 0.8;}
     .btn_mb_report {padding: 0px 10px !important;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
-<script>
-  $.validator.setDefaults({
-        focusInvalid: true,
-        focusCleanup: true, 
-        onkeyup: false,
-        showErrors: function(errorMap, errorList) {
-            // console.log(errorList);
-            $.each(errorList, function (index, error) {
-                var $element = $(error.element);
-                $element.attr('title', error.message); // insert title
-                $element.tooltip({ position: { my: "left bottom", at: "left top-3", collision: "none" } });
-                $element.tooltip( "open" );
-                setTimeout(() => {
-                    $element.tooltip( "close" );
-                    $element.removeAttr('title'); // remove title
-                }, 1500);
-            });
-        },        
-    });
-    $.extend( $.validator.messages, {
-        required: "필수 항목입니다."
-        , remote: "항목을 수정하세요."
-        , email: "유효하지 않은 E-Mail주소입니다."
-        , url: "유효하지 않은 URL입니다."
-        , date: "올바른 날짜를 입력하세요."
-        , dateISO: "올바른 날짜(ISO)를 입력하세요."
-        , number: "유효한 숫자가 아닙니다."
-        , digits: "숫자만 입력 가능합니다."
-        , creditcard: "신용카드 번호가 바르지 않습니다."
-        , equalTo: "같은 값을 다시 입력하세요."
-        , extension: "올바른 확장자가 아닙니다."
-        , maxlength: $.validator.format( "{0}자를 넘을 수 없습니다. " )
-        , minlength: $.validator.format( "{0}자 이상 입력하세요." )
-        , rangelength: $.validator.format( "문자 길이가 {0} 에서 {1} 사이의 값을 입력하세요." )
-        , range: $.validator.format( "{0} 에서 {1} 사이의 값을 입력하세요." )
-        , max: $.validator.format( "{0} 이하의 값을 입력하세요." )
-        , min: $.validator.format( "{0} 이상의 값을 입력하세요." ) 
-    } );
-</script>
 
 <section id="bo_w">
     <h2 class="sound_only"><?php echo $g5['title'] ?></h2>
@@ -161,28 +121,17 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
     <?php } ?>
 
     <div class="bo_w_tit write_div">
-        <label for="wr_subject" class="sound_only">제목<strong>필수</strong></label>
+        <label for="wr_subject" class="sound_only">부품명<strong>필수</strong></label>
         <div id="autosave_wrapper write_div">
-            <input type="text" name="wr_subject" value="<?php echo $subject ?>" id="wr_subject" required class="frm_input full_input required" maxlength="255" placeholder="제목">
+            <input type="text" name="wr_subject" value="<?php echo $subject ?>" id="wr_subject" required class="frm_input full_input required" maxlength="255" placeholder="부품명">
         </div>
     </div>
-    <!-- 정비일, 며칠전부터, 반복주기, 몇시에 -->
+    <!-- 수량 -->
     <div class="write_div">
-        <input type="text" name="wr_3" value="<?=$write['wr_3']?>" id="wr_3" required class="frm_input required" style="width:90px;" placeholder="정비일자">
-        기준 &nbsp;&nbsp;&nbsp;
-        <input type="text" name="wr_4" value="<?=$write['wr_4']?>" id="wr_4" required class="frm_input required" style="width:40px;text-align:right;" placeholder="숫자" onclick="javascript:chk_Number(this)">
-        일 전부터 &nbsp;
-        <select name="wr_5" id="wr_5">
-            <option value="">알림주기선택</option>
-            <?php echo $board['bo_8_val_options'];?>
-        </select>
-        <script>$('#wr_5').val('<?=$write['wr_5']?>').attr('selected','selected');</script>
-        <select name="wr_6" id="wr_6">
-            <option value="">발송시간선택</option>
-            <?php echo $board['bo_9_val_options'];?>
-        </select>
-        <script>$('#wr_6').val('<?=$write['wr_6']?>').attr('selected','selected');</script>
-        에 발송
+        수량: <input type="text" name="wr_4" value="<?=number_format($write['wr_4'])?>" id="wr_4" required class="frm_input required" style="width:40px;text-align:right;">&nbsp;개
+        &nbsp;&nbsp;&nbsp;
+        단가: 
+        <input type="text" name="wr_3" value="<?=number_format($write['wr_3'])?>" id="wr_3" class="frm_input" style="width:100px;text-align:right;">&nbsp;원
     </div>
 
     <div class="write_div">
@@ -199,44 +148,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
             <?php } ?>
         </div>
         
-    </div>
-    <div class="write_div towhom_wrapper">
-        알림대상 설정
-        <div class="towhom_form">
-            <input type="text" name="mb_name" class="frm_input" style="width:100px;" placeholder="이름">
-            <input type="text" name="mb_role" class="frm_input" style="width:80px;" placeholder="직책">
-            <input type="text" name="mb_hp" class="frm_input" style="width:120px;" placeholder="휴대폰" onKeyUp="chk_Number(this);">
-            <input type="email" name="mb_email" class="frm_input" style="width:200px;" placeholder="이메일">
-            <a href="javascript:" class="btn btn_02 btn_mb_report" style="">추가</a>
-        </div>
-        <div class="towhom_info">
-            <ul>
-                <?php
-                for($i=0;$i<sizeof($towhom_li);$i++) {
-                    echo '<li>
-                            <span><i class="fa fa-remove"></i></span>
-                            <span class="r_name">'.$towhom_li[$i]['r_name'].'</span>
-                            <span class="r_role">'.$towhom_li[$i]['r_role'].'</span>
-                            <span class="r_hp">'.$towhom_li[$i]['r_hp'].'</span>
-                            <span class="r_email">'.$towhom_li[$i]['r_email'].'</span>
-                          </li>
-                    ';
-                }
-                ?>
-            </ul>
-        </div>
-    </div>
-    <div class="bo_w_tit write_div">
-        <label for="wr_subject" class="sound_only">메시지발송설정</label>
-        <div id="autosave_wrapper write_div">
-        <?php
-            $ar['prefix'] = 'wr';
-            $ar['com_idx'] = $write['wr_1'];
-            $ar['value'] = $write['wr_send_type'];
-            echo set_send_type($ar);
-            unset($ar);
-			?>
-        </div>
     </div>
 
     <?php for ($i=10; $is_link && $i<=G5_LINK_COUNT; $i++) { ?>
@@ -272,23 +183,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
     </div>
     <?php } ?>
 
-    <div class="bo_user write_div">
-        <label for="wr_10" class="sound_only">상태</label>
-        <select name="wr_10" id="wr_10" class="frm_input">
-            <?php echo $board['bo_10_key_options'] ?>
-        </select>
-        <script>
-            <?php if($w == ''){ ?>
-            // alert($('select[name=wr_10]').find('option').eq(0).val());
-            $('select[name=wr_10]').val($('select[name=wr_10]').find('option').eq(0).val());
-            <?php } else { ?>
-            $('select[name=wr_10]').val('<?php echo $write['wr_10'] ?>').attr('selected','selected');
-            <?php } ?>
-            $('select[name=wr_10]').css('margin-right','0');
-        </script>
-
-    </div>
-
     <div class="btn_fixed_top" style="top:57px;">
         <a href="javascript:history.back();" class="btn_cancel btn">취소</a>
         <input type="submit" value="작성완료" id="btn_submit" accesskey="s" class="btn_submit btn">
@@ -300,27 +194,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
 
 
 <script>
-$("#wr_3").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", minDate: "+0d" });
-
-// validation check
-$.validator.addMethod('customphone', function (value, element) {
-    return this.optional(element) || /^01[016789]\-?\d{3,4}\-?\d{4}$/.test(value);
-}, "휴대폰 번호를 제대로 입력해 주세요.");
-
-$(function(){
-    $("#fwrite").validate({
-        rules: {
-            mb_hp: 'customphone'
-        }
-    });
+$('#wr_3, #wr_4').on('keyup',function(e) {
+    var price = thousand_comma($(this).val().replace(/[^0-9]/g,""));
+    price = (price == '0') ? '' : price;
+    $(this).val(price);
 });
-
-
-function chk_Number(object){
-    $(object).keyup(function(){
-        $(this).val($(this).val().replace(/[^0-9|-]/g,""));
-    });   
-}
 
 var g5_user_admin_url = "<?php echo G5_USER_ADMIN_URL;?>";
 $(function(){
@@ -380,7 +258,7 @@ function html_auto_br(obj)
 function fwrite_submit(f)
 {
     <?php echo $editor_js; // 에디터 사용시 자바스크립트에서 내용을 폼필드로 넣어주며 내용이 입력되었는지 검사함   ?>
-
+    
     var subject = "";
     var content = "";
     $.ajax({
@@ -398,9 +276,9 @@ function fwrite_submit(f)
             content = data.content;
         }
     });
-
+    
     if (subject) {
-        alert("제목에 금지단어('"+subject+"')가 포함되어있습니다");
+        alert("부품명에 금지단어('"+subject+"')가 포함되어있습니다");
         f.wr_subject.focus();
         return false;
     }
@@ -430,17 +308,24 @@ function fwrite_submit(f)
     
     if(f.mms_idx.value=='') {
         alert("설비를 입력하세요.");
+        f.mms_name.focus();
+        return false;
+    }
+    
+    if(f.wr_4.value == '' || f.wr_4.value == '0') {
+        alert("수량을 입력하세요.");
+        f.wr_4.focus();
         return false;
     }
 
-
+    /*
     $('.towhom_info span[class^="r_"]').each(function(e){
         // console.log( $(this).html() );
         var this_val = $(this).text();
         var this_name = $(this).attr('class');
         $(this).append( $('<input type="hidden" name="'+this_name+'[]" value="'+this_val+'">') );
     });
-    
+    */
 
     <?php echo $captcha_js; // 캡챠 사용시 자바스크립트에서 입력된 캡챠를 검사함  ?>
 

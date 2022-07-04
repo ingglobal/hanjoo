@@ -30,6 +30,11 @@ for($i=0;$i<sizeof($wr_send_type);$i++) {
 $_REQUEST['wr_send_type'] = implode(",",$wr_send_type_arr);
 // echo $_REQUEST['wr_send_type'].'<br>';
 
+foreach($_POST as $post_k => $post_v){
+	//넘어온 변수중에 콤마가 포함된 숫자 즉 금액,가격과 같은 데이터는 콤마를 제거해 준다.
+	if(preg_match("/^((-)?([1-9]([0-9]{0,2})?(,\d{3})*|0))$/",$post_v))
+		$_POST[$post_k] = preg_replace("/,/","",$post_v);
+}
 
 // 공통 쿼리
 $sql_common = " wr_1 = '".$_POST['com_idx']."'
