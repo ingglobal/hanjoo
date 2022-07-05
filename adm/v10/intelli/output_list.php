@@ -32,12 +32,22 @@ if ($stx) {
     }
 }
 
-// 날자 검색
+// 기간 검색
 if ($st_date) {
-    $where[] = " start_time >= '".$st_date." 00:00:00' ";
+    if ($st_time) {
+        $where[] = " start_time >= '".$st_date.' '.$st_time."' ";
+    }
+    else {
+        $where[] = " start_time >= '".$st_date.' 00:00:00'."' ";
+    }
 }
 if ($en_date) {
-    $where[] = " start_time <= '".$en_date." 23:59:59' ";
+    if ($en_time) {
+        $where[] = " start_time <= '".$en_date.' '.$en_time."' ";
+    }
+    else {
+        $where[] = " start_time <= '".$en_date.' 23:59:59'."' ";
+    }
 }
 
 // 최종 WHERE 생성
@@ -79,7 +89,10 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 
 // 넘겨줄 변수가 추가로 있어서 qstr 별도 설정
 $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
+
+add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
+<script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
 <style>
 .tbl_body td {text-align:center;border-bottom:solid 1px #e1e1e1;}
 </style>
@@ -97,7 +110,10 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 <label for="sfl" class="sound_only">검색대상</label>
 기간:
 <input type="text" name="st_date" value="<?php echo $st_date ?>" id="st_date" class="frm_input" style="width:80px;"> ~
+<input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00">
+~
 <input type="text" name="en_date" value="<?php echo $en_date ?>" id="en_date" class="frm_input" style="width:80px;">
+<input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00">
 &nbsp;&nbsp;
 <select name="sfl" id="sfl">
     <option value="result" <?=get_selected($sfl, 'result')?>>결과</option>
@@ -193,7 +209,36 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date";
 //-- $(document).ready 페이지로드 후 js실행 --//
 $(document).ready(function(){
 
-	$("#st_date,#en_date").datepicker({
+    // timepicker 설정
+    $("input[name$=_time]").timepicker({
+        'timeFormat': 'H:i:s',
+        'step': 10
+    });
+
+    // st_date chage
+    $(document).on('focusin', 'input[name=st_date]', function(){
+        // console.log("Saving value: " + $(this).val());
+        $(this).data('val', $(this).val());
+    }).on('change','input[name=st_date]', function(){
+        var prev = $(this).data('val');
+        var current = $(this).val();
+        // console.log("Prev value: " + prev);
+        // console.log("New value: " + current);
+        if(prev=='') {
+            $('input[name=st_time]').val('00:00:00');
+        }
+    });
+    // en_date chage
+    $(document).on('focusin', 'input[name=en_date]', function(){
+        $(this).data('val', $(this).val());
+    }).on('change','input[name=en_date]', function(){
+        var prev = $(this).data('val');
+        if(prev=='') {
+            $('input[name=en_time]').val('23:59:59');
+        }
+    });
+
+    $("#st_date,#en_date").datepicker({
 		changeMonth: true,
 		changeYear: true,
 		dateFormat: "yy-mm-dd",
