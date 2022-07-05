@@ -9,11 +9,11 @@ $table_name = 'data_measure';
 $g5_table_name = $g5[$table_name.'_table'];
 $pre = 'dta';
 $fname = preg_replace("/_list/","",$g5['file_name']); // _list을 제외한 파일명
-$qstr .= '&ser_mms_idx='.$ser_mms_idx.'&st_date='.$st_date.'&en_date='.$en_date.'&st_time='.$st_time.'&en_time='.$en_time; // 추가로 확장해서 넘겨야 할 변수들
+$qstr .= '&ser_mms_idx='.$ser_mms_idx.'&ser_type_no='.$ser_type_no.'&st_date='.$st_date.'&en_date='.$en_date.'&st_time='.$st_time.'&en_time='.$en_time; // 추가로 확장해서 넘겨야 할 변수들
 
 
 $g5['title'] = '측정데이터';
-include_once('./_top_menu_data.php');
+// @include_once('./_top_menu_data.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
@@ -66,7 +66,7 @@ $sql = "SELECT mms_idx, mms_name
 ";
 // echo $sql.'<br>';
 $one = sql_fetch($sql,1);
-$ser_mms_idx = $one['mms_idx'];
+$ser_mms_idx = $ser_mms_idx ?: $one['mms_idx'];
 
 if(!$ser_mms_idx)
     alert('설비정보가 존재하지 않습니다.');
@@ -79,7 +79,7 @@ $where[] = " 1=1 ";   // pg 디폴트 검색조건
 
 if ($stx && $sfl) {
     switch ($sfl) {
-        case ( $sfl == $pre.'_id' || $sfl == $pre.'_idx' || $sfl == 'mms_idx' ) :
+        case ( $sfl == $pre.'_id' || $sfl == $pre.'_idx' || $sfl == 'mms_idx' || $sfl == $pre.'_value' ) :
             $where[] = " ({$sfl} = '{$stx}') ";
             break;
 		case ($sfl == 'dta_more') :
@@ -90,12 +90,22 @@ if ($stx && $sfl) {
             break;
 		case ($sfl == 'dta_range') :
             $stxs = explode("-",$stx);
+            // print_r2($stxs);
             $where[] = " dta_value >= '".$stxs[0]."' AND dta_value <= '".$stxs[1]."' ";
             break;
         default :
             $where[] = " ({$sfl} LIKE '%{$stx}%') ";
             break;
     }
+}
+
+// 태그검색
+if ($ser_type_no) {
+    $ser_type_no_arr = explode("_",$ser_type_no);
+    $ser_dta_type = $ser_type_no_arr[0];
+    $ser_dta_no = $ser_type_no_arr[1];
+    $where[] = " dta_type = '".$ser_dta_type."' ";
+    $where[] = " dta_no = '".$ser_dta_no."' ";
 }
 
 // 기간 검색
@@ -157,16 +167,18 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 $items1 = array(
     "dta_idx"=>array("번호",0,0,1)
     ,"mms_idx"=>array("설비",0,0,0)
-    ,"dta_type"=>array("데이터타입",0,0,0)
-    ,"dta_no"=>array("측정번호",0,0,0)
+    ,"dta_type_no"=>array("태그명",0,0,0)
     ,"dta_value"=>array("값",0,0,0)
-    ,"dta_dt"=>array("측정일시",0,0,1)
-    ,"dta_reg_dt"=>array("등록일시",0,0,0)
+    ,"dta_dt"=>array("일시",0,0,1)
 );
 
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
 <script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
+<style>
+.td_dta_type_no {text-align:left !important;}
+.td_dta_type_no span{color:#555;}
+</style>
 
 <div class="local_ov01 local_ov">
     <?php echo $listall ?>
@@ -191,8 +203,42 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     ?>
 </select>
 <script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
-<input type="text" name="ser_dta_no" value="<?=$ser_dta_no?>" id="ser_dta_no" class="frm_input" autocomplete="off" style="width:65px;" placeholder="측정번호">
 
+<select name="ser_type_no" id="ser_type_no">
+    <option value="">태그전체</option>
+    <?php
+    // get mms info with meta extened data.
+    $mms = get_table_meta('mms', 'mms_idx', $ser_mms_idx);
+    // print_r2($mms);
+    $sql = "SELECT dta_type, dta_no
+            FROM g5_1_data_measure_".$ser_mms_idx."
+            GROUP BY dta_type, dta_no
+            ORDER BY dta_type, dta_no
+    ";
+    // echo $sql.'<br>';
+    $rs = sql_query_pg($sql,1);
+    for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
+        // print_r2($row);
+
+        // 각 태그별 명칭
+        // if($mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]) {
+        //     echo $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']].'<br>';
+        // }
+        // else {
+        //     echo $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'].'<br>';
+        // }
+        $row['dta_type_no_name'] = $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']] ? 
+                                        $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
+                                            : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
+        // echo $row['dta_type_no_name'].'<br>';
+        echo '<option value="'.$row['dta_type'].'_'.$row['dta_no'].'">'.$row['dta_type_no_name'].'</option>';
+    }
+    // print_r2($dta_arr);
+    ?>
+</select>
+<script>$('select[name=ser_type_no]').val("<?=$ser_type_no?>").attr('selected','selected');</script>
+
+기간:
 <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;">
 <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00">
 ~
@@ -202,7 +248,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <select name="sfl" id="sfl">
     <option value="">검색항목</option>
     <?php
-    $skips = array('dta_idx','mms_idx','dta_type','dta_no','dta_dt','dta_reg_dt');
+    $skips = array('dta_idx','mms_idx','dta_type_no','dta_dt');
     if(is_array($items1)) {
         foreach($items1 as $k1 => $v1) {
             if(in_array($k1,$skips)) {continue;}
@@ -212,14 +258,14 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     ?>
 	<option value="dta_more"<?php echo get_selected($_GET['sfl'], "dta_more"); ?>>값이상</option>
 	<option value="dta_less"<?php echo get_selected($_GET['sfl'], "dta_less"); ?>>값이하</option>
-	<option value="dta_range"<?php echo get_selected($_GET['sfl'], "dta_range"); ?>>범위</option>
+	<option value="dta_range"<?php echo get_selected($_GET['sfl'], "dta_range"); ?>>범위(시작-끝)</option>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
 <input type="submit" class="btn_submit" value="검색">
 
 <div class="float_right" style="display:inline-block;">
-    <a href="./<?=$fname?>_sum_list.php" class="btn btn_02">일간합계목록</a>
+    <a href="../mms_graph_setting.php?mms_idx=<?=$ser_mms_idx?>" class="btn btn_02 btn_graph_tag">태그값설정</a>
 </div>
 </form>
 <script>
@@ -279,7 +325,7 @@ function sch_submit(f){
 	</thead>
 	<tbody>
     <?php
-    for ($i=0; $row=sql_fetch_array($result); $i++) {
+    for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
         $row['com'] = sql_fetch(" SELECT com_name FROM {$g5['company_table']} WHERE com_idx = '".$row['com_idx']."' ");
         $row['mms'] = sql_fetch(" SELECT mms_name FROM {$g5['mms_table']} WHERE mms_idx = '".$row['mms_idx']."' ");
         $row['mmi'] = sql_fetch(" SELECT mmi_name FROM {$g5['mms_item_table']} WHERE mmi_idx = '".$row['dta_mmi_no']."' ");
@@ -312,15 +358,21 @@ function sch_submit(f){
                     $list[$k1] = number_format($row[$k1]);
                 }
                 else if(preg_match("/_dt$/",$k1)) {
-                    $list[$k1] = '<span class="font_size_8">'.date("y-m-d H:i:s",$row[$k1]).'</span>';
+                    $list[$k1] = '<span class="font_size_8">'.substr($row[$k1],0,19).'</span>';
 //                    $list[$k1] = substr($row[$k1],0,10);
                 }
                 else if($k1=='mms_idx') {
                     // $list[$k1] = '<span class="font_size_8">'.$ser_mms_idx.'</span>';
                     $list[$k1] = '<span class="font_size_8">'.$g5['mms'][$ser_mms_idx]['mms_name'].'</span>';
                 }
+                else if($k1=='dta_type_no') {
+                    $row['dta_type_no_name'] = $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']] ? 
+                                                $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
+                                                    : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
+                    // echo $row['dta_type_no_name'].'<br>';
+                    $list[$k1] = $row['dta_type_no_name'].' <span class="font_size_8">'.$row['dta_type'].'-'.$row['dta_no'].'</span>';
+                }
                 else if($k1=='dta_no') {
-                    $row[$k1] = $ser_dta_no ?: $row[$k1];
                     $list[$k1] = '<a href="?ser_dta_no='.$row[$k1].$qstr1.'">'.$row[$k1].'</a>';
                 }
                 else if($k1=='dta_type') {
@@ -361,6 +413,15 @@ function sch_submit(f){
 
 <script>
 $(function(e) {
+    // 태그값설정
+	$(document).on('click','.btn_graph_tag',function(e){
+        e.preventDefault();
+        var href = $(this).attr('href');
+        winGraphTag = window.open(href, "winGraphTag", "left=100,top=100,width=520,height=600,scrollbars=1");
+        winGraphTag.focus();
+        return false;
+    });
+
     // timepicker 설정
     $("input[name$=_time]").timepicker({
         'timeFormat': 'H:i:s',

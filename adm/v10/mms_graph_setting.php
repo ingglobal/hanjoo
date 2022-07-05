@@ -64,7 +64,7 @@ input[type=file] {width: 165px;}
                             <td>
                                 <input type="hidden" name="dta_type[]" value="<?=$k1?>" class="frm_input">
                                 <input type="hidden" name="dta_no[]" value="<?=$v1[$i]?>" class="frm_input">
-                                <input type="text" name="dta_label[]" value="<?=$mms['dta_type_label-'.$k1.'-'.$v1[$i]]?>" class="frm_input">
+                                <input type="text" name="dta_label[]" value="<?=$mms['dta_type_label-'.$k1.'-'.$v1[$i]]?>" class="frm_input" style="width:80%;">
                                 <span class="dta_type_no"><?=$k1.'-'.$v1[$i]?></span>
                             </td>
                         </tr>

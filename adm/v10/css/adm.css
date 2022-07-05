@@ -207,7 +207,7 @@ a.btn_frmline{background:#095D9D;border-radius:0;height:30px;line-height:30px;}
 a.ov_listall {background: #1e2531;}
 a.ov_listall:hover {background: #5b6b8a;}
 #container_title a.ov_listall {font-weight:normal;border: solid 1px #4d4d4d;}
-.btn_03, a.btn_03 {background: #941735;font-size:0.8em;color:#ccc;}
+.btn_03, a.btn_03 {background: #560015;font-size:0.8em;color:#ccc;}
 .btn_04, a.btn_04 {background: #6e034a;color:#fff !important;line-height:30px !important;}
 .btn_confirm{text-align:center;}
 .btn_confirm .btn_submit{color:#fff !important;height:34px;line-height:34px;}
@@ -298,3 +298,14 @@ td.td_grpset{border-left:1px solid #4b5465;}
 a.ht26{height:26px;line-height:26px;}
 input.ht26{height:26px;line-height:26px;}
 button.ht26{height:26px;line-height:26px;}
+
+/* timepicker 관련 */
+.ui-timepicker-list li {
+    background-color: black;
+    color: white;
+}
+li.ui-timepicker-selected, .ui-timepicker-list li:hover, .ui-timepicker-list .ui-timepicker-selected:hover {
+    background: #1980EC;
+    color: #fff;
+}
+.ui-timepicker-wrapper {border: 1px solid #555;}

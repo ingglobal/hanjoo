@@ -173,7 +173,7 @@ $qstr .= '&sca='.$sca.'&ser_bom_type='.$ser_bom_type; // 추가로 확장해서 
         $com_p = get_table_meta('company','com_idx',$row['com_idx_provider']);
         $com_c = get_table_meta('company','com_idx',$row['com_idx_customer']);
         // bom_item 에서 뽑아야 하는 제품만 (완재품, 반제품)
-        if(in_array($row['bom_type'], $g5['set_bom_type_displays'])) {
+        if(@in_array($row['bom_type'], $g5['set_bom_type_displays'])) {
             $sql1 = "SELECT bom.bom_idx, com_idx_customer, bom.bom_name, bom_part_no, bom_price, bom_status, com_name
                         , bit.bit_idx, bit.bom_idx_child, bit.bit_reply, bit.bit_count
                     FROM {$g5['bom_item_table']} AS bit
