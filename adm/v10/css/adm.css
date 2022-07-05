@@ -298,3 +298,14 @@ td.td_grpset{border-left:1px solid #4b5465;}
 a.ht26{height:26px;line-height:26px;}
 input.ht26{height:26px;line-height:26px;}
 button.ht26{height:26px;line-height:26px;}
+
+/* timepicker 관련 */
+.ui-timepicker-list li {
+    background-color: black;
+    color: white;
+}
+li.ui-timepicker-selected, .ui-timepicker-list li:hover, .ui-timepicker-list .ui-timepicker-selected:hover {
+    background: #1980EC;
+    color: #fff;
+}
+.ui-timepicker-wrapper {border: 1px solid #555;}
