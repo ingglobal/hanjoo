@@ -22,17 +22,17 @@ if($my_department_idxs) {
 // MMS 업체별 추출 (자바스크립트 부분에 넣어야 함)
 $sql = "SELECT *
         FROM {$g5['mms_table']}
-        WHERE com_idx = '".$com_idx."'
+        WHERE com_idx = '".$com_idx."' AND mms_status NOT IN ('trash','delete')
         ORDER BY mms_sort, mms_idx
 ";
-//print_r3($sql);
+// print_r3($sql);
 $result = sql_query($sql,1);
 for ($i=0; $row=sql_fetch_array($result); $i++) {
 	$row['mms_name_model'] = $row['mms_name'].'<br>'.$row['mms_model'];
 	$mms[$row['mmg_idx']][] = $row;	
 }
 $total_mms = $i;
-//print_r2($mms);
+// print_r2($mms);
 
 // 각 mmg 별 구조만 생성 (mmg별 합계 카운터도 함께)
 $sql = " SELECT
@@ -114,6 +114,14 @@ $total_count = sql_num_rows($result);
 <style>
 table {border-collapse: separate !important;}
 table td{font-size:1em !important;line-height: 125% !important;padding: 6px 0 3px !important;}
+.google-visualization-orgchart-nodesel {
+    border: 2px solid #444443;
+    background: -webkit-gradient(linear, left top, left bottom, from(#534d1d), to(#081b45));
+}
+.google-visualization-orgchart-node {
+    border: 2px solid #334751;
+    background: -webkit-gradient(linear, left top, left bottom, from(#001628), to(#023846));
+}
 </style>
 
 
@@ -148,13 +156,16 @@ table td{font-size:1em !important;line-height: 125% !important;padding: 6px 0 3p
 <?php
 // 표시 데이타 생성
 for ($i=0; $row=sql_fetch_array($result); $i++) {
+	// print_r3($row);
 	// up_idxs 분리
 	$row['up_idxs_array'] = explode(",",$row['up_idxs']);
 	
 	$list[$i]['value'] = $row['mmg_idx'];		// 그룹고유코드
 	$list[$i]['mmg_name'] = $row['mmg_name'];	// 그룹명
 	$list[$i]['mms_count'] = $row['mms_count'];		// MMS수
-	$list[$i]['mms_count_text'] = ($row['mms_count']) ? ' <a href="./mms_list.php?sfl=mms.com_idx&stx='.$com_idx.'" style="font-size:0.8em;">[보기]</a>' : '';
+	$list[$i]['mms_count_text'] = ($row['mms_count']) ? 
+					' <a href="./mms_list.php" style="font-size:0.8em;">[보기]</a>'
+						: '';
 	$list[$i]['leaf_node_yn'] = $row['leaf_node_yn'];	// 마지막노드여부
 	$list[$i]['field'] = $row['mmg_name'].'<br>MMS '.$row['mms_count'].'개'.$list[$i]['mms_count_text'];	// 항목표현내용
 	$list[$i]['parent'] = ($row['depth']==0) ? '0' : $row['up_idxs_array'][($row['depth']-1)];	// 부모고유코드
@@ -165,7 +176,7 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
 }
 //echo $depth0;
 $chart_width = ($depth0>2) ? 522*$depth0 : 1040;
-//print_r2($list);
+// print_r3($list);
 ?>
 <script>
 //-- $(document).ready 페이지로드 후 js실행 --//
@@ -181,34 +192,37 @@ $(document).ready(function(){
         data.addColumn('string', 'ToolTip');
 //       For each orgchart box, provide the name, manager, and tooltip to show.
         data.addRows([
-		[{v:'0', f: '<?=$com['com_name']?><br><a href="./mms_list.php?sfl=mms.com_idx&stx=<?=$com_idx?>">MMS(총): <?=$total_mms?>개</a>'},'', '']
+		[{v:'0', f: '<?=$com['com_name']?><br><a href="./mms_list.php">MMS(총): <?=$total_mms?>개</a>'},'', '']
 		<?php
 		for($i=0;$i<sizeof($list);$i++) {
+			// print_r2($mms[$list[$i]['value']]);
 			// MMS들
-			for($j=0;$j<sizeof($mms[$list[$i]['value']]);$j++) {
-				//print_r2($mms[$list[$i]['value']]);
-				//echo $mms[$list[$i]['value']][$j]['mms_idx'];
-				
-				// Leaf 노드일 때만 MMS 차례대로 배치
-				if($list[$i]['leaf_node_yn']) {
-					// 조직코드가 바뀌면 부모코드 변경
-					if($mms[$list[$i]['value']][$j]['mmg_idx'] != $mms_last_mmg_idx) {
-						$mms_parent = $list[$i]['value'];
+			if(is_array($mms[$list[$i]['value']])) {
+				for($j=0;$j<sizeof($mms[$list[$i]['value']]);$j++) {
+					//print_r2($mms[$list[$i]['value']]);
+					//echo $mms[$list[$i]['value']][$j]['mms_idx'];
+					
+					// Leaf 노드일 때만 MMS 차례대로 배치
+					if($list[$i]['leaf_node_yn']) {
+						// 조직코드가 바뀌면 부모코드 변경
+						if($mms[$list[$i]['value']][$j]['mmg_idx'] != $mms_last_mmg_idx) {
+							$mms_parent = $list[$i]['value'];
+						}
+						// 조직코드가 안 바뀌면 부모코드는 이전 mms_idx
+						else {
+							$mms_parent = $mms_last_parent;
+						}
+						// MMS 박스 표현 (설비명/모델)
+						$mmss_name[$i] = '<span class="span_mms">'.$mms[$list[$i]['value']][$j]['mms_name'].'<br>('.$mms[$list[$i]['value']][$j]['mms_model'].')</span>';
+						$mmss[$i] .= ", [{v:'".$mmss_name[$i]."', f:'".$mms[$list[$i]['value']][$j]['mb_name']."'},'".$mms_parent."', '']\n";
+	
+						$mms_last_parent = $mms[$list[$i]['value']][$j]['mms_idx'];	  // 이전 mms_idx (부모 코드를 찾기 위해서 계속 저장)
+						$mms_last_mmg_idx = $mms[$list[$i]['value']][$j]['mmg_idx'];  // 이전 조직코드 (조직코드가 바뀌는 시점 체크)
 					}
-					// 조직코드가 안 바뀌면 부모코드는 이전 mms_idx
+					// Leaf 노드가 아니면 팀장 보다 상위 관리자이므로 조직이름안에 포함시켜야 함
 					else {
-						$mms_parent = $mms_last_parent;
+						$list[$i]['field_extra'][] = $mms[$list[$i]['value']][$j]['mb_name'];
 					}
-					// MMS 박스 표현 (설비명/모델)
-					$mmss_name[$i] = '<span class="span_mms">'.$mms[$list[$i]['value']][$j]['mms_name'].'<br>('.$mms[$list[$i]['value']][$j]['mms_model'].')</span>';
-					$mmss[$i] .= ", [{v:'".$mmss_name[$i]."', f:'".$mms[$list[$i]['value']][$j]['mb_name']."'},'".$mms_parent."', '']\n";
-
-                    $mms_last_parent = $mms[$list[$i]['value']][$j]['mms_idx'];	  // 이전 mms_idx (부모 코드를 찾기 위해서 계속 저장)
-					$mms_last_mmg_idx = $mms[$list[$i]['value']][$j]['mmg_idx'];  // 이전 조직코드 (조직코드가 바뀌는 시점 체크)
-				}
-				// Leaf 노드가 아니면 팀장 보다 상위 관리자이므로 조직이름안에 포함시켜야 함
-				else {
-					$list[$i]['field_extra'][] = $mms[$list[$i]['value']][$j]['mb_name'];
 				}
 			}
 			if(is_array($list[$i]['field_extra']))
@@ -262,13 +276,6 @@ $(document).ready(function(){
 	//alert( $('#chart_div').css('width') );
 	$('#chart_div').css('width','<?=$chart_width?>px');
 	
-
-	// 차트 크게 보기
-	$(document).on('click','#chart_popup',function(e){
-		e.preventDefault();
-		window.open("./mms_group_chart.popup.php", "mms_group_chart_popup",'left=50,top=50,width=1000,height=800');
-	});
-
 });
 //-- //$(document).ready 페이지로드 후 js실행 --//
 </script>

@@ -125,7 +125,7 @@ for($i=0;$i<sizeof($mmg_name);$i++) {
 }
 
 
-//exit;
+// exit;
 // 앞에서 넘어온 파일명으로 다시 돌려보낸다.
 goto_url("./".$file_name.".php?com_idx=".$com_idx);
 ?>

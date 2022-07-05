@@ -166,8 +166,8 @@ for ($i=0; $row=sql_fetch_array($result); $i++)
 	        <a href="#" alt="상위단계로">◀</a> | <a href="#" alt="하위단계로">▶</a>
 	    </td>
 	    <td class="td_mmg_name" style="padding-left:<?=$row['indent']?>px;text-align:left;">
-			<input type="hidden" name="mmg_depth[]" value="<?=$row[depth]?>">
-			<input type="hidden" name="mmg_idx[]" value="<?=$row[mmg_idx]?>">
+			<input type="hidden" name="mmg_depth[]" value="<?=$row['depth']?>">
+			<input type="hidden" name="mmg_idx[]" value="<?=$row['mmg_idx']?>">
 			<input type="text" name="mmg_name[]" value="<?php echo get_text(trim($row['mmg_name'])); ?>" required class="frm_input full_input required" style="width:180px;">
 	    </td>
 		<td class="td_sub_category" style="text-align:center"><?=$row['sub_toggle']?></td>
@@ -197,7 +197,7 @@ if ($i == 0) echo '<tr class="no-data"><td colspan="9" class="empty_table">자�
 
 <div class="btn_fixed_top">
     <a href="javascript:insert_item()" id="btn_add_car" class="btn btn_02">항목추가</a>
-    <a href="./company_list.php" id="btn_add_car" class="btn btn_03">업체목록</a>
+    <a href="./company_list.php" id="btn_add_car" class="btn btn_02">업체목록</a>
 	<input type="submit" name="act_button" value="확인" class="btn_submit btn">
 </div>
 </form>
