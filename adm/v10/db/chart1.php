@@ -3,7 +3,7 @@ $sub_menu = "920110";
 include_once('./_common.php');
 
 $g5['title'] = '그래프(주조공정(SUB))';
-include_once('./_top_menu_db.php');
+@include_once('./_top_menu_db.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
