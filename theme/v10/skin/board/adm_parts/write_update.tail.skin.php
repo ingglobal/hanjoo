@@ -7,27 +7,33 @@ if ($bo_table) {
     $board = get_board($bo_table);
 
     // wr_id 가 있으면 $write 배열 확장(+serialized 변수들)
+	/*
     if($wr_id && is_serialized($write['wr_9'])) {
         $write = array_merge($write, get_serialized($write['wr_9']));
     }
+	*/
 }
 
 // report people array to json
+/*
 $wr_alarmlist['r_name'] = $_REQUEST['r_name'];
 $wr_alarmlist['r_role'] = $_REQUEST['r_role'];
 $wr_alarmlist['r_hp'] = $_REQUEST['r_hp'];
 $wr_alarmlist['r_email'] = $_REQUEST['r_email'];
 $wr_alarms = json_encode( $wr_alarmlist, JSON_UNESCAPED_UNICODE );
 $_REQUEST['wr_alarm_list'] = $wr_alarms;
+*/
 // print_r2($_REQUEST);
 // print_r2($wr_alarms);exit;
 
 // wr_send_type
+/*
 for($i=0;$i<sizeof($wr_send_type);$i++) {
 	// echo $wr_send_type[$i].'<br>';
 	$wr_send_type_arr[] = $wr_send_type[$i];
 }
 $_REQUEST['wr_send_type'] = implode(",",$wr_send_type_arr);
+*/
 // echo $_REQUEST['wr_send_type'].'<br>';
 
 foreach($_POST as $post_k => $post_v){

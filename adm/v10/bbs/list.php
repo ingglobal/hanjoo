@@ -6,7 +6,7 @@ $is_category = false;
 $category_option = '';
 if ($board['bo_use_category']) {
     $is_category = true;
-    $category_href = get_pretty_url($bo_table);
+    $category_href = get_pretty_url2($bo_table);
 
     $category_option .= '<li><a href="'.$category_href.'"';
     if ($sca=='')
@@ -17,7 +17,7 @@ if ($board['bo_use_category']) {
     for ($i=0; $i<count($categories); $i++) {
         $category = trim($categories[$i]);
         if ($category=='') continue;
-        $category_option .= '<li><a href="'.(get_pretty_url($bo_table,'','sca='.urlencode($category))).'"';
+        $category_option .= '<li><a href="'.(get_pretty_url2($bo_table,'','sca='.urlencode($category))).'"';
         $category_msg = '';
         if ($category==$sca) { // 현재 선택된 카테고리라면
             $category_option .= ' id="bo_cate_on"';
@@ -39,7 +39,7 @@ $is_search_bbs = $board['bo_use_search'];
 if ($sca || $stx || $stx === '0') {     //검색이면
     // $is_search_bbs = true;      //검색구분변수 true 지정
     $sql_search = "";//get_sql_search2($sca, $sfl, $stx, $sop);
-
+    
     // 가장 작은 번호를 얻어서 변수에 저장 (하단의 페이징에서 사용)
     $sql = " select MIN(wr_num) as min_wr_num from {$write_table} ";
     $row = sql_fetch($sql);
@@ -51,7 +51,8 @@ if ($sca || $stx || $stx === '0') {     //검색이면
     
     //추가적인 검색조건을 정의할때
     @include_once($board_skin_path.'/sql_search.add.php');
-
+    if($sca)
+            $sql_search .= " AND ca_name = '".$sca."' ";
     // 원글만 얻는다. (코멘트의 내용도 검색하기 위함)
     // 라엘님 제안 코드로 대체 http://sir.kr/g5_bug/2922
     $sql = " SELECT COUNT(DISTINCT `wr_parent`) AS `cnt` FROM {$write_table} WHERE {$sql_search} ";
@@ -67,6 +68,8 @@ if ($sca || $stx || $stx === '0') {     //검색이면
     $sql_search = "";
     //추가적인 검색조건을 정의할때
     @include_once($board_skin_path.'/sql_search.add.php');
+    if($sca)
+            $sql_search .= " AND ca_name = '".$sca."' ";
     if($sql_search != ""){
         $sql = " SELECT COUNT(DISTINCT `wr_parent`) AS `cnt` FROM {$write_table} WHERE {$sql_search} ";
         $row = sql_fetch($sql);
