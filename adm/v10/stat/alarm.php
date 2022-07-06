@@ -10,6 +10,8 @@ include_once('./_head.php');
 echo $g5['container_sub_title'];
 $file_name_css_path = G5_USER_ADMIN_STAT_PATH.'/css/'.$g5['file_name'].'.css';
 
+include_once('./_top.stat.php');
+
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_STAT_URL.'/css/stat.css">', 0);
 if(is_file($file_name_css_path)){
     @add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_STAT_URL.'/css/'.$g5['file_name'].'.css">', 0);
@@ -17,16 +19,17 @@ if(is_file($file_name_css_path)){
 add_javascript('<script src="'.G5_USER_ADMIN_URL.'/js/function.date.js"></script>', 0);
 
 // 날짜 선택 영역 (선택 및 각종 기본 변수 설정)
-// include_once('./_top.stat.php');
 ?>
 <div id="report_wrapper">
-
+    <?php
+	// 공통통계 영역
+	// include_once('./_top.statistics.php');
+	?>
     <!-- ========================================================================================= -->
 	<!-- ========================================================================================= -->
 	<!-- ========================================================================================= -->
 	<!-- start of 알람보고서  -->
-	<div class="div_title_01"><i class="fa fa-plus" aria-hidden="true"> 알람보고서</i></div>
-    <div class="div_wrapper">
+	<div class="div_wrapper">
         <div class="div_left">
             <!-- ========================================================================================= -->
             <div class="div_title_02f"><i class="fa fa-check" aria-hidden="true"> 구분타입별 알람</i></div>

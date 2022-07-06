@@ -1,6 +1,26 @@
 @charset "utf-8";
 /* kpi 페이지 공통 설정을 위한 css입니다. */
 
+/*nice-select 플러그인 스타일 커스터마이징*/
+.nice-select {
+    background:#1e2531;
+    border: 1px solid #2a3241;
+}
+.nice-select .list{
+    background:#1e2531;
+}
+.nice-select .option {
+    background:#1e2531;
+}
+.nice-select .option:hover{
+    background:#354155;
+}
+.nice-select .option.selected.focus {
+    background:#354155;
+}
+
+
+
 .btn_top_menu_active {color:#bb4700 !important;}
 
 .div_header {width:100%;padding:5px 0;text-align:center;}
@@ -20,17 +40,17 @@
 /* kpi report uppder area */
 .title01 {padding:10px;font-size: 1.5em;color: #0889a5;}
 .title01 .text01 {margin-left:20px;font-size:0.8em;}
-.form01 {border: solid 1px #dfdfdf;border-radius: 10px;background-color: #fafafa;padding:15px;}
+.form01 {border: solid 1px #5b5b5d;border-radius: 10px;background-color: #3f4b4e;padding:15px;}
 .form01 .frm_input
 ,.form01 .text01
 ,.form01 .text02
 ,.form01 .btn_submit {vertical-align:top;}
 .form01 .text01 {height:42px;line-height:42px;margin-left:-5px;}
-.form01 .text02 {padding:0 5px;height:42px;line-height:42px;margin-left:-5px;border:solid 1px #ddd;border-radius:5px;background:#f1f1f1;cursor:pointer;}
-.form01 .frm_input {width:95px;text-align:center;height:42px;line-height:42px;border:solid 1px #ddd;border-radius:5px;font-size:1.1em;margin-right:5px;}
+.form01 .text02 {padding:0 5px;height:42px;line-height:42px;margin-left:-5px;border:solid 1px #0e5b80;border-radius:5px;background:#054868;cursor:pointer;}
+.form01 .frm_input {width:110px;text-align:center;height:42px;line-height:42px;border:solid 1px #ddd;border-radius:5px;font-size:1.1em;margin-right:5px;}
 .form01:after {display:block;visibility:hidden;clear:both;content:'';}
 .form01 > div {display:inline-block;margin-right:5px;}
-.form01 .btn_submit {border:none;border-radius:5px;background:#989cb8;padding:11px 30px 12px;}
+.form01 .btn_submit {border:none;border-radius:5px;background:#3f4fcb;border:1px solid #5265f6;padding:11px 30px 12px;}
 .tab_wrapper .content_wrapper{margin-top:-4px;}
 
 /* iframe area */

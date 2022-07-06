@@ -95,7 +95,6 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
 // print_r2($mmg_down_idxs);
 // print_r2($mmg_down_idxs[$mmg_idx]); //mmg_idxs (그룹 번호들)
 
-
 // mms_idxes 를 뽑아두어야 함 (이후 계산에서 해당 mms 관련 데이터들만 뽑아와야 함)
 // 선택 라인이 있는 경우
 if( is_array($mmg_down_idxs[$mmg_idx]) ) {
@@ -153,8 +152,7 @@ else {
 
 }
 
-
-
+/*
 // 교대별 기종별 목표 먼저 추출 (아래 부분 목표 추출하는 부분에서 활용합니다.)
 $sql = "SELECT shf_idx, sig_shf_no, mmi_no, sig_item_target
         FROM {$g5['shift_item_goal_table']} AS sig 
@@ -169,17 +167,16 @@ for($j=0;$row=sql_fetch_array($rs);$j++){
     // print_r2($row1);
     $target['shift_no_mmi'][$row['shf_idx']][$row['sig_shf_no']][$row['mmi_no']] += $row['sig_item_target'];    // 교대별 기종별 목표
 }
-// print_r2($target['shift_mmi']);
-// echo '----------<br>';
+*/
 
 
 // 목표추출 get target fetch
 // 전체기간 설정이 있는 경우는 마지막 부분에서 돌면서 없는 날짜 목표를 채워줍니다.
 $sql = "SELECT mms_idx, shf_idx, shf_period_type
-        , (shf_target_1+shf_target_2+shf_target_3) AS shf_target_sum
-        , shf_target_1
-        , shf_target_2
-        , shf_target_3
+        , shf_name
+        , shf_start_time
+        , shf_end_time
+        , shf_end_nextday
         , shf_start_dt AS db_shf_start_dt
         , shf_end_dt AS db_shf_end_dt
         , GREATEST('".$st_date." 00:00:00', shf_start_dt ) AS shf_start_dt
@@ -258,6 +255,7 @@ for($i=0;$row=sql_fetch_array($rs);$i++){
 // print_r2($target);
 
 
+
 // 비가동추출 get offwork time
 // 전체기간 설정이 있는 경우는 마지막 부분에서 돌면서 없는 날짜 목표를 채워줍니다.
 // 설비별 가동율도 계산해야 하지만 여기에서는 제외하는 걸로 합니다. (나중에 추가하자.)
@@ -326,91 +324,81 @@ for($j=0;$j<@sizeof($offwork);$j++){
 }
 // echo $off_total.'<br>';
 
-
-
-
-
 add_javascript('<script src="'.G5_USER_ADMIN_URL.'/js/jquery-nice-select-1.1.0/js/jquery.nice-select.min.js"></script>', 0);
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/jquery-nice-select-1.1.0/css/nice-select.css">', 0);
 ?>
-
-<div class="kpi_wrapper">
-
-<div class="title01">
-	<?=$com['com_name']?>
-	<span class="title_breadcrumb">
-        <?php
-        if($mmg_idx && is_array($up_names[$mmg_idx])) {
-            // print_r2($up_names[$mmg_idx]);
-            for($i=0;$i<sizeof($up_names[$mmg_idx]);$i++) {
-                echo ' > '.$up_names[$mmg_idx][$i];
+<div class="stat_wrapper">
+    <div class="title01">
+        <?=$com['com_name']?>
+        <span class="title_breadcrumb">
+            <?php
+            if($mmg_idx && is_array($up_names[$mmg_idx])) {
+                // print_r2($up_names[$mmg_idx]);
+                for($i=0;$i<sizeof($up_names[$mmg_idx]);$i++) {
+                    echo ' > '.$up_names[$mmg_idx][$i];
+                }
+                if($mms_idx) {
+                    $mms2 = get_table('mms','mms_idx',$mms_idx);
+                    echo ' > '.$mms2['mms_name'];
+                }
             }
-            if($mms_idx) {
-                $mms2 = get_table('mms','mms_idx',$mms_idx);
-                echo ' > '.$mms2['mms_name'];
-            }
-        }
-        ?>
-    </span><!-- > 제1공장 > 1라인 -->
-	<span class="text01 title_date"><?=$st_date?><?=$en_date2?></span>
-</div>
-
-<!-- selections -->
-<form id="form01" name="form01" class="form01" onsubmit="return sch_submit(this);" method="get">
-	<input type="hidden" name="com_idx" value="<?=$com['com_idx']?>" class="frm_input">
-	<input type="hidden" name="mode" value="<?=$mode?>" class="frm_input">
-	<input type="text" name="st_date" id="st_date" value="<?=$st_date?>" class="frm_input">
-	<span class="text01">~</span>
-	<input type="text" name="en_date" id="en_date" value="<?=$en_date?>" class="frm_input">
-	<div class="text02 prev_month"><i class="fa fa-chevron-left"></i></div>
-	<div class="text02 this_month" s_ymd="<?=$st_ymd?>" e_ymd="<?=$en_ymd?>">이번달</div>
-	<div class="text02 next_month"><i class="fa fa-chevron-right"></i></div>
-	<div class="text02 prev_day"><i class="fa fa-chevron-left"></i></div>
-	<div class="text02 this_day" s_ymd="<?=$today?>" e_ymd="<?=$today?>">오늘</div>
-	<div class="text02 next_day"><i class="fa fa-chevron-right"></i></div>
-    <div>
-        <div style="display:inline-block;">
-        <select name="mmg_idx" id="mmg_idx">
-            <option value="">전체</option>
-            <?=$mmg_select?>
-        </select>
-        </div>
-        <div style="display:none;"><!-- inline-block -->
-        <select name="mms_idx" id="mms_idx" mms_idx="<?=$mms_idx?>">
-            <option value="">전체</option>
-            <?=$mms_select?>
-        </select>
-        </div>
+            ?>
+        </span><!-- > 제1공장 > 1라인 -->
+        <span class="text01 title_date"><?=$st_date?><?=$en_date2?></span>
     </div>
-	<input type="submit" class="btn_submit" value="확인">
-</form>
-<script>
-// 공장선택
-$('#mmg_idx').val('<?=$mmg_idx?>').attr('selected','selected');
-// 설비선택
-$('#mms_idx').val('<?=$mms_idx?>').attr('selected','selected');
+    <!-- selections -->
+    <form id="form01" name="form01" class="form01" onsubmit="return sch_submit(this);" method="get">
+        <input type="hidden" name="com_idx" value="<?=$com['com_idx']?>" class="frm_input">
+        <input type="hidden" name="mode" value="<?=$mode?>" class="frm_input">
+        <input type="text" name="st_date" id="st_date" value="<?=$st_date?>" class="frm_input">
+        <span class="text01">~</span>
+        <input type="text" name="en_date" id="en_date" value="<?=$en_date?>" class="frm_input">
+        <div class="text02 prev_month"><i class="fa fa-chevron-left"></i></div>
+        <div class="text02 this_month" s_ymd="<?=$st_ymd?>" e_ymd="<?=$en_ymd?>">이번달</div>
+        <div class="text02 next_month"><i class="fa fa-chevron-right"></i></div>
+        <div class="text02 prev_day"><i class="fa fa-chevron-left"></i></div>
+        <div class="text02 this_day" s_ymd="<?=$today?>" e_ymd="<?=$today?>">오늘</div>
+        <div class="text02 next_day"><i class="fa fa-chevron-right"></i></div>
+        <div>
+            <div style="display:inline-block;">
+            <select name="mmg_idx" id="mmg_idx">
+                <option value="">전체</option>
+                <?=$mmg_select?>
+            </select>
+            </div>
+            <div style="display:none;"><!-- inline-block -->
+            <select name="mms_idx" id="mms_idx" mms_idx="<?=$mms_idx?>">
+                <option value="">전체</option>
+                <?=$mms_select?>
+            </select>
+            </div>
+        </div>
+        <input type="submit" class="btn_submit" value="확인">
+    </form>
+    <script>
+    // 공장선택
+    $('#mmg_idx').val('<?=$mmg_idx?>').attr('selected','selected');
+    // 설비선택
+    $('#mms_idx').val('<?=$mms_idx?>').attr('selected','selected');
 
-$(function(e){
-    $('#mmg_idx, #mms_idx').niceSelect();
-});
-function sch_submit(f){
-    
-    if(f.st_date.value && f.en_date.value){
-        var st_d = new Date(f.st_date.value);
-        var en_d = new Date(f.en_date.value);
-        if(st_d.getTime() > en_d.getTime()){
-            alert('검색날짜의 최종날짜를 시작날짜보다 과거날짜를 입력 할 수는 없습니다.');
-            return false;
+    $(function(e){
+        $('#mmg_idx, #mms_idx').niceSelect();
+    });
+    function sch_submit(f){
+        
+        if(f.st_date.value && f.en_date.value){
+            var st_d = new Date(f.st_date.value);
+            var en_d = new Date(f.en_date.value);
+            if(st_d.getTime() > en_d.getTime()){
+                alert('검색날짜의 최종날짜를 시작날짜보다 과거날짜를 입력 할 수는 없습니다.');
+                return false;
+            }
         }
+        
+        return true;
     }
-    
-    return true;
-}
-</script>
-
-</div> <!-- .kpi_wrapper -->
-
-
+    </script>
+</div><!-- .stat_wrapper -->
 <script>
 $(function(e){
 	// group select change
