@@ -26,6 +26,8 @@ define('G5_USER_ADMIN_SVG_PATH',   		    G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/s
 define('G5_USER_ADMIN_SVG_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/svg');
 define('G5_USER_ADMIN_SKIN_PATH',   		G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/skin');
 define('G5_USER_ADMIN_SKIN_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/skin');
+define('G5_USER_ADMIN_STAT_PATH',   		G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/stat');
+define('G5_USER_ADMIN_STAT_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/stat');
 define('G5_USER_ADMIN_SQL_PATH',   		    G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/sql');
 define('G5_USER_ADMIN_SQL_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/sql');
 define('G5_USER_ADMIN_TEST_PATH',   		G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/test');
