@@ -9,12 +9,13 @@ include_once('./_top_menu_stat.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 $file_name_css_path = G5_USER_ADMIN_STAT_PATH.'/css/'.$g5['file_name'].'.css';
+$file_name_css_url = G5_USER_ADMIN_STAT_URL.'/css/'.$g5['file_name'].'.css';
 
 include_once('./_top.stat.php');
 
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_STAT_URL.'/css/stat.css">', 0);
 if(is_file($file_name_css_path)){
-    @add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_STAT_URL.'/css/'.$g5['file_name'].'.css">', 0);
+    @add_stylesheet('<link rel="stylesheet" href="'.$file_name_css_url.'">', 0);
 }
 add_javascript('<script src="'.G5_USER_ADMIN_URL.'/js/function.date.js"></script>', 0);
 

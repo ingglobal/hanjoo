@@ -1311,4 +1311,43 @@ function get_board($bo_table) {
     return $board;
 }
 }
+
+// number to hangle display
+if(!function_exists('num_to_han')){
+function num_to_han($mny){
+    $stlen = strlen($mny)-1;
+    //숫자를 4단위로 한글 단위를 붙인다.
+    $names = array("원","만원","억","조","경"); // 단위의 한글발음 (조 다음으로 계속 추가 가능)
+    $nums = str_split($mny); // 숫자를 배열로 분리
+    $nums = array_reverse($nums);
+    $units = array();
+    // 역으로 자리숫자마다 숫자 단위를 붙여서 배열로 만듦
+    for($i=0,$m=count($nums);$i<$m;$i++){
+        $units[] = $names[floor($i/4)];
+    }
+    // print_r2($units);
+    $cu = '';
+    $str = '';
+    $flag = floor($stlen/4)*4;
+    // echo $flag.'<br>';
+    // 4자리 단위로 flag 기준 범위만 돌면서 값을 생성 
+    for($i=$flag,$m=count($nums); $i<$m; $i++){
+        $arr = $nums[$i];
+        // echo $t.'<br>';
+        // 단위가 바뀔 때만 단위값을 붙여줌
+        if($cu != $units[$i]){
+            $unit = $units[$i];
+        }
+        // 숫자를 역으로 돌면서 앞에다 숫자를 붙여줌
+        $str = $arr.$str;
+    }
+    // 만단위 이상인 경우는 끝에 한자리만 더 추가
+    if($flag>3) {
+            $str .= '.'.$nums[$flag-1];
+    }
+    $str = $str ?: 0;
+    // return($str); 
+    return(array($str,$unit)); 
+}
+}
 ?>

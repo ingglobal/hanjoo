@@ -13,12 +13,27 @@ Highcharts.chart('chart_facility', {
     },
     title: '',
     xAxis: {
-        categories: prd_fac_name
+        categories: prd_fac_name,
+        labels: {
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
+            }
+        }
     },
     yAxis: {
         min: 0,
         title: {
-            text: '생산수량'
+            text: '생산수량',
+            style: {
+                color:'#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff'
+            }
         },
         stackLabels: {
             enabled: true,

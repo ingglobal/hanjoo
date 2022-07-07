@@ -19,14 +19,23 @@ Highcharts.chart('chart_type', {
             rotation: -45,
             style: {
                 fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
             }
         }
     },
     yAxis: {
         min: 0,
         title: {
-            text: '알람횟수(Alarm count)'
+            text: '알람횟수(Alarm count)',
+            style: {
+                color:'#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                color:'#ffffff'
+            }
         }
     },
     legend: {
@@ -95,7 +104,10 @@ Highcharts.chart('chart_facility', {
         type: 'pie'
     },
     title: {
-        text: '전체 알람발생횟수(<?=$arm_faci_tot?>회)'
+        text: '전체 알람발생횟수(<?=$arm_faci_tot?>회)',
+        style: {
+            color:'#ffffff'
+        }
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -155,14 +167,23 @@ Highcharts.chart('chart_occur', {
             rotation: -45,
             style: {
                 fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
             }
         }
     },
     yAxis: {
         min: 0,
         title: {
-            text: '알람횟수(Alarm count)'
+            text: '알람횟수(Alarm count)',
+            style: {
+                color: '#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff'
+            }
         }
     },
     legend: {
@@ -221,14 +242,23 @@ Highcharts.chart('chart_day', {
             rotation: -45,
             style: {
                 fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
             }
         }
     },
     yAxis: {
         min: 0,
         title: {
-            text: '알람발생수(Alarm count)'
+            text: '알람발생수(Alarm count)',
+            style: {
+                color: '#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff'
+            }
         }
     },
     legend: {
@@ -287,14 +317,23 @@ Highcharts.chart('chart_weekly', {
             rotation: -45,
             style: {
                 fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
             }
         }
     },
     yAxis: {
         min: 0,
         title: {
-            text: '알람발생수(Alarm count)'
+            text: '알람발생수(Alarm count)',
+            style: {
+                color: '#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff'
+            }
         }
     },
     legend: {

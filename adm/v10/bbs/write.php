@@ -6,11 +6,11 @@ include_once(G5_EDITOR_LIB);
 include_once(G5_CAPTCHA_PATH.'/captcha.lib.php');
 
 if (!$board['bo_table']) {
-    alert('존재하지 않는 게시판입니다.', G5_URL);
+    alert('존재하지 않는 게시판입니다.', G5_USER_ADMIN_URL);
 }
 
 if (!$bo_table) {
-    alert("bo_table 값이 넘어오지 않았습니다.\\nwrite.php?bo_table=code 와 같은 방식으로 넘겨 주세요.", G5_URL);
+    alert("bo_table 값이 넘어오지 않았습니다.\\nwrite.php?bo_table=code 와 같은 방식으로 넘겨 주세요.", G5_USER_ADMIN_URL);
 }
 
 check_device($board['bo_device']);
@@ -20,7 +20,7 @@ $notice_array = explode(',', trim($board['bo_notice']));
 if (!($w == '' || $w == 'u' || $w == 'r')) {
     alert('w 값이 제대로 넘어오지 않았습니다.');
 }
-
+// print_r2($write);exit;
 if ($w == 'u' || $w == 'r') {
     if ($write['wr_id']) {
         // 가변 변수로 $wr_1 .. $wr_10 까지 만든다.
@@ -29,7 +29,7 @@ if ($w == 'u' || $w == 'r') {
             $$vvar = $write['wr_'.$i];
         }
     } else {
-        alert("글이 존재하지 않습니다.\\n삭제되었거나 이동된 경우입니다.", G5_URL);
+        alert("글이 존재하지 않습니다.\\n삭제되었거나 이동된 경우입니다.", G5_USER_ADMIN_URL);
     }
 }
 
@@ -37,14 +37,12 @@ run_event('bbs_write', $board, $wr_id, $w);
 
 if ($w == '') {
     if ($wr_id) {
-        alert('글쓰기에는 \$wr_id 값을 사용하지 않습니다.', G5_BBS_URL.'/board.php?bo_table='.$bo_table);
+        alert('글쓰기에는 \$wr_id 값을 사용하지 않습니다.', G5_USER_ADMIN_BBS_URL.'/board.php?bo_table='.$bo_table);
     }
 
     if ($member['mb_level'] < $board['bo_write_level']) {
         if ($member['mb_id']) {
             alert('글을 쓸 권한이 없습니다.');
-        } else {
-            alert("글을 쓸 권한이 없습니다.\\n회원이시라면 로그인 후 이용해 보십시오.", G5_BBS_URL.'/login.php?'.$qstr.'&amp;url='.urlencode($_SERVER['SCRIPT_NAME'].'?bo_table='.$bo_table));
         }
     }
 

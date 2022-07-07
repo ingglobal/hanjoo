@@ -12,6 +12,7 @@ add_javascript('<script src="https://code.highcharts.com/highcharts.js"></script
 add_javascript('<script src="https://code.highcharts.com/modules/exporting.js"></script>',2);
 add_javascript('<script src="https://code.highcharts.com/modules/export-data.js"></script>',2);
 add_javascript('<script src="https://code.highcharts.com/modules/accessibility.js"></script>',2);
-add_javascript('<script src="'.G5_USER_ADMIN_LIB_URL.'/highcharts/Highstock/code/themes/high-contrast-dark.js"></script> ',2);
+add_javascript('<script src="https://code.highcharts.com/themes/dark-unica.js"></script>',2);
+// add_javascript('<script src="'.G5_USER_ADMIN_LIB_URL.'/highcharts/Highstock/code/themes/high-contrast-dark.js"></script> ',2);
 ?>
 

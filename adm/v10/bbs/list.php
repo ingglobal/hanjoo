@@ -209,10 +209,11 @@ if($page_rows > 0) {
 
     while ($row = sql_fetch_array($result))
     {
+        // print_r3($row);
         // 검색일 경우 wr_id만 얻었으므로 다시 한행을 얻는다
         if ($is_search_bbs)
             $row = sql_fetch(" select * from {$write_table} where wr_id = '{$row['wr_parent']}' ");
-
+        
         $list[$i] = get_list2($row, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
         if (strstr($sfl, 'subject')) {
             $list[$i]['subject'] = search_font($stx, $list[$i]['subject']);
@@ -222,8 +223,9 @@ if($page_rows > 0) {
         $list[$i]['num'] = $list_num - $k;
 
         // 기존 $write 배열 값에 meta_bale에서 추출한 값을 병합한다.
-        $list[$i] = @array_merge($list[$i],get_meta('board/'.$bo_table,$list[$i]['wr_id']));
-
+        if(get_meta('board/'.$bo_table,$list[$i]['wr_id']))
+            $list[$i] = @array_merge($list[$i],get_meta('board/'.$bo_table,$list[$i]['wr_id']));
+        // print_r3($list[$i]);
 
         $i++;
         $k++;

@@ -214,6 +214,6 @@
 .item_th td {background:#d5e2e5 !important;}
 
 .table01 {width:100%;border-collapse: collapse;border-spacing: 0;}
-.table01 th {background:#404b4e;color:#ffffff;height:30px;}
+.table01 th {background:#404b4e;border: 1px solid #637276;color:#ffffff;height:30px;}
 .table01 td {border:solid 1px #5b5b5d;padding:3px;}
 .table01 tr:nth-child(2n) td {background:#313133;}

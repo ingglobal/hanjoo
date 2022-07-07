@@ -16,20 +16,45 @@ Highcharts.setOptions({
 var chart_month_values = <?=json_encode($month_values)?>;
 Highcharts.chart('chart_monthly', {
     chart: {
-        type: 'column'
+        type: 'column',
+        style: {
+            fontSize: '13px',
+            fontFamily: 'Verdana, sans-serif',
+            color: '#ffffff'
+        }
     },
     title: {
-        text: ''
+        text: '',
+        style: {
+            fontSize: '13px',
+            fontFamily: 'Verdana, sans-serif',
+            color: '#ffffff'
+        }
     },
     xAxis: {
         // categories: ["2021-12","2022-01","2022-01","2022-01","2022-01","2022-01","2022-02","2022-03"],
         categories: chart_item_names,
-        crosshair: true
+        crosshair: true,
+        labels: {
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
+            }
+        }
     },
     yAxis: {
         min: 0,
         title: {
-            text: '발생수'
+            text: '발생수',
+            style: {
+                color:'#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff'
+            }
         }
     },
     tooltip: {
@@ -65,13 +90,32 @@ Highcharts.chart('chart_code', {
     },
     yAxis: {
         title: {
-            text: '알람 발생수'
+            text: '알람 발생수',
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
+            }
         },
         tickInterval: null
     },
     xAxis: {
         // categories: ["2021-12","2022-01","2022-01","2022-01","2022-01","2022-01","2022-02"]
-        categories: chart_item_names
+        categories: chart_item_names,
+        labels: {
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
+            }
+        }
     },
     plotOptions: {
         column: {
@@ -94,5 +138,4 @@ Highcharts.chart('chart_code', {
         enabled:false
     }
 });
-
 </script>

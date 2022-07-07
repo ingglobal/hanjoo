@@ -19,14 +19,23 @@ Highcharts.chart('chart_type', {
             rotation: -45,
             style: {
                 fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
+                fontFamily: 'Verdana, sans-serif',
+                color: '#ffffff'
             }
         }
     },
     yAxis: {
         min: 0,
         title: {
-            text: '비가동횟수(Alarm count)'
+            text: '비가동횟수(Alarm count)',
+            style: {
+                color: '#ffffff'
+            }
+        },
+        labels: {
+            style: {
+                color: '#ffffff'
+            }
         }
     },
     legend: {

@@ -282,7 +282,7 @@ if(defined('G5_IS_ADMIN')){
         if(is_file(G5_USER_ADMIN_JS_PATH.'/tail.js')) echo '<script src="'.G5_USER_ADMIN_JS_URL.'/tail.js"></script>'.PHP_EOL;
 
         //날짜픽커 한국어패치
-        if(is_file(G5_USER_ADMIN_JS_PATH.'/bwg_datepicker-ko.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/bwg_datepicker-ko.js"></script>',1);
+        // if(is_file(G5_USER_ADMIN_JS_PATH.'/bwg_datepicker-ko.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/bwg_datepicker-ko.js"></script>',1);
         //날짜픽커
         if(is_file(G5_USER_ADMIN_JS_PATH.'/bwg_datepicker.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/bwg_datepicker.js"></script>',1);
         //타임픽커
