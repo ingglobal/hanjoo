@@ -9,7 +9,7 @@ $fname = preg_replace("/_list/","",$g5['file_name']); // 파일명생성
 
 
 $g5['title'] = '제품(생산)현황 X-Ray검사';
-@include_once('./_top_menu_tsdb.php');
+@include_once('./_top_menu_output.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
@@ -149,7 +149,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 		<th scope="col">설비번호</th>
 		<th scope="col">품질</th>
 		<th scope="col">결과</th>
-		<th scope="col" style="display:none;">관리</th>
+		<th scope="col" style="display:no ne;">관리</th>
 	</tr>
 	</thead>
 	<tbody class="tbl_body">
@@ -183,7 +183,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 				<td>'.$row['machine_no'].'</td>
 				<td style="text-align:left;">'.$row['points'].'</td>
 				<td>'.$row['result'].'</td>
-				<td style="display:none;">'.$s_copy.'</td>
+				<td style="display:no ne;">'.$s_mod.'</td>
 			</tr>
 		';
 	}
@@ -195,9 +195,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 </div>
 <!-- //리스트 테이블 -->
 
-<div class="btn_fixed_top" style="display:none;">
+<div class="btn_fixed_top" style="display:no ne;">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="./<?=$fname?>_graph.php" class="btn_04 btn">그래프</a>
+        <a href="./<?=$fname?>_parameter.php" class="btn_04 btn btn_parameter">주조파라메터추적</a>
+        <a href="./<?=$fname?>_change.php" class="btn_04 btn btn_change">품질데이터조작</a>
         <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
     <?php } ?>
     <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a> 
@@ -205,9 +206,57 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 <?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;page='); ?>
 
+<div id="modal30" title="날짜입력" style="display:none;">
+    <form name="form30" id="form30" action="" onsubmit="return form30_submit(this);" method="post" enctype="multipart/form-data">
+        <table>
+        <tbody>
+        <tr>
+            <td style="line-height:130%;padding:10px 0;">
+                <ul>
+                    <li>시작날짜를 입력하세요.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px 0;">
+                <input type="text" name="ymd" class="frm_input" first="2019-07-01" value="<?=G5_TIME_YMD?>" placeholder="YYYY-MM-DD">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px 0;">
+                <button type="submit" class="btn btn_01">확인</button>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </form>
+</div>
+
 <script>
 //-- $(document).ready 페이지로드 후 js실행 --//
 $(document).ready(function(){
+
+    // 주조파라메터추적 클릭
+    $(".btn_parameter").click(function(e) {
+        if(confirm('최적의 주조 파라메터를 추적합니다.\n현재 시점부터 거꾸로 최적 파라메터를 찾습니다.')) {
+            var href = '<?=G5_USER_URL?>/cron/<?=$g5['file_name']?>_parameter.php';
+            winParemeter = window.open(href, "winParemeter", "left=100,top=100,width=520,height=600,scrollbars=1");
+            winParemeter.focus();
+            return false;
+        }
+        return false;
+    });
+
+    // 일별가져오기
+    $( ".btn_change" ).on( "click", function(e) {
+        e.preventDefault();
+        $( "#modal30" ).dialog( "open" );
+    });
+    $( "#modal30" ).dialog({
+        autoOpen: false
+        , width:250
+        , position: { my: "right-10 top-10", of: ".btn_change"}
+    });
 
     // timepicker 설정
     $("input[name$=_time]").timepicker({
@@ -255,6 +304,15 @@ $(document).ready(function(){
 	});
 
 });
+
+// specific day
+function form30_submit(f) {
+    var href = './<?=$g5['file_name']?>_change.php?ymd='+f.ymd.value;
+    winChange = window.open(href, "winChange", "left=100,top=100,width=520,height=600,scrollbars=1");
+    winChange.focus();
+    $( "#modal30" ).dialog( "close" );
+    return false;
+}
 </script>
 
 <?php
