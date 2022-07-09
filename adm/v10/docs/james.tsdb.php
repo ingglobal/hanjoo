@@ -7,6 +7,8 @@ SELECT * FROM g5_1_melting_temp ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_factory_temphum ORDER BY event_time DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot ORDER BY start_time DESC LIMIT 100;
+SELECT * FROM g5_1_data_measure_58 ORDER BY dta_dt DESC LIMIT 100;
+SELECT * FROM g5_1_data_measure_59 WHERE dta_type = 1 ORDER BY dta_dt DESC LIMIT 100;
 
 SELECT * FROM pg_stat_activity ORDER BY query_start ASC;
 SELECT pg_cancel_backend(31956);
@@ -673,3 +675,6 @@ WHERE tableowner='postgres' AND tablename='g5_1_data_measure_[0-9]+$'
 ....
 SELECT * FROM pg_tables
 WHERE tableowner='postgres' AND tablename~'g5_1_data_measure_[0-9]+$'
+
+4866825
+SELECT * FROM g5_1_data_measure_59 WHERE dta_idx = 4866825;
