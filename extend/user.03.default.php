@@ -29,9 +29,13 @@ $result = sql_query("   SELECT set_name, set_value
 ");
 for ($i=0; $row=sql_fetch_array($result); $i++) {
 	$g5['setting'][$row['set_name']] = $row['set_value'];
+    // 두줄 이상의 복잡한 구조 변수는 건너뜀
+    $set_values = explode("\n", trim($g5['setting'][$row['set_name']]));
+    if(sizeof($set_values)>1) {
+        continue;
+    }
 	// A=B 형태를 가지고 있으면 자동 할당
 	$set_values = explode(',', preg_replace("/\s+/", "", $g5['setting'][$row['set_name']]));
-
     foreach ($set_values as $set_value) {
         if( !preg_match("/(_subject|_content)$/",$row['set_name']) ) {
             // if( preg_match("/set_cam_type/",$row['set_name']) ) {   // <<<<<<< test
