@@ -1,7 +1,7 @@
 <?php
 include_once('./_common.php');
 
-$demo = 1;  // 데모모드 = 1
+$demo = 0;  // 데모모드 = 1
 
 $g5['title'] = 'Optimum parameters tracing';
 include_once('./_head.sub.php');
@@ -9,7 +9,7 @@ include_once('./_head.sub.php');
 //-- 화면 표시
 $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
-$sleepsec = 500;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
+$sleepsec = 10000;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
 $table2 = 'g5_1_xray_inspection';
 $fields2 = sql_field_names($table2);
@@ -73,6 +73,11 @@ $sql = "SELECT *
 // exit;
 $result = sql_query_pg($sql,1);
 ?>
+<style>
+#hd_login_msg {display:none;}
+.div_result {font-size:2.2em;font-weight:bold;}
+.div_result2 {font-size:1.4em;}
+</style>
 
 <span style='font-size:9pt;'>
 	<p><?=($ym)?$ym:$ymd?> 추적시작 ...<p><font color=crimson><b>[끝]</b></font> 이라는 단어가 나오기 전에는 중간에 중지하지 마세요.<p>
@@ -86,8 +91,9 @@ include_once ('./_tail.sub.php');
 // 추적 최대 날짜
 $set_parameter_max_day = $g5['setting']['set_parameter_max_day'] ? $g5['setting']['set_parameter_max_day'] : 30;
 
-// 등급합계
-$set_ok_sum = $g5['setting']['set_ok_sum'] ? $g5['setting']['set_ok_sum'] : 18;
+// 등급합계 범위
+$set_ok_sum_min = $g5['setting']['set_ok_sum_min'] ? $g5['setting']['set_ok_sum_min'] : 18;
+$set_ok_sum_max = $g5['setting']['set_ok_sum_max'] ? $g5['setting']['set_ok_sum_max'] : 19;
 
 // 양품 그룹핑 수
 $set_parameter_group_count = $g5['setting']['set_parameter_group_count'] ? $g5['setting']['set_parameter_group_count'] : 100;
@@ -97,13 +103,12 @@ $set_parameter_idx = (int)$set_parameter_group_count/2; // 가장 가운데 있�
 // 옐로우존(1,2,3,4,5,6,8,14,15,16,17,18 포인트): 1,2등급이면 OK
 // 그린존(9,12,13 포인트): 1,2,3등급이면 OK
 
-
 flush();
 ob_flush();
 ob_end_flush();
 
 $xry_list = array();
-$cnt=$oks=0;
+$cnt=$oks=$success=0;
 // 정보 입력
 for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
 	$cnt++;
@@ -124,20 +129,21 @@ for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
     // print_r2($arr);
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
-    // 변수 설정
+    // 각 포인트별 등급 합계 계산
     for($j=1;$j<19;$j++) {
         $position_sum[$i] += $arr['position_'.$j];
         $positions[$i] .= $arr['position_'.$j].' ';
     }
+    // echo $position_sum[$i].'<br>';
 
-    // 각 등급의 합계가 18이상이면 reset 후 다시 처음부터 카운팅
-    echo $position_sum[$i] .'<'. ($set_ok_sum-1) .'||'. $position_sum[$i] .'>='. $set_ok_sum.'<br>';
-    if( $position_sum[$i] < ($set_ok_sum-1) || $position_sum[$i] >= $set_ok_sum ) {
+    // 각 등급의 합계가 범위를 벗어나면 다시 처음부터 카운팅
+    // echo $position_sum[$i] .'<'. $set_ok_sum_min .'||'. $position_sum[$i] .'>'. $set_ok_sum_max.'<br>';
+    if( $position_sum[$i] < $set_ok_sum_min || $position_sum[$i] > $set_ok_sum_max ) {
         $oks = 0;
         $xry_list = array();
-        echo "<script> document.all.cont.innerHTML += '".$cnt."번째에서 등급미달 (".$arr['production_id'].", ".$arr['qrcode'].")<br>'; </script>\n";
-        echo "<script> document.all.cont.innerHTML += '&nbsp;ㄴ&nbsp;".$positions[$i]." -> 추적정보 리셋<br>'; </script>\n";
-        sleep(2);   // 2초
+        // echo "<script> document.all.cont.innerHTML += '<br>".$cnt."번째에서 등급미달 (".$arr['production_id'].", ".$arr['qrcode'].")<br>'; </script>\n";
+        // echo "<script> document.all.cont.innerHTML += '&nbsp;ㄴ&nbsp;".$positions[$i]." -> 추적정보 리셋<br>'; </script>\n";
+        // sleep(1);    // 0.5초 쉼
         continue;
     }
     $oks++;
@@ -147,19 +153,21 @@ for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
     if($oks >= $set_parameter_group_count) {
         $sql = "SELECT * FROM {$table2} WHERE xry_idx = '".$xry_list[$set_parameter_idx]."' ";
         // echo $sql.'<br>';
-        $one = sql_fetch_pg($sql,1);
-        print_r2($one);
-        echo "<script> document.all.cont.innerHTML += '최적 파라메타 추출 성공<br>'; </script>\n";
-        echo "<script> document.all.cont.innerHTML += '(".$arr['production_id'].", ".$arr['qrcode'].")<br>'; </script>\n";
-        $latest = 1;
+        $xry = sql_fetch_pg($sql,1);
+        // print_r2($xry);
+        $arr['result_data'] = '<div class="div_data"><b>보온로 온도:</b> </div>';
+        echo "<script> document.all.cont.innerHTML += '<div class=\'div_result\'>최적 파라메타 추출 성공</div>'; </script>\n";
+        echo "<script> document.all.cont.innerHTML += '<div class=\'div_result2\'>xry_idx=".$arr['xry_idx'].", start_time=".$arr['start_time']."</div>'; </script>\n";
+        echo "<script> document.all.cont.innerHTML += '<div class=\'div_result2\'>qrcode=".$arr['qrcode'].", production_id=".$arr['production_id']."</div>'; </script>\n";
+        $success = 1;
+        break;
     }
-
 
     echo "<script> document.all.cont.innerHTML += ' . '; </script>\n";
 
     flush();
-    @ob_flush();
-    @ob_end_flush();
+    ob_flush();
+    ob_end_flush();
     usleep($sleepsec);
 
 	// 보기 쉽게 묶음 단위로 구분 (단락으로 구분해서 보임)
@@ -171,6 +179,12 @@ for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
 		echo "<script> document.all.cont.innerHTML = ''; </script>\n";
 
 }
+// 데이터 추척 실패 표시
+if(!$success) {
+    $ymd_date = $ym?$ym:$ymd;
+    echo "<script> document.all.cont.innerHTML += '<div class=\'div_result\'>".$ymd_date.": 최적 파라메타 없음</div>'; </script>\n";
+}
+
 
 // Terminate in case of db_id found.
 if($db_id) {
@@ -182,13 +196,15 @@ if($db_id) {
 }
 // 월간 처리
 else {
-    if($ym_next > date("Y-m", G5_SERVER_TIME - 86400*$set_parameter_max_day) 
-        || $ymd_next > date("Y-m-d", G5_SERVER_TIME - 86400*$set_parameter_max_day)
-        || $demo || $latest) {
-        echo $ym_next.'<br>';
-        echo $ymd_next.'<br>';
-        echo $demo.'<br>';
-        echo $laest.'<br>';
+    if($ymd_next < date("Y-m-d", G5_SERVER_TIME - 86400*$set_parameter_max_day)
+        || $demo || $latest || $success) {
+        // echo $ym_next.' ym_next<br>';
+        // echo date("Y-m", G5_SERVER_TIME - 86400*$set_parameter_max_day).' ym_next_date<br>';
+        // echo $ymd_next.' ymd_next<br>';
+        // echo date("Y-m-d", G5_SERVER_TIME - 86400*$set_parameter_max_day).' ymd_next date<br>';
+        // echo $demo.' demo<br>';
+        // echo $laest.' laest<br>';
+        // echo $success.' success<br>';
     ?>
     <script>
         document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료<br><font color=crimson><b>[끝]</b></font>";
@@ -199,10 +215,10 @@ else {
     else {
     ?>
     <script>
-        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료 <br><font color=crimson><b>5초후</b></font> 다음 페이지로 이동합니다.";
+        document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료 <br><font color=crimson><b>3초후</b></font> 다음 페이지로 이동합니다.";
         setTimeout(function(){
             self.location='?ym=<?=$ym_next?>&ymd=<?=$ymd_next?>';
-        },5000);
+        },3000);
     </script>
     <?php
     }
