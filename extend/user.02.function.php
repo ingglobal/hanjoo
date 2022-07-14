@@ -2,6 +2,21 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 
+// 24시간이 넘어가도 HH:MM 형태로 표현하는 함수, 86400 > 24:00, 86400+14400 > 28:00
+if(!function_exists('second_to_hhmm')){
+function second_to_hhmm($time) { //convert seconds to hh:mm
+    $hour = floor($time / 3600);
+    $minute = strval(floor(($time % 3600) / 60));
+    if ($minute == 0) {
+        $minute = "00";
+    } else {
+        $minute = $minute;
+    }
+    $time = sprintf("%02d",$hour) . ":" . sprintf("%02d",$minute);
+    return $time;
+}
+}
+
 /*************************************************************************
 PgSQL 관련 함수 모음
 *************************************************************************/

@@ -43,7 +43,7 @@ for ($i=0;$i<sizeof($check_array);$i++) {
 
 $html_title = ($w=='')?'추가':'수정';
 $html_title = ($w=='c')?'복제':$html_title; 
-$g5['title'] = '온도 '.$html_title;
+$g5['title'] = '제품(생산)현황 X-Ray검사 '.$html_title;
 include_once ('./_head.php');
 ?>
 <style>

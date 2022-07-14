@@ -1168,4 +1168,4 @@ DC 타입 가입 준비완료!!
 1. 직접 확인
 2. 
 
-
+SELECT arm.cod_idx,trm_idx_category, arm_cod_code, cod_name, cod_memo, COUNT(arm_idx) AS cnt FROM g5_1_alarm AS arm LEFT JOIN g5_1_code AS cod USING(cod_idx) WHERE arm.com_idx = '15' AND arm.mms_idx = '58' AND cod_offline_yn = '1' GROUP BY arm_cod_code ORDER BY cnt DESC 
