@@ -185,7 +185,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 <div class="local_desc01 local_desc" style="display:no ne;">
     <p>정비 조치에 관한 이력을 입력하고 관리하는 페이지입니다.</p>
-    <p>설비 고장을 사전에 예측하고 예방하기 위한 소중한 정보입니다. 정보 입력 시 관련 알람을 잘 선택해 주시고 내용을 상세히 입력해 주시기 바랍니다.</p>
+    <p>알람 발행 시 조치사항을 예측하고 예방하기 위한 소중한 정보입니다. 정보 입력 시 관련 알람을 잘 선택해 주시고 내용을 상세히 입력해 주시기 바랍니다.</p>
 </div>
 
 <form name="form01" id="form01" action="./<?=$g5['file_name']?>_update.php" onsubmit="return form01_submit(this);" method="post">
