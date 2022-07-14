@@ -1117,3 +1117,55 @@ INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-1', '검
 INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-2', '목표압력', '2022-07-01 18:38:43');
 INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-3', '조작압력', '2022-07-01 18:38:43');
 INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-4', '편차', '2022-07-01 18:38:43');
+
+2번로봇
+"R2_NG"
+"2A31B32"
+넘기는 값(최지환): 2A31B32
+기타-1 13-1	825442610 (32비트)
+기타-2 13-2	3289922 (32비트)
+
+1. 기타-1 13-1	825442610 (32비트 10진수)
+  . 825442610 (10진수) -> 3133 4132 (16진수) 참고: http://www.hipenpal.com/tool/binary-octal-decimal-hexadecimal-number-converter-in-korean.php
+  . 두자리씩 끊어서 16진수 to ASCII (참고:https://www.ibm.com/docs/ko/aix/7.1?topic=adapters-ascii-decimal-hexadecimal-octal-binary-conversion-table)
+    - 31 -> 1
+    - 33 -> 3
+    - 41 -> A
+    - 32 -> 2 
+2. 기타-2 13-2	3289922 (32비트 10진수)
+  . 3289922 (10진수) -> 0032 3342 (16진수)
+    - 00 -> 무시
+    - 32 -> 2
+    - 33 -> 3
+    - 42 -> B
+1번을 거꾸로 읽고... 2번을 거꾸로 읽으면.. 조합 완료!!
+2A31B32
+
+1번로봇
+"R1_NG"
+"1A31B41"
+기타-4 13-4	825442609
+기타-5 13-5	3224642
+1. 기타-4 13-4	825442609 (10진수) -> 31334131 (16진수)
+    - 31 -> 1
+    - 33 -> 3
+    - 41 -> A
+    - 31 -> 1 
+2. 기타-5 13-5	3224642 -> 00313442 (16진수)
+    - 00 -> 무시
+    - 31 -> 1
+    - 34 -> 4
+    - 42 -> B
+1번을 거꾸로 읽고... 2번을 거꾸로 읽으면.. 조합 완료!!
+1A31B41
+
+
+부산은행!!
+DC형으로 IRP계좌를 만들고 가입을 해야 한다.
+신분증.. 
+DC 타입 가입 준비완료!!
+
+1. 직접 확인
+2. 
+
+SELECT arm.cod_idx,trm_idx_category, arm_cod_code, cod_name, cod_memo, COUNT(arm_idx) AS cnt FROM g5_1_alarm AS arm LEFT JOIN g5_1_code AS cod USING(cod_idx) WHERE arm.com_idx = '15' AND arm.mms_idx = '58' AND cod_offline_yn = '1' GROUP BY arm_cod_code ORDER BY cnt DESC 
