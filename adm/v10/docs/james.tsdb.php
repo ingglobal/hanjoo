@@ -678,3 +678,9 @@ WHERE tableowner='postgres' AND tablename~'g5_1_data_measure_[0-9]+$'
 
 4866825
 SELECT * FROM g5_1_data_measure_59 WHERE dta_idx = 4866825;
+
+
+SELECT * FROM g5_1_data_measure_59
+WHERE dta_type = '1' AND dta_no = '8'
+  AND dta_dt >= '2022-07-14 12:07:05' AND dta_dt <= '2022-07-14 13:07:05'
+ORDER BY dta_dt ASC
