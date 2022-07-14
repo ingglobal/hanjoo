@@ -148,6 +148,19 @@ function random_str($length) {
 }
 }
 
+//특정범위안에서 정수를 랜덤하게 추출하는 함수
+if(!function_exists('get_random_integer')){
+function get_random_integer($min,$max){
+	return mt_rand($min,$max);
+}
+}
+
+//HEX색상을 랜덤하게 추출하는 함수
+if(!function_exists('get_random_hex_color')){
+function get_random_hex_color(){
+	return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+}
+}
 
 // Create table tr (단순한 한줄짜리 tr을 만들 경우에 사용)
 // type(input(default), textarea)
