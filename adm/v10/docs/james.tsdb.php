@@ -680,7 +680,10 @@ WHERE tableowner='postgres' AND tablename~'g5_1_data_measure_[0-9]+$'
 SELECT * FROM g5_1_data_measure_59 WHERE dta_idx = 4866825;
 
 
-SELECT * FROM g5_1_data_measure_59
-WHERE dta_type = '1' AND dta_no = '8'
+SELECT dta_type, dta_no, MAX(dta_value), MIN(dta_value) FROM g5_1_data_measure_59
+WHERE dta_type IN (1,8)
   AND dta_dt >= '2022-07-14 12:07:05' AND dta_dt <= '2022-07-14 13:07:05'
-ORDER BY dta_dt ASC
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no ASC
+
+SELECT dta_type, dta_no, COUNT(*) AS sum_dta_type FROM g5_1_data_measure_61 GROUP BY dta_type, dta_no

@@ -23,11 +23,37 @@ $st_time = ($st_time) ? $st_time : date("H:i:s",strtotime($en_date.' '.$en_time)
 // echo $st_date.' '.$st_time.'<br>';
 // exit;
 
-// 17호기 분포
-$sql = " SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 1 ";
+// Get mms_infos
+// print_r2($g5['set_dicast_mms_idxs_array']);
+$sql = "SELECT mms_idx, mms_name, mms_model
+        FROM {$g5['mms_table']}
+        WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+            AND mms_idx IN (".implode(",",$g5['set_dicast_mms_idxs_array']).")
+        ORDER BY mms_idx
+";
+// echo $sql.'<br>';
+$result = sql_query($sql,1);
+for ($i=0; $row=sql_fetch_array($result); $i++) {
+    // print_r2($row);
+    $mms[$row['mms_idx']] = $row['mms_name'];
+}
 
+// 주조기 설비 분포
+for($i=0;$i<sizeof($g5['set_dicast_mms_idxs_array']);$i++) {
+    // echo $g5['set_dicast_mms_idxs_array'][$i].'<br>';
+    $sql = "SELECT dta_type, dta_no, MAX(dta_value), MIN(dta_value)
+            FROM g5_1_data_measure_".$g5['set_dicast_mms_idxs_array'][$i]."
+            WHERE dta_type IN (1,8)
+            AND dta_dt >= '".$st_date." ".$st_time."' AND dta_dt <= '".$en_date." ".$en_time."'
+            GROUP BY dta_type, dta_no
+            ORDER BY dta_type, dta_no ASC
+    ";
+    echo $sql.'<br>';
+}
 
+add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
+<script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
 <style>
 .graph_wrap > div {margin-bottom:20px;}
 </style>
@@ -41,11 +67,25 @@ $sql = " SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 1 ";
 <script src="<?php echo G5_URL?>/lib/highcharts/moment.js"></script>
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
-    <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
-    <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
+    <select name="ser_mms_idx" id="ser_mms_idx">
+        <option value="">설비전체</option>
+        <?php
+        if(is_array($g5['mms'])) {
+            foreach ($g5['mms'] as $k1=>$v1 ) {
+                // print_r2($g5['mms'][$k1]);
+                if( $g5['mms'][$k1]['com_idx']==$_SESSION['ss_com_idx'] && in_array($k1,$g5['set_dicast_mms_idxs_array']) ) {
+                    echo '<option value="'.$k1.'" '.get_selected($ser_mms_idx, $k1).'>'.$g5['mms'][$k1]['mms_name'].'</option>';
+                }
+            }
+        }
+        ?>
+    </select>
+    <script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
+    <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" required class="required frm_input" autocomplete="off" style="width:80px;" >
+    <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" required class="required frm_input" autocomplete="off" style="width:65px;">
     ~
-    <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" class="frm_input" autocomplete="off" style="width:80px;">
-    <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;">
+    <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" required class="required frm_input" autocomplete="off" style="width:80px;">
+    <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" required class="required frm_input" autocomplete="off" style="width:65px;">
     <button type="submit" class="btn btn_01 btn_search">확인</button>
 </form>
 
@@ -140,6 +180,27 @@ Highcharts.chart('chart1', {
         }
     }]
 });
+</script>
+<script>
+    // timepicker 설정
+    $("input[name$=_time]").timepicker({
+        'timeFormat': 'H:i:s',
+        'step': 10
+    });
+
+    $("input[name$=_date]").datepicker({
+        closeText: "닫기",
+        currentText: "오늘",
+        monthNames: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
+        dayNamesMin:['일','월','화','수','목','금','토'],
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        showButtonPanel: true,
+        yearRange: "c-99:c+99",
+        //maxDate: "+0d"
+    });
 </script>
 
 <?php

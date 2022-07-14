@@ -44,7 +44,14 @@ include_once('./_head.php');
 			<th scope="row">추적 최대 일수</th>
 			<td colspan="3">
 				<?php echo help('최적 파라메타 추적 기간을 일수로 설정합니다. 최대 몇 일전까지 추적할 지 숫자로 입력하세요.') ?>
-				<input type="text" name="set_parameter_max_day" value="<?php echo $g5['setting']['set_parameter_max_day'] ?>" id="set_monitor_time" required class="required frm_input" style="width:35px;"> 일
+				<input type="text" name="set_parameter_max_day" value="<?php echo $g5['setting']['set_parameter_max_day'] ?>" required class="required frm_input" style="width:35px;"> 일
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">주조기 설비번호들</th>
+			<td colspan="3">
+				<?php echo help('설비들 중에서 주조기 설비번호만 입력하세요.') ?>
+				<input type="text" name="set_dicast_mms_idxs" value="<?php echo $g5['setting']['set_dicast_mms_idxs'] ?>" required class="required frm_input" style="width:50%;">
 			</td>
 		</tr>
         <tr>
