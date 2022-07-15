@@ -38,9 +38,11 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
     $mms[$row['mms_idx']] = $row['mms_name'];
 }
 
-// 주조기 설비 분포
+// 주조기 설비 분포 범위 (max, min)
 for($i=0;$i<sizeof($g5['set_dicast_mms_idxs_array']);$i++) {
     // echo $g5['set_dicast_mms_idxs_array'][$i].'<br>';
+    // echo $mms[$g5['set_dicast_mms_idxs_array'][$i]].' ------------ <br>';
+    $list[$i]['mms_name'] = $mms[$g5['set_dicast_mms_idxs_array'][$i]];
     $sql = "SELECT dta_type, dta_no, MAX(dta_value), MIN(dta_value)
             FROM g5_1_data_measure_".$g5['set_dicast_mms_idxs_array'][$i]."
             WHERE dta_type IN (1,8)
@@ -48,7 +50,11 @@ for($i=0;$i<sizeof($g5['set_dicast_mms_idxs_array']);$i++) {
             GROUP BY dta_type, dta_no
             ORDER BY dta_type, dta_no ASC
     ";
-    echo $sql.'<br>';
+    // echo $sql.'<br>';
+    $rs = sql_query_pg($sql,1);
+    for($j=0;$row=sql_fetch_array_pg($rs);$j++) {
+        // print_r2($row);
+    }
 }
 
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
@@ -137,7 +143,6 @@ var ranges = [
 
 // 17호기 ----------------------------
 Highcharts.chart('chart1', {
-
     title: {
         text: '17호기'
     },

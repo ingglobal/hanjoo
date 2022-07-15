@@ -1159,7 +1159,6 @@ INSERT INTO `g5_5_meta` VALUES(NULL, '', 'mms', '61', 'dta_type_label-8-4', '편
 1번을 거꾸로 읽고... 2번을 거꾸로 읽으면.. 조합 완료!!
 1A31B41
 
-
 부산은행!!
 DC형으로 IRP계좌를 만들고 가입을 해야 한다.
 신분증.. 
@@ -1168,4 +1167,25 @@ DC 타입 가입 준비완료!!
 1. 직접 확인
 2. 
 
-SELECT arm.cod_idx,trm_idx_category, arm_cod_code, cod_name, cod_memo, COUNT(arm_idx) AS cnt FROM g5_1_alarm AS arm LEFT JOIN g5_1_code AS cod USING(cod_idx) WHERE arm.com_idx = '15' AND arm.mms_idx = '58' AND cod_offline_yn = '1' GROUP BY arm_cod_code ORDER BY cnt DESC 
+// x-ray inspection table query.
+SELECT * FROM g5_1_xray_inspection WHERE xry_idx = 33455
+
+SELECT * FROM g5_1_cast_shot_pressure WHERE event_time = '2022-07-11 06:10:26';
+SELECT * FROM g5_1_cast_shot_sub WHERE event_time = '2022-07-11 06:10:26';
+
+SELECT * FROM g5_1_data_measure_58 WHERE dta_dt > '2022-07-11 06:10:26' ORDER BY dta_dt LIMIT 1;
+SELECT * FROM g5_1_data_measure_59 WHERE dta_dt > '2022-07-11 06:10:26' ORDER BY dta_dt LIMIT 1;
+SELECT * FROM g5_1_data_measure_60 WHERE dta_dt > '2022-07-11 06:10:26' ORDER BY dta_dt LIMIT 1;
+SELECT * FROM g5_1_data_measure_61 WHERE dta_dt > '2022-07-11 06:10:26' ORDER BY dta_dt LIMIT 1;
+
+SELECT * FROM g5_1_data_measure_61 WHERE dta_dt = timestamp '2022-07-11 06:10:30';
+
+ALTER TABLE g5_1_data_measure_64
+  ALTER COLUMN dta_dt
+  SET DATA TYPE timestamp without time zone;
+
+ALTER TABLE g5_1_data_measure_64 ALTER dta_dt TYPE timestamptz
+USING dta_dt AT TIME ZONE 'Asia/Seoul';
+
+ALTER TABLE g5_1_data_measure_64 ALTER COLUMN dta_dt TYPE timestamp without time zone;
+

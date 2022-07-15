@@ -9,6 +9,9 @@ SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
 SELECT * FROM g5_1_cast_shot ORDER BY start_time DESC LIMIT 100;
 SELECT * FROM g5_1_data_measure_58 ORDER BY dta_dt DESC LIMIT 100;
 SELECT * FROM g5_1_data_measure_59 WHERE dta_type = 1 ORDER BY dta_dt DESC LIMIT 100;
+SELECT * FROM g5_1_data_measure_61 WHERE dta_idx=2
+SELECT count(*) FROM g5_1_data_measure_61
+SELECT count(*) FROM g5_1_data_measure_64
 
 SELECT * FROM pg_stat_activity ORDER BY query_start ASC;
 SELECT pg_cancel_backend(31956);
@@ -686,4 +689,53 @@ WHERE dta_type IN (1,8)
 GROUP BY dta_type, dta_no
 ORDER BY dta_type, dta_no ASC
 
-SELECT dta_type, dta_no, COUNT(*) AS sum_dta_type FROM g5_1_data_measure_61 GROUP BY dta_type, dta_no
+
+CREATE TABLE test (
+  dta_idx SERIAL,
+  dta_dt TIMESTAMP WITHOUT TIME ZONE DEFAULT timezone('utc' :: TEXT, now()),
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
+);
+CREATE TABLE test (
+  dta_idx SERIAL,
+  dta_dt timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'Asia/Seoul'),
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
+);
+
+INSERT INTO "test" ("dta_idx", "dta_dt", "dta_type", "dta_no", "dta_value", "dta_1", "dta_2", "dta_3","dta_dt3")
+VALUES ('4', '2020-11-02 08:16:43',     '2',          '2',      '2',        '2',    '2',    '2','2020-11-02 08:16:43');
+
+ALTER TABLE test ADD COLUMN dta_dt2 TIMESTAMPTZ NOT NULL DEFAULT timezone('utc' :: TEXT, now());
+ALTER TABLE test ADD COLUMN dta_dt3 timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC');
+
+
+ALTER TABLE test ADD COLUMN dta_dt3 timestamp without time zone NOT NULL DEFAULT (current_timestamp);
+ALTER TABLE test DROP COLUMN dta_dt3;
+
+SELECT substring(dta_dt2::varchar,1,19) FROM test;
+SELECT dta_dt2::timestamp FROM test;
+UPDATE test SET dta_dt3 = dta_dt2::timestamp;
+UPDATE test SET dta_dt3 = dta_dt;
+UPDATE test SET dta_dt3 = to_char(dta_dt2, 'YYYY-MM-DD HH24:MI:SS');
+
+UPDATE test SET dta_dt3 = substring(dta_dt2::varchar,1,19)::timestamp;
+
+ALTER TABLE g5_1_data_measure_59 DROP COLUMN dta_dt2;
+^^^^^^^^^^^^^^^^^^^^^^
+ALTER TABLE g5_1_data_measure_64 ADD COLUMN dta_dt2 timestamp without time zone NOT NULL DEFAULT (current_timestamp);
+
+ALTER TABLE g5_1_data_measure_64 ALTER COLUMN dta_dt TYPE timestamp;
+>> error!!
+ALTER TABLE g5_1_data_measure_64 ALTER COLUMN dta_dt TYPE integer NOT NULL DEFAULT (current_timestamp);
+
+UPDATE g5_1_data_measure_64 SET dta_dt2 = dta_dt;
+UPDATE g5_1_data_measure_64 SET dta_dt = dta_dt2;

@@ -155,6 +155,31 @@ for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
         // echo $sql.'<br>';
         $xry = sql_fetch_pg($sql,1);
         // print_r2($xry);
+
+        // QR코드 각인 시간 정보 추출 (약 30시간 이상 차이가 남)
+        $sql = "SELECT * FROM g5_1_engrave_qrcode WHERE qrcode = '".$xry['qrcode']."' ";
+        // echo $sql.'<br>';
+        $eqr = sql_fetch_pg($sql,1);
+        // print_r2($eqr);
+
+        // 현재는 QR코드 각인시간 10분 전쯤 근처값을 추정합니다. 주조기 설비 전체를 돌면서 저장
+        for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
+            // echo $g5['set_dicast_mms_idxs_array'][$j].'<br>';
+            // echo $mms[$g5['set_dicast_mms_idxs_array'][$j]].' ------------ <br>';
+            $sql = "SELECT dta_type, dta_no, dta_value
+                    FROM g5_1_data_measure_".$g5['set_dicast_mms_idxs_array'][$j]."
+                    WHERE dta_type IN (1,8)
+                    AND dta_dt >= '".$st_date." ".$st_time."' AND dta_dt <= '".$en_date." ".$en_time."'
+                    GROUP BY dta_type, dta_no
+                    ORDER BY dta_type, dta_no ASC
+            ";
+            // echo $sql.'<br>';
+            // $rs = sql_query_pg($sql,1);
+            // for($j=0;$row=sql_fetch_array_pg($rs);$j++) {
+            //     // print_r2($row);
+            // }
+        }
+
         $arr['result_data'] = '<div class="div_data"><b>보온로 온도:</b> </div>';
         echo "<script> document.all.cont.innerHTML += '<div class=\'div_result\'>최적 파라메타 추출 성공</div>'; </script>\n";
         echo "<script> document.all.cont.innerHTML += '<div class=\'div_result2\'>xry_idx=".$arr['xry_idx'].", start_time=".$arr['start_time']."</div>'; </script>\n";

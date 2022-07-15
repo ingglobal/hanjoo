@@ -63,15 +63,16 @@ else if ($w == 'u') {
                 {$sql_fields} = {$sql_values}
             WHERE ".$pre."_idx = '".${$pre."_idx"}."' 
 	";
+    // echo $sql.'<br>';
     sql_query_pg($sql,1);
-        
+
 }
 else if ($w == 'd') {
 
     $sql = "DELETE FROM {$g5_table_name} WHERE ".$pre."_idx = '".${$pre."_idx"}."' ";
     sql_query_pg($sql,1);
     goto_url('./'.$fname.'_list.php?'.$qstr, false);
-    
+
 }
 else
     alert('제대로 된 값이 넘어오지 않았습니다.');
