@@ -1189,3 +1189,19 @@ USING dta_dt AT TIME ZONE 'Asia/Seoul';
 
 ALTER TABLE g5_1_data_measure_64 ALTER COLUMN dta_dt TYPE timestamp without time zone;
 
+// QR주조코드 복제
+INSERT INTO g5_1_qr_cast_code(qrcode, qrc_reg_dt)
+SELECT qrcode, event_time
+FROM g5_1_engrave_qrcode
+
+// 일단은 평일 최근 날짜의 평균값을 최적값으로 넣어두자.
+SELECT * FROM g5_1_data_measure_58 WHERE dta_dt > '2022-07-11 06:10:26' ORDER BY dta_dt LIMIT 1;
+
+SELECT dta_type, dta_no, AVG(dta_value) AS dta_value
+FROM g5_1_data_measure_60
+WHERE dta_type IN (1,8) AND dta_no IN (1,2,3,4,5,6,7,8,9,10,11)
+  AND dta_dt >= '2022-07-15 00:00:00'
+  AND dta_dt < '2022-07-16 00:00:00'
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no
+....

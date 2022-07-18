@@ -1,6 +1,62 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// QR주조코드 업데이트
+if(!function_exists('qr_cast_update')){
+function qr_cast_update($arr)
+{
+	global $g5;
+	
+	if(!$arr['dta_no']||!$arr['dta_value'])
+		return 0;
+
+    $g5_table_name = $g5['qr_cast_code_table'];
+    $fields = sql_field_names($g5_table_name);
+    $pre = substr($fields[0],0,strpos($fields[0],'_'));
+    
+    // 변수 재설정
+    $arr[$pre.'_update_dt'] = G5_TIME_YMDHIS;
+    $arr['qrc_yearmonth'] = $arr['qrc_year'].'-'.$arr['qrc_month'];   // 년월
+
+    // 공통쿼리
+    $skips[] = $pre.'_idx';	// 건너뛸 변수 배열
+    $skips[] = $pre.'_reg_dt';
+    for($i=0;$i<sizeof($fields);$i++) {
+        if(in_array($fields[$i],$skips)) {continue;}
+        $sql_commons[] = " ".$fields[$i]." = '".$arr[$fields[$i]]."' ";
+    }
+
+    // after sql_common value setting
+    // $sql_commons[] = " com_idx = '".$arr['ss_com_idx']."' ";
+
+    // 공통쿼리 생성
+    $sql_common = (is_array($sql_commons)) ? implode(",",$sql_commons) : '';
+    
+    $sql = "SELECT * FROM {$g5_table_name} 
+            WHERE cast_code = '{$arr['cast_code']}'
+    ";
+//    echo $sql.'<br>';
+    $row = sql_fetch($sql,1);
+	if($row[$pre."_idx"]) {
+		$sql = "UPDATE {$g5_table_name} SET 
+                    {$sql_common} 
+				WHERE ".$pre."_idx = '".$row[$pre."_idx"]."'
+        ";
+		// sql_query($sql,1);
+	}
+	else {
+		$sql = "INSERT INTO {$g5_table_name} SET 
+                    {$sql_common} 
+                    , ".$pre."_reg_dt = '".G5_TIME_YMDHIS."'
+        ";
+		sql_query($sql,1);
+        $row[$pre."_idx"] = sql_insert_id();
+	}
+//    echo $sql.'<br>';
+    return $row[$pre."_idx"];
+}
+}
+
 // 임계치 범위 추출
 if(!function_exists('get_range')){
 function get_range($val, $arr) {

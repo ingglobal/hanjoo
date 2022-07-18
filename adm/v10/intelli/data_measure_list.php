@@ -30,6 +30,22 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
     $mms[$row['mms_idx']] = $row['mms_name'];
 }
 
+// Get default mms_idx for first mms_idx.
+$sql = "SELECT mms_idx, mms_name
+        FROM {$g5['mms_table']}
+        WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+        ORDER BY mms_idx
+        LIMIT 1
+";
+// echo $sql.'<br>';
+$one = sql_fetch($sql,1);
+$ser_mms_idx = $ser_mms_idx ?: $one['mms_idx'];
+
+if(!$ser_mms_idx)
+    alert('설비정보가 존재하지 않습니다.');
+
+
+
 // get the total data volumn which is not exict. it is just estimation.
 $sql = "SELECT * FROM pg_tables
         WHERE tableowner = '".G5_PGSQL_USER."' AND tablename ~ 'g5_1_data_measure_[0-9]+$'
@@ -56,20 +72,6 @@ for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
 }
 // echo $grand_total.'<br>';
 // echo $com_total.'<br>';
-
-// Get default mms_idx for first mms_idx.
-$sql = "SELECT mms_idx, mms_name
-        FROM {$g5['mms_table']}
-        WHERE com_idx = '".$_SESSION['ss_com_idx']."'
-        ORDER BY mms_idx
-        LIMIT 1
-";
-// echo $sql.'<br>';
-$one = sql_fetch($sql,1);
-$ser_mms_idx = $ser_mms_idx ?: $one['mms_idx'];
-
-if(!$ser_mms_idx)
-    alert('설비정보가 존재하지 않습니다.');
 
 $db_table = 'g5_1_data_measure_'.$ser_mms_idx;
 $sql_common = " FROM ".$db_table." ";

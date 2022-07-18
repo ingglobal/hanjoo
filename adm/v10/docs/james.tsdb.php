@@ -739,3 +739,62 @@ ALTER TABLE g5_1_data_measure_64 ALTER COLUMN dta_dt TYPE integer NOT NULL DEFAU
 
 UPDATE g5_1_data_measure_64 SET dta_dt2 = dta_dt;
 UPDATE g5_1_data_measure_64 SET dta_dt = dta_dt2;
+
+SELECT * 
+FROM g5_1_data_measure_58 
+WHERE 1=1 AND dta_dt >= '2022-07-15 07:50:00' AND dta_dt <= '2022-07-15 08:10:00'
+ORDER BY dta_idx DESC
+LIMIT 15 OFFSET 0
+
+
+// 각인 시간 10분 전후 5분 사이 값을 추적
+SELECT dta_type, dta_no, AVG(dta_value) AS dta_value
+FROM g5_1_data_measure_59
+WHERE dta_type IN (1,8)
+  AND dta_dt >= '2022-07-11 06:05:26' AND dta_dt <= '2022-07-11 06:15:26'
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no ASC
+
+SELECT machine_id
+FROM g5_1_xray_inspection
+GROUP BY machine_id
+....
+SELECT machine_id
+FROM g5_1_cast_shot_pressure
+GROUP BY machine_id
+....
+SELECT machine_id
+FROM g5_1_cast_shot
+GROUP BY machine_id
+....
+// 하루의 평균값을 일단은 최적값으로 넣어두자.
+SELECT COUNT(dta_value) FROM g5_1_data_measure_59
+WHERE dta_type IN (1,8)
+  AND dta_dt >= date '2022-07-15'
+  AND dta_dt < date '2022-07-15' + integer '1'
+ORDER BY dta_dt
+....
+SELECT dta_type, dta_no, AVG(dta_value) AS dta_value
+FROM g5_1_data_measure_59
+WHERE dta_type IN (1,8)
+  AND dta_dt >= date '2022-07-15'
+  AND dta_dt < date '2022-07-15' + integer '1'
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no
+....
+SELECT dta_type, dta_no, AVG(dta_value) AS dta_value
+FROM g5_1_data_measure_60
+WHERE dta_type IN (1,8)
+  AND dta_dt >= date '2022-07-15'
+  AND dta_dt < date '2022-07-15' + integer '1'
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no
+....
+SELECT dta_type, dta_no, AVG(dta_value) AS dta_value
+FROM g5_1_data_measure_60
+WHERE dta_type IN (1,8)
+  AND dta_dt >= date '2022-07-14'
+  AND dta_dt < date '2022-07-14' + integer '1'
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no
+....

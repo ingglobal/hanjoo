@@ -162,18 +162,22 @@ for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
         $eqr = sql_fetch_pg($sql,1);
         // print_r2($eqr);
 
-        // 현재는 QR코드 각인시간 10분 전쯤 근처값을 추정합니다. 주조기 설비 전체를 돌면서 저장
+        // QR코드 각인시간 +-5분
+        $start_dt = date("Y-m-d H:i:s", strtotime($eqr['event_time'])-60*5);
+        $end_dt = date("Y-m-d H:i:s", strtotime($eqr['event_time'])+60*5);
+
+        // 현재는 QR코드 각인시간 +-5분 전쯤 근처값을 추정합니다. 주조기 설비 전체를 돌면서 저장
         for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
             // echo $g5['set_dicast_mms_idxs_array'][$j].'<br>';
             // echo $mms[$g5['set_dicast_mms_idxs_array'][$j]].' ------------ <br>';
-            $sql = "SELECT dta_type, dta_no, dta_value
+            $sql = "SELECT dta_type, dta_no, AVG(dta_value) AS dta_value
                     FROM g5_1_data_measure_".$g5['set_dicast_mms_idxs_array'][$j]."
                     WHERE dta_type IN (1,8)
-                    AND dta_dt >= '".$st_date." ".$st_time."' AND dta_dt <= '".$en_date." ".$en_time."'
+                    AND dta_dt >= '".$start_dt."' AND dta_dt <= '".$end_dt."'
                     GROUP BY dta_type, dta_no
                     ORDER BY dta_type, dta_no ASC
             ";
-            // echo $sql.'<br>';
+            echo $sql.'<br>';
             // $rs = sql_query_pg($sql,1);
             // for($j=0;$row=sql_fetch_array_pg($rs);$j++) {
             //     // print_r2($row);
@@ -243,7 +247,7 @@ else {
         document.all.cont.innerHTML += "<br><br><?=($ym)?$ym:$ymd?> 완료 <br><font color=crimson><b>3초후</b></font> 다음 페이지로 이동합니다.";
         setTimeout(function(){
             self.location='?ym=<?=$ym_next?>&ymd=<?=$ymd_next?>';
-        },3000);
+        },2000);
     </script>
     <?php
     }

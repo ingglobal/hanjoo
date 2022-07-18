@@ -197,7 +197,8 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 <div class="btn_fixed_top" style="display:no ne;">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="./<?=$fname?>_parameter.php" class="btn_04 btn btn_parameter">주조파라메터추적</a>
+        <a href="./<?=$g5['file_name']?>_best.php" class="btn_04 btn btn_best">최적파라메터생성</a>
+        <a href="./<?=$fname?>_parameter.php" class="btn_04 btn btn_parameter">최적파라메터추적</a>
         <a href="./<?=$fname?>_change.php" class="btn_04 btn btn_change">품질데이터조작</a>
         <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
     <?php } ?>
@@ -205,6 +206,32 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 </div>
 
 <?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;page='); ?>
+
+<div id="modal20" title="날짜입력" style="display:none;">
+    <form name="form20" id="form20" action="" onsubmit="return form20_submit(this);" method="post" enctype="multipart/form-data">
+        <table>
+        <tbody>
+        <tr>
+            <td style="line-height:130%;padding:10px 0;">
+                <ul>
+                    <li>시작날짜를 입력하세요.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px 0;">
+                <input type="text" name="ymd" class="frm_input" first="2019-07-01" value="<?=date("Y-m-d",G5_SERVER_TIME-86400*1)?>" placeholder="YYYY-MM-DD">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:5px 0;">
+                <button type="submit" class="btn btn_01">확인</button>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </form>
+</div>
 
 <div id="modal30" title="날짜입력" style="display:none;">
     <form name="form30" id="form30" action="" onsubmit="return form30_submit(this);" method="post" enctype="multipart/form-data">
@@ -247,6 +274,16 @@ $(document).ready(function(){
         return false;
     });
 
+    // 생성하기
+    $( ".btn_best" ).on( "click", function(e) {
+        e.preventDefault();
+        $( "#modal20" ).dialog( "open" );
+    });
+    $( "#modal20" ).dialog({
+        autoOpen: false
+        , width:250
+        , position: { my: "right-10 top-10", of: ".btn_best"}
+    });
     // 일별가져오기
     $( ".btn_change" ).on( "click", function(e) {
         e.preventDefault();
@@ -306,6 +343,13 @@ $(document).ready(function(){
 });
 
 // specific day
+function form20_submit(f) {
+    var href = './<?=$g5['file_name']?>_best.php?ymd='+f.ymd.value;
+    winBest = window.open(href, "winBest", "left=100,top=100,width=520,height=600,scrollbars=1");
+    winBest.focus();
+    $( "#modal20" ).dialog( "close" );
+    return false;
+}
 function form30_submit(f) {
     var href = './<?=$g5['file_name']?>_change.php?ymd='+f.ymd.value;
     winChange = window.open(href, "winChange", "left=100,top=100,width=520,height=600,scrollbars=1");
