@@ -136,12 +136,12 @@ button span{position:relative;top:2px;margin-left:3px;color:#888;}
 
 /*입력박스관련 정보문장*/
 /*
-<div class="bwg_info_box">
-	<p class="bwg_info (iup | idown) bwgs_cd_info">해당입력란 관련 설명</p>
+<div class="wdg_info_box">
+	<p class="wdg_info (iup | idown) wdg_cd_info">해당입력란 관련 설명</p>
 </div>
 */
-.wgf_help .bwg_info_box{position:relative;display:none;}
-.wgf_help:hover .bwg_info_box{display:block;}
-.wgf_help .bwg_info_box .bwg_info{position:absolute;left:0px;border:1px solid #dddddd;border-radius:3px;overflow:hidden;padding:5px;line-height:1.2em;}
-.wgf_help .bwg_info_box .bwg_info.iup{bottom:0px;box-shadow:3px -3px 6px #eeeeee;}
-.wgf_help .bwg_info_box .bwg_info.idown{top:0px;box-shadow:3px 3px 6px #eeeeee;}
+.wdg_help .wdg_info_box{position:relative;display:none;}
+.wdg_help:hover .wdg_info_box{display:block;}
+.wdg_help .wdg_info_box .wdg_info{position:absolute;left:0px;border:1px solid #dddddd;border-radius:3px;overflow:hidden;padding:5px;line-height:1.2em;}
+.wdg_help .wdg_info_box .wdg_info.iup{bottom:0px;box-shadow:3px -3px 6px #eeeeee;}
+.wdg_help .wdg_info_box .wdg_info.idown{top:0px;box-shadow:3px 3px 6px #eeeeee;}

@@ -82,7 +82,8 @@ var $grid = $('.grid').packery({
 });
 
 // get saved dragged positions
-var initPositions = localStorage.getItem('dragPositions');
+var initPositions = localStorage.getItem('dragPositions'); //call the dragPositions from DB 
+// console.log('init : '+initPositions);
 // init layout with saved positions
 $grid.packery( 'initShiftLayout', initPositions, 'data-item-id' );
 
@@ -93,11 +94,13 @@ $grid.find('.grid-item').each( function( i, itemElem ) {
 });
 
 // save drag positions on event
-$grid.on( 'dragItemPositioned', function() {
+$grid.on( 'dragItemPositioned', function(e) {
   // save drag positions
   var positions = $grid.packery( 'getShiftPositions', 'data-item-id' );
-  localStorage.setItem( 'dragPositions', JSON.stringify( positions ) );
-});   
+  // console.log('save : ' + JSON.stringify(positions));
+  localStorage.setItem( 'dragPositions', JSON.stringify( positions ) );//save the positions as dragPositions to DB 
+}); 
+
 </script>
 <?php
 include_once ('./_tail.php');

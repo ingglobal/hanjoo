@@ -28,10 +28,14 @@ define('G5_USER_ADMIN_SKIN_PATH',   		G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/skin
 define('G5_USER_ADMIN_SKIN_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/skin');
 define('G5_USER_ADMIN_STAT_PATH',   		G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/stat');
 define('G5_USER_ADMIN_STAT_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/stat');
+define('G5_USER_ADMIN_SET_PATH',   		    G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/set');
+define('G5_USER_ADMIN_SET_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/set');
 define('G5_USER_ADMIN_SQL_PATH',   		    G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/sql');
 define('G5_USER_ADMIN_SQL_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/sql');
 define('G5_USER_ADMIN_TEST_PATH',   		G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/test');
 define('G5_USER_ADMIN_TEST_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/test');
+define('G5_USER_ADMIN_WDG_PATH',   		    G5_ADMIN_PATH.'/'.G5_USER_ADMIN_DIR.'/wdg');
+define('G5_USER_ADMIN_WDG_URL',   		    G5_ADMIN_URL.'/'.G5_USER_ADMIN_DIR.'/wdg');
 define('G5_USER_CSS_PATH',                  G5_USER_PATH.'/'.G5_CSS_DIR);
 define('G5_USER_CSS_URL',                   G5_USER_URL.'/'.G5_CSS_DIR);
 define('G5_USER_JS_PATH',                   G5_USER_PATH.'/'.G5_JS_DIR);
@@ -42,7 +46,7 @@ define('G5_USER_ADMIN_MOBILE_CSS_URL',      G5_USER_ADMIN_URL.'/'.G5_MOBILE_DIR.
 define('G5_USER_ADMIN_MOBILE_JS_PATH',      G5_USER_ADMIN_PATH.'/'.G5_MOBILE_DIR.'/'.G5_JS_DIR);
 define('G5_USER_ADMIN_MOBILE_JS_URL',       G5_USER_ADMIN_URL.'/'.G5_MOBILE_DIR.'/'.G5_JS_DIR);
 
-
+define('G5_DATA_WDG_PERMISSION',  0707); // 디렉토리 생성시 퍼미션
 // 설정 테이블 정의 -----------------------------------------------------------
 define('USER_TABLE_PREFIX',          G5_TABLE_PREFIX . '5_');
 
@@ -58,7 +62,13 @@ $g5['file_table']                   = USER_TABLE_PREFIX . 'file';
 $g5['banner_table']                 = USER_TABLE_PREFIX . 'banner';
 $g5['history_table']                = USER_TABLE_PREFIX . 'history';
 $g5['comment_table']                = USER_TABLE_PREFIX . 'comment';
-
+$g5['wdg_table']                    = USER_TABLE_PREFIX . 'wdg';
+$g5['wdg_config_table']             = USER_TABLE_PREFIX . 'wdg_config';
+$g5['wdg_file_table']               = USER_TABLE_PREFIX . 'wdg_file';
+$g5['wdg_content_table']            = USER_TABLE_PREFIX . 'wdg_content';
+$g5['wdg_content_extend_table']     = USER_TABLE_PREFIX . 'wdg_content_extend';
+$g5['wdg_option_table']             = USER_TABLE_PREFIX . 'wdg_option';
+$g5['wdg_user_option_table']        = USER_TABLE_PREFIX . 'wdg_user_option';
 
 // 사용자 테이블 정의 -----------------------------------------------------------
 define('NEW_TABLE_PREFIX',          G5_TABLE_PREFIX . '1_');
@@ -73,7 +83,6 @@ $g5['engrave_qrcode_table']         = NEW_TABLE_PREFIX . 'engrave_qrcode';
 $g5['qr_cast_code_table']           = NEW_TABLE_PREFIX . 'qr_cast_code';
 $g5['melting_temp_table']           = NEW_TABLE_PREFIX . 'melting_temp';
 $g5['xray_inspection_table']        = NEW_TABLE_PREFIX . 'xray_inspection';
-
 $g5['company_table']                = NEW_TABLE_PREFIX.'company';
 $g5['company_member_table']         = NEW_TABLE_PREFIX.'company_member';
 $g5['company_saler_table']          = NEW_TABLE_PREFIX.'company_saler';
