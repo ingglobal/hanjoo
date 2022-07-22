@@ -219,9 +219,8 @@ if(defined('G5_IS_ADMIN')){
 			}
 		}
 	}
-
 	function u_tail_sub(){
-		global $g5,$member,$default,$config,$board,$menu,$w,$print_version;
+        global $g5,$member,$default,$config,$board,$menu,$w,$print_version;
 
         // 관리자 디버깅 메시지 (있는 경우만 나타남)
         if( is_array($g5['debug_msg']) ) {

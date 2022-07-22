@@ -251,8 +251,8 @@ function getGraphURL(url) {
 }
 //######################################################################
 //hex to rgba
-if(typeof(wdg_hex2rgba) != 'function'){	
-function wdg_hex2rgba(hex, alpha) {
+if(typeof(bwg_hex2rgba) != 'function'){	
+function bwg_hex2rgba(hex, alpha) {
     var r = parseInt(hex.slice(1, 3), 16),
         g = parseInt(hex.slice(3, 5), 16),
         b = parseInt(hex.slice(5, 7), 16);
@@ -265,8 +265,8 @@ function wdg_hex2rgba(hex, alpha) {
 }
 }
 //rgba to hex
-if(typeof(wdg_rgba2hex) != 'function'){
-function wdg_rgba2hex(rgba){
+if(typeof(bwg_rgba2hex) != 'function'){
+function bwg_rgba2hex(rgba){
     var backtxt = rgba.substring(rgba.indexOf('(')+1);//rgba(까지 잘라낸 나머지 문자열 대입
     var oktxt = backtxt.substr(0,backtxt.length-1); //마지막 )를 잘라낸 나머지 문자열 대입
     var okarr = oktxt.split(',');//(,)로 분할해서 배열변수에 대입
@@ -294,7 +294,7 @@ function wdg_rgba2hex(rgba){
 if(typeof(file_single_del) != 'function'){
 function file_single_del(wga_idx){
     if(confirm("선택한 파일을 정말 삭제 하시겠습니까?")){
-        var single_file_url = g5_bpwidget_admin_ajax_url+'/bpwidget_file_single_del.php';
+        var single_file_url = g5_user_admin_ajax_url+'/wdg_file_single_del.php';
         $.ajax({
             type:"POST",
             url:single_file_url,
@@ -317,14 +317,14 @@ function file_single_del(wga_idx){
 
 //한 줄의 첨부파일들을 일괄 삭제처리하는 함수
 if(typeof(files_row_del) != 'function'){
-function files_row_del(bwga_idxs){
+function files_row_del(wga_idxs){
     if(confirm("선택한 파일을 전부 삭제 하시겠습니까?")){
-        var row_files_url = g5_bpwidget_admin_ajax_url+'/bpwidget_files_row_del.php';
+        var row_files_url = g5_user_admin_ajax_url+'/wdg_files_row_del.php';
         $.ajax({
             type:"POST",
             url:row_files_url,
             dataType:"text",
-            data:{'bwga_idxs':bwga_idxs},
+            data:{'wga_idxs':wga_idxs},
             success:function(res){
                 if(res){
                     alert(res);

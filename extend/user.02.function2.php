@@ -270,7 +270,7 @@ function wdg_input_color($name='',$value='#333333',$w='',$alpha_flag=0){
     
     
     if($alpha_flag){
-        if(substr($value,0,1) == '#') $value = 'rgba('.bwg_rgb2hex2rgb($value).',1)';
+        if(substr($value,0,1) == '#') $value = 'rgba('.wdg_rgb2hex2rgb($value).',1)';
         $input_color = (isset($value)) ? $value : 'rgba(51, 51, 51, 1)';
         //echo $value;
         $bgrgba = substr(substr($input_color,5),0,-1);//처음에 'rgba('를 잘라낸뒤 반환하고, 그다음 끝에 ')'를 잘라내고 '255, 0, 0, 0'를 반환
@@ -278,13 +278,13 @@ function wdg_input_color($name='',$value='#333333',$w='',$alpha_flag=0){
         $bgrgb = trim($rgba_arr[0]).','.trim($rgba_arr[1]).','.trim($rgba_arr[2]);
         $bga = trim($rgba_arr[3]);
         //echo $bga;
-        $bg16 = ($w == 'u') ? bwg_rgb2hex2rgb($bgrgb) : '#333333';//#FF0000
+        $bg16 = ($w == 'u') ? wdg_rgb2hex2rgb($bgrgb) : '#333333';//#FF0000
     }
     else{
         if(substr($value,0,4) == 'rgba'){
             $rgb_str_arr = explode(',',substr(substr($value,5),0,-1));
             $rgb_str = $rgb_str_arr[0].','.$rgb_str_arr[1].','.$rgb_str_arr[2];
-            $value = bwg_rgb2hex2rgb($rgb_str);
+            $value = wdg_rgb2hex2rgb($rgb_str);
         }
         $input_color = ($value) ? $value : '#333333';
     }
@@ -350,5 +350,104 @@ function wdg_get_random_string($type = '', $len = 10) {
         $token .= $key[mt_rand(0, strlen($key) - 1)];
     }
     return $token;
+}
+}
+
+//색상코드 16진수를 rgb로, rgb를 16진수로 반환해주는 함수
+if(!function_exists('wdg_rgb2hex2rgb')){
+function wdg_rgb2hex2rgb($color){ //인수에 '#ff0000' 또는 '255,0,0'를 넣어 호출하면 된다.
+    if(!$color) return false; 
+    $color = trim($color); 
+    $result = false; 
+    if(preg_match("/^[0-9ABCDEFabcdef\#]+$/i", $color)){
+        $hex = str_replace('#','', $color);
+        if(!$hex) return false;
+        if(strlen($hex) == 3):
+            $result['r'] = hexdec(substr($hex,0,1).substr($hex,0,1));
+            $result['g'] = hexdec(substr($hex,1,1).substr($hex,1,1));
+            $result['b'] = hexdec(substr($hex,2,1).substr($hex,2,1));
+        else:
+            $result['r'] = hexdec(substr($hex,0,2));
+            $result['g'] = hexdec(substr($hex,2,2));
+            $result['b'] = hexdec(substr($hex,4,2));
+        endif;
+        $result = $result['r'].','.$result['g'].','.$result['b']; //텍스트(255,0,0)로 표시하고 싶으면 주석 해제해라
+    }elseif (preg_match("/^[0-9]+(,| |.)+[0-9]+(,| |.)+[0-9]+$/i", $color)){ 
+        $color = str_replace(' ','',$color);
+        $rgbstr = str_replace(array(',',' ','.'), ':', $color); 
+        $rgbarr = explode(":", $rgbstr);
+        $result = '#';
+        $result .= str_pad(dechex($rgbarr[0]), 2, "0", STR_PAD_LEFT);
+        $result .= str_pad(dechex($rgbarr[1]), 2, "0", STR_PAD_LEFT);
+        $result .= str_pad(dechex($rgbarr[2]), 2, "0", STR_PAD_LEFT);
+        $result = strtoupper($result); 
+    }else{
+        $result = false;
+    }
+
+    return $result; 
+}
+}
+
+//범위(range) input form 생성 함수
+if(!function_exists('wdg_input_range')){
+function wdg_input_range($rname='',$val='1',$w='',$min='0',$max='1',$step='0.1',$width='100',$padding_right=29,$unit=''){
+    global $g5,$config,$default,$member,$is_admin;
+    
+    if(preg_match("/%/", $width)){
+        $width = substr($width,0,-1);
+        $wd_class = ' bp_wdp'.$width;
+    }else{
+        $wd_class = ' bp_wdx'.$width;
+    }
+    
+    $output_show = '';
+    if(!$padding_right || $padding_right == '0'){
+        $output_show = 'display:none;';
+        $padding_right_style='';
+        $wd_class = '';
+    }else{
+        $padding_right_style = 'padding-right:'.$padding_right.'px;';
+    }
+    
+    $rid = 'r_'.wdg_uniqid();
+    $rinid = 'rin_'.wdg_uniqid();
+    $rotid = 'rot_'.wdg_uniqid();
+    
+    ob_start();
+    include G5_USER_ADMIN_SKIN_FORM_PATH.'/input_range.skin.php';
+    $input_content = ob_get_contents();
+    ob_end_clean();
+
+    return $input_content;
+}	
+}
+
+//유니크값을 반환하는 함수
+if(!function_exists('wdg_uniqid')){
+function wdg_uniqid(){
+    $start_ran = mt_rand(0,38);
+    $cnt_ran = mt_rand(4,7);
+    $uniq = substr(uniqid(md5(rand())),$start_ran,$cnt_ran);
+    $uniq2 = substr(uniqid(md5(rand())),$start_ran,$cnt_ran);
+    //$uniq3 = substr(uniqid(md5(rand())),$start_ran,$cnt_ran);
+    //return wdg_get_random_string('az',3).$uniq.$uniq2.$uniq3;
+    return wdg_get_random_string('az',3).$uniq.$uniq2;
+}	
+}
+
+//위젯 해당 첨부파일의 썸네일 삭제
+if(!function_exists('delete_wdg_thumbnail')){
+function delete_wdg_thumbnail($wgs_idx, $wga_type, $file)
+{
+    if(!$wgs_idx || !$wga_type || !$file)
+        return;
+
+    $fn = preg_replace("/\.[^\.]+$/i", "", basename($file));
+    $files = glob(G5_WDG_DATA_PATH.'/file/'.$wgs_idx.'/'.$wga_type.'/thumb-'.$fn.'*');
+    if (is_array($files)) {
+        foreach ($files as $filename)
+            unlink($filename);
+    }
 }
 }
