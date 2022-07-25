@@ -798,3 +798,11 @@ WHERE dta_type IN (1,8)
 GROUP BY dta_type, dta_no
 ORDER BY dta_type, dta_no
 ....
+SELECT dta_type, dta_no, AVG(dta_value) AS dta_value, MIN(dta_idx) AS dta_idx 
+FROM g5_1_data_measure_59 
+WHERE dta_type IN (1,8) 
+  AND dta_dt >= '2022-07-22 00:00:00' AND dta_dt <= '2022-07-22 23:59:59' 
+GROUP BY dta_type, dta_no 
+ORDER BY dta_type, dta_no ASC
+....> 이걸로 최종 되었어요.
+

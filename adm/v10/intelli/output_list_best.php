@@ -51,12 +51,14 @@ $date_week = date('w', strtotime($ymd));
 for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
     // echo $g5['set_dicast_mms_idxs_array'][$j].'<br>';
     // echo $mms[$g5['set_dicast_mms_idxs_array'][$j]].' ------------ <br>';
-    // 주말에 건너뜀(0,6)
+    // 주말은 건너뜀(0,6)
     if(in_array($date_week,array(0,6))) {
         break;
     }
     $mms_name[$j] = $g5['mms'][$g5['set_dicast_mms_idxs_array'][$j]]['mms_name'];
     // echo $mms_name[$j].' ------------- <br>';
+
+    // 온도, 압력 부분만 저장(1,8) - This is just temporary.
     $sql = "SELECT dta_type, dta_no, AVG(dta_value) AS dta_value, MIN(dta_idx) AS dta_idx
             FROM g5_1_data_measure_".$g5['set_dicast_mms_idxs_array'][$j]."
             WHERE dta_type IN (1,8)
