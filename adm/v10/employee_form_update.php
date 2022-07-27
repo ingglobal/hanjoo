@@ -37,7 +37,7 @@ $sql_common = "  mb_name = '{$_POST['mb_name']}',
                  mb_homepage = '{$_POST['mb_homepage']}',
                  mb_birth = '{$_POST['mb_birth']}',
                  mb_tel = '{$_POST['mb_tel']}',
-                 mb_hp = '{$mb_hp}',
+                 mb_hp = '{$_POST['mb_hp']}',
                  mb_zip1 = '$mb_zip1',
                  mb_zip2 = '$mb_zip2',
                  mb_addr1 = '{$_POST['mb_addr1']}',
@@ -52,21 +52,29 @@ $sql_common = "  mb_name = '{$_POST['mb_name']}',
 
 if ($w == '') {
    $mb = get_member($mb_id);
-   if ($mb['mb_id'])
-       alert('이미 존재하는 회원아이디입니다.\\nＩＤ : '.$mb['mb_id'].'\\n이름 : '.$mb['mb_name'].'\\n닉네임 : '.$mb['mb_nick'].'\\n메일 : '.$mb['mb_email']);
-
-    $sql = "INSERT INTO {$g5['member_table']} SET
-            mb_id = '{$mb_id}', 
-            mb_password = '".get_encrypt_string($mb_password)."', 
-            mb_datetime = '".G5_TIME_YMDHIS."', 
-            mb_ip = '{$_SERVER['REMOTE_ADDR']}', 
-            mb_level = 4, 
-            mb_email_certify = '".G5_TIME_YMDHIS."',
-            mb_4 = '{$_SESSION['ss_com_idx']}', 
-            {$sql_common}
-    ";
-    sql_query($sql,1);
-    //echo $sql;
+   if (!$mb['mb_id']) {
+        $sql = "INSERT INTO {$g5['member_table']} SET
+                    mb_id = '{$mb_id}', 
+                    mb_password = '".get_encrypt_string($mb_password)."', 
+                    mb_datetime = '".G5_TIME_YMDHIS."', 
+                    mb_ip = '{$_SERVER['REMOTE_ADDR']}', 
+                    mb_level = 4, 
+                    mb_email_certify = '".G5_TIME_YMDHIS."',
+                    mb_4 = '{$_SESSION['ss_com_idx']}', 
+                    {$sql_common}
+        ";
+        sql_query($sql,1);
+        //echo $sql;
+   }
+   else {
+        $sql = "UPDATE {$g5['member_table']} SET
+                    mb_level = 4, 
+                    mb_4 = '{$_SESSION['ss_com_idx']}', 
+                    {$sql_common}
+                WHERE mb_id = '".$mb_id."'
+        ";
+        sql_query($sql,1);
+   }
 
     // 메뉴 접근 권한 설정
     $set_values = explode("\n", $g5['setting']['set_employee_auth']);

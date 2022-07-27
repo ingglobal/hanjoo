@@ -104,7 +104,7 @@ else $g5['title'] .= "";
 
 $g5['title'] = '사원 '.$html_title;
 include_once('./_head.php');
-
+// echo $_SESSION['ss_com_idx'].'<br>';
 
 // 검색어 확장
 $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs;
@@ -141,7 +141,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
         <td>
             <input type="text" name="mb_id" value="<?php echo $mb['mb_id'] ?>" id="reg_mb_id" <?php echo $required_mb_id ?> class="frm_input <?php echo $required_mb_id_class ?>" size="15"  maxlength="20">
             <?php if($member['mb_manager_yn']) { ?>
-            <a href="./member_select.php?file_name=<?php echo $g5['file_name']?>&mb_where=mb_level=2" class="btn btn_02" id="btn_member">회원검색</a>
+            <a href="./member_select.php?file_name=<?php echo $g5['file_name']?>&item=mb_id" class="btn btn_02" id="btn_member">회원검색</a>
             <?php } ?>
         </td>
         <th scope="row"><label for="mb_password">비밀번호<?php echo $sound_only ?></label></th>
@@ -381,7 +381,7 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
 
 <div class="btn_fixed_top">
     <?php if($member['mb_level'] >= 9) { ?>
-    <a href="./member_login.php?mb_id=<?=$mb_id?>" class="btn btn_03">임시로그인</a>
+    <a href="./member_temp_login.php?mb_id=<?=$mb_id?>" class="btn btn_03">임시로그인</a>
     <?php } ?>
     <?php if($member['mb_manager_yn']) { ?>
     <a href="./manager_auth_setting.php?mb_id=<?=$mb_id?>" id="btn_member_auth" class="btn btn_02" style="margin-right:100px;">권한설정</a>

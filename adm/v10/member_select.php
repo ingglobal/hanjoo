@@ -4,6 +4,7 @@
 // /adm/v10/applicant_list.php: 지원자관리 - 검색
 // /adm/v10/recruit_form.php: 채용공고수정 - 검색
 // /adm/v10/manager_form.php: 관리자등록시 회원검색
+// /adm/v10/employee_form.php
     include_once('./_common.php');
 
 if($member['mb_level']<4)
@@ -20,6 +21,14 @@ include_once(G5_PATH.'/head.sub.php');
 $sql_common = " from {$g5['member_table']} ";
 $sql_where = " where mb_id <> '{$config['cf_admin']}' and mb_leave_date = '' and mb_intercept_date ='' ";
 
+if($item=="mb_id_saler"||$item=="mb_id_worker"){
+    $sql_where .= " and mb_level >= 6 ";
+} else if($item=="mb_id_company"){
+    $sql_where .= " and mb_level = 4 ";
+} else if($item=="mb_id"){
+    $sql_where .= " and mb_level = 2 ";
+}
+
 if($mb_name){
     $mb_name = preg_replace('/\!\?\*$#<>()\[\]\{\}/i', '', strip_tags($mb_name));
     $sql_where .= " and (mb_name like '%".sql_real_escape_string($mb_name)."%' or mb_id like '%".sql_real_escape_string($mb_name)."%') ";
@@ -35,7 +44,7 @@ $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
-$sql = " select mb_id, mb_name, mb_email, mb_1, mb_2
+$sql = " select mb_id, mb_name, mb_nick, mb_tel, mb_hp, mb_email, mb_1, mb_2
             $sql_common
             $sql_where
             order by mb_id
@@ -79,7 +88,9 @@ $qstr1 = 'mb_name='.urlencode($mb_name).'&file_name='.$file_name.'&item='.$item;
                 <button type="button" class="btn btn_03 btn_select"
                     mb_id="<?=$row['mb_id']?>"
                     mb_name="<?=$row['mb_name']?>"
+                    mb_nick="<?=$row['mb_nick']?>"
                     mb_hp="<?=$row['mb_hp']?>"
+                    mb_tel="<?=$row['mb_tel']?>"
                     mb_email="<?=$row['mb_email']?>"
                     mb_2="<?=$row['mb_2']?>"
                     mb_department="<?=$g5['department_name'][$row['mb_2']]?>"
@@ -107,7 +118,9 @@ $('.btn_select').click(function(e){
     e.preventDefault();
     var mb_id = $(this).attr('mb_id');
     var mb_name = $(this).attr('mb_name');
+    var mb_nick = $(this).attr('mb_nick');
     var mb_hp = $(this).attr('mb_hp');
+    var mb_tel = $(this).attr('mb_tel');
     var mb_email = $(this).attr('mb_email');
     var mb_2 = $(this).attr('mb_2');
     var mb_department = $(this).attr('mb_department');
@@ -134,12 +147,13 @@ $('.btn_select').click(function(e){
     // 사원 추가인 경우
     else if($file_name=='employee_form') {
         ?>
-        window.opener.document.getElementById('reg_mb_id').value = val1;
-        window.opener.document.getElementById('mb_name').value = val2;
-        window.opener.document.getElementById('reg_mb_nick').value = val4;
-		window.opener.document.getElementById('reg_mb_email').value = val_email;
-		window.opener.document.getElementById('reg_mb_hp').value = val_hp;
-		window.opener.document.getElementById('reg_mb_tel').value = val_tel;
+        window.opener.document.getElementById('reg_mb_id').value = mb_id;
+        window.opener.document.getElementById('mb_name').value = mb_name;
+        window.opener.document.getElementById('reg_mb_nick').value = mb_nick;
+		window.opener.document.getElementById('reg_mb_email').value = mb_email;
+		window.opener.document.getElementById('reg_mb_hp').value = mb_hp;
+		window.opener.document.getElementById('reg_mb_tel').value = mb_tel;
+		window.opener.document.getElementById('reg_mb_tel').value = mb_tel;
         $("#mb_password", window.opener.document).remove();
         <?php
     }

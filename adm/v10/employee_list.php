@@ -185,7 +185,7 @@ $colspan = 16;
     <input type="submit" name="act_button" value="선택탈퇴" onclick="document.pressed=this.value" class="btn btn_02">
     <?php } ?>
     <?php if (!auth_check($auth[$sub_menu],'w')) { ?>
-    <a href="./employee_form.php" id="member_add" class="btn btn_01">사원추가</a>
+    <a href="./employee_form.php" id="member_add" class="btn btn_01">추가하기</a>
     <?php } ?>
 
 </div>
