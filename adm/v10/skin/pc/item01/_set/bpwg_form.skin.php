@@ -60,7 +60,7 @@ $nav_align_left = ($nav_align == 'left') ? 'checked="checked"' : '';
 $nav_align_center = ($nav_align == 'center') ? 'checked="checked"' : '';
 $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="checked"' : '';
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<div>
 		<label for="bwo_nav_align_left" class="label_radio first_child bwo_nav_align_left">
 			<input type="radio" id="bwo_nav_align_left" name="bwo[nav_align]" value="left" <?=$nav_align_left?>>
@@ -81,17 +81,17 @@ $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="check
 </td>
 //컬러/투명도설정
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<?php echo bpwg_input_color('bwo[menu1_first_bg_color]',$menu1_first_bg_color,$w,1); ?>
 </td>
 //입력박스
 <td class="bwg_help">
-	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 	<input type="text" name="bwo[ttl_small]" class="bp_wdp100" value="<?=$ttl_small?>">
 </td>
 //숫자범위 100%
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_wd = (isset($menu1_wd)) ? $menu1_wd : 100;
 	echo bpwg_input_range('bwo[menu1_wd]',$menu1_wd,$w,80,400,1,'100%',38,'px');
@@ -99,7 +99,7 @@ $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="check
 </td>
 //숫자범위 147px
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_ht = (isset($menu1_ht)) ? $menu1_ht : 40;
 	echo bpwg_input_range('bwo[menu1_ht]',$menu1_ht,$w,20,200,1,'147',38,'px');
@@ -173,7 +173,7 @@ $colspan2=2;
 		<tr>
 			<th>상품노출<br>유형</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("노출하고자 하는 상품 유형을 선택하세요.('분류'를 선택했을때는 옆에 나타나는 분류목록도 선택하셔야 합니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("노출하고자 하는 상품 유형을 선택하세요.('분류'를 선택했을때는 옆에 나타나는 분류목록도 선택하셔야 합니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$item_show_type_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -200,14 +200,14 @@ $colspan2=2;
 			</td>
 			<th>상품노출<br>스킨선택</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help td_opt_skin">
-				<?php echo bwg_help("상품노출 스킨을 선택하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상품노출 스킨을 선택하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				echo bpwg_get_file_select($bwg_skin_path, 'skin', 'bwo_item_skin', 'bwo[item_skin]', $item_skin, 'required');
 				?>
 			</td>
 			<th>1줄당 상품<br>노출갯수</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1줄당 상품노출 갯수를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1줄당 상품노출 갯수를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$item_mod_cnt = (isset($item_mod_cnt)) ? $item_mod_cnt : 3;
 				echo bpwg_input_range('bwo[item_mod_cnt]',$item_mod_cnt,$w,1,40,1,'100%',32,'개');
@@ -215,7 +215,7 @@ $colspan2=2;
 			</td>
 			<th>목록출력<br>줄 수</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("출력할 상품 줄 수를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("출력할 상품 줄 수를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$item_row_cnt = (isset($item_row_cnt)) ? $item_row_cnt : 2;
 				echo bpwg_input_range('bwo[item_row_cnt]',$item_row_cnt,$w,1,10,1,'100%',32,'줄');
@@ -223,14 +223,14 @@ $colspan2=2;
 			</td>
 			<th>기본배경<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("기본 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("기본 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[basic_bg_color]',$basic_bg_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>기본너비(폭)</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("기본너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("기본너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$bsic_width_size = (isset($bsic_width_size)) ? $bsic_width_size : 1080;
 				echo bpwg_input_range('bwo[bsic_width_size]',$bsic_width_size,$w,900,1300,10,'147',45,'px');
@@ -238,7 +238,7 @@ $colspan2=2;
 			</td>
 			<th>섬네일<br>가로너비</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("섬네일의 가로너비를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("섬네일의 가로너비를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$thumb_width_size = (isset($thumb_width_size)) ? $thumb_width_size : 320;
 				echo bpwg_input_range('bwo[thumb_width_size]',$thumb_width_size,$w,300,400,2,'147',38,'px');
@@ -246,7 +246,7 @@ $colspan2=2;
 			</td>
 			<th>섬네일<br>세로높이</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("섬네일의 세로높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("섬네일의 세로높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$thumb_height_size = (isset($thumb_height_size)) ? $thumb_height_size : 250;
 				echo bpwg_input_range('bwo[thumb_height_size]',$thumb_height_size,$w,200,400,2,'147',38,'px');
@@ -254,19 +254,19 @@ $colspan2=2;
 			</td>
 			<th>타이틀</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("타이틀입력값이 없으면 [상품노출유형] 데이터가 타이틀로 노출됩니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀입력값이 없으면 [상품노출유형] 데이터가 타이틀로 노출됩니다.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[item_title]" class="bp_wdx170" value="<?=$item_title?>">
 			</td>
 		</tr>
 		<tr>
 			<th>타이틀<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("타이틀 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[title_font_color]',$title_font_color,$w,0); ?>
 			</td>
 			<th class="sthd_bg1">타이틀<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("타이틀의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_font_size = (isset($title_font_size)) ? $title_font_size : 14;
 				echo bpwg_input_range('bwo[title_font_size]',$title_font_size,$w,8,30,1,'100%',38,'px');
@@ -274,7 +274,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">타이틀<br>폰트두께</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("타이틀의 폰트 두께를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀의 폰트 두께를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_font_weight = (isset($title_font_weight)) ? $title_font_weight : 400;
 				echo bpwg_input_range('bwo[title_font_weight]',$title_font_weight,$w,100,700,100,'100%',38,'px');
@@ -282,7 +282,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">타이틀<br>상단간격</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("타이틀 상단 간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀 상단 간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_top_interval = (isset($title_top_interval)) ? $title_top_interval : 100;
 				echo bpwg_input_range('bwo[title_top_interval]',$title_top_interval,$w,5,200,5,'147',38,'px');
@@ -290,7 +290,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">타이틀<br>하단간격</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("타이틀 하단 간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀 하단 간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_bottom_interval = (isset($title_bottom_interval)) ? $title_bottom_interval : 50;
 				echo bpwg_input_range('bwo[title_bottom_interval]',$title_bottom_interval,$w,5,150,5,'147',38,'px');
@@ -300,17 +300,17 @@ $colspan2=2;
 		<tr>
 			<th>블라인드<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("블라인드 아이콘색상을 설정하세요.(grid,default_grid스킨은 블라인드 적용이 안됩니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("블라인드 아이콘색상을 설정하세요.(grid,default_grid스킨은 블라인드 적용이 안됩니다.)",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[blind_icon_color]',$blind_icon_color,$w,0); ?>
 			</td>
 			<th>블라인드<br>색상투명도</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("블라인드의 색상/투명도를 설정하세요.(grid,default_grid스킨은 블라인드 적용이 안됩니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("블라인드의 색상/투명도를 설정하세요.(grid,default_grid스킨은 블라인드 적용이 안됩니다.)",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[blind_color]',$blind_color,$w,1); ?>
 			</td>
 			<th>정보영역<br>높이</th>
 			<td colspan="<?=$colspan5?>" class="bwg_help">
-				<?php echo bwg_help("정보(텍스트)영역의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("정보(텍스트)영역의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$info_height_size = (isset($info_height_size)) ? $info_height_size : 120;
 				echo bpwg_input_range('bwo[info_height_size]',$info_height_size,$w,50,250,2,'147',38,'px');
@@ -321,7 +321,7 @@ $colspan2=2;
 			<th>상품ID<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("상품ID 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("상품ID 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$id_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[id_show]', $id_show, 0, 1,$id_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
@@ -329,7 +329,7 @@ $colspan2=2;
 			<th>상품명<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("상품명 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("상품명 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$name_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[name_show]', $name_show, 0, 1,$name_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
@@ -337,7 +337,7 @@ $colspan2=2;
 			<th>상품설명<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("상품설명 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("상품설명 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$basic_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[basic_show]', $basic_show, 0, 1,$basic_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
@@ -345,7 +345,7 @@ $colspan2=2;
 			<th>시중가격<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("시중가격 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("시중가격 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$custprice_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[custprice_show]', $custprice_show, 0, 1,$custprice_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
@@ -353,7 +353,7 @@ $colspan2=2;
 			<th>판매가격<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("판매가격 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("판매가격 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$price_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[price_show]', $price_show, 0, 1,$price_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
@@ -361,7 +361,7 @@ $colspan2=2;
 			<th>유형아이콘<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("상품유형아이콘 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("상품유형아이콘 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$icon_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[icon_show]', $icon_show, 0, 1,$icon_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
@@ -370,33 +370,33 @@ $colspan2=2;
 		<tr>
 			<th>상품ID<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상품ID 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상품ID 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[id_font_color]',$id_font_color,$w,0); ?>
 			</td>
 			<th>상품명<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상품명 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상품명 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[name_font_color]',$name_font_color,$w,0); ?>
 			</td>
 			<th>상품설명<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상품설명 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상품설명 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[basic_font_color]',$basic_font_color,$w,0); ?>
 			</td>
 			<th>시중가격<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("시중가격 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("시중가격 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[custprice_font_color]',$custprice_font_color,$w,0); ?>
 			</td>
 			<th>판매가격<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판매가격 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판매가격 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[price_font_color]',$price_font_color,$w,0); ?>
 			</td>
 			<th>SNS<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("SNS아이콘 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("SNS아이콘 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$sns_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[sns_show]', $sns_show, 0, 1,$sns_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
@@ -405,7 +405,7 @@ $colspan2=2;
 		<tr>
 			<th class="sthd_bg1">상품ID<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상품ID의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상품ID의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$id_font_size = (isset($id_font_size)) ? $id_font_size : 14;
 				echo bpwg_input_range('bwo[id_font_size]',$id_font_size,$w,8,30,1,'100%',38,'px');
@@ -413,7 +413,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">상품명<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상품명의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상품명의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$name_font_size = (isset($name_font_size)) ? $name_font_size : 14;
 				echo bpwg_input_range('bwo[name_font_size]',$name_font_size,$w,8,30,1,'100%',38,'px');
@@ -421,7 +421,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">상품설명<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상품설명의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상품설명의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$basic_font_size = (isset($basic_font_size)) ? $basic_font_size : 14;
 				echo bpwg_input_range('bwo[basic_font_size]',$basic_font_size,$w,8,30,1,'100%',38,'px');
@@ -429,7 +429,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">시중가격<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("시중가격의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("시중가격의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$custprice_font_size = (isset($custprice_font_size)) ? $custprice_font_size : 14;
 				echo bpwg_input_range('bwo[custprice_font_size]',$custprice_font_size,$w,8,30,1,'100%',38,'px');
@@ -437,7 +437,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">판매가격<br>폰트크기</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("판매가격의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판매가격의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$price_font_size = (isset($price_font_size)) ? $price_font_size : 14;
 				echo bpwg_input_range('bwo[price_font_size]',$price_font_size,$w,8,30,1,'104',38,'px');
@@ -448,24 +448,24 @@ $colspan2=2;
 			<th>목록버튼<br>표시여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("목록페이지로 이동하는 버튼의 표시여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("목록페이지로 이동하는 버튼의 표시여부를 설정하세요.",1,'#555555','#eeeeee');
 				$listlink_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
 				<?php echo bwgf_select_selected($g5['bpwidget']['bwgf_show_hide'], 'bwo[listlink_show]', $listlink_show, 0, 1,$listlink_show_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) ?>
 			</td>
 			<th>목록버튼<br>배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("목록페이지로 이동버튼 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록페이지로 이동버튼 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[listlink_bg_color]',$listlink_bg_color,$w,0); ?>
 			</td>
 			<th>목록버튼<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("목록페이지로 이동버튼 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록페이지로 이동버튼 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[listlink_font_color]',$listlink_font_color,$w,0); ?>
 			</td>
 			<th>목록버튼<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("목록버튼의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록버튼의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$listlink_font_size = (isset($listlink_font_size)) ? $listlink_font_size : 14;
 				echo bpwg_input_range('bwo[listlink_font_size]',$listlink_font_size,$w,8,30,1,'100%',38,'px');
@@ -473,7 +473,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">목록버튼<br>가로너비</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("목록버튼의 가로너비를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록버튼의 가로너비를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$listlink_width_size = (isset($listlink_width_size)) ? $listlink_width_size : 320;
 				echo bpwg_input_range('bwo[listlink_width_size]',$listlink_width_size,$w,100,400,10,'100%',38,'px');
@@ -481,7 +481,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">목록버튼<br>세로높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("목록버튼의 세로높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록버튼의 세로높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$listlink_height_size = (isset($listlink_height_size)) ? $listlink_height_size : 60;
 				echo bpwg_input_range('bwo[listlink_height_size]',$listlink_height_size,$w,20,100,5,'100%',38,'px');
@@ -491,7 +491,7 @@ $colspan2=2;
 		<tr>
 			<th class="sthd_bg1">목록버튼<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("목록버튼의 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록버튼의 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$listlink_top_interval = (isset($listlink_top_interval)) ? $listlink_top_interval : 70;
 				echo bpwg_input_range('bwo[listlink_top_interval]',$listlink_top_interval,$w,5,100,5,'100%',38,'px');
@@ -499,7 +499,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">목록버튼<br>하단간격</th>
 			<td colspan="<?=$colspan9?>" class="bwg_help">
-				<?php echo bwg_help("목록버튼의 하단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록버튼의 하단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$listlink_bottom_interval = (isset($listlink_bottom_interval)) ? $listlink_bottom_interval : 20;
 				echo bpwg_input_range('bwo[listlink_bottom_interval]',$listlink_bottom_interval,$w,5,150,5,'100',38,'px');

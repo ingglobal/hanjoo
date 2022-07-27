@@ -60,7 +60,7 @@ $nav_align_left = ($nav_align == 'left') ? 'checked="checked"' : '';
 $nav_align_center = ($nav_align == 'center') ? 'checked="checked"' : '';
 $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="checked"' : '';
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<div>
 		<label for="bwo_nav_align_left" class="label_radio first_child bwo_nav_align_left">
 			<input type="radio" id="bwo_nav_align_left" name="bwo[nav_align]" value="left" <?=$nav_align_left?>>
@@ -81,17 +81,17 @@ $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="check
 </td>
 //컬러/투명도설정
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<?php echo bpwg_input_color('bwo[menu1_first_bg_color]',$menu1_first_bg_color,$w,1); ?>
 </td>
 //입력박스
 <td class="bwg_help">
-	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 	<input type="text" name="bwo[ttl_small]" class="bp_wdp100" value="<?=$ttl_small?>">
 </td>
 //숫자범위 100%
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_wd = (isset($menu1_wd)) ? $menu1_wd : 100;
 	echo bpwg_input_range('bwo[menu1_wd]',$menu1_wd,$w,80,400,1,'100%',38,'px');
@@ -99,7 +99,7 @@ $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="check
 </td>
 //숫자범위 147px
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_ht = (isset($menu1_ht)) ? $menu1_ht : 40;
 	echo bpwg_input_range('bwo[menu1_ht]',$menu1_ht,$w,20,200,1,'147',38,'px');
@@ -154,7 +154,7 @@ $colspan2=2;
 		<tr>
 			<th>배너<br>높이</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("배너의 높이를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("배너의 높이를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$bnr_ht = (isset($bnr_ht)) ? $bnr_ht : 200;
 				echo bpwg_input_range('bwo[bnr_ht]',$bnr_ht,$w,100,300,5,'162',44,'px');
@@ -162,7 +162,7 @@ $colspan2=2;
 			</td>
 			<th>배너상단<br>간격</th>
 			<td colspan="<?=$colspan7?>" class="bwg_help">
-				<?php echo bwg_help("배너상단의 간격을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("배너상단의 간격을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$bnr_top_interval = (isset($bnr_top_interval)) ? $bnr_top_interval : 30;
@@ -173,12 +173,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#1<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text1_color]',$text1_color,$w,0); ?>
 			</td>
 			<th>텍스트#1<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text1_font_size = (isset($text1_font_size)) ? $text1_font_size : 24;
@@ -194,7 +194,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#1<br>기준위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -202,7 +202,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#1<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text_x_pos = (isset($text_x_pos)) ? $text_x_pos : 10;
 				?>
@@ -210,7 +210,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#1<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text_y_pos = (isset($text_y_pos)) ? $text_y_pos : 10;
 				?>
@@ -220,12 +220,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#2<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text2_color]',$text2_color,$w,0); ?>
 			</td>
 			<th>텍스트#2<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text2_font_size = (isset($text2_font_size)) ? $text2_font_size : 20;
@@ -241,7 +241,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#2<br>기준위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text2_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -249,7 +249,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#2<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text2_x_pos = (isset($text2_x_pos)) ? $text2_x_pos : 10;
 				?>
@@ -257,7 +257,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#2<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text2_y_pos = (isset($text2_y_pos)) ? $text2_y_pos : 10;
 				?>
@@ -267,12 +267,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#3<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text3_color]',$text3_color,$w,0); ?>
 			</td>
 			<th>텍스트#3<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text3_font_size = (isset($text3_font_size)) ? $text3_font_size : 18;
@@ -288,7 +288,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#3<br>기준위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text3_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -296,7 +296,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#3<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text3_x_pos = (isset($text3_x_pos)) ? $text3_x_pos : 10;
 				?>
@@ -304,7 +304,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#3<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text3_y_pos = (isset($text3_y_pos)) ? $text3_y_pos : 10;
 				?>
@@ -314,12 +314,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#4<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text4_color]',$text4_color,$w,0); ?>
 			</td>
 			<th>텍스트#4<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text4_font_size = (isset($text4_font_size)) ? $text4_font_size : 20;
@@ -335,7 +335,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#4<br>기준위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -343,7 +343,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#4<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4_x_pos = (isset($text4_x_pos)) ? $text4_x_pos : 10;
 				?>
@@ -351,7 +351,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#4<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4_y_pos = (isset($text4_y_pos)) ? $text4_y_pos : 10;
 				?>
@@ -361,12 +361,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#4<br>버튼배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4 버튼의 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4 버튼의 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text4btn_bg_color]',$text4btn_bg_color,$w,0); ?>
 			</td>
 			<th class="sthd_bg1">텍스트#4<br>버튼너비</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4 버튼의 너비를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4 버튼의 너비를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4btn_width_size = (isset($text4btn_width_size)) ? $text4btn_width_size : 130;
 				echo bpwg_input_range('bwo[text4btn_width_size]',$text4btn_width_size,$w,70,400,10,'100%',38,'px');
@@ -374,7 +374,7 @@ $colspan2=2;
 			</td>
 			<th class="sthd_bg1">텍스트#4<br>버튼높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4 버튼의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4 버튼의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4btn_height_size = (isset($text4btn_height_size)) ? $text4btn_height_size : 40;
 				echo bpwg_input_range('bwo[text4btn_height_size]',$text4btn_height_size,$w,20,50,5,'100%',38,'px');
@@ -382,7 +382,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트표시<br>지연시간</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트 표시되기까지의 지연시간을 설정하세요.(미세조정은 키보드의 방향키로 조정하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트 표시되기까지의 지연시간을 설정하세요.(미세조정은 키보드의 방향키로 조정하세요.)",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text_delay_time = (isset($text_delay_time)) ? $text_delay_time : 1;
@@ -391,7 +391,7 @@ $colspan2=2;
 			</td>
 			<th>블라인드<br>색상</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("배경블라인드 색상과 투명도를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("배경블라인드 색상과 투명도를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[blind_color]',$blind_color,$w,1); ?>
 			</td>
 		</tr>

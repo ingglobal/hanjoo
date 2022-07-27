@@ -114,8 +114,8 @@ button span{position:relative;top:2px;margin-left:3px;color:#888;}
 .label_radio input{display:none;}
 .label_radio strong{display:block;width:16px;height:16px;background:url(../img/r_off.png) no-repeat center center;background-size:100% 100%;float:left;}
 .label_radio input:checked + strong{width:16px;height:16px;background:url(../img/r_on.png) no-repeat center center;background-size:100% 100%;}
-.label_radio span{display:block;float:right;height:16px;line-height:16px;padding-left:3px;font-size:1.1em;color:#777;}
-.label_radio input:checked + strong + span{color:#000;}
+.label_radio span{display:block;float:right;height:16px;line-height:16px;padding-left:3px;font-size:1.1em;color:#aaa;}
+.label_radio input:checked + strong + span{color:#fff;}
 
 /*체크박스*/
 /*
@@ -131,8 +131,8 @@ button span{position:relative;top:2px;margin-left:3px;color:#888;}
 .label_checkbox input{display:none;}
 .label_checkbox strong{display:block;width:16px;height:16px;background:url(../img/c_off.png) no-repeat center center;background-size:100% 100%;float:left;}
 .label_checkbox input:checked + strong{width:16px;height:16px;background:url(../img/c_on.png) no-repeat center center;background-size:100% 100%;}
-.label_checkbox span{display:block;float:right;height:16px;line-height:16px;padding-left:3px;font-size:1.1em;color:#777;}
-.label_checkbox input:checked + strong + span{color:#000;}
+.label_checkbox span{display:block;float:right;height:16px;line-height:16px;padding-left:3px;font-size:1.1em;color:#aaa;}
+.label_checkbox input:checked + strong + span{color:#fff;}
 
 /*입력박스관련 정보문장*/
 /*
@@ -142,6 +142,6 @@ button span{position:relative;top:2px;margin-left:3px;color:#888;}
 */
 .wdg_help .wdg_info_box{position:relative;display:none;}
 .wdg_help:hover .wdg_info_box{display:block;}
-.wdg_help .wdg_info_box .wdg_info{position:absolute;left:0px;border:1px solid #dddddd;border-radius:3px;overflow:hidden;padding:5px;line-height:1.2em;}
-.wdg_help .wdg_info_box .wdg_info.iup{bottom:0px;box-shadow:3px -3px 6px #eeeeee;}
-.wdg_help .wdg_info_box .wdg_info.idown{top:0px;box-shadow:3px 3px 6px #eeeeee;}
+.wdg_help .wdg_info_box .wdg_info{position:absolute;left:0px;border:1px solid #777777;border-radius:3px;overflow:hidden;padding:5px;line-height:1.2em;}
+.wdg_help .wdg_info_box .wdg_info.iup{bottom:0px;}
+.wdg_help .wdg_info_box .wdg_info.idown{top:0px;}

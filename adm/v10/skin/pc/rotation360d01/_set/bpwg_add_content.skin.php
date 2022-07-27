@@ -27,12 +27,12 @@ $data_maxfile = $g5['bpwidget']['bwgf_filesize'];
 						<tr>
 							<th>유튜브URL</th>
 							<td class="bwg_help">
-								<?php echo bwg_help("유튜브동영상페이지에서 [공유] > 팝업창에 표시된 [URL]을 복사해서 붙여넣기 하세요. 절대 [소스퍼가기]의 iframe소스를 넣지 마세요.<br><span style='color:blue;'>[OK] https://youtu.be/Wop6B-HgTEg</span><br><span style='color:red;'>[NO]&lt;iframe ~~~&gt;&lt;/iframe&gt;</span>",1,'#f9fac6','#333333'); ?>
+								<?php echo bwg_help("유튜브동영상페이지에서 [공유] > 팝업창에 표시된 [URL]을 복사해서 붙여넣기 하세요. 절대 [소스퍼가기]의 iframe소스를 넣지 마세요.<br><span style='color:blue;'>[OK] https://youtu.be/Wop6B-HgTEg</span><br><span style='color:red;'>[NO]&lt;iframe ~~~&gt;&lt;/iframe&gt;</span>",1,'#555555','#eeeeee'); ?>
 								<input type="text" name="bwgc_ytb_url" class="bp_wdp100" value="">
 							</td>
 							<th>전체링크</th>
 							<td class="bwg_help">
-								<?php echo bwg_help("전체링크에 값이 있으면 개별링크는 반영되지 않습니다.",1,'#f9fac6','#333333'); ?>
+								<?php echo bwg_help("전체링크에 값이 있으면 개별링크는 반영되지 않습니다.",1,'#555555','#eeeeee'); ?>
 								<input type="text" name="bwgc_link0" class="bp_wdp80" value="">
 								<select name="bwgc_link0_target">
 									<option value="_self">현재창</option>

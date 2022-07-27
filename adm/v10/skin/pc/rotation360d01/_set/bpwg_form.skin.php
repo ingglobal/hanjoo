@@ -94,7 +94,7 @@ $colspan2=2;
 		<tr>
 			<th>기본너비</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("기본너비(폭)을 설정값을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("기본너비(폭)을 설정값을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$mbnr_default_wd = (isset($mbnr_default_wd)) ? $mbnr_default_wd : 1080;
 				?>
@@ -102,7 +102,7 @@ $colspan2=2;
 			</td>
 			<th>영상/사진<br>너비(배경)</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("영상및 이미지의 너비(폭)를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("영상및 이미지의 너비(폭)를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sld_wd = (isset($sld_wd)) ? $sld_wd : 1920;
 				?>
@@ -110,7 +110,7 @@ $colspan2=2;
 			</td>
 			<th>영상/사진<br>높이(배경)</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("영상및 이미지의 높이를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("영상및 이미지의 높이를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sld_ht = (isset($sld_ht)) ? $sld_ht : 780;
 				?>
@@ -118,20 +118,20 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>상품아이디</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help td_it_state">
-				<?php echo bwg_help("회전이미지를 등록한 상품ID를 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지를 등록한 상품ID를 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[it_id]" class="bp_wdx82 input_it_id" value="<?=$it_id?>">
 				<strong class="it_state" status="pending"></strong>
 			</td>
 			<th>회전이미지<br>상품비율</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("등록된 상품의 회전이미지의 가로/세로 비율을 확인하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("등록된 상품의 회전이미지의 가로/세로 비율을 확인하세요.",1,'#555555','#eeeeee'); ?>
 				<strong class="it_ratio"></strong>
 			</td>
 		</tr>
 		<tr>
 			<th>회전이미지<br>기준위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$rollimg_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -139,7 +139,7 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$rollimg_x_pos = (isset($rollimg_x_pos)) ? $rollimg_x_pos : 10;
 				?>
@@ -147,7 +147,7 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$rollimg_y_pos = (isset($rollimg_y_pos)) ? $rollimg_y_pos : 10;
 				?>
@@ -155,7 +155,7 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>너비</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 너비(폭)를 설정하세요.(미세설정은 키보드의 방향키를 이용하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 너비(폭)를 설정하세요.(미세설정은 키보드의 방향키를 이용하세요.)",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$rollimg_wd = (isset($rollimg_wd)) ? $rollimg_wd : 300;
@@ -164,7 +164,7 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 높이를 설정하세요.(미세설정은 키보드의 방향키를 이용하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 높이를 설정하세요.(미세설정은 키보드의 방향키를 이용하세요.)",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$rollimg_ht = (isset($rollimg_ht)) ? $rollimg_ht : 300;
@@ -173,7 +173,7 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>비율</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 가로/세로 비율을 확인하세요.(해당상품의 비율을 참고해서 가로/세로 사이즈를 설정하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 가로/세로 비율을 확인하세요.(해당상품의 비율을 참고해서 가로/세로 사이즈를 설정하세요.)",1,'#555555','#eeeeee'); ?>
 				<strong class="rollimg_ratio"><?=number_format($rollimg_wd/$rollimg_ht,2,'.','')?></strong>
 				<script>
 				$('.rollimg_size').on('change',function(){
@@ -188,7 +188,7 @@ $colspan2=2;
 		<tr>
 			<th>회전이미지<br>표시여부</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 표시여부를 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 표시여부를 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$rollimg_show_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -196,7 +196,7 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>자동회전</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 자동회전 여부를 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 자동회전 여부를 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$rollimg_autoplay_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -204,7 +204,7 @@ $colspan2=2;
 			</td>
 			<th>자동회전<br>방향</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 자동회전 방향을 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 자동회전 방향을 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$autoplay_direct_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -212,7 +212,7 @@ $colspan2=2;
 			</td>
 			<th>마우스회전<br>방향</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 마우스회전 방향을 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 마우스회전 방향을 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$mouse_direct_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -220,7 +220,7 @@ $colspan2=2;
 			</td>
 			<th>회전속도</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 자동회전 속도를 설정하세요.(숫자가 작을수로 빨라집니다. 미세조정은 키보드의 방향키로 조정하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 자동회전 속도를 설정하세요.(숫자가 작을수로 빨라집니다. 미세조정은 키보드의 방향키로 조정하세요.)",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$rollimg_speed = (isset($rollimg_speed)) ? $rollimg_speed : 0.1;
@@ -229,7 +229,7 @@ $colspan2=2;
 			</td>
 			<th>회전이미지<br>로딩시간</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("회전이미지의 로딩시간을 설정하세요.(미세조정은 키보드의 방향키로 조정하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("회전이미지의 로딩시간을 설정하세요.(미세조정은 키보드의 방향키로 조정하세요.)",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$rollimg_loading_time = (isset($rollimg_loading_time)) ? $rollimg_loading_time : 1;
@@ -240,12 +240,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#1<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text1_color]',$text1_color,$w,0); ?>
 			</td>
 			<th>텍스트#1<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text1_font_size = (isset($text1_font_size)) ? $text1_font_size : 50;
@@ -261,7 +261,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#1<br>기준정렬X</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -269,7 +269,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#1<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text_x_pos = (isset($text_x_pos)) ? $text_x_pos : 10;
 				?>
@@ -277,7 +277,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#1<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text_y_pos = (isset($text_y_pos)) ? $text_y_pos : 10;
 				?>
@@ -287,12 +287,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#2<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text2_color]',$text2_color,$w,0); ?>
 			</td>
 			<th>텍스트#2<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text2_font_size = (isset($text2_font_size)) ? $text2_font_size : 40;
@@ -308,7 +308,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#2<br>기준정렬X</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text2_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -316,7 +316,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#2<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text2_x_pos = (isset($text2_x_pos)) ? $text2_x_pos : 10;
 				?>
@@ -324,7 +324,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#2<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text2_y_pos = (isset($text2_y_pos)) ? $text2_y_pos : 10;
 				?>
@@ -334,12 +334,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#3<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text3_color]',$text3_color,$w,0); ?>
 			</td>
 			<th>텍스트#3<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text3_font_size = (isset($text3_font_size)) ? $text3_font_size : 30;
@@ -355,7 +355,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#3<br>기준정렬X</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text3_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -363,7 +363,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#3<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text3_x_pos = (isset($text3_x_pos)) ? $text3_x_pos : 10;
 				?>
@@ -371,7 +371,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#3<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text3_y_pos = (isset($text3_y_pos)) ? $text3_y_pos : 10;
 				?>
@@ -381,12 +381,12 @@ $colspan2=2;
 		<tr>
 			<th>텍스트#4<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text4_color]',$text4_color,$w,0); ?>
 			</td>
 			<th>텍스트#4<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text4_font_size = (isset($text4_font_size)) ? $text4_font_size : 20;
@@ -402,7 +402,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#4<br>기준정렬X</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 가로방향의 기준위치를 설정해 주세요.('가운데'로 설정하시면 x위치 설정은 반영되지 않습니다.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4_horizontal_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				?>
@@ -410,7 +410,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#4<br>X위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 x방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 x방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4_x_pos = (isset($text4_x_pos)) ? $text4_x_pos : 10;
 				?>
@@ -418,7 +418,7 @@ $colspan2=2;
 			</td>
 			<th>텍스트#4<br>Y위치</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 y방향의 위치를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 y방향의 위치를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$text4_y_pos = (isset($text4_y_pos)) ? $text4_y_pos : 10;
 				?>
@@ -428,7 +428,7 @@ $colspan2=2;
 		<tr>
 			<th>텍스트표시<br>지연시간</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트 표시되기까지의 지연시간을 설정하세요.(미세조정은 키보드의 방향키로 조정하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트 표시되기까지의 지연시간을 설정하세요.(미세조정은 키보드의 방향키로 조정하세요.)",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text_delay_time = (isset($text_delay_time)) ? $text_delay_time : 1;
@@ -437,7 +437,7 @@ $colspan2=2;
 			</td>
 			<th>블라인드<br>색상</th>
 			<td colspan="<?=$colspan9?>" class="bwg_help">
-				<?php echo bwg_help("배경블라인드 색상과 투명도를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("배경블라인드 색상과 투명도를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[blind_color]',$blind_color,$w,1); ?>
 			</td>
 		</tr>
