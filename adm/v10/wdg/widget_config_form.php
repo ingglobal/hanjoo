@@ -313,12 +313,12 @@ $readonly = (!$conf_edit_flag) ? " readonly" : "";
 			<tr>
 				<th>위젯목록<br>메뉴번호</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("여섯자리 숫자 입력. 값이 없으면 기본값은 '910100'으로 입력됩니다.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("여섯자리 숫자 입력. 값이 없으면 기본값은 '910100'으로 입력됩니다.",1,'#555555','#eeeeee'); ?>
 					<input type="text" name="wgf_sub_menu"<?=$readonly?> class="wg_wdp100<?=$readonly?>" value="<?=$wdg_sub_menu?>">
 				</td>
 				<th>위젯환경설정<br>메뉴번호</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("여섯자리 숫자 입력. 값이 없으면 기본값 '910200'으로 입력됩니다.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("여섯자리 숫자 입력. 값이 없으면 기본값 '910200'으로 입력됩니다.",1,'#555555','#eeeeee'); ?>
 					<input type="text" name="wgf_sub_menu2"<?=$readonly?> class="wg_wdp100<?=$readonly?>" value="<?=$wdg_sub_menu2?>">
 				</td>
 				<th>위젯캐시<br>저장시간</th>
@@ -327,31 +327,31 @@ $readonly = (!$conf_edit_flag) ? " readonly" : "";
 					$cache_time은 시간단위 
 					1시간=1, 5초=0.00139, 10초=0.0028, 20초=0.0056, 30초=0.0084, 40초=0.012, 50초=0.0139, 60초=0.0167, 3600초=1시간
 					-->
-					<?php echo wdg_help("캐시 저장시간의 값이 작을수록 위젯 수정후 반영되는 시간이 짧아집니다.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("캐시 저장시간의 값이 작을수록 위젯 수정후 반영되는 시간이 짧아집니다.",1,'#555555','#eeeeee'); ?>
 					<?php echo wdg_select_selected($wgf_cachetime, 'wgf_cache_time', $wgf_cache_time, 0,0,0);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','wgf_status(name속성)','ok(값)',0(값없음활성화),1(필수여부)) ?>
 				</td>
 			</tr>
 			<tr>
 				<th>위젯스킨목록<br>메뉴번호</th>
 				<td colspan="<?=$colspan5?>" class="wdg_help">
-					<?php echo wdg_help("여섯자리 숫자 입력. 값이 없으면 기본값은 '910100'으로 입력됩니다.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("여섯자리 숫자 입력. 값이 없으면 기본값은 '910100'으로 입력됩니다.",1,'#555555','#eeeeee'); ?>
 					<input type="text" name="wgf_sub_menu3"<?=$readonly?> class="wg_wdx315<?=$readonly?>" value="<?=$wdg_sub_menu3?>">
 				</td>
 			</tr>
 			<tr>
 				<th>개별업로드<br>파일용량</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("(예 : 300)개별업로드 용량이 크면 페이지로딩에 영향을 줍니다.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("(예 : 300)개별업로드 용량이 크면 페이지로딩에 영향을 줍니다.",1,'#555555','#eeeeee'); ?>
 					최대 <input type="text" name="wgf_filesize" class="wg_wdp40" value="<?=$wgf_filesize?>" style="text-align:right;">&nbsp;KB 까지
 				</td>
 				<th>업로드하는<br>멀티파일 총용량</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("(예 : 3000)멀티파일 총용량이 크면 페이지로딩에 영향을 줍니다.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("(예 : 3000)멀티파일 총용량이 크면 페이지로딩에 영향을 줍니다.",1,'#555555','#eeeeee'); ?>
 					최대 <input type="text" name="wgf_total_filesize" class="wg_wdp40" value="<?=$wgf_total_filesize?>" style="text-align:right;">&nbsp;KB 까지
 				</td>
 				<th>PC기본색상</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("PC버전에서 사이트 전체 기본 배경/폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("PC버전에서 사이트 전체 기본 배경/폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 					<ul class="ul_pc_basic_color">
 						<li>
 						배경<br>
@@ -367,7 +367,7 @@ $readonly = (!$conf_edit_flag) ? " readonly" : "";
 			<tr>
 				<th>모바일 기본색상</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("모바일 버전에서 사이트 전체 기본 배경/폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("모바일 버전에서 사이트 전체 기본 배경/폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 					<ul class="ul_pc_basic_color">
 						<li>
 						배경<br>
@@ -381,7 +381,7 @@ $readonly = (!$conf_edit_flag) ? " readonly" : "";
 				</td>
 				<th>기본선형<br>그라데이션색상</th>
 				<td colspan="<?=$colspan3?>" class="wdg_help">
-					<?php echo wdg_help("사이트 전체 기본 선형 그라데이션 색상을 설정하세요.(주로 로그인,비번확인,비번찾기 페이지에서 사용됨.)",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("사이트 전체 기본 선형 그라데이션 색상을 설정하세요.(주로 로그인,비번확인,비번찾기 페이지에서 사용됨.)",1,'#555555','#eeeeee'); ?>
 					<ul class="ul_pc_basic_color">
 						<li>
 						From 색상<br>
@@ -397,7 +397,7 @@ $readonly = (!$conf_edit_flag) ? " readonly" : "";
 			<tr>
 				<th>캐시시간</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("예제 : 0=0초,0.00139=5초,0.0028=10초,0.0056=20초,0.0084=30초,0.012=40초,0.0139=50초,0.0167=60초,1=1시간",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("예제 : 0=0초,0.00139=5초,0.0028=10초,0.0056=20초,0.0084=30초,0.012=40초,0.0139=50초,0.0167=60초,1=1시간",1,'#555555','#eeeeee'); ?>
 					<!--
 					$cache_time은 시간단위 
 					1시간=1, 5초=0.00139, 10초=0.0028, 20초=0.0056, 30초=0.0084, 40초=0.012, 50초=0.0139, 60초=0.0167, 3600초=1시간
@@ -406,12 +406,12 @@ $readonly = (!$conf_edit_flag) ? " readonly" : "";
 				</td>
 				<th>언어설정</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("예제 : ko_KR=한국,en_US=영어,zh_CN=중국,ja_JP=일본",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("예제 : ko_KR=한국,en_US=영어,zh_CN=중국,ja_JP=일본",1,'#555555','#eeeeee'); ?>
 					<input type="text" name="wgf_language"<?=$readonly?> class="wg_wdp100<?=$readonly?>" value="<?=$wgf_language?>">
 				</td>
 				<th>공통 상태</th>
 				<td class="wdg_help">
-					<?php echo wdg_help("예제 : pending=대기,ok=정상,hide=숨김,trash=삭제",1,'#f9fac6','#333333'); ?>
+					<?php echo wdg_help("예제 : pending=대기,ok=정상,hide=숨김,trash=삭제",1,'#555555','#eeeeee'); ?>
 					<input type="text" name="wgf_common_status"<?=$readonly?> class="wg_wdp100<?=$readonly?>" value="<?=$wgf_common_status?>">
 				</td>
 			</tr>

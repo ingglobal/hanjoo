@@ -60,7 +60,7 @@ $nav_align_left = ($nav_align == 'left') ? 'checked="checked"' : '';
 $nav_align_center = ($nav_align == 'center') ? 'checked="checked"' : '';
 $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="checked"' : '';
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<div>
 		<label for="bwo_nav_align_left" class="label_radio first_child bwo_nav_align_left">
 			<input type="radio" id="bwo_nav_align_left" name="bwo[nav_align]" value="left" <?=$nav_align_left?>>
@@ -84,17 +84,17 @@ $radio_wu_disable_flag = ($w == 'u') ? 1 : 0; //수정모드에서 비활성화�
 <?php echo bwgf_radio_checked($bwgf_device, 'bwgs_device', $bwgs_device, $radio_wu_disable_flag);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwgf_status(name속성)','ok(값)',0(값없음활성화),1(필수여부)) ?>
 //컬러/투명도설정
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<?php echo bpwg_input_color('bwo[menu1_first_bg_color]',$menu1_first_bg_color,$w,1); ?>
 </td>
 //입력박스
 <td class="bwg_help">
-	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 	<input type="text" name="bwo[ttl_small]" class="bp_wdp100" value="<?=$ttl_small?>">
 </td>
 //숫자범위 100%
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_wd = (isset($menu1_wd)) ? $menu1_wd : 100;
 	echo bpwg_input_range('bwo[menu1_wd]',$menu1_wd,$w,80,400,1,'100%',38,'px');
@@ -102,7 +102,7 @@ $radio_wu_disable_flag = ($w == 'u') ? 1 : 0; //수정모드에서 비활성화�
 </td>
 //숫자범위 147px
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_ht = (isset($menu1_ht)) ? $menu1_ht : 40;
 	echo bpwg_input_range('bwo[menu1_ht]',$menu1_ht,$w,20,200,1,'147',38,'px');
@@ -168,19 +168,19 @@ $colspan2=2;
 		<tr>
 			<th>헤더<br>배경색상</th>
 			<td colspan="<?=$colspan5?>" class="bwg_help">
-				<?php echo bwg_help("헤더의 기본 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더의 기본 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[head_bg_color]',$head_bg_color,$w,1); ?>
 			</td>
 			<th>헤더 하단<br>라인색</th>
 			<td colspan="<?=$colspan5?>" class="bwg_help">
-				<?php echo bwg_help("헤더하단 라인의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더하단 라인의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[head_line_color]',$head_line_color,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>헤더높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("헤더 높이(px)를 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더 높이(px)를 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$head_height = (isset($head_height)) ? $head_height : 60;
 				echo bpwg_input_range('bwo[head_height]',$head_height,$w,40,80,1,'100%',38,'px');
@@ -188,12 +188,12 @@ $colspan2=2;
 			</td>
 			<th>메뉴열기<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("헤더 메뉴열기 아이콘(3선메뉴)의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더 메뉴열기 아이콘(3선메뉴)의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu_icon_color]',$menu_icon_color,$w,0); ?>
 			</td>
 			<th>메뉴열기<br>아이콘크기</th>
 			<td class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("헤더 메뉴열기 아이콘(3선메뉴) 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더 메뉴열기 아이콘(3선메뉴) 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu_icon_size = (isset($menu_icon_size)) ? $menu_icon_size : 30;
 				echo bpwg_input_range('bwo[menu_icon_size]',$menu_icon_size,$w,10,50,1,'100%',38,'px');
@@ -202,14 +202,14 @@ $colspan2=2;
 			<th>메뉴열기<br>아이콘정렬</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("메뉴열기 아이콘 버튼의 좌우 정렬을 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("메뉴열기 아이콘 버튼의 좌우 정렬을 선택하세요.",1,'#555555','#eeeeee');
 				$menu_icon_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_horizontal_align2'], 'bwo[menu_icon_align]', $menu_icon_align, 0, 0,$menu_icon_align_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
 			</td>
 			<th>메뉴열기<br>아이콘X값</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("메뉴열기 아이콘의 X위치 값(px)을 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("메뉴열기 아이콘의 X위치 값(px)을 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu_icon_x = (isset($menu_icon_x)) ? $menu_icon_x : 20;
 				echo bpwg_input_range('bwo[menu_icon_x]',$menu_icon_x,$w,0,40,1,'100',38,'px');
@@ -220,19 +220,19 @@ $colspan2=2;
 			<th>검색사용<br>여부</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("검색사용 여부를 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("검색사용 여부를 선택하세요.",1,'#555555','#eeeeee');
 				$sch_use_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_yes_no'], 'bwo[sch_use]', $sch_use, 0, 0,$sch_use_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
 			</td>
 			<th>검색창열기<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("헤더 검색창열기 아이콘(돋보기 모양 아이콘)의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더 검색창열기 아이콘(돋보기 모양 아이콘)의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[sch_open_icon_color]',$sch_open_icon_color,$w,0); ?>
 			</td>
 			<th>검색창열기<br>아이콘크기</th>
 			<td class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("헤더 검색창열기 아이콘(돋보기 모양 아이콘)의 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더 검색창열기 아이콘(돋보기 모양 아이콘)의 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sch_open_icon_size = (isset($sch_open_icon_size)) ? $sch_open_icon_size : 30;
 				echo bpwg_input_range('bwo[sch_open_icon_size]',$sch_open_icon_size,$w,10,50,1,'100%',38,'px');
@@ -241,14 +241,14 @@ $colspan2=2;
 			<th>검색창열기<br>아이콘정렬</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("검색창 열기 아이콘 버튼의 좌우 정렬을 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("검색창 열기 아이콘 버튼의 좌우 정렬을 선택하세요.",1,'#555555','#eeeeee');
 				$sch_open_icon_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_horizontal_align2'], 'bwo[sch_open_icon_align]', $sch_open_icon_align, 0, 0,$sch_open_icon_align_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
 			</td>
 			<th>검색창열기<br>아이콘X값</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("메뉴열기 아이콘의 X위치 값(px)을 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("메뉴열기 아이콘의 X위치 값(px)을 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sch_open_icon_x = (isset($sch_open_icon_x)) ? $sch_open_icon_x : 20;
 				echo bpwg_input_range('bwo[sch_open_icon_x]',$sch_open_icon_x,$w,0,40,1,'100',38,'px');
@@ -259,7 +259,7 @@ $colspan2=2;
 			<th>검색버튼<br>아이콘정렬</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("검색버튼 아이콘의 좌우 정렬을 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("검색버튼 아이콘의 좌우 정렬을 선택하세요.",1,'#555555','#eeeeee');
 				$sch_icon_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_horizontal_align2'], 'bwo[sch_icon_align]', $sch_icon_align, 0, 0,$sch_icon_align_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
@@ -267,19 +267,19 @@ $colspan2=2;
 			<th>검색유형</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("검색유형(상품검색,일반검색)을 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("검색유형(상품검색,일반검색)을 선택하세요.",1,'#555555','#eeeeee');
 				$sch_shop_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_sch_shop'], 'bwo[sch_shop]', $sch_shop, 0, 0,$sch_shop_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
 			</td>
 			<th>검색버튼<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("검색 버튼 아이콘의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("검색 버튼 아이콘의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[sch_icon_color]',$sch_icon_color,$w,0); ?>
 			</td>
 			<th>검색버튼<br>아이콘크기</th>
 			<td class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("헤더 검색버튼 아이콘(돋보기 모양 아이콘)의 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("헤더 검색버튼 아이콘(돋보기 모양 아이콘)의 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sch_icon_size = (isset($sch_icon_size)) ? $sch_icon_size : 30;
 				echo bpwg_input_range('bwo[sch_icon_size]',$sch_icon_size,$w,10,50,1,'100%',38,'px');
@@ -287,24 +287,24 @@ $colspan2=2;
 			</td>
 			<th>검색입력란<br>배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("검색 입력란의 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("검색 입력란의 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[sch_bg_color]',$sch_bg_color,$w,0); ?>
 			</td>
 			<th>검색입력란<br>라인색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("검색 입력란의 라인색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("검색 입력란의 라인색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[sch_line_color]',$sch_line_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>검색입력란<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("검색 입력란의 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("검색 입력란의 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[sch_font_color]',$sch_font_color,$w,0); ?>
 			</td>
 			<th>검색입력란<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("검색 입력란의 폰트 크기(px)를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("검색 입력란의 폰트 크기(px)를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sch_font_size = (isset($sch_font_size)) ? $sch_font_size : 20;
 				echo bpwg_input_range('bwo[sch_font_size]',$sch_font_size,$w,15,30,1,'100',38,'px');
@@ -312,12 +312,12 @@ $colspan2=2;
 			</td>
 			<th>검색닫기<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("검색닫기 버튼 아이콘의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("검색닫기 버튼 아이콘의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[sch_close_icon_color]',$sch_close_icon_color,$w,0); ?>
 			</td>
 			<th>검색닫기<br>아이콘크기</th>
 			<td colspan="<?=$colspan5?>" class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("검색닫기 버튼 아이콘(돋보기 모양 아이콘)의 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("검색닫기 버튼 아이콘(돋보기 모양 아이콘)의 가로세로(같은비율) 사이즈(px)를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sch_close_icon_size = (isset($sch_close_icon_size)) ? $sch_close_icon_size : 30;
 				echo bpwg_input_range('bwo[sch_close_icon_size]',$sch_close_icon_size,$w,10,50,1,'100',38,'px');
@@ -328,7 +328,7 @@ $colspan2=2;
 		<tr>
 			<th style="background:<?=$img_th_bg_color?>;">로고이미지<br>너비</th>
 			<td class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("로고의 가로 크기(px)를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로고의 가로 크기(px)를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php
 				$logo_width = (isset($logo_width)) ? $logo_width : 40;
 				echo bpwg_input_range('bwo[logo_width]',$logo_width,$w,20,180,1,'100%',38,'px');
@@ -336,7 +336,7 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$img_th_bg_color?>;">로고이미지<br>높이</th>
 			<td class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("로고의 세로 크기(px)를 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로고의 세로 크기(px)를 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$logo_height = (isset($logo_height)) ? $logo_height : 40;
 				echo bpwg_input_range('bwo[logo_height]',$logo_height,$w,20,150,1,'100%',38,'px');
@@ -344,13 +344,13 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$img_th_bg_color?>;">로고URL</th>
 			<td colspan="<?=$colspan5?>" class="bwg_help">
-				<?php echo bwg_help("로고URL의 입력값이 없으면 자동으로 기본URL값으로 설정이 됩니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로고URL의 입력값이 없으면 자동으로 기본URL값으로 설정이 됩니다.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[logo_url]" class="bp_wdp100" value="<?=$logo_url?>">
 			</td>
 			<th style="background:<?=$img_th_bg_color?>;">로고URL<br>새창여부</th>
 			<td class="bwg_help">
 				<?php 
-				echo bwg_help("로고링크를 새창/현재창으로 열지의 여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("로고링크를 새창/현재창으로 열지의 여부를 설정하세요.",1,'#555555','#eeeeee');
 				$logo_new_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_target'], 'bwo[logo_new]', $logo_new, 0, 0,$logo_new_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
@@ -360,7 +360,7 @@ $colspan2=2;
 			<th style="background:<?=$svg_th_bg_color?>;">패스(선)<br>애니사용</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("패스(선)의 애니메이션사용 여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("패스(선)의 애니메이션사용 여부를 설정하세요.",1,'#555555','#eeeeee');
 				$path_anim_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_yes_no'], 'bwo[path_anim]', $path_anim, 0, 0,$path_anim_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
@@ -368,14 +368,14 @@ $colspan2=2;
 			<th style="background:<?=$svg_th_bg_color?>;">채우기<br>애니사용</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("패스채우기 사용여부 여부를 설정하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("패스채우기 사용여부 여부를 설정하세요.",1,'#555555','#eeeeee');
 				$path_fill_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_yes_no'], 'bwo[path_fill]', $path_fill, 0, 0,$path_fill_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">패스(선)<br>애니총시간</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("패스 애니메이션 총시간을 의미합니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("패스 애니메이션 총시간을 의미합니다.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$path_time = (isset($path_time)) ? $path_time : 2.0;
 				echo bpwg_input_range('bwo[path_time]',$path_time,$w,0,5.0,0.1,'100%',38,'초');
@@ -383,7 +383,7 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">패스(선)별<br>시간차</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("각 패스별 애니메이션 시간차를 의미합니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("각 패스별 애니메이션 시간차를 의미합니다.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$time_diff = (isset($time_diff)) ? $time_diff : 0.3;
 				echo bpwg_input_range('bwo[time_diff]',$time_diff,$w,0,5,0.1,'100%',38,'초');
@@ -391,14 +391,14 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">기본<br>패스색상</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("기본 패스색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("기본 패스색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[path_color]',$path_color,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$svg_th_bg_color?>;">채우기<br>속도</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("채우기 속도 시간을 의미합니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("채우기 속도 시간을 의미합니다.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$fill_speed = (isset($fill_speed)) ? $fill_speed : 0.5;
 				echo bpwg_input_range('bwo[fill_speed]',$fill_speed,$w,0,5,0.1,'100%',38,'초');
@@ -406,7 +406,7 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">채우기<br>지연시간</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("채우기 시작하기까지의 지연시간을 의미합니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("채우기 시작하기까지의 지연시간을 의미합니다.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$fill_delay = (isset($fill_delay)) ? $fill_delay : 4;
 				echo bpwg_input_range('bwo[fill_delay]',$fill_delay,$w,0,10,0.1,'100%',38,'초');
@@ -414,7 +414,7 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">기본<br>채우기색상</th>
 			<td colspan="<?=$colspan7?>" class="bwg_help">
-				<?php echo bwg_help("기본 채우기색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("기본 채우기색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[fill_color]',$fill_color,$w,1); ?>
 			</td>
 		</tr>
@@ -431,60 +431,60 @@ $colspan2=2;
 		<tr>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스1</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("색상구분을 위해 클래스1의 CLASS값을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("색상구분을 위해 클래스1의 CLASS값을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[class1]" class="bp_wdp100" value="<?=$class1?>">
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스1<br>색상</th>
 			<td colspan="<?=$colspan9?>" class="bwg_help">
-				<?php echo bwg_help("클래스1의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("클래스1의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[class1_color]',$class1_color,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스2</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("색상구분을 위해 클래스2의 CLASS값을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("색상구분을 위해 클래스2의 CLASS값을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[class2]" class="bp_wdp100" value="<?=$class2?>">
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스2<br>색상</th>
 			<td colspan="<?=$colspan9?>" class="bwg_help">
-				<?php echo bwg_help("클래스2의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("클래스2의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[class2_color]',$class2_color,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스3</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("색상구분을 위해 클래스3의 CLASS값을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("색상구분을 위해 클래스3의 CLASS값을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[class3]" class="bp_wdp100" value="<?=$class3?>">
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스3<br>색상</th>
 			<td colspan="<?=$colspan9?>" class="bwg_help">
-				<?php echo bwg_help("클래스3의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("클래스3의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[class3_color]',$class3_color,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스4</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("색상구분을 위해 클래스4의 CLASS값을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("색상구분을 위해 클래스4의 CLASS값을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[class4]" class="bp_wdp100" value="<?=$class4?>">
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스4<br>색상</th>
 			<td colspan="<?=$colspan9?>" class="bwg_help">
-				<?php echo bwg_help("클래스4의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("클래스4의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[class4_color]',$class4_color,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스5</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("색상구분을 위해 클래스5의 CLASS값을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("색상구분을 위해 클래스5의 CLASS값을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[class5]" class="bp_wdp100" value="<?=$class5?>">
 			</td>
 			<th style="background:<?=$svg_th_bg_color?>;">클래스5<br>색상</th>
 			<td colspan="<?=$colspan9?>" class="bwg_help">
-				<?php echo bwg_help("클래스5의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("클래스5의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[class5_color]',$class5_color,$w,1); ?>
 			</td>
 		</tr>
@@ -538,7 +538,7 @@ $colspan2=2;
 		<tr>
 			<th>메뉴판넬<br>너비</th>
 			<td class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("메뉴판넬의 너비(px)를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("메뉴판넬의 너비(px)를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[panel_width]" class="bp_wdx50" value="<?=$panel_width?>" style="text-align:right;">
 				<?php 
 				$panel_width_unit_disabled = 0;//($w == 'u') ? 1 : 0;
@@ -547,7 +547,7 @@ $colspan2=2;
 			</td>
 			<th>메뉴판넬<br>정렬위치</th>
 			<td class="bwg_help opt_td_logo_size">
-				<?php echo bwg_help("메뉴판넬의 정렬위치를 설정해 주세요.</strong>",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("메뉴판넬의 정렬위치를 설정해 주세요.</strong>",1,'#555555','#eeeeee'); ?>
 				<?php 
 				$panel_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_horizontal_align2'], 'bwo[panel_align]', $panel_align, 0, 0,$panel_align_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1))
@@ -555,29 +555,29 @@ $colspan2=2;
 			</td>
 			<th>메뉴판넬<br>기본배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 기본배경의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 기본배경의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_basic_bg_color]',$panel_basic_bg_color,$w,0); ?>
 			</td>
 			<th>판넬닫기<br>블라인드색</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("판넬닫기버튼 배경의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬닫기버튼 배경의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_close_blind_color]',$panel_close_blind_color,$w,1); ?>
 			</td>
 			<th>판넬기본<br>라인색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬영역의 기본 테두리 라인색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬영역의 기본 테두리 라인색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_basic_line_color]',$panel_basic_line_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>판넬탑영역<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬닫기버튼 배경의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬닫기버튼 배경의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_top_bg_color]',$panel_top_bg_color,$w,0); ?>
 			</td>
 			<th>판넬탑영역<br>높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬탑 영역의 높이을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬탑 영역의 높이을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$panel_top_height = (isset($panel_top_height)) ? $panel_top_height : 60;
 				echo bpwg_input_range('bwo[panel_top_height]',$panel_top_height,$w,40,80,1,'100%',38,'px');
@@ -585,7 +585,7 @@ $colspan2=2;
 			</td>
 			<th>판넬탑영역<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬탑 영역의 폰트(& 꺽쇠아이콘) 크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬탑 영역의 폰트(& 꺽쇠아이콘) 크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$panel_top_font_size = (isset($panel_top_font_size)) ? $panel_top_font_size : 20;
 				echo bpwg_input_range('bwo[panel_top_font_size]',$panel_top_font_size,$w,10,30,1,'100%',38,'px');
@@ -593,17 +593,17 @@ $colspan2=2;
 			</td>
 			<th>판넬탑영역<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬탑영역의 폰트(& 꺽쇠아이콘) 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬탑영역의 폰트(& 꺽쇠아이콘) 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_top_font_color]',$panel_top_font_color,$w,0); ?>
 			</td>
 			<th>판넬닫기<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬탑영역의 아이콘(닫기(X)아이콘)색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬탑영역의 아이콘(닫기(X)아이콘)색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_top_icon_color]',$panel_top_icon_color,$w,0); ?>
 			</td>
 			<th>판넬닫기<br>아이콘크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬탑 영역의 아이콘크기(가로/세로 동일)를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬탑 영역의 아이콘크기(가로/세로 동일)를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$panel_top_icon_size = (isset($panel_top_icon_size)) ? $panel_top_icon_size : 25;
 				echo bpwg_input_range('bwo[panel_top_icon_size]',$panel_top_icon_size,$w,15,30,1,'100',38,'px');
@@ -613,7 +613,7 @@ $colspan2=2;
 		<tr>
 			<th>그리드<br>아이콘크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 그리드 아이콘 영역의 아이콘크기(가로/세로 동일)를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 그리드 아이콘 영역의 아이콘크기(가로/세로 동일)를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$panel_grid_icon_size = (isset($panel_grid_icon_size)) ? $panel_grid_icon_size : 25;
 				echo bpwg_input_range('bwo[panel_grid_icon_size]',$panel_grid_icon_size,$w,10,40,1,'100',38,'px');
@@ -621,12 +621,12 @@ $colspan2=2;
 			</td>
 			<th>그리드<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 그리드영역의 아이콘색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 그리드영역의 아이콘색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_grid_icon_color]',$panel_grid_icon_color,$w,0); ?>
 			</td>
 			<th>그리드<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 그리드영역의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 그리드영역의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$panel_grid_font_size = (isset($panel_grid_font_size)) ? $panel_grid_font_size : 20;
 				echo bpwg_input_range('bwo[panel_grid_font_size]',$panel_grid_font_size,$w,10,30,1,'100%',38,'px');
@@ -634,24 +634,24 @@ $colspan2=2;
 			</td>
 			<th>그리드<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 그리드영역의 폰트색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 그리드영역의 폰트색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_grid_font_color]',$panel_grid_font_color,$w,0); ?>
 			</td>
 			<th>그리드<br>라인색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 그리드영역의 라인색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 그리드영역의 라인색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_grid_line_color]',$panel_grid_line_color,$w,0); ?>
 			</td>
 			<th>그리드<br>배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 그리드영역의 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 그리드영역의 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[panel_grid_bg_color]',$panel_grid_bg_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu1_ht = (isset($menu1_ht)) ? $menu1_ht : 40;
 				echo bpwg_input_range('bwo[menu1_ht]',$menu1_ht,$w,20,50,1,'100%',38,'px');
@@ -659,7 +659,7 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu1_font_size = (isset($menu1_font_size)) ? $menu1_font_size : 14;
 				echo bpwg_input_range('bwo[menu1_font_size]',$menu1_font_size,$w,8,30,1,'100%',38,'px');
@@ -667,7 +667,7 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>폰트두께</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu1_font_weight = (isset($menu1_font_weight)) ? $menu1_font_weight : 600;
 				echo bpwg_input_range('bwo[menu1_font_weight]',$menu1_font_weight,$w,100,900,100,'100%',30);
@@ -675,17 +675,17 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu1_font_color]',$menu1_font_color,$w); ?>
 			</td>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu1_bg_color]',$menu1_bg_color,$w,0); ?>
 			</td>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>아이콘크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴의 드롭다운 아이콘 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의 드롭다운 아이콘 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu1_icon_size = (isset($menu1_icon_size)) ? $menu1_icon_size : 16;
 				echo bpwg_input_range('bwo[menu1_icon_size]',$menu1_icon_size,$w,8,30,1,'100%',38,'px');
@@ -695,18 +695,18 @@ $colspan2=2;
 		<tr>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴의 드롭다운 아이콘 색상을 설정하세요.(이미지일경우 색상은 반영 안됩니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의 드롭다운 아이콘 색상을 설정하세요.(이미지일경우 색상은 반영 안됩니다.)",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu1_icon_color]',$menu1_icon_color,$w); ?>
 			</td>
 			<th style="background:<?=$nav1_th_bg_color?>;">1차메뉴<br>라인색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("1차메뉴간 구분 라인색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴간 구분 라인색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu1_line_color]',$menu1_line_color,$w,0); ?>
 			</td>
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>높이</th>
 			<td class="bwg_help">
 				<?php 
-				echo bwg_help("2차메뉴의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333');
+				echo bwg_help("2차메뉴의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee');
 				$menu2_ht = (isset($menu2_ht)) ? $menu2_ht : 40;
 				echo bpwg_input_range('bwo[menu2_ht]',$menu2_ht,$w,20,200,1,'100%',38,'px');
 				?>
@@ -714,7 +714,7 @@ $colspan2=2;
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>폰트크기</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("2차메뉴의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333');
+				echo bwg_help("2차메뉴의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee');
 				$menu2_font_size = (isset($menu2_font_size)) ? $menu2_font_size : 12;
 				echo bpwg_input_range('bwo[menu2_font_size]',$menu2_font_size,$w,8,30,1,'100%',38,'px');
 				?>
@@ -722,7 +722,7 @@ $colspan2=2;
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>폰트두께</th>
 			<td class="bwg_help">
 				<?php 
-				echo bwg_help("2차메뉴의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333');
+				echo bwg_help("2차메뉴의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee');
 				$menu2_font_weight = (isset($menu2_font_weight)) ? $menu2_font_weight : 400;
 				echo bpwg_input_range('bwo[menu2_font_weight]',$menu2_font_weight,$w,100,900,100,'100%',30);
 				?>
@@ -730,7 +730,7 @@ $colspan2=2;
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>들여쓰기</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("2차메뉴의 왼쪽에서의 들여쓰기 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333');
+				echo bwg_help("2차메뉴의 왼쪽에서의 들여쓰기 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee');
 				$menu2_indent = (isset($menu2_indent)) ? $menu2_indent : 15;
 				echo bpwg_input_range('bwo[menu2_indent]',$menu2_indent,$w,0,50,1,'100%',38,'px');
 				?>
@@ -739,17 +739,17 @@ $colspan2=2;
 		<tr>
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("2차메뉴의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("2차메뉴의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu2_font_color]',$menu2_font_color,$w); ?>
 			</td>
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("2차메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("2차메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu2_bg_color]',$menu2_bg_color,$w,0); ?>
 			</td>
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>아이콘크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("2차메뉴의 아이콘 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("2차메뉴의 아이콘 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu2_icon_size = (isset($menu2_icon_size)) ? $menu2_icon_size : 12;
 				echo bpwg_input_range('bwo[menu2_icon_size]',$menu2_icon_size,$w,8,30,1,'100%',38,'px');
@@ -757,18 +757,18 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("2차메뉴의 아이콘 색상을 설정하세요.(이미지일경우 색상은 반영 안됩니다.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("2차메뉴의 아이콘 색상을 설정하세요.(이미지일경우 색상은 반영 안됩니다.)",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu2_icon_color]',$menu2_icon_color,$w); ?>
 			</td>
 			<th style="background:<?=$nav2_th_bg_color?>;">2차메뉴<br>라인색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("2차메뉴간 구분 라인색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("2차메뉴간 구분 라인색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu2_line_color]',$menu2_line_color,$w,0); ?>
 			</td>
 			<th style="background:<?=$nav3_th_bg_color?>;">3차메뉴<br>높이</th>
 			<td class="bwg_help">
 				<?php 
-				echo bwg_help("3차메뉴의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333');
+				echo bwg_help("3차메뉴의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee');
 				$menu3_ht = (isset($menu3_ht)) ? $menu3_ht : 40;
 				echo bpwg_input_range('bwo[menu3_ht]',$menu3_ht,$w,20,200,1,'100%',38,'px');
 				?>
@@ -777,7 +777,7 @@ $colspan2=2;
 		<tr>
 			<th style="background:<?=$nav3_th_bg_color?>;">3차메뉴<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("3차메뉴의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("3차메뉴의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu3_font_size = (isset($menu3_font_size)) ? $menu3_font_size : 12;
 				echo bpwg_input_range('bwo[menu3_font_size]',$menu3_font_size,$w,8,30,1,'100%',38,'px');
@@ -785,7 +785,7 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$nav3_th_bg_color?>;">3차메뉴<br>폰트두께</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("3차메뉴의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("3차메뉴의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu3_font_weight = (isset($menu3_font_weight)) ? $menu3_font_weight : 400;
 				echo bpwg_input_range('bwo[menu3_font_weight]',$menu3_font_weight,$w,100,900,100,'100%',30);
@@ -793,17 +793,17 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$nav3_th_bg_color?>;">3차메뉴<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("3차메뉴의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("3차메뉴의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu3_font_color]',$menu3_font_color,$w); ?>
 			</td>
 			<th style="background:<?=$nav3_th_bg_color?>;">3차메뉴<br>배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("3차메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("3차메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu3_bg_color]',$menu3_bg_color,$w,0); ?>
 			</td>
 			<th style="background:<?=$nav3_th_bg_color?>;">3차메뉴<br>들여쓰기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("3차메뉴의 왼쪽에서의 들여쓰기 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("3차메뉴의 왼쪽에서의 들여쓰기 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu3_indent = (isset($menu3_indent)) ? $menu3_indent : 30;
 				echo bpwg_input_range('bwo[menu3_indent]',$menu3_indent,$w,0,60,1,'100',38,'px');
@@ -811,14 +811,14 @@ $colspan2=2;
 			</td>
 			<th style="background:<?=$nav3_th_bg_color?>;">3차메뉴<br>라인색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("3차메뉴간 구분 라인색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("3차메뉴간 구분 라인색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu3_line_color]',$menu3_line_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>푸터정보<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 푸터정보 상단간격 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 푸터정보 상단간격 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$ft_top_interval = (isset($ft_top_interval)) ? $ft_top_interval : 30;
 				echo bpwg_input_range('bwo[ft_top_interval]',$ft_top_interval,$w,10,100,1,'100%',38,'px');
@@ -826,7 +826,7 @@ $colspan2=2;
 			</td>
 			<th>푸터정보<br>하단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 푸터정보 하단간격 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 푸터정보 하단간격 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$ft_bottom_interval = (isset($ft_bottom_interval)) ? $ft_bottom_interval : 30;
 				echo bpwg_input_range('bwo[ft_bottom_interval]',$ft_bottom_interval,$w,10,100,1,'100%',38,'px');
@@ -834,12 +834,12 @@ $colspan2=2;
 			</td>
 			<th>푸터정보<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 푸터정보의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 푸터정보의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[ft_font_color]',$ft_font_color,$w); ?>
 			</td>
 			<th>푸터정보<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("판넬 푸터정보 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 푸터정보 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$ft_font_size = (isset($ft_font_size)) ? $ft_font_size : 12;
 				echo bpwg_input_range('bwo[ft_font_size]',$ft_font_size,$w,8,30,1,'100%',38,'px');
@@ -847,7 +847,7 @@ $colspan2=2;
 			</td>
 			<th>푸터정보<br>문장줄간격</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("판넬 푸터정보 문장 줄간격 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("판넬 푸터정보 문장 줄간격 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$ft_line_interval = (isset($ft_line_interval)) ? $ft_line_interval : 5;
 				echo bpwg_input_range('bwo[ft_line_interval]',$ft_line_interval,$w,1,20,1,'100',38,'px');

@@ -61,7 +61,7 @@ $nav_align_center = ($nav_align == 'center') ? 'checked="checked"' : '';
 $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="checked"' : '';
 			<th>제목</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="bwo_nav_align_left" class="label_radio first_child bwo_nav_align_left">
 						<input type="radio" id="bwo_nav_align_left" name="bwo[nav_align]" value="left" <?=$nav_align_left?>>
@@ -86,25 +86,25 @@ $radio_wu_disable_flag = ($w == 'u') ? 1 : 0; //수정모드에서 비활성화�
 			//컬러/투명도설정
 			<th>제목</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[menu1_first_bg_color]',$menu1_first_bg_color,$w,1); ?>
 			</td>
 			//입력박스
 			<th>제목</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[ttl_small]" class="bp_wdp100" value="<?=$ttl_small?>">
 			</td>
 			//단락박스
 			<th>제목</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("단락 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("단락 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<textarea name="bwo[paragraph]" class="bp_wdp100" rows="3"><?=$paragraph?></textarea>
 			</td>
 			//숫자범위 100%
 			<th>제목</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu1_wd = (isset($menu1_wd)) ? $menu1_wd : 100;
 				echo bpwg_input_range('bwo[menu1_wd]',$menu1_wd,$w,80,400,1,'100%',38,'px');
@@ -113,7 +113,7 @@ $radio_wu_disable_flag = ($w == 'u') ? 1 : 0; //수정모드에서 비활성화�
 			//숫자범위 147px
 			<th>제목</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$menu1_ht = (isset($menu1_ht)) ? $menu1_ht : 40;
 				echo bpwg_input_range('bwo[menu1_ht]',$menu1_ht,$w,20,200,1,'147',38,'px');

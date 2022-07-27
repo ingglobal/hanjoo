@@ -98,212 +98,212 @@ $color_accordion_btn = '#f6e7e6';
 		<tr>
 			<th style="background:<?=$color_basic?>;">기본배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("퀵패널 영역의 기본배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("퀵패널 영역의 기본배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[basic_color]',$basic_color,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_basic?>;">토글버튼<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("토글버튼의 아이콘 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("토글버튼의 아이콘 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[toggle_icon]',$toggle_icon,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_basic?>;">퀵패널<br>그림자색상</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("퀵패널 영역의 그림자 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("퀵패널 영역의 그림자 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[shadow_color]',$shadow_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_basic?>;">토글버튼<br>배경색상</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("퀵패널의 토글버튼 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("퀵패널의 토글버튼 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[toggle_bg_color]',$toggle_bg_color,$w,1); ?>
 			</td>
 			<th style="background:<?=$color_basic?>;">블라인드<br>배경색상</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("퀵패널의 블라인드 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("퀵패널의 블라인드 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[blind_bg_color]',$blind_bg_color,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_top_title?>;">상단타이틀(소)</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[ttl_small]" class="bp_wdp100" value="<?=$ttl_small?>">
 			</td>
 			<th style="background:<?=$color_top_title?>;">상단타이틀(대)</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("제일 상단 타이틀의 큰 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 타이틀의 큰 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="text" name="bwo[ttl_big]" class="bp_wdp100" value="<?=$ttl_big?>">
 			</td>
 			<th style="background:<?=$color_top_title?>;">타이틀<br>구분선색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("제일 상단 작은 문자 아래의 구분선 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 작은 문자 아래의 구분선 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[ttl_gubunline]',$ttl_gubunline,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_top_title?>;">타이틀<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("제일 상단 타이틀 영역의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 타이틀 영역의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[ttl_bg]',$ttl_bg,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_top_title?>;">작은 타이틀<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("제일 상단 작은 타이틀 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 작은 타이틀 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[ttl_small_font]',$ttl_small_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_top_title?>;">큰 타이틀<br>폰트색</th>
 			<td colspan="<?=$colspan5?>" class="bwg_help">
-				<?php echo bwg_help("제일 상단 큰 타이틀 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 큰 타이틀 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[ttl_big_font]',$ttl_big_font,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_login?>;">로그인입력란<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그인입력란의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그인입력란의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[login_input_font]',$login_input_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">로그인입력란<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그인입력란의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그인입력란의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[login_input_bg]',$login_input_bg,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">로그인입력란<br>테두리색</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("로그인입력란의 테두리 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그인입력란의 테두리 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[login_input_line]',$login_input_line,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_login?>;">로그인버튼<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그인버튼의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그인버튼의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[login_font]',$login_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">로그인버튼<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그인버튼의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그인버튼의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[login_bg]',$login_bg,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">로그인버튼<br>롤오버 폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그인버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그인버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[login_hover_font]',$login_hover_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">로그인버튼<br>롤오버 배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그인버튼 롤오버시의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그인버튼 롤오버시의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[login_hover_bg]',$login_hover_bg,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_login?>;">등록/찾기<br>버튼 폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("등록/찾기버튼의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("등록/찾기버튼의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[regfind_font]',$regfind_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">등록/찾기<br>버튼 배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("등록/찾기버튼의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("등록/찾기버튼의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[regfind_bg]',$regfind_bg,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">등록/찾기<br>롤오버 폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("등록/찾기버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("등록/찾기버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[regfind_hover_font]',$regfind_hover_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_login?>;">등록/찾기<br>롤오버 배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("등록/찾기버튼 롤오버시의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("등록/찾기버튼 롤오버시의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[regfind_hover_bg]',$regfind_hover_bg,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_logout?>;">로그아웃버튼<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그아웃버튼의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그아웃버튼의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[logout_font]',$logout_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_logout?>;">로그아웃버튼<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그아웃버튼의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그아웃버튼의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[logout_bg]',$logout_bg,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_logout?>;">로그아웃버튼<br>롤오버 폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그아웃버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그아웃버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[logout_hover_font]',$logout_hover_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_logout?>;">로그아웃버튼<br>롤오버 배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("로그아웃버튼 롤오버시의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("로그아웃버튼 롤오버시의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[logout_hover_bg]',$logout_hover_bg,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_logout?>;">정보수정버튼<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("정보수정버튼의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("정보수정버튼의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[infomf_font]',$infomf_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_logout?>;">정보수정버튼<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("정보수정버튼의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("정보수정버튼의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[infomf_bg]',$infomf_bg,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_logout?>;">정보수정버튼<br>롤오버 폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("정보수정버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("정보수정버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[infomf_hover_font]',$infomf_hover_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_logout?>;">정보수정버튼<br>롤오버 배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("정보수정버튼 롤오버시의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("정보수정버튼 롤오버시의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[infomf_hover_bg]',$infomf_hover_bg,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_middle?>;">그리드버튼<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("그리드버튼의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("그리드버튼의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[grid_font]',$grid_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_middle?>;">그리드버튼<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("그리드버튼의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("그리드버튼의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[grid_bg]',$grid_bg,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_middle?>;">그리드버튼<br>롤오버 폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("그리드버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("그리드버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[grid_hover_font]',$grid_hover_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_middle?>;">그리드버튼<br>롤오버 배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("그리드버튼 롤오버시의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("그리드버튼 롤오버시의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[grid_hover_bg]',$grid_hover_bg,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th style="background:<?=$color_accordion_btn?>;">아코디언버튼<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("하단 아코디언버튼 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("하단 아코디언버튼 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[accordion_font]',$accordion_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_accordion_btn?>;">아코디언버튼<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("하단 아코디언버튼 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("하단 아코디언버튼 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[accordion_bg]',$accordion_bg,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_accordion_btn?>;">아코디언버튼<br>롤오버 폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("하단 아코디언버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("하단 아코디언버튼 롤오버시의 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[accordion_hover_font]',$accordion_hover_font,$w,0); ?>
 			</td>
 			<th style="background:<?=$color_accordion_btn?>;">아코디언버튼<br>롤오버 배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("하단 아코디언버튼 롤오버시의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("하단 아코디언버튼 롤오버시의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[accordion_hover_bg]',$accordion_hover_bg,$w,0); ?>
 			</td>
 		</tr>

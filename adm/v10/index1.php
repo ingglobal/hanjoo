@@ -10,19 +10,19 @@ include_once ('./_head.php');
 <div class="grid">
   <div class="grid-sizer"></div>
   <div class="grid-item grid-item--large" data-item-id="1"
-    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/orange-tree.jpg);"></div>
+    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/orange-tree.jpg);">1</div>
   <div class="grid-item" data-item-id="2"
-    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/submerged.jpg);"></div>
+    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/submerged.jpg);">2</div>
   <div class="grid-item" data-item-id="3"
-    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/look-out.jpg);"></div>
+    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/look-out.jpg);">3</div>
   <div class="grid-item grid-item--width2" data-item-id="4"
-    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/one-world-trade.jpg);"></div>
+    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/one-world-trade.jpg);">4</div>
   <div class="grid-item" data-item-id="5"
-    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/drizzle.jpg);"></div>
+    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/drizzle.jpg);">5</div>
   <div class="grid-item grid-item--width2" data-item-id="6"
-    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/golden-hour.jpg);"></div>
+    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/golden-hour.jpg);">6</div>
   <div class="grid-item" data-item-id="7"
-    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/cat-nose.jpg);"></div>
+    style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/cat-nose.jpg);">7</div>
   <div class="grid-item" data-item-id="8"
     style="background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/contrail.jpg);"></div>
   <div class="grid-item" data-item-id="9"
@@ -83,7 +83,7 @@ var $grid = $('.grid').packery({
 
 // get saved dragged positions
 var initPositions = localStorage.getItem('dragPositions'); //call the dragPositions from DB 
-// console.log('init : '+initPositions);
+console.log('init : '+initPositions);
 // init layout with saved positions
 $grid.packery( 'initShiftLayout', initPositions, 'data-item-id' );
 
@@ -97,7 +97,7 @@ $grid.find('.grid-item').each( function( i, itemElem ) {
 $grid.on( 'dragItemPositioned', function(e) {
   // save drag positions
   var positions = $grid.packery( 'getShiftPositions', 'data-item-id' );
-  // console.log('save : ' + JSON.stringify(positions));
+  console.log('save : ' + JSON.stringify(positions));
   localStorage.setItem( 'dragPositions', JSON.stringify( positions ) );//save the positions as dragPositions to DB 
 }); 
 

@@ -210,7 +210,7 @@ if(!function_exists('wdg_help')){
 function wdg_help($help="",$iup=0,$bgcolor='#ffffff',$fontcolor='#555555'){
     global $g5;
     $iupclass = ($iup) ? "iup" : 'idown';
-    $str = ($help) ? '<div class="bwg_info_box"><p class="bwg_info '.$iupclass.'" style="background:'.$bgcolor.';color:'.$fontcolor.';">'.str_replace("\n", "<br>", $help).'</p></div>' : '';
+    $str = ($help) ? '<div class="wdg_info_box"><p class="wdg_info '.$iupclass.'" style="background:'.$bgcolor.';color:'.$fontcolor.';">'.str_replace("\n", "<br>", $help).'</p></div>' : '';
     return $str;
 }
 }

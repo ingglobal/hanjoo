@@ -123,7 +123,7 @@ $colspan3=3;
 		<tr>
 			<th>영상/이미지<br>너비(폭)</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("영상및 이미지의 너비(폭)를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.<br>(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("영상및 이미지의 너비(폭)를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.<br>(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sld_wd = (isset($sld_wd)) ? $sld_wd : 1920;
 				echo bpwg_input_range('bwo[sld_wd]',$sld_wd,$w,700,2000,10,'155',45,'px');
@@ -131,7 +131,7 @@ $colspan3=3;
 			</td>
 			<th>영상/이미지<br>높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("영상및 이미지의 높이를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.<br>(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("영상및 이미지의 높이를 설정하세요. 실제 표시할 사이즈가 아닌<br>가로/세로 비율계산을 위한 데이터 입니다.<br>(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$sld_ht = (isset($sld_ht)) ? $sld_ht : 780;
 				echo bpwg_input_range('bwo[sld_ht]',$sld_ht,$w,300,1200,10,'155',45,'px');
@@ -139,14 +139,14 @@ $colspan3=3;
 			</td>
 			<th>블라인드</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("배경블라인드의 색상과 투명도를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("배경블라인드의 색상과 투명도를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[bgBlind]',$bgBlind,$w,1); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>자동재생</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("슬라이드 자동재생 여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("슬라이드 자동재생 여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="bwo_autoplay_1" class="label_radio first_child bwo_autoplay_1">
 						<input type="radio" id="bwo_autoplay_1" name="bwo[autoplay]" value="yes" <?=$autoplay_1?>>
@@ -162,7 +162,7 @@ $colspan3=3;
 			</td>
 			<th>재생간격시간</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("자동재생시 슬라이드간 정지 시간을 의미합니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("자동재생시 슬라이드간 정지 시간을 의미합니다.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<?php
 					$autoplaySpeed = (isset($autoplaySpeed)) ? $autoplaySpeed : 3;
@@ -172,7 +172,7 @@ $colspan3=3;
 			</td>
 			<th>이동속도</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("슬라이드가 이동하는 속도 또는 변화하는 속도를 의미합니다.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("슬라이드가 이동하는 속도 또는 변화하는 속도를 의미합니다.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<?php
 					$speed = (isset($speed)) ? $speed : 0.3;
@@ -182,7 +182,7 @@ $colspan3=3;
 			</td>
 			<th>무한루프여부</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("무한반복의 여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("무한반복의 여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_infinite_1" class="label_radio first_child bwo_infinite_1">
 					<input type="radio" id="bwo_infinite_1" name="bwo[infinite]" value="yes" <?=$infinite_1?>>
 					<strong></strong>
@@ -198,7 +198,7 @@ $colspan3=3;
 		<tr>
 			<th>점버튼표시</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("슬라이드 갯수만큼의 점버튼 표시여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("슬라이드 갯수만큼의 점버튼 표시여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_dots_1" class="label_radio first_child bwo_dots_1">
 					<input type="radio" id="bwo_dots_1" name="bwo[dots]" value="yes" <?=$dots_1?>>
 					<strong></strong>
@@ -212,7 +212,7 @@ $colspan3=3;
 			</td>
 			<th>방향버튼표시</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("슬라이드 방향버튼의 표시여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("슬라이드 방향버튼의 표시여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_arrows_1" class="label_radio first_child bwo_arrows_1">
 					<input type="radio" id="bwo_arrows_1" name="bwo[arrows]" value="yes" <?=$arrows_1?>>
 					<strong></strong>
@@ -226,7 +226,7 @@ $colspan3=3;
 			</td>
 			<th>동작유형</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("[fade:false(bwo[fade]:1/)]슬라이드 동작유형을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("[fade:false(bwo[fade]:1/)]슬라이드 동작유형을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_fade_0" class="label_radio first_child bwo_fade_0">
 					<input type="radio" id="bwo_fade_0" name="bwo[fade]" value="no" <?=$fade_0?>>
 					<strong></strong>
@@ -240,7 +240,7 @@ $colspan3=3;
 			</td>
 			<th>스와이프여부</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("슬라이드 터치스와이프 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("슬라이드 터치스와이프 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_swipe_1" class="label_radio first_child bwo_swipe_1">
 					<input type="radio" id="bwo_swipe_1" name="bwo[swipe]" value="yes" <?=$swipe_1?>>
 					<strong></strong>
@@ -256,7 +256,7 @@ $colspan3=3;
 		<tr>
 			<th>포커스정지</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("슬라이드가 포커스 되었을때 일시정지 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("슬라이드가 포커스 되었을때 일시정지 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_pauseOnFocus_1" class="label_radio first_child bwo_pauseOnFocus_1">
 					<input type="radio" id="bwo_pauseOnFocus_1" name="bwo[pauseOnFocus]" value="yes" <?=$pauseOnFocus_1?>>
 					<strong></strong>
@@ -270,7 +270,7 @@ $colspan3=3;
 			</td>
 			<th>마우스오버정지</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("마우스를 올렸을때 일시정지 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("마우스를 올렸을때 일시정지 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_pauseOnHover_1" class="label_radio first_child bwo_pauseOnHover_1">
 					<input type="radio" id="bwo_pauseOnHover_1" name="bwo[pauseOnHover]" value="yes" <?=$pauseOnHover_1?>>
 					<strong></strong>
@@ -284,7 +284,7 @@ $colspan3=3;
 			</td>
 			<th>점버튼정지</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("점버튼에 마우스를 올렸을때 일시정지 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("점버튼에 마우스를 올렸을때 일시정지 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<label for="bwo_pauseOnDotsHover_1" class="label_radio first_child bwo_pauseOnDotsHover_1">
 					<input type="radio" id="bwo_pauseOnDotsHover_1" name="bwo[pauseOnDotsHover]" value="yes" <?=$pauseOnDotsHover_1?>>
 					<strong></strong>
@@ -298,7 +298,7 @@ $colspan3=3;
 			</td>
 			<th>슬라이드갯수</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("한 번에 보여 줄 슬라이드 갯수를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("한 번에 보여 줄 슬라이드 갯수를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$slidesToShow = (isset($slidesToShow)) ? $slidesToShow : 1;
@@ -309,34 +309,34 @@ $colspan3=3;
 		<tr>
 			<th>방향 버튼<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("방향버튼의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("방향버튼의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[arrow_color]',$arrow_color,$w,0); ?>
 			</td>
 			<th>방향 버튼<br>롤오버 색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("방향버튼의 롤오버 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("방향버튼의 롤오버 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[arrow_hover_color]',$arrow_hover_color,$w,0); ?>
 			</td>
 			<th>점 버튼<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("점버튼의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("점버튼의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[dot_color]',$dot_color,$w,0); ?>
 			</td>
 			<th>점 버튼<br>선택 색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("선택된 점버튼의 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("선택된 점버튼의 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[dot_active_color]',$dot_active_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>텍스트#1<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text1_color]',$text1_color,$w,0); ?>
 			</td>
 			<th>텍스트#1<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#1의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#1의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text1_font_size = (isset($text1_font_size)) ? $text1_font_size : 50;
@@ -354,12 +354,12 @@ $colspan3=3;
 		<tr>
 			<th>텍스트#2<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text2_color]',$text2_color,$w,0); ?>
 			</td>
 			<th>텍스트#2<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text2_font_size = (isset($text2_font_size)) ? $text2_font_size : 40;
@@ -375,7 +375,7 @@ $colspan3=3;
 			</td>
 			<th>텍스트#2<br>상단마진간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#2의 상단마진간격을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#2의 상단마진간격을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text2_margin_top = (isset($text2_margin_top)) ? $text2_margin_top : 5;
@@ -386,12 +386,12 @@ $colspan3=3;
 		<tr>
 			<th>텍스트#3<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text3_color]',$text3_color,$w,0); ?>
 			</td>
 			<th>텍스트#3<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text3_font_size = (isset($text3_font_size)) ? $text3_font_size : 30;
@@ -407,7 +407,7 @@ $colspan3=3;
 			</td>
 			<th>텍스트#3<br>상단마진간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#3의 상단마진간격을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#3의 상단마진간격을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text3_margin_top = (isset($text3_margin_top)) ? $text3_margin_top : 5;
@@ -418,12 +418,12 @@ $colspan3=3;
 		<tr>
 			<th>텍스트#4<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[text4_color]',$text4_color,$w,0); ?>
 			</td>
 			<th>텍스트#4<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 폰트크기를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 폰트크기를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text4_font_size = (isset($text4_font_size)) ? $text4_font_size : 20;
@@ -439,7 +439,7 @@ $colspan3=3;
 			</td>
 			<th>텍스트#4<br>상단마진간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("텍스트#4의 상단마진간격을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("텍스트#4의 상단마진간격을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				
 				<?php
 				$text4_margin_top = (isset($text4_margin_top)) ? $text4_margin_top : 5;

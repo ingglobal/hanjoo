@@ -96,7 +96,7 @@ $nav_align_left = ($nav_align == 'left') ? 'checked="checked"' : '';
 $nav_align_center = ($nav_align == 'center') ? 'checked="checked"' : '';
 $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="checked"' : '';
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<div>
 		<label for="bwo_nav_align_left" class="label_radio first_child bwo_nav_align_left">
 			<input type="radio" id="bwo_nav_align_left" name="bwo[nav_align]" value="left" <?=$nav_align_left?>>
@@ -120,17 +120,17 @@ $radio_wu_disable_flag = ($w == 'u') ? 1 : 0; //수정모드에서 비활성화�
 <?php echo bwgf_radio_checked($bwgf_device, 'bwgs_device', $bwgs_device, $radio_wu_disable_flag);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwgf_status(name속성)','ok(값)',0(값없음활성화),1(필수여부)) ?>
 //컬러/투명도설정
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<?php echo bpwg_input_color('bwo[menu1_first_bg_color]',$menu1_first_bg_color,$w,1); ?>
 </td>
 //입력박스
 <td class="bwg_help">
-	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 	<input type="text" name="bwo[ttl_small]" class="bp_wdp100" value="<?=$ttl_small?>">
 </td>
 //숫자범위 100%
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_wd = (isset($menu1_wd)) ? $menu1_wd : 100;
 	echo bpwg_input_range('bwo[menu1_wd]',$menu1_wd,$w,80,400,1,'100%',38,'px');
@@ -138,7 +138,7 @@ $radio_wu_disable_flag = ($w == 'u') ? 1 : 0; //수정모드에서 비활성화�
 </td>
 //숫자범위 147px
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_ht = (isset($menu1_ht)) ? $menu1_ht : 40;
 	echo bpwg_input_range('bwo[menu1_ht]',$menu1_ht,$w,20,200,1,'147',38,'px');
@@ -193,12 +193,12 @@ $colspan2=2;
 		<tr>
 			<th>기본폰트<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("기본폰트색상을 선택하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("기본폰트색상을 선택하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[tail_font_color]',$tail_font_color,$w,0); ?>
 			</td>
 			<th>기본폰트<br>크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("푸터영역의 기본폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("푸터영역의 기본폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$tail_font_size = (isset($tail_font_size)) ? $tail_font_size : 12;
 				echo bpwg_input_range('bwo[tail_font_size]',$tail_font_size,$w,8,18,1,'100',38,'px');
@@ -210,19 +210,19 @@ $colspan2=2;
             </td>
 			<th>푸터배경<br>색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("푸터 배경색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("푸터 배경색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[tail_bg_color]',$tail_bg_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>타이틀<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("타이틀 폰트색상을 선택하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀 폰트색상을 선택하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[tail_titlefont_color]',$tail_titlefont_color,$w,0); ?>
 			</td>
 			<th class="sthd_bg1">타이틀<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("타이틀의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_font_size = (isset($title_font_size)) ? $title_font_size : 14;
 				echo bpwg_input_range('bwo[title_font_size]',$title_font_size,$w,8,30,1,'100',38,'px');
@@ -230,17 +230,17 @@ $colspan2=2;
 			</td>
 			<th>푸터상단<br>라인색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("푸터상단의 라인색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("푸터상단의 라인색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[tail_topline_color]',$tail_topline_color,$w,0); ?>
 			</td>
 			<th>CS전화<br>폰트색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("CS전화번호 폰트색상을 선택하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("CS전화번호 폰트색상을 선택하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[tail_cstelfont_color]',$tail_cstelfont_color,$w,0); ?>
 			</td>
 			<th>CS전화<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("CS전화번호의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("CS전화번호의 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_cstelfont_size = (isset($title_cstelfont_size)) ? $title_cstelfont_size : 14;
 				echo bpwg_input_range('bwo[title_cstelfont_size]',$title_cstelfont_size,$w,8,30,1,'100%',38,'px');
@@ -248,14 +248,14 @@ $colspan2=2;
 			</td>
 			<th>스크롤/PC<br>아이콘색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상중하이동 또는 PC모드 아이콘 색상을 선택하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상중하이동 또는 PC모드 아이콘 색상을 선택하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[tail_icon_color]',$tail_icon_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>CS전화<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("CS전화 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("CS전화 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$cstel_topgap_size = (isset($cstel_topgap_size)) ? $cstel_topgap_size : 20;
 				echo bpwg_input_range('bwo[cstel_topgap_size]',$cstel_topgap_size,$w,10,40,1,'100%',38,'px');
@@ -263,7 +263,7 @@ $colspan2=2;
 			</td>
 			<th>타이틀<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("타이틀 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("타이틀 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_topgap_size = (isset($title_topgap_size)) ? $title_topgap_size : 30;
 				echo bpwg_input_range('bwo[title_topgap_size]',$title_topgap_size,$w,10,40,1,'100%',38,'px');
@@ -271,7 +271,7 @@ $colspan2=2;
 			</td>
 			<th>정보단락<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("정보단락의 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("정보단락의 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$p_topgap_size = (isset($p_topgap_size)) ? $p_topgap_size : 10;
 				echo bpwg_input_range('bwo[p_topgap_size]',$p_topgap_size,$w,10,40,1,'100%',38,'px');
@@ -279,7 +279,7 @@ $colspan2=2;
 			</td>
 			<th>문장별<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("문장별 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("문장별 상단간격을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$txtline_topgap_size = (isset($txtline_topgap_size)) ? $txtline_topgap_size : 5;
 				echo bpwg_input_range('bwo[txtline_topgap_size]',$txtline_topgap_size,$w,1,20,1,'100%',38,'px');
@@ -287,7 +287,7 @@ $colspan2=2;
 			</td>
 			<th>스크롤/PC<br>아이콘크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("스크롤/PC 아이콘 사이즈을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("스크롤/PC 아이콘 사이즈을 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$icon_size = (isset($icon_size)) ? $icon_size : 20;
 				echo bpwg_input_range('bwo[icon_size]',$icon_size,$w,10,30,1,'100',38,'px');
@@ -295,7 +295,7 @@ $colspan2=2;
 			</td>
 			<th>스크롤/PC<br>배경색상</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("상중하이동 또는 PC모드 아이콘의 배경색상을 선택하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("상중하이동 또는 PC모드 아이콘의 배경색상을 선택하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[tail_icon_bg_color]',$tail_icon_bg_color,$w,0); ?>
 			</td>
 		</tr>
@@ -303,7 +303,7 @@ $colspan2=2;
 			<th>PC모드<br>아이콘정렬</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("PC모드 아이콘 정렬을 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("PC모드 아이콘 정렬을 선택하세요.",1,'#555555','#eeeeee');
 				$pc_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_horizontal_align2'], 'bwo[pc_align]', $pc_align, 0, 0,$pc_align_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
@@ -311,7 +311,7 @@ $colspan2=2;
 			<th>스크롤<br>아이콘정렬</th>
 			<td class="bwg_help">
 				<?php
-				echo bwg_help("스크롤 아이콘 정렬을 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("스크롤 아이콘 정렬을 선택하세요.",1,'#555555','#eeeeee');
 				$scroll_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_horizontal_align2'], 'bwo[scroll_align]', $scroll_align, 0, 0,$scroll_align_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
@@ -394,7 +394,7 @@ $colspan2=2;
 		<tr>
 			<th>에스크로<br>이미지높이</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("에스크로 이미지의 세로 크기(px)를 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로 이미지의 세로 크기(px)를 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$escro_height = (isset($escro_height)) ? $escro_height : 80;
 				echo bpwg_input_range('bwo[escro_height]',$escro_height,$w,40,100,1,'100',38,'px');
@@ -402,7 +402,7 @@ $colspan2=2;
 			</td>
 			<th>에스크로<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("에스크로 하단간격(px)를 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로 하단간격(px)를 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$escro_top_gap = (isset($escro_top_gap)) ? $escro_top_gap : 10;
 				echo bpwg_input_range('bwo[escro_top_gap]',$escro_top_gap,$w,5,80,1,'100',38,'px');
@@ -410,7 +410,7 @@ $colspan2=2;
 			</td>
 			<th>에스크로<br>사이간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("에스크로 사이간격(px)를 설정해 주세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로 사이간격(px)를 설정해 주세요.",1,'#555555','#eeeeee'); ?>
 				<?php
 				$escro_margin = (isset($escro_margin)) ? $escro_margin : 5;
 				echo bpwg_input_range('bwo[escro_margin]',$escro_margin,$w,0,30,1,'100',38,'px');
@@ -419,7 +419,7 @@ $colspan2=2;
 			<th>에스크로<br>전체정렬</th>
 			<td colspan="<?=$colspan5?>" class="bwg_help">
 				<?php
-				echo bwg_help("에스크로 전체 정렬을 선택하세요.",1,'#f9fac6','#333333');
+				echo bwg_help("에스크로 전체 정렬을 선택하세요.",1,'#555555','#eeeeee');
 				$escro_align_disabled = 0;//($w == 'u') ? 1 : 0;
 				echo bwgf_select_selected($g5['bpwidget']['bwgf_horizontal_align'], 'bwo[escro_align]', $escro_align, 0, 0,$escro_align_disabled);//인수('pending=대기,ok=정상,hide=숨김,trash=삭제','bwo[text2_ani_type](name속성)','ok(값)',0(값없음활성화=1),1(필수여부=1),1(비활성화=1)) 
 				?>
@@ -428,7 +428,7 @@ $colspan2=2;
 		<tr>
 			<th>에스크로<br>(KCP)</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("에스크로(KCP) 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로(KCP) 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="escro_kcp_1" class="label_radio first_child escro_kcp_1">
 						<input type="radio" id="escro_kcp_1" name="bwo[escro_kcp]" value="yes" <?=$escro_kcp_1?>>
@@ -485,7 +485,7 @@ $colspan2=2;
 		<tr>
 			<th>에스크로<br>(LG)</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("에스크로(LG) 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로(LG) 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="escro_lg_1" class="label_radio first_child escro_lg_1">
 						<input type="radio" id="escro_lg_1" name="bwo[escro_lg]" value="yes" <?=$escro_lg_1?>>
@@ -542,7 +542,7 @@ $colspan2=2;
 		<tr>
 			<th>에스크로<br>(KG)</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("에스크로(KG) 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로(KG) 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="escro_kg_1" class="label_radio first_child escro_kg_1">
 						<input type="radio" id="escro_kg_1" name="bwo[escro_kg]" value="yes" <?=$escro_kg_1?>>
@@ -599,7 +599,7 @@ $colspan2=2;
 		<tr>
 			<th>에스크로<br>(KB국민)</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("에스크로(KB국민) 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로(KB국민) 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="escro_kb_1" class="label_radio first_child escro_kb_1">
 						<input type="radio" id="escro_kb_1" name="bwo[escro_kb]" value="yes" <?=$escro_kb_1?>>
@@ -656,7 +656,7 @@ $colspan2=2;
 		<tr>
 			<th>에스크로<br>(IBK)</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("에스크로(IBK) 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로(IBK) 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="escro_ibk_1" class="label_radio first_child escro_ibk_1">
 						<input type="radio" id="escro_ibk_1" name="bwo[escro_ibk]" value="yes" <?=$escro_ibk_1?>>
@@ -713,7 +713,7 @@ $colspan2=2;
 		<tr>
 			<th>에스크로<br>(NH농협)</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("에스크로(NH농협) 사용여부를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("에스크로(NH농협) 사용여부를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="escro_nh_1" class="label_radio first_child escro_nh_1">
 						<input type="radio" id="escro_nh_1" name="bwo[escro_nh]" value="yes" <?=$escro_nh_1?>>

@@ -61,7 +61,7 @@ $nav_align_left = ($nav_align == 'left') ? 'checked="checked"' : '';
 $nav_align_center = ($nav_align == 'center') ? 'checked="checked"' : '';
 $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="checked"' : '';
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴 전체 정렬을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<div>
 		<label for="bwo_nav_align_left" class="label_radio first_child bwo_nav_align_left">
 			<input type="radio" id="bwo_nav_align_left" name="bwo[nav_align]" value="left" <?=$nav_align_left?>>
@@ -82,17 +82,17 @@ $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="check
 </td>
 //컬러/투명도설정
 <td colspan="<?=$colspan3?>" class="bwg_help">
-	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("첫번째 메뉴의 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 	<?php echo bpwg_input_color('bwo[menu1_first_bg_color]',$menu1_first_bg_color,$w,1); ?>
 </td>
 //입력박스
 <td class="bwg_help">
-	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 	<input type="text" name="bwo[ttl_small]" class="bp_wdp100" value="<?=$ttl_small?>">
 </td>
 //숫자범위 100%
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의 너비(폭)를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_wd = (isset($menu1_wd)) ? $menu1_wd : 100;
 	echo bpwg_input_range('bwo[menu1_wd]',$menu1_wd,$w,80,400,1,'100%',38,'px');
@@ -100,7 +100,7 @@ $nav_align_right = ($nav_align == '' || $nav_align == 'right') ? 'checked="check
 </td>
 //숫자범위 147px
 <td class="bwg_help">
-	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+	<?php echo bwg_help("1차메뉴의  높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 	<?php
 	$menu1_ht = (isset($menu1_ht)) ? $menu1_ht : 40;
 	echo bpwg_input_range('bwo[menu1_ht]',$menu1_ht,$w,20,200,1,'147',38,'px');
@@ -177,7 +177,7 @@ $colspan2=2;
 		<tr>
 			<th>최신글<br>자료선택</th>
 			<td colspan="<?=$colspan3?>" class="bwg_help">
-				<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("제일 상단 타이틀의 작은 문자의 내용을 입력하세요.",1,'#555555','#eeeeee'); ?>
 				<input type="hidden" name="bwo[lst_type]" class="lst_type" value="<?=$lst_type?>">
 				<input type="hidden" name="bwo[lst_table]" class="lst_table" value="<?=$lst_table?>">
 				<input type="text" name="bwo[lst_name]" placeholder="자료선택" readonly required class="lst_name bp_wdx150 required readonly" value="<?=$lst_name?>" style="margin-right:5px;">
@@ -191,7 +191,7 @@ $colspan2=2;
 			</td>
 			<th>최신글<br>목록갯수</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 목록갯수를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 목록갯수를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$lst_cnt = (isset($lst_cnt)) ? $lst_cnt : 4;
 				echo bpwg_input_range('bwo[lst_cnt]',$lst_cnt,$w,1,10,1,'100',29,'개');
@@ -199,7 +199,7 @@ $colspan2=2;
 			</td>
 			<th>최신글<br>첨부표시</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("목록에 첨부표시할 데이터를 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("목록에 첨부표시할 데이터를 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<div>
 					<label for="bwo_lst_add_no" class="label_radio first_child bwo_lst_add_no">
 						<input type="radio" id="bwo_lst_add_no" name="bwo[lst_add]" value="no" <?=$lst_add_no?>>
@@ -220,7 +220,7 @@ $colspan2=2;
 			</td>
 			<th>최신글<br>높이</th>
 			<td colspan="<?=$colspan2?>" class="bwg_help">
-				<?php echo bwg_help("최신글 목록영역의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 목록영역의 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$lst_height = (isset($lst_height)) ? $lst_height : 300;
 				echo bpwg_input_range('bwo[lst_height]',$lst_height,$w,20,500,5,'100%',40,'px');
@@ -230,17 +230,17 @@ $colspan2=2;
 		<tr>
 			<th>타이틀<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[title_bg_color]',$title_bg_color,$w,0); ?>
 			</td>
 			<th>타이틀<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[title_font_color]',$title_font_color,$w,0); ?>
 			</td>
 			<th>타이틀<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_font_size = (isset($title_font_size)) ? $title_font_size : 20;
 				echo bpwg_input_range('bwo[title_font_size]',$title_font_size,$w,8,30,1,'100%',32,'px');
@@ -248,7 +248,7 @@ $colspan2=2;
 			</td>
 			<th>타이틀<br>폰트두께</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀의 폰트 두께 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$title_font_weight = (isset($title_font_weight)) ? $title_font_weight : 500;
 				echo bpwg_input_range('bwo[title_font_weight]',$title_font_weight,$w,100,900,100,'100%',30);
@@ -256,29 +256,29 @@ $colspan2=2;
 			</td>
 			<th>타이틀<br>아이콘색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀 아이콘 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀 아이콘 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[title_icon_color]',$title_icon_color,$w,0); ?>
 			</td>
 			<th>타이틀<br>라인색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀 라인 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀 라인 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[title_line_color]',$title_line_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>목록영역<br>배경색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 목록영역 배경 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 목록영역 배경 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[lst_bg_color]',$lst_bg_color,$w,0); ?>
 			</td>
 			<th>목록<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 목록 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 목록 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[lst_font_color]',$lst_font_color,$w,0); ?>
 			</td>
 			<th>목록<br>폰트크기</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀 폰트 크기를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$lst_font_size = (isset($lst_font_size)) ? $lst_font_size : 17;
 				echo bpwg_input_range('bwo[lst_font_size]',$lst_font_size,$w,8,30,1,'100%',32,'px');
@@ -286,24 +286,24 @@ $colspan2=2;
 			</td>
 			<th>목록첨부<br>폰트색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 목록첨부표시 폰트 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 목록첨부표시 폰트 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[lst_add_font_color]',$lst_add_font_color,$w,0); ?>
 			</td>
 			<th>목록영역<br>라인색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 목록영역 라인 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 목록영역 라인 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[lst_line_color]',$lst_line_color,$w,0); ?>
 			</td>
 			<th>목록영역<br>아이콘색</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 타이틀 아이콘 색상을 설정하세요.",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 타이틀 아이콘 색상을 설정하세요.",1,'#555555','#eeeeee'); ?>
 				<?php echo bpwg_input_color('bwo[lst_icon_color]',$lst_icon_color,$w,0); ?>
 			</td>
 		</tr>
 		<tr>
 			<th>최신글<br>상단간격</th>
 			<td class="bwg_help">
-				<?php echo bwg_help("최신글 상단간격(여백) 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 상단간격(여백) 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$lst_top_interval = (isset($lst_top_interval)) ? $lst_top_interval : 40;
 				echo bpwg_input_range('bwo[lst_top_interval]',$lst_top_interval,$w,0,80,1,'100',40,'px');
@@ -311,7 +311,7 @@ $colspan2=2;
 			</td>
 			<th>최신글좌우<br>바깥간격</th>
 			<td colspan="<?=$colspan8?>" class="bwg_help">
-				<?php echo bwg_help("최신글 좌우 바깥간격(여백) 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#f9fac6','#333333'); ?>
+				<?php echo bwg_help("최신글 좌우 바깥간격(여백) 높이를 설정하세요.(미세조정은 키보드의 방향키로 하세요.)",1,'#555555','#eeeeee'); ?>
 				<?php
 				$lst_horizontal_interval = (isset($lst_horizontal_interval)) ? $lst_horizontal_interval : 20;
 				echo bpwg_input_range('bwo[lst_horizontal_interval]',$lst_horizontal_interval,$w,0,80,1,'100',40,'px');
