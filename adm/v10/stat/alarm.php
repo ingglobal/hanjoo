@@ -7,7 +7,7 @@ auth_check($auth[$sub_menu],"r");
 $g5['title'] = '알람보고서';
 include_once('./_top_menu_stat.php');
 include_once('./_head.php');
-echo $g5['container_sub_title'];
+// echo $g5['container_sub_title'];
 $file_name_css_path = G5_USER_ADMIN_STAT_PATH.'/css/'.$g5['file_name'].'.css';
 $file_name_css_url = G5_USER_ADMIN_STAT_URL.'/css/'.$g5['file_name'].'.css';
 

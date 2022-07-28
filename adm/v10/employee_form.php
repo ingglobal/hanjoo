@@ -422,7 +422,6 @@ function fmember_submit(f)
 {
     //비밀번호 체크
     //영문으로 시작하고 반드시 영문숫자 조합하여 6글자 이상
-    
     if(f.w.value == 'u' && f.mb_password.value){
         var pw = f.mb_password.value;
         var pt = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,}$/;

@@ -20,7 +20,7 @@ $en_timestamp = strtotime($en_date.' '.$en_time);
 $g5['title'] = 'UPH보고서';
 include_once('./_top_menu_stat.php');
 include_once('./_head.php');
-echo $g5['container_sub_title'];
+// echo $g5['container_sub_title'];
 
 // Get all the mms_idx values to make them optionf for selection.
 $sql2 = "   SELECT mms_idx, mms_name

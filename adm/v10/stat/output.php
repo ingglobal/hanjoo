@@ -7,7 +7,7 @@ auth_check($auth[$sub_menu],"r");
 $g5['title'] = '생산보고서';
 include_once('./_top_menu_stat.php');
 include_once('./_head.php');
-echo $g5['container_sub_title'];
+// echo $g5['container_sub_title'];
 
 ?>
 <style>
