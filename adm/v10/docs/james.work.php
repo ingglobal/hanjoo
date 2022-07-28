@@ -1205,3 +1205,13 @@ WHERE dta_type IN (1,8) AND dta_no IN (1,2,3,4,5,6,7,8,9,10,11)
 GROUP BY dta_type, dta_no
 ORDER BY dta_type, dta_no
 ....
+
+// 최적 태그기준값 추출 (제일 최근 거 기준)
+SELECT dta_type, dta_no, MAX(dta_value), MIN(dta_value)
+FROM g5_1_data_measure_best
+WHERE {$sql_dta_type}
+AND dta_dt >= '".$st_date." ".$st_time."' AND dta_dt <= '".$en_date." ".$en_time."'
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no ASC
+
+/home/hanjoo/www/php/hanjoo/skin/member/basic/login.skin.php

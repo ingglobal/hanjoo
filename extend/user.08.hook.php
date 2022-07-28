@@ -35,6 +35,15 @@ function u_member_logout(){
     }
 }
 
+// 로그인 페이지로 오면 메인으로 다시 돌려보내기
+add_event('member_login_tail','u_member_login_tail',10);
+function u_member_login_tail(){
+    global $g5;
+    if($g5['file_name']=='login') {
+        goto_url(G5_URL);
+    }
+}
+
 
 add_event('member_login_check','u_member_login_check',10);
 function u_member_login_check(){

@@ -2,7 +2,7 @@
 $sub_menu = "920120";
 include_once('./_common.php');
 
-$g5['title'] = '그래프(주조공정(SUB))';
+$g5['title'] = '파라메터 분포';
 include_once('./_top_menu_db.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
@@ -35,17 +35,27 @@ $sql = "SELECT mms_idx, mms_name, mms_model
 $result = sql_query($sql,1);
 for ($i=0; $row=sql_fetch_array($result); $i++) {
     // print_r2($row);
-    $mms[$row['mms_idx']] = $row['mms_name'];
+    $mms_name[$row['mms_idx']] = $row['mms_name'];
+}
+
+// 태그검색
+if($ser_dta_type) {
+    $sql_dta_type = " dta_type = '".$ser_dta_type."' ";
+}
+else {
+    $sql_dta_type = " dta_type IN (1,8) ";
 }
 
 // 주조기 설비 분포 범위 (max, min)
 for($i=0;$i<sizeof($g5['set_dicast_mms_idxs_array']);$i++) {
     // echo $g5['set_dicast_mms_idxs_array'][$i].'<br>';
-    // echo $mms[$g5['set_dicast_mms_idxs_array'][$i]].' ------------ <br>';
-    $list[$i]['mms_name'] = $mms[$g5['set_dicast_mms_idxs_array'][$i]];
+    $mms_idx[$i] = $g5['set_dicast_mms_idxs_array'][$i];
+    // echo $mms_name[$mms_idx[$i]].' 설비명 ---------- <br>';
+    $mms = get_table_meta('mms', 'mms_idx', $mms_idx[$i]);  // mms meta 값으로 태그명들이 쭉 들어가 있음
+    // print_r2($mms);
     $sql = "SELECT dta_type, dta_no, MAX(dta_value), MIN(dta_value)
             FROM g5_1_data_measure_".$g5['set_dicast_mms_idxs_array'][$i]."
-            WHERE dta_type IN (1,8)
+            WHERE {$sql_dta_type}
             AND dta_dt >= '".$st_date." ".$st_time."' AND dta_dt <= '".$en_date." ".$en_time."'
             GROUP BY dta_type, dta_no
             ORDER BY dta_type, dta_no ASC
@@ -54,8 +64,43 @@ for($i=0;$i<sizeof($g5['set_dicast_mms_idxs_array']);$i++) {
     $rs = sql_query_pg($sql,1);
     for($j=0;$row=sql_fetch_array_pg($rs);$j++) {
         // print_r2($row);
+
+        // 최적값 추출을 위한 배열 생성
+        $row['dta_type_no_name'] = $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']] ? 
+                                        $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
+                                            : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
+        // echo $row['dta_type_no_name'].'<br>';
+        $best_type_no[$mms_idx[$i]][$j]['dta_name'] = $row['dta_type_no_name'];
+        $best_type_no[$mms_idx[$i]][$j]['dta_type'] = $row['dta_type'];
+        $best_type_no[$mms_idx[$i]][$j]['dta_no'] = $row['dta_no'];
     }
 }
+// print_r2($best_type_no);
+
+// 최적값 추출
+if(is_array($best_type_no)) {
+    foreach($best_type_no as $k1=>$v1) {
+        // echo $k1.$v1.'<br>';
+        // echo $mms_name[$k1].' 설비 최적값들 ------------------------------------------ <br>';
+        for($i=0;$i<sizeof($v1);$i++) {
+            // print_r2($v1[$i]);
+            // echo $v1[$i]['dta_name'].'='.$v1[$i]['dta_type'].','.$v1[$i]['dta_no'].'<br>';
+            $sql = "SELECT *
+                    FROM {$g5['data_measure_best_table']}
+                    WHERE {$sql_dta_type}
+                    AND mms_idx = '".$k1."' AND dta_type <= '".$v1[$i]['dta_type']."' AND dta_no <= '".$v1[$i]['dta_no']."'
+                    ORDER BY dmb_reg_dt DESC
+                    LIMIT 1
+            ";
+            // echo $sql.'<br>';
+            $rs = sql_query($sql,1);
+            for($j=0;$row=sql_fetch_array($rs);$j++) {
+                // print_r2($row);
+            }
+        }
+    }
+}
+
 
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
@@ -87,6 +132,14 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         ?>
     </select>
     <script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
+
+    <select name="ser_dta_type" id="ser_dta_type">
+        <option value="">태그전체</option>
+        <option value="1" <?=get_selected($ser_dta_type, 1)?>>온도</option>
+        <option value="8" <?=get_selected($ser_dta_type, 1)?>>압력</option>
+    </select>
+    <script>$('select[name=ser_dta_type]').val("<?=$ser_dta_type?>").attr('selected','selected');</script>
+
     <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" required class="required frm_input" autocomplete="off" style="width:80px;" >
     <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" required class="required frm_input" autocomplete="off" style="width:65px;">
     ~
@@ -95,8 +148,11 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <button type="submit" class="btn btn_01 btn_search">확인</button>
 </form>
 
-<div id="graph_wrapper">
+<div class="local_desc01 local_desc" style="display:no ne;">
+    <p>가운데 빨간색으로 표시된 그래프가 최적기준선입니다.</p>
+</div>
 
+<div id="graph_wrapper">
 <div class="graph_wrap">
     <!-- 차트 -->
     <div id="chart1" style="position:relative;width:100%; height:400px;">
