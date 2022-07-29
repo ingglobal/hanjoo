@@ -30,9 +30,10 @@ function print_menu1($key, $no='')
 
 function print_menu2($key, $no='')
 {
-    global $menu, $auth_menu, $is_admin, $auth, $g5, $sub_menu;
-
-    $str = "<ul>";
+    global $menu, $amenu, $auth_menu, $is_admin, $auth, $g5, $sub_menu;
+    
+    $str = "<ul".(($key == 'menu915')?' id="ul_dash_submenu"':'').">";
+    
     for($i=1; $i<count($menu[$key]); $i++)
     {
         if( ! isset($menu[$key][$i]) ){
@@ -45,9 +46,9 @@ function print_menu2($key, $no='')
         $gnb_grp_div = $gnb_grp_style = '';
 
         if (isset($menu[$key][$i][4])){
-            if (($menu[$key][$i][4] == 1 && $gnb_grp_style == false) || ($menu[$key][$i][4] != 1 && $gnb_grp_style == true)) $gnb_grp_div = 'gnb_grp_div';
+            if (($menu[$key][$i][4] == 1 && $gnb_grp_style == false) || ($menu[$key][$i][4] != 1 && $gnb_grp_style == true)) $gnb_grp_div = ' gnb_grp_div';
 
-            if ($menu[$key][$i][4] == 1) $gnb_grp_style = 'gnb_grp_style';
+            if ($menu[$key][$i][4] == 1) $gnb_grp_style = ' gnb_grp_style';
         }
 
         $current_class = '';
@@ -56,11 +57,16 @@ function print_menu2($key, $no='')
             $current_class = ' on';
         }
 
-        $str .= '<li data-menu="'.$menu[$key][$i][0].'"><a href="'.$menu[$key][$i][2].'" class="gnb_2da '.$gnb_grp_style.' '.$gnb_grp_div.$current_class.'">'.$menu[$key][$i][1].'</a></li>';
+        $str .= '<li data-menu="'.$menu[$key][$i][0].'"'.(($key != 'menu915')?:' class="li_dash_submenu"').(($key != 'menu915')?:' mta_idx="'.$menu[$key][$i][4].'"').(($key != 'menu915')?:' sort="'.$menu[$key][$i][3].'"').'><a href="'.$menu[$key][$i][2].'" class="gnb_2da'.$gnb_grp_style.$gnb_grp_div.$current_class.'"'.((!$menu[$key][$i][3])?:' id="dash_'.$menu[$key][$i][3].'"').'>'.$menu[$key][$i][1].'</a></li>';
+        // $str .= '<li data-menu="'.$menu[$key][$i][0].'"><a href="'.$menu[$key][$i][2].'" class="gnb_2da '.$gnb_grp_style.' '.$gnb_grp_div.$current_class.'">'.$menu[$key][$i][1].'</a></li>';
 
         $auth_menu[$menu[$key][$i][0]] = $menu[$key][$i][1];
     }
     $str .= "</ul>";
+    if($key == 'menu915'){
+        $str .= "<ul id='ul_dash_add'>";
+        $str .= "</ul>";
+    }
 
     return $str;
 }
@@ -76,6 +82,7 @@ if( ! empty($_COOKIE['g5_admin_btn_gnb']) ){
     $adm_menu_cookie['gnb'] = 'gnb_small';
     $adm_menu_cookie['btn_gnb'] = 'btn_gnb_open';
 }
+if($g5['dir_name'] == 'v10' && $g5['file_name'] == 'index') include_once('./_dashboard_top_submenu.php');
 ?>
 
 <script>

@@ -12,10 +12,6 @@ $g5['hook_file_path'] = (preg_match("|/adm/|",$g5['file_path'].'/')) ?
                             : preg_replace("|".G5_PATH."|", G5_PATH."/".G5_USER_DIR."/".G5_HOOK_DIR, $g5['file_path']) ;
 // echo $g5['hook_file_path'];
 
-//위젯(widget)테이블 확인후 설치
-// include_once(G5_USER_ADMIN_SET_PATH.'/_set_db_wdg.php');
-// include_once(G5_USER_ADMIN_SET_PATH.'/_set_data_wdg.php');
-
 // /adm 디렉토리에 있는 경우 v10 관리자로 넘김
 // echo $g5['dir_name'].'<br>';
 // echo $g5['file_name'].'<br>';
