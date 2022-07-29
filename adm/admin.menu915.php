@@ -12,6 +12,7 @@ $meta_sql = " SELECT mta_idx,mta_value,mta_title,mta_number FROM {$g5['meta_tabl
                 WHERE mta_db_table = 'member' 
                     AND mta_db_id = '{$member['mb_id']}'
                     AND mta_key = 'dashboard_menu'
+                    AND mta_status = 'ok'
                 ORDER BY mta_number
 ";
 $mta_result = sql_query($meta_sql,1);
@@ -31,7 +32,7 @@ if($mta_result->num_rows){
 // print_r3($dsb_mns);
 
 $menu915_first = array('915000', '대시보드', ''.G5_USER_ADMIN_URL.'/index.php', 'index');
-$menu915_last = array('915900', '대시보드추가 <i class="fa fa-plus" aria-hidden="true"></i>', 'javascript:', 'add_dashboard');
+$menu915_last = array('915900', '<span>대시보드추가</span> <i class="fa fa-plus" aria-hidden="true"></i>', 'javascript:', 'add_dashboard');
 $menu915_last_else = array('915900', '<i class="fa fa-slack" aria-hidden="true"></i> DASH-BOARD', ''.G5_USER_ADMIN_URL.'/index.php', 'to_dashboard');
 $menu["menu915"] = $dsb_mns;//array();
 array_unshift($menu["menu915"], $menu915_first);

@@ -242,5 +242,8 @@ else if ('attachEvent' in window) { //IE
 
     <div id="container" class="<?php echo $adm_menu_cookie['container']; ?>">
 
-        <h1 id="container_title"><?php echo $g5['title'] ?></h1>
+        <h1 id="container_title">
+            <?php echo $g5['title'] ?>
+            <?php if($g5['dir_name'] == 'v10' && $g5['file_name'] == 'index'){ include_once('./_dashboard_right_top.php'); } ?>
+        </h1>
         <div class="container_wr">
