@@ -8,16 +8,25 @@ $tmta_sql = " SELECT mta_idx,mta_value,mta_title,mta_number FROM {$g5['meta_tabl
 $tmresult = sql_query($tmta_sql,1);
 $sub_menus = array();
 $sub_menu_titles = array();
+
 if($tmresult->num_rows){
-for($i=0;$tmrow=sql_fetch_array($tmresult);$i++){
-    $sub_menus[$tmrow['mta_idx']] = $tmrow['mta_value'];
-    $sub_menu_titles[$tmrow['mta_idx']] = $tmrow['mta_title'];
-}
+    for($i=0;$tmrow=sql_fetch_array($tmresult);$i++){
+        $sub_menus[$tmrow['mta_idx']] = $tmrow['mta_value'];
+        $sub_menu_titles[$tmrow['mta_idx']] = $tmrow['mta_title'];
+    }
 }
 
-if($tmresult->num_rows && !$idx) $sub_menu = $sub_menus[key($sub_menus)];
-else if($tmresult->num_rows && $idx) $sub_menu = $sub_menus[$idx];
-else $sub_menu = ($menu915_last)?$menu915_last[0]:'915900';
-$sub_menu_title = ($sub_menu_titles[$idx])?$sub_menu_titles[$idx]:'대시보드';
-$g5['title'] = $sub_menu_title;
+$cur_mta_idx = 0;
+if($tmresult->num_rows && !$idx) {
+    $sub_menu = $sub_menus[key($sub_menus)];
+    $cur_mta_idx = array_search($sub_menu,$sub_menus);
+} else if($tmresult->num_rows && $idx) {
+    $sub_menu = $sub_menus[$idx];
+    $cur_mta_idx = array_search($sub_menu,$sub_menus);
+} else {
+    $sub_menu = ($menu915_last)?$menu915_last[0]:'915900';
+    $cur_mta_idx = array_search($sub_menu,$sub_menus);
+}
+$sub_menu_title = ($sub_menu_titles[$cur_mta_idx])?'<span clas="ds_ttl">'.$sub_menu_titles[$cur_mta_idx].'</span>':'<span clas="ds_ttl">대시보드</span>';
+$g5['title'] = $sub_menu_title.((!$sub_menu||!$cur_mta_idx)?:'<i class="fa fa-cogs ds_edit_btn" aria-hidden="true" style="margin-left:10px;cursor:pointer;"></i>');
 // $sub_menu = '915110';

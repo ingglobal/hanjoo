@@ -9,7 +9,7 @@ for($j=11;$j<90;$j++){
 
 
 //해당 sub_menu코드의 메뉴를 삭제한다.
-$mta_del_sql = " UPDATE {$g5['meta_table']} SET
+$mta_trash_sql = " UPDATE {$g5['meta_table']} SET
                     mta_status = 'trash'
                     ,mta_update_dt = '".G5_TIME_YMDHIS."'
                 WHERE mta_db_table = 'member'
@@ -17,7 +17,21 @@ $mta_del_sql = " UPDATE {$g5['meta_table']} SET
                     AND mta_key = 'dashboard_menu'
                     AND mta_idx= '{$mta_idx}'
 ";
-sql_query($mta_del_sql);
+sql_query($mta_trash_sql);
+//해당 g5_1_dash_grid 테이블의 레코드도 trash 상태로 변경
+$dsg_trash_sql = " UPDATE {$g5['dash_grid_table']} SET 
+                        dsg_status = 'trash'
+                        ,dsg_update_dt = '".G5_TIME_YMDHIS."'
+                    WHERE mta_idx = '{$mta_idx}'  ";
+sql_query($dsg_trash_sql);
+//해당 g5_1_member_dash 테이블의 레코드도 trash 상태로 변경
+$mbd_trash_sql = " UPDATE {$g5['member_dash_table']} SET 
+                        mbd_status = 'trash'
+                        ,mbd_update_dt = '".G5_TIME_YMDHIS."'
+                    WHERE mta_idx = '{$mta_idx}'  ";
+sql_query($mbd_trash_sql);
+
+
 
 //남은 sub_menu코드의 메뉴들을 조회한다.
 $mta_sql = " SELECT mta_idx FROM {$g5['meta_table']} 
@@ -25,7 +39,7 @@ $mta_sql = " SELECT mta_idx FROM {$g5['meta_table']}
                     AND mta_db_id = '{$member['mb_id']}'
                     AND mta_key = 'dashboard_menu'
                     AND mta_status = 'ok'
-                ORDER BY mta_number
+                ORDER BY mta_number, mta_idx
 ";
 $result = sql_query($mta_sql);
 $str = '';
@@ -48,11 +62,6 @@ for($i=1;$row=sql_fetch_array($result);$i++){
 // echo $str;
 
 
-//상태값이 trash로 된 이후 일주일이 지난 데이터는 회원을 불문하고 전부 삭제한다. 
-$mta_rm_sql = " DELETE FROM {$g5['meta_table']}
-                WHERE mta_db_table = 'member'
-                    AND mta_key = 'dashboard_menu'
-                    AND mta_status = 'trash'
-                    AND mta_update_dt < DATE_SUB(NOW(), interval 7 day)
-";
-sql_query($mta_rm_sql);
+//일주일이 지난 trash상태값의 대시보드 관련 모든 데이터를 삭제
+dash_delete();
+

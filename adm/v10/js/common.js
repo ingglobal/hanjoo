@@ -151,8 +151,5 @@ $(function(e) {
     if( /adm\/newwinform/.test( url ) ) {
         $('.tbl_frm01 tbody tr:first-child').hide();
 	}
-    
-   
-    
 });	// ehd of $(document).ready(function()	-------------
 

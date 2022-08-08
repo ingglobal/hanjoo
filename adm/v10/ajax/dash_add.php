@@ -5,7 +5,7 @@ $meta_sql = " SELECT mta_idx FROM {$g5['meta_table']}
                     AND mta_db_id = '{$member['mb_id']}'
                     AND mta_key = 'dashboard_menu'
                     AND mta_status = 'ok'
-                ORDER BY mta_number
+                ORDER BY mta_number, mta_idx
 ";
 $result = sql_query($meta_sql);
 $cd_arr = array();
@@ -49,11 +49,5 @@ $sql = " INSERT INTO {$g5['meta_table']} SET
 sql_query($sql);
 
 
-//상태값이 trash로 된 이후 일주일이 지난 데이터는 회원을 불문하고 전부 삭제한다. 
-$mta_rm_sql = " DELETE FROM {$g5['meta_table']}
-                WHERE mta_db_table = 'member'
-                    AND mta_key = 'dashboard_menu'
-                    AND mta_status = 'trash'
-                    AND mta_update_dt < DATE_SUB(NOW(), interval 7 day)
-";
-sql_query($mta_rm_sql);
+//일주일이 지난 trash상태값의 대시보드 관련 모든 데이터를 삭제
+dash_delete();

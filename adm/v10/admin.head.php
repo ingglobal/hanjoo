@@ -33,14 +33,14 @@ function print_menu2($key, $no='')
     global $menu, $amenu, $auth_menu, $is_admin, $auth, $g5, $sub_menu;
     
     $str = "<ul".(($key == 'menu915')?' id="ul_dash_submenu"':'').">";
-    
     for($i=1; $i<count($menu[$key]); $i++)
     {
         if( ! isset($menu[$key][$i]) ){
             continue;
         }
+        // echo $menu['menu915'][$i][0]."<br>";
 
-        if ($is_admin != 'super' && (!array_key_exists($menu[$key][$i][0],$auth) || !strstr($auth[$menu[$key][$i][0]], 'r')))
+        if ($is_admin != 'super' && $key != 'menu915' && (!array_key_exists($menu[$key][$i][0],$auth) || !strstr($auth[$menu[$key][$i][0]], 'r')))
             continue;
         
         $gnb_grp_div = $gnb_grp_style = '';
@@ -52,7 +52,6 @@ function print_menu2($key, $no='')
         }
 
         $current_class = '';
-
         if ($menu[$key][$i][0] == $sub_menu){
             $current_class = ' on';
         }

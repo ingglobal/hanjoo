@@ -182,7 +182,6 @@ if(basename($_SERVER["SCRIPT_FILENAME"]) == 'login_check.php') {
 	
 }
 
-
 // Admin mode default hooking
 if(defined('G5_IS_ADMIN')){
     add_event('adm_board_form_before', 'u_adm_board_form_before', 10);
@@ -294,7 +293,7 @@ if(defined('G5_IS_ADMIN')){
         if(is_file(G5_USER_ADMIN_JS_PATH.'/colpick/colpick.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/colpick/colpick.js"></script>',1);
         //날짜타임픽커
         if(is_file(G5_USER_ADMIN_JS_PATH.'/datetimepicker/jquery.datetimepicker.full.min.js')) add_javascript('<script src="'.G5_USER_ADMIN_JS_URL.'/datetimepicker/jquery.datetimepicker.full.min.js"></script>',1);
-		
+
         // 후킹 추가
         @include_once($g5['hook_file_path'].'/'.$g5['file_name'].'.tail.php');
 	}

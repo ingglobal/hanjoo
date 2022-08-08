@@ -64,6 +64,7 @@ $g5['file_table']                   = USER_TABLE_PREFIX . 'file';
 $g5['banner_table']                 = USER_TABLE_PREFIX . 'banner';
 $g5['history_table']                = USER_TABLE_PREFIX . 'history';
 $g5['comment_table']                = USER_TABLE_PREFIX . 'comment';
+/*
 $g5['wdg_table']                    = USER_TABLE_PREFIX . 'wdg';
 $g5['wdg_config_table']             = USER_TABLE_PREFIX . 'wdg_config';
 $g5['wdg_file_table']               = USER_TABLE_PREFIX . 'wdg_file';
@@ -71,7 +72,7 @@ $g5['wdg_content_table']            = USER_TABLE_PREFIX . 'wdg_content';
 $g5['wdg_content_extend_table']     = USER_TABLE_PREFIX . 'wdg_content_extend';
 $g5['wdg_option_table']             = USER_TABLE_PREFIX . 'wdg_option';
 $g5['wdg_user_option_table']        = USER_TABLE_PREFIX . 'wdg_user_option';
-
+*/
 // 사용자 테이블 정의 -----------------------------------------------------------
 define('NEW_TABLE_PREFIX',          G5_TABLE_PREFIX . '1_');
 
@@ -115,6 +116,7 @@ $g5['data_output_table']            = NEW_TABLE_PREFIX.'data_output';
 $g5['data_output_sum_table']        = NEW_TABLE_PREFIX.'data_output_sum';
 $g5['data_downtime_table']          = NEW_TABLE_PREFIX.'data_downtime';
 $g5['member_dash_table']            = NEW_TABLE_PREFIX.'member_dash';
+$g5['dash_grid_table']              = NEW_TABLE_PREFIX.'dash_grid';
 $g5['alarm_table']                  = NEW_TABLE_PREFIX.'alarm';
 $g5['offwork_table']                = NEW_TABLE_PREFIX.'offwork';
 $g5['alarm_send_table']             = NEW_TABLE_PREFIX.'alarm_send';
