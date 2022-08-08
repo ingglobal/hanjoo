@@ -79,6 +79,7 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 #hd_top {background:#060d1b;border-bottom: solid 1px #142546;}
 #logo {background: #020710;width:230px;padding:10px 0 10px 50px;}
 #logo a{font-size:1.2em;}
+#logo span{position:absolute;top:15px;left:235px;}
 #logo a img{display:none;}
 #btn_gnb {width:50px;background:url(https://icongr.am/clarity/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(270deg);}
 #btn_gnb.btn_gnb_open{background:url(https://icongr.am/clarity/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(90deg);}
@@ -230,6 +231,8 @@ a.btn_cancel{background:#43535C;border:1px solid #434343;}
 .td_mng button, .td_mng button.btn{line-height:26px;border-radius:0;}
 .new_win .win_btn button{background:#D33838;color:#fff;}
 .btn_list03 a {height:30px;line-height:30px;}
+#tnb li{margin-left:5px;}
+.tnb_com_select{border:1px solid #354667;background:#010163}
 .tnb_mes{border:1px solid #354667;}
 
 ul#bwgs_tab{border-bottom:1px solid #777;}
