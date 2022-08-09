@@ -99,6 +99,8 @@ echo $g5['container_sub_title'];
 
 <div class="div_button" style="margin-top:40px;">
     <a href="javascript:alert('정말 중지시키겠습니까?');" style="padding:20px 50px;background-color:#555;">로봇중지</a>
+    <a href="javascript:alert('경고를 전달하시겠습니까?');" style="padding:20px 50px;background-color:#555;">경고</a>
+    <a href="javascript:alert('로봇을 재시작 시키겠습니까?');" style="padding:20px 50px;background-color:#555;">로봇재시작</a>
 </div>
 
 <script>
