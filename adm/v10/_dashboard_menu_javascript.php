@@ -13,11 +13,13 @@ if (!defined('_GNUBOARD_')) exit;
 .li_dash_submenu .fa-window-close{position:absolute;top:5px;right:-12px;}
 .li_dash_submenu a{display:block;width:100%;overflow-x:hidden;height:27px;line-height:27px;}
 .li_dash_submenu input{position:absolute;top:0;left:0;width:100px;height:27px;line-height:27px;background:#444;color:#fff;border:1px solid #888;padding:0 2px;}
-#ul_dash_add{position:absolute;left:0;bottom:0;border-top:1px solid #777777;width:100%;}
+#ul_dash_add{position:absolute;left:0;bottom:0;border-top:1px solid #0b1b33;width:100%;}
 #ul_dash_add span{display:none;}
 #ul_dash_add:after{display:block;visibility:hidden;clear:both;content:'';}
-#ul_dash_add li{float:right;width:40px;height:40px;border-left:1px solid #777777;}
-#ul_dash_add li a{display:block;width:100%;height:40px;line-height:40px;text-align:center;font-size:1.5em;background:#222;}
+#ul_dash_add li{float:left;width:40px;height:40px;border-right:1px solid #32486b;}
+#ul_dash_add li a{display:block;width:100%;height:40px;line-height:40px;text-align:center;font-size:1.5em;background:#162847;}
+#ul_dash_add li a i{color:#34548a;}
+#ul_dash_add li a:hover i{color:#ecb859 !important;}
 #ul_dash_add li.li_dash_set a{}
 #ul_dash_add li.li_dash_set a.focus{background:#555;color:yellow;}
 </style>
