@@ -304,7 +304,7 @@ include_once ('./_head.php');
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">비용</th>
+                    <th scope="row">조치정보</th>
                     <td colspan="3">
                         <input
                             type="text"

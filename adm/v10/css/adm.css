@@ -256,6 +256,7 @@ ul#bwgs_tab li a.focus{background:#555;border-bottom:1px solid #777;color:#eee;f
     border: 1px solid #354667 !important;
 }
 .tbl_head01 tr:nth-child(even) td{background:#071127;}
+.tbl_head02 thead a {color: #bbbbbb;}
 
 .tbl_frm{table-layout:fixed;border-top:1px solid #515151;}
 .tbl_frm tr{border-bottom:1px solid #515151;}
