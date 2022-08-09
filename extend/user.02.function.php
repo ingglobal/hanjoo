@@ -2347,4 +2347,5 @@ function get_pretty_url2($folder, $no='', $query_string='', $action=''){
     return implode('/', $segments).$add_query;
 }
 }
+
 ?>

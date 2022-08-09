@@ -1406,4 +1406,35 @@ function num_to_han($mny){
     return(array($str,$unit)); 
 }
 }
+
+
+// 대시보드 기본 삭제함수
+if(!function_exists('dash_delete')){
+function dash_delete(){
+    global $g5;
+    //상태값이 trash로 된 이후 일주일이 지난 데이터는 회원을 불문하고 전부 삭제한다. 
+    $mta_del_sql = " DELETE FROM {$g5['meta_table']}
+    WHERE mta_db_table = 'member'
+        AND mta_key = 'dashboard_menu'
+        AND mta_status = 'trash'
+        AND mta_update_dt < DATE_SUB(NOW(), interval 7 day) ";
+    sql_query($mta_del_sql);
+    //해당 g5_1_dash_grid 테이블의 레코드도 상태값이 trash로 된 이후 일주일이 지난 데이터는 삭제
+    $dsg_del_sql = " DELETE FROM {$g5['dash_grid_table']}
+    WHERE dsg_status = 'trash'
+        AND dsg_update_dt < DATE_SUB(NOW(), interval 7 day) ";
+    sql_query($dsg_del_sql);
+    //해당 g5_1_member_dash 테이블의 레코드도 상태값이 trash로 된 이후 일주일이 지난 데이터는 삭제
+    $mbd_del_sql = " DELETE FROM {$g5['member_dash_table']}
+    WHERE mbd_status = 'trash'
+        AND mbd_update_dt < DATE_SUB(NOW(), interval 7 day) ";
+    sql_query($mbd_del_sql);
+}
+}
+
+if(!function_exists('dash_test')){
+function dash_test(){
+    return 'dash_test';
+}
+}
 ?>
