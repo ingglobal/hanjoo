@@ -81,8 +81,8 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 #logo a{font-size:1.2em;}
 #logo span{position:absolute;top:15px;left:235px;}
 #logo a img{display:none;}
-#btn_gnb {width:50px;background:url(../svg/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(270deg);}
-#btn_gnb.btn_gnb_open{background:url(../svg/collapse.svg?size=20&color=ffffff) 50% 50% no-repeat #30343f !important;transform:rotate(90deg);}
+#btn_gnb {width:50px;background:url(../svg/collapse_20_ffffff.svg) 50% 50% no-repeat #30343f !important;transform:rotate(270deg);}
+#btn_gnb.btn_gnb_open{background:url(../svg/collapse_20_ffffff.svg) 50% 50% no-repeat #30343f !important;transform:rotate(90deg);}
 #gnb .gnb_oparea {background: #162c52;}
 #btn_gnb.btn_gnb_open {
     background-color:#0f1e3b;
