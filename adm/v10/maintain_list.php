@@ -123,8 +123,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     display: unset;
     margin: -8px 0 0 -8px;
 }
-#modal01 table ol {padding-right: 20px;text-indent: -12px;padding-left: 12px;}
-#modal01 form {overflow:hidden;}
 .mnt_setting_target {color:darkorange;}
 .td_mnt_subject,.td_mms_idx {
     text-align:left !important;
@@ -287,7 +285,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
                 }
                 else if($k1=='mnt_minute') {
                     // $list[$k1] = '<span class="font_size_8">'.date('H:i', mktime(0,$row['mnt_minute'])).'</span>';
-                    $list[$k1] = '<span class="font_size_8">'.second_to_hhmm($row['mnt_minute']).'</span>';
+                    $list[$k1] = '<span class="font_size_8">'.sec2hms($row['mnt_minute']).'</span>';
                 }
                 else if($k1=='mnt_status') {
                     $list[$k1] = '<span class="font_size_8">'.$g5['set_status_value'][$row[$k1]].'</span>';
@@ -309,6 +307,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 </div>
 
 <div class="btn_fixed_top">
+    <a href="javascript:alert('작업중입니다.')" id="btn_excel_upload" class="btn btn_01" style="margin-right:50px;">엑셀등록</a>
     <?php if(!auth_check($auth[$sub_menu],"d",1)) { ?>
     <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
     <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn">
@@ -320,7 +319,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;page='); ?>
 
 <div id="modal01" title="엑셀 파일 업로드" style="display:none;">
-    <form name="form02" id="form02" action="./error_code_excel_upload.php" onsubmit="return form02_submit(this);" method="post" enctype="multipart/form-data">
+    <form name="form02" id="form02" action="./<?=$fname?>_excel_upload.php" onsubmit="return form02_submit(this);" method="post" enctype="multipart/form-data">
         <table>
         <tbody>
         <tr>
@@ -409,13 +408,15 @@ $(function(e) {
     });
 
     // 엑셀등록 버튼
-    $( "#modal01" ).dialog({
-        autoOpen: false
-        , position: { my: "right-40 top-10", of: "#btn_excel_upload"}
-    });
-    $( "#btn_excel_upload" ).on( "click", function() {
+    $( "#btn_excel_upload" ).on( "click", function(e) {
+        e.preventDefault();
         $( "#modal01" ).dialog( "open" );
     });
+    $( "#modal01" ).dialog({
+        autoOpen: false
+        , position: { my: "right-10 top-10", of: "#btn_excel_upload"}
+    });
+
 
 });
 

@@ -19,6 +19,8 @@ if ($w == '') {
     ${$pre}['trm_idx_maintain'] = 0;
     ${$pre}['mnt_date'] = G5_TIME_YMD;
     ${$pre}['mnt_people'] = 1;
+    ${$pre}['mnt_start_dt'] = G5_TIME_YMDHIS;
+    ${$pre}['mnt_end_dt'] = date("Y-m-d H:i:s",G5_SERVER_TIME+3600);
     ${$pre}['mnt_time_hh'] = 0;
     ${$pre}['mnt_time_mm'] = 0;
     ${$pre}['mb_id'] = $member['mb_id'];
@@ -68,6 +70,7 @@ $g5['title'] = '정비조치 '.$html_title;
 include_once ('./_head.php');
 //echo $g5['container_sub_title'];
 
+echo sec2hms(685); // 00:11:25
 ?>
 <style>
     .towhom_wrapper {
@@ -304,39 +307,13 @@ include_once ('./_head.php');
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">조치정보</th>
+                    <th scope="row">날짜/담당자</th>
                     <td colspan="3">
-                        <input
-                            type="text"
-                            name="mnt_date"
-                            value="<?=${$pre}['mnt_date']?>"
-                            id="mnt_date"
-                            required="required"
-                            class="frm_input required"
-                            style="width:90px;"
-                            placeholder="정비일">
+                        <input type="text" name="mnt_date" value="<?=${$pre}['mnt_date']?>" id="mnt_date" required="required" class="frm_input required" style="width:90px;" placeholder="정비일">
                         &nbsp;&nbsp;&nbsp; 담당자:
-                        <select name="mb_id" id="mb_id" class="required" required>
-                            <option value="">담당자선택</option>
-                            <?php
-                            $sql2 = "SELECT mb_id, mb_name
-                                    FROM {$g5['member_table']}
-                                    WHERE mb_4 = '".$_SESSION['ss_com_idx']."'
-                                    ORDER BY mb_3
-                            ";
-                            // echo $sql2.'<br>';
-                            $result2 = sql_query($sql2,1);
-                            for ($i=0; $row2=sql_fetch_array($result2); $i++) {
-                                // print_r2($row2);
-                                echo '<option value="'.$row2['mb_id'].'" '.get_selected(${$pre}['mb_id'], $row2['mb_id']).'>'.$row2['mb_name'].'</option>';
-                            }
-                            ?>
-                        </select>
-                        <script>
-                            $('select[name=mb_id]')
-                                .val("<?=${$pre}['mb_id']?>")
-                                .attr('selected', 'selected');
-                        </script>
+                        <input type="hidden" name="mb_id" value="<?=${$pre}['mb_id']?>" id="mb_id" class="frm_input">
+                        <input type="text" name="mnt_name" value="<?=${$pre}['mnt_name']?>" id="mnt_name" class="frm_input" style="width:100px;">
+                        <a href="./member_select.php?file_name=<?=$g5['file_name']?>&item=mb_id_employee" class="btn btn_02" id="btn_member">검색</a>
                         &nbsp;&nbsp;&nbsp; 정비인원:
                         <select name="mnt_people" id="mnt_people" class="required" required>
                             <?php
@@ -350,29 +327,14 @@ include_once ('./_head.php');
                                 .val("<?=${$pre}['mnt_people']?>")
                                 .attr('selected', 'selected');
                         </script>
-                        &nbsp;&nbsp;&nbsp; 소요시간:
-                        <select name="mnt_time_hh" id="mnt_time_hh" class="required" required>
-                            <?php
-                            // 48시간까지..
-                            for ($i=0; $i<=48; $i++) {
-                                echo '<option value="'.$i.'" '.get_selected(${$pre}['mnt_time_hh'], $i).'>'.$i.'</option>';
-                            }
-                            ?>
-                        </select>
-                        시간
-                        <select name="mnt_time_mm" id="mnt_time_mm" class="required" required>
-                            <?php
-                            // 48시간까지..
-                            for ($i=0; $i<=59; $i++) {
-                                echo '<option value="'.$i.'" '.get_selected(${$pre}['mnt_time_mm'], $i).'>'.$i.'</option>';
-                            }
-                            ?>
-                        </select>
-                        분
-                        <script>
-                            $('select[name=mnt_time_hh]').val("<?=${$pre}['mnt_time_hh']?>").attr('selected', 'selected');
-                            $('select[name=mnt_time_mm]').val("<?=${$pre}['mnt_time_mm']?>").attr('selected', 'selected');
-                        </script>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">정비시간</th>
+                    <td colspan="3">
+                        <input type="text" name="mnt_start_dt" value="<?=(check_date(${$pre}['mnt_start_dt']))?${$pre}['mnt_start_dt']:''?>" id="mnt_start_dt" class="frm_input" style="width:140px;">
+                        ~
+                        <input type="text" name="mnt_end_dt" value="<?=(check_date(${$pre}['mnt_end_dt']))?${$pre}['mnt_end_dt']:''?>" id="mnt_end_dt" class="frm_input" style="width:140px;">
                     </td>
                 </tr>
                 <tr>
@@ -413,22 +375,29 @@ include_once ('./_head.php');
 </form>
 
 <script>
-    $(function () {
-        $("input[name$=_date]").datepicker(
-            {changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99"}
-        );
+$(function () {
+    // 회원검색
+    $(document).on('click','#btn_member',function(e){
+        e.preventDefault();
+        var href = $(this).attr('href');
+        memberfindwin = window.open(href,"memberfindwin","left=100,top=100,width=520,height=600,scrollbars=1");
+        memberfindwin.focus();
     });
 
-    function form01_submit(f) {
-        
-        if(f.mnt_db_idx.value=='') {
-            alert('관련 알람을 선택해 주세요.');
-            return false;
-        }
+    $("input[name$=_date]").datepicker(
+        {changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99"}
+    );
+});
 
-        return true;
+function form01_submit(f) {
+    
+    if(f.mnt_db_idx.value=='') {
+        alert('관련 알람을 선택해 주세요.');
+        return false;
     }
 
+    return true;
+}
 </script>
 
 <?php

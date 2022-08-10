@@ -1,6 +1,20 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// 초를 분으로 변환
+if(!function_exists('sec2m')){
+function sec2m($t) {
+    return floor($t/60);
+}
+}
+
+// 초를 시:분:초 로 변환 ex)00:11:25
+if(!function_exists('sec2hms')){
+function sec2hms($t,$f=':') { // t = seconds, f = separator 
+    return sprintf("%02d%s%02d%s%02d", floor($t/3600), $f, ($t/60)%60, $f, $t%60);
+}
+}
+
 // QR주조코드 업데이트
 if(!function_exists('qr_cast_update')){
 function qr_cast_update($arr)

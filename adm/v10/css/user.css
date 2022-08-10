@@ -155,6 +155,10 @@ label[for^=set_] input[type=radio] {margin-right:2px;}
 /* input file 스타일 */
 input[type=file] {padding-top: 5px;padding-left: 5px;height: 29px;line-height: 16px;color:#aaa;}
 
+#modal01 table ol {padding-right: 5px;text-indent: -20px;padding-left: 20px;font-size:0.9em;}
+#modal01 form {overflow:hidden;}
+input[type=file][name=file_excel] {width:100%;font-size:0.8em;border:solid 1px #444d61;height:40px;line-height:28px;}
+
 /* 알람예지관련 */
 .cod_type_text_p, .cod_type_text_p2 {color:darkorange;}
 .cod_title {padding:0 10px;font-size:2em;font-weight:700;margin-top:20px;}

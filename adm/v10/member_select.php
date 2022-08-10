@@ -2,9 +2,9 @@
 // 모달일수도 있고(대부분) 새창일 수도 있음
 // 호출페이지들
 // /adm/v10/applicant_list.php: 지원자관리 - 검색
-// /adm/v10/recruit_form.php: 채용공고수정 - 검색
 // /adm/v10/manager_form.php: 관리자등록시 회원검색
 // /adm/v10/employee_form.php
+// /adm/v10/maintain_form.php
     include_once('./_common.php');
 
 if($member['mb_level']<4)
@@ -18,15 +18,20 @@ $html_title = '회원검색';
 $g5['title'] = $html_title;
 include_once(G5_PATH.'/head.sub.php');
 
-$sql_common = " from {$g5['member_table']} ";
-$sql_where = " where mb_id <> '{$config['cf_admin']}' and mb_leave_date = '' and mb_intercept_date ='' ";
+$sql_common = " FROM {$g5['member_table']} ";
+$sql_where = " WHERE mb_id <> '{$config['cf_admin']}' AND mb_leave_date = '' AND mb_intercept_date ='' ";
 
-if($item=="mb_id_saler"||$item=="mb_id_worker"){
-    $sql_where .= " and mb_level >= 6 ";
-} else if($item=="mb_id_company"){
-    $sql_where .= " and mb_level = 4 ";
-} else if($item=="mb_id"){
-    $sql_where .= " and mb_level = 2 ";
+if($item=="mb_id_saler"||$item=="mb_id_worker") {
+    $sql_where .= " AND mb_level >= 6 ";
+}
+else if($item=="mb_id_company") {
+    $sql_where .= " AND mb_level = 4 AND mb_4 = '".$_SESSION['ss_com_idx']."' ";
+}
+else if($item=="mb_id_employee") {
+    $sql_where .= " AND mb_4 = '".$_SESSION['ss_com_idx']."' ";
+}
+else if($item=="mb_id") {
+    $sql_where .= " AND mb_level = 2 ";
 }
 
 if($mb_name){
@@ -44,11 +49,13 @@ $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
-$sql = " select mb_id, mb_name, mb_nick, mb_tel, mb_hp, mb_email, mb_1, mb_2
+$sql = "SELECT *
             $sql_common
             $sql_where
-            order by mb_id
-            limit $from_record, $rows ";
+        ORDER BY mb_id
+        LIMIT $from_record, $rows
+";
+// echo $sql.'<br>';
 $result = sql_query($sql);
 
 $qstr1 = 'mb_name='.urlencode($mb_name).'&file_name='.$file_name.'&item='.$item;
@@ -157,11 +164,10 @@ $('.btn_select').click(function(e){
         $("#mb_password", window.opener.document).remove();
         <?php
     }
-    // 지원자등록(수정)
-    else if($file_name=='recruit_form') {
+    else if($file_name=='maintain_form') {
     ?>
         $("input[name=mb_id]", opener.document).val( mb_id );
-        $("input[name=mb_name]", opener.document).val( mb_name );
+        $("input[name=mnt_name]", opener.document).val( mb_name );
     <?php
     }
 	// 계약관리 수정

@@ -26,7 +26,7 @@ $g5_table_name = $g5[$table_name.'_table'];
 $fields = sql_field_names($g5_table_name);
 $pre = substr($fields[0],0,strpos($fields[0],'_'));
 $fname = preg_replace("/_form_update/","",$g5['file_name']); // _form_update를 제외한 파일명
-$qstr .= '&ser_cod_group='.$ser_cod_group.'&ser_cod_type='.$ser_cod_type; // 추가로 확장해서 넘겨야 할 변수들
+$qstr .= '&ser_cod_group='.$ser_cod_group.'&ser_cod_type='.$ser_cod_type.'&ser_mms_idx='.$ser_mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 
 // 변수 재설정
 for($i=0;$i<sizeof($fields);$i++) {

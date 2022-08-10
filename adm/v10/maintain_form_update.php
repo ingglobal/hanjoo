@@ -42,7 +42,10 @@ else if($mnt_db_table=='tag_code'&&$mnt_db_idx) {
 }
 
 // 시간 설정
-$_REQUEST['mnt_minute'] = ($_REQUEST['mnt_time_hh']*3600)+($_REQUEST['mnt_time_mm']*60);
+// $_REQUEST['mnt_minute'] = ($_REQUEST['mnt_time_hh']*3600)+($_REQUEST['mnt_time_mm']*60);
+$_REQUEST['mnt_minute'] = sec2m(strtotime($_REQUEST['mnt_end_dt'])-strtotime($_REQUEST['mnt_start_dt']));
+// echo $_REQUEST['mnt_minute'];
+// exit;
 
 // 공통쿼리
 $skips = array($pre.'_idx',$pre.'_reg_dt',$pre.'_update_dt');

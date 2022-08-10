@@ -10,7 +10,7 @@ $g5_table_name = $g5[$table_name.'_table'];
 $fields = sql_field_names($g5_table_name);
 $pre = substr($fields[0],0,strpos($fields[0],'_'));
 $fname = preg_replace("/_list/","",$g5['file_name']); // _list을 제외한 파일명
-$qstr .= '&ser_cod_group='.$ser_cod_group.'&ser_cod_type='.$ser_cod_type; // 추가로 확장해서 넘겨야 할 변수들
+$qstr .= '&ser_cod_group='.$ser_cod_group.'&ser_cod_type='.$ser_cod_type.'&ser_mms_idx='.$ser_mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 
 $g5['title'] = '알람(에러)코드 관리';
 //include_once('./_top_menu_data.php');
@@ -51,6 +51,11 @@ if ($stx) {
             $where[] = " ({$sfl} LIKE '%{$stx}%') ";
             break;
     }
+}
+
+// 설비번호 검색
+if ($ser_mms_idx) {
+    $where[] = " cod.mms_idx = '".$ser_mms_idx."' ";
 }
 
 // 최종 WHERE 생성
@@ -118,6 +123,26 @@ $items1 = array(
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
+<select name="ser_mms_idx" id="ser_mms_idx">
+    <option value="">설비전체</option>
+    <?php
+    // 해당 범위 안의 모든 설비를 select option으로 만들어서 선택할 수 있도록 한다.
+    // Get all the mms_idx values to make them optionf for selection.
+    $sql2 = "SELECT mms_idx, mms_name
+            FROM {$g5['mms_table']}
+            WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+            ORDER BY mms_idx       
+    ";
+    // echo $sql2.'<br>';
+    $result2 = sql_query($sql2,1);
+    for ($i=0; $row2=sql_fetch_array($result2); $i++) {
+        // print_r2($row2);
+        echo '<option value="'.$row2['mms_idx'].'" '.get_selected($ser_mms_idx, $row2['mms_idx']).'>'.$row2['mms_name'].'('.$row2['mms_idx'].')</option>';
+    }
+    ?>
+</select>
+<script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
+
 <select name="ser_cod_type" id="ser_cod_type">
     <option value="">코드타입</option>
     <?=$g5['set_cod_type_value_options']?>
@@ -141,8 +166,8 @@ $items1 = array(
         }
     }
     ?>
-    <option value="mms_name" <?=get_selected($sfl, "mms_name")?>>설비명</option>
-    <option value="cod.mms_idx" <?=get_selected($sfl, "cod.mms_idx")?>>설비번호</option>
+    <!-- <option value="mms_name" <?=get_selected($sfl, "mms_name")?>>설비명</option>
+    <option value="cod.mms_idx" <?=get_selected($sfl, "cod.mms_idx")?>>설비번호</option> -->
     <?php if($member['mb_level']>=9) { ?>
     <option value="cod.com_idx" <?=get_selected($sfl, "cod.com_idx")?>>업체번호</option>
     <?php } ?>

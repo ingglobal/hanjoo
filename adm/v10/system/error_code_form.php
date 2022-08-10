@@ -10,7 +10,7 @@ $g5_table_name = $g5[$table_name.'_table'];
 $fields = sql_field_names($g5_table_name);
 $pre = substr($fields[0],0,strpos($fields[0],'_'));
 $fname = preg_replace("/_form/","",$g5['file_name']); // _form을 제외한 파일명
-$qstr .= '&ser_cod_group='.$ser_cod_group.'&ser_cod_type='.$ser_cod_type; // 추가로 확장해서 넘겨야 할 변수들
+$qstr .= '&ser_cod_group='.$ser_cod_group.'&ser_cod_type='.$ser_cod_type.'&ser_mms_idx='.$ser_mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 
 if ($w == '') {
     $sound_only = '<strong class="sound_only">필수</strong>';
@@ -130,6 +130,7 @@ i.fa-remove {cursor:pointer;}
 <input type="hidden" name="<?=$pre?>_idx" value="<?php echo ${$pre."_idx"} ?>">
 <input type="hidden" name="ser_cod_group" value="<?php echo $ser_cod_group ?>">
 <input type="hidden" name="ser_cod_type" value="<?php echo $ser_cod_type ?>">
+<input type="hidden" name="ser_mms_idx" value="<?php echo $ser_mms_idx ?>">
 <input type="hidden" name="cod_code_count" value="<?php echo $cod['cod_code_count'] ?>">
 
 <div class="local_desc01 local_desc" style="display:none;">
