@@ -5,25 +5,32 @@ if (!defined('_GNUBOARD_')) exit;
 
 // print_r2($g5['set_pkr_size_value']);
 $g5['set_pkr_size_value_opts'] = '';
+$pn = 0;
+$first_pn = 0;
 foreach($g5['set_pkr_size_value'] as $pk => $pv){
-    $g5['set_pkr_size_value_opts'] .= '<option value="'.trim($pk).'">'.trim($pv).'%</option>';
+    if($pn == 0){$first_pn = $pv;}
+    $kan = (int)trim($pv) / $first_pn;
+    $g5['set_pkr_size_value_opts'] .= '<option value="'.trim($pk).'">'.$kan.'칸</option>';
+    $pn++;
 }
 
 ?>
 <style>
 #bs_top_right{position:absolute;top:0px;right:0px;padding-right:15px;}
-#bs_top_right span{margin-left:20px;}
+#bs_top_right #sp_x{margin-left:10px;margin-right:10px;}
 #bs_top_right select{border:1px solid #888;}
 #bs_top_right button{margin-left:20px;}
 </style>
 <div id="bs_top_right" class="bs_edit">
-    <span>너비: </span>
+    <span>크기: </span>
     <select name="pkr_width" id="pkr_width">
-    <?php echo $g5['set_pkr_size_value_opts']; ?>
+        <option value="">가로</option>
+        <?php echo $g5['set_pkr_size_value_opts']; ?>
     </select>
-    <span>높이: </span>
+    <span id="sp_x">X</span>
     <select name="pkr_height" id="pkr_height">
-    <?php echo $g5['set_pkr_size_value_opts']; ?>
+        <option value="">세로</option>
+        <?php echo $g5['set_pkr_size_value_opts']; ?>
     </select>
     <!--
     <span>공통패딩: </span>
@@ -31,7 +38,7 @@ foreach($g5['set_pkr_size_value'] as $pk => $pv){
     <?php ;//echo $g5['set_pkr_padding_value_options']; ?>
     </select>
     -->
-    <button class="btn btn_01" id="grid_add">그리드추가</button>
+    <button class="btn btn_01" id="grid_add">추가하기</button>
 </div><!--//#bs_top_right-->
 <script>
 $('#grid_add').on('click',function(){
@@ -40,6 +47,11 @@ $('#grid_add').on('click',function(){
     var mta_idx = <?=$cur_mta_idx?>;
     var wd = $(this).siblings('#pkr_width').val();
     var ht = $(this).siblings('#pkr_height').val();
+
+    if(!wd || !ht){
+        alert('[가로 X 세로]크기를 제대로 선택해 주세요.');
+        return false;
+    }
     // var pd = $(this).siblings('#pkr_padding').val();
     // console.log('mta_idx:'+mta_idx+', width:'+wd+', height:'+ht);
     $.ajax({
