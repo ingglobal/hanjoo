@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "920900";
+$sub_menu = "925900";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu], 'w');
@@ -34,6 +34,7 @@ foreach($_REQUEST as $key => $value ) {
 
 }
 
+
 // exit;
-goto_url('./config_form.php?'.$qstr, false);
+goto_url('./'.$fname.'.php?'.$qstr, false);
 ?>

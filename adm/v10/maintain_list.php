@@ -20,7 +20,6 @@ include_once('./_head.php');
 
 $sql_common = " FROM {$g5_table_name} AS ".$pre."
                 LEFT JOIN {$g5['mms_table']} AS mms ON mms.mms_idx = ".$pre.".mms_idx
-                LEFT JOIN {$g5['member_table']} AS mbr ON mbr.mb_id = ".$pre.".mb_id
 "; 
 
 $where = array();
@@ -86,7 +85,6 @@ $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
 $sql = " SELECT SQL_CALC_FOUND_ROWS ".$pre.".*
             , mms.mms_name AS mms_name
-            , mbr.mb_name AS mb_name
 		{$sql_common}
 		{$sql_search}
         {$sql_order}
@@ -110,7 +108,7 @@ $items1 = array(
     ,"code_category"=>array("알람분류",0,0,0)
     ,"trm_idx_maintain"=>array("조치분류",0,0,0)
     ,"mnt_db_idx"=>array("디비번호",0,0,0)
-    ,"mb_name"=>array("담당자",0,0,0)
+    ,"mnt_name"=>array("담당자",0,0,0)
     ,"mnt_date"=>array("정비일자",0,0,0)
     ,"mnt_minute"=>array("정비시간",0,0,0)
 );

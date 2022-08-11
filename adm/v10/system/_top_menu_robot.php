@@ -13,7 +13,8 @@ $g5['container_sub_title'] = '
 <h2 id="container_sub_title">
     <a href="./robot_realtime.php" class="btn_top_menu '.$active_robot_realtime.'">로봇실시간제어</a>
     <a href="./robot_data_torque.php" class="btn_top_menu '.$active_robot_data_torque.'">데이터조회</a>
-    <a href="./robot_alarm_list.php" class="btn_top_menu '.$active_robot_alarm_list.'">주유알람</a>
+    <a href="./config_form_robot.php" class="btn_top_menu '.$active_config_form_robot.'">로봇설정</a>
+    <a href="./robot_realtime1.php" class="btn_top_menu '.$active_robot_realtime1.'">로봇그래프샘플</a>
 </h2>
 ';
 ?>

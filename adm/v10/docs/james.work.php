@@ -1249,6 +1249,7 @@ FROM g5_1_alarm AS arm
 WHERE arm.com_idx = '15'
   AND arm.mms_idx = '58'
   AND cod_quality_yn != '1'
+  AND cod_name != ''
 GROUP BY arm_cod_code
 ORDER BY cnt DESC
 ....
@@ -1259,6 +1260,42 @@ FROM g5_1_alarm AS arm
 WHERE arm.com_idx = '15'
   AND arm.mms_idx = '59'
   AND cod_quality_yn != '1'
+  AND cod_name != ''
 GROUP BY arm_cod_code
 ORDER BY cnt DESC
 ....
+// get one of them randomly.
+SELECT cod_idx, cod_code, cod_name, COUNT(arm_idx) AS cnt
+FROM g5_1_alarm AS arm
+  LEFT JOIN g5_1_code AS cod USING(cod_idx)
+WHERE arm.com_idx = '15'
+  AND arm.mms_idx = '59'
+  AND cod_quality_yn != '1'
+  AND cod_name != ''
+GROUP BY arm_cod_code
+ORDER BY RAND() LIMIT 1
+....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 10초에 한개씩!!
+* *      * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php
