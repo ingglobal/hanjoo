@@ -266,13 +266,6 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row">대시보드 그리드 너비/높이<br>사이즈 - 단위(%)</th>
-			<td colspan="3">
-				<?php echo help('1=25,2=50,3=75,4=100'); ?>
-				<input type="text" name="set_pkr_size" value="<?php echo $g5['setting']['set_pkr_size']; ?>" class="frm_input" style="width:50%;">
-			</td>
-		</tr>
-		<tr>
 			<th scope="row">대시보드 그리드 패딩<br>(padding)<br>사이즈 - 단위(px)</th>
 			<td colspan="3">
 				<?php echo help('3=3px,4=4px,5=5px,6=6px,7=7px,8=8px,9=9px,10=10px'); ?>
