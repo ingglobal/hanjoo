@@ -22,6 +22,7 @@ if (!defined('_GNUBOARD_')) exit;
 #ul_dash_add li a:hover i{color:#ecb859 !important;}
 #ul_dash_add li.li_dash_set a{}
 #ul_dash_add li.li_dash_set a.focus{background:#203863;color:yellow;}
+#ul_dash_add li.li_dash_set a.focus i{color:#ecb859;}
 </style>
 <script>
 //실제 서브 메뉴의 부모는 #ul_dash_submenu
