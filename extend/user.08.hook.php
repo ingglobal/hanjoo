@@ -76,3 +76,15 @@ function u_member_login_check(){
     //kosmo에 사용현황 log 전송 함수(extend/suer.02.function.php에 정의)
 	// send_kosmo_log();
 }
+
+// // 메일 발송이 잘 안 되서 메일을 다음쪽으로 설정함
+// add_replace("mail_options", "u_mail_options", G5_HOOK_DEFAULT_PRIORITY, 10);
+// function u_mail_options($mail, $fname, $fmail, $to, $subject, $content, $type, $file, $cc, $bcc){
+//     $mail->Host = "smtp.daum.net";
+//     $mail->Timeout = 10;
+//     $mail->SMTPAuth = true;
+//     $mail->Username = "jamesjoayo";
+//     $mail->Password = "Anne@@740620";
+//     $mail->SMTPSecure = "ssl";
+//     $mail->Port = 465;
+// }

@@ -17,7 +17,7 @@ foreach($g5['set_pkr_size_value'] as $pk => $pv){
 ?>
 <style>
 #bs_top_right{position:absolute;top:0px;right:0px;padding-right:15px;}
-#bs_top_right #sp_x{margin-left:10px;margin-right:10px;}
+#bs_top_right #sp_x{margin-left:0px;margin-right:0px;}
 #bs_top_right select{border:1px solid #888;}
 #bs_top_right button{margin-left:20px;}
 </style>
@@ -27,7 +27,7 @@ foreach($g5['set_pkr_size_value'] as $pk => $pv){
         <option value="">가로</option>
         <?php echo $g5['set_pkr_size_value_opts']; ?>
     </select>
-    <span id="sp_x">X</span>
+    <span id="sp_x">×</span>
     <select name="pkr_height" id="pkr_height">
         <option value="">세로</option>
         <?php echo $g5['set_pkr_size_value_opts']; ?>
@@ -38,7 +38,7 @@ foreach($g5['set_pkr_size_value'] as $pk => $pv){
     <?php ;//echo $g5['set_pkr_padding_value_options']; ?>
     </select>
     -->
-    <button class="btn btn_01" id="grid_add">추가하기</button>
+    <button class="btn btn_01" id="grid_add">위젯추가</button>
 </div><!--//#bs_top_right-->
 <script>
 $('#grid_add').on('click',function(){

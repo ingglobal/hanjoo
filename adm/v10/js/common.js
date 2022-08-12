@@ -19,6 +19,9 @@ $(function(e) {
     // 관리자 상단 오른편, 홈페이지로 이동 target="_blank" 제거 - 자꾸 새창이 떠서 너무 귀찮아요.
     $('.tnb_li .tnb_shop, .tnb_li .tnb_community').removeAttr('target');
 
+    // 스크롤탑 이동 버튼 제거(필요없어요)
+    $('#ft .scroll_top').remove();
+
     // 관리자단 게시판관리 버튼 설정
     $('.btn_bo_user').prepend('<li><a href="./config_form.php?bo_table='+g5_bo_table+'" class="btn_admin btn"><i class="fa fa-gears fa-fw"></i>&nbsp;환경설정</a></li>'); // 환경설정버튼 추가
     $('.btn_bo_user .btn_admin i').removeClass('fa-spin');  // 설정 버튼 빙글이 제거
@@ -144,7 +147,6 @@ $(function(e) {
     $(".scroll_top").click(function(){
         $("body,html").animate({scrollTop:0},150);
     });
-    
     
     url = document.location.href;
     // 팝업레이어에서 구분 항목 숨김
