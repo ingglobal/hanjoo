@@ -1282,20 +1282,34 @@ ORDER BY RAND() LIMIT 1
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 10초에 한개씩!!
 * *      * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php
+
+// only 1 in case
+* *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
+* *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
+
+// crontab at the moment.
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h dom mon dow user  command
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+
+# James code starts here.
+#*/2 *  * * *   root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/cron_test.php
+2 */1   * * *   root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_charge_in_sync.php
+4 */1   * * *   root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_charge_out_sync.php
+6 */1   * * *   root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_melting_temp_sync.php
+8 */1   * * *   root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_cast_shot_sync.php
+10 */1   * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_cast_shot_sub_sync.php
+12 */1   * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_cast_shot_pressure_sync.php
+14 */1   * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_engrave_qrcode_sync.php
+16 */1   * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_xray_inspection_sync.php
+18 */1   * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/mes_factory_temphum_sync.php
+#* *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
+#* *      * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php
+* *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php

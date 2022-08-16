@@ -4,12 +4,15 @@
 // sudo systemctl restart cron
 // 0/1 * * * * root wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php (매초당)
 // [root@web-37 user]# wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php
-include_once('./_common.php');
+// [root@web-37 user]# /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
+// include_once('./_common.php');
+include_once('/home/hanjoo/www/php/hanjoo/common.php');
 
 $demo = 0;  // 데모모드 = 1
 
 $g5['title'] = '로봇테스트 자료 입력';
-include_once('./_head.sub.php');
+// include_once('./_head.sub.php');
+include_once('/home/hanjoo/www/php/hanjoo/head.sub.php');
 ?>
 
 <span style='font-size:9pt;'>
@@ -18,7 +21,8 @@ include_once('./_head.sub.php');
 <span id="cont"></span>
 
 <?php
-include_once ('./_tail.sub.php');
+// include_once ('./_tail.sub.php');
+include_once('/home/hanjoo/www/php/hanjoo/tail.sub.php');
 
 for($i=1;$i<7;$i++) {
     ${'tq1'.$i} = rand(100,200);
