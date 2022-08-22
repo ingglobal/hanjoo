@@ -181,7 +181,7 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
     display:block;
     position:relative;
     width: 50px;
-    height: 36px;
+    height: 45px;
     text-indent:inherit;
     /*text-indent: -999px;
     overflow: hidden;*/
