@@ -38,7 +38,7 @@ $padding = 10;
 .pkr-item .grid_mod.focus{color:yellow;}
 .pkr-item .grid_del{right:<?=($padding*2)?>px;}
 .pkr-item .grid_del:hover{color:orange;}
-.pkr-item .pkr-cont{position:absolute;top:<?=$padding?>px;bottom:<?=$padding?>px;left:<?=$padding?>px;right:<?=$padding?>px;border:1px solid #2f426c;background-color:#1d263a;background-image:url(https://icongr.am/clarity/line-chart.svg?size=148&color=2f426c);background-position: center center;background-repeat:no-repeat;
+.pkr-item .pkr-cont{position:absolute;top:<?=$padding?>px;bottom:<?=$padding?>px;left:<?=$padding?>px;right:<?=$padding?>px;background-color:#1d263a;background-image:url(https://icongr.am/clarity/line-chart.svg?size=148&color=2f426c);background-position: center center;background-repeat:no-repeat;
 }
 .pkr-item .pkr-cont.focus{border:2px solid yellow;}
 

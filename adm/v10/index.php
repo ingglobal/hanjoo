@@ -57,12 +57,31 @@ for($i=0;$row=sql_fetch_array($result);$i++){
                 WHERE dsg_idx = '".$row['dsg_idx']."'
         ";
         // echo $sql1.'<br>';
-        $mbd1 = sql_fetch($sql1,1);
-        $sried = get_serialized($mbd1['mbd_setting']);
-        unset($sried['data_series']);   // hide temporally for debuging.
-        // print_r2($sried);
+        $row = sql_fetch($sql1,1);
+        $row['sried'] = get_serialized($row['mbd_setting']);
+        // unset($row['sried']['data_series']);   // hide temporally for debuging.
+        // print_r2($row['sried']);
+        $row['data'] = json_decode($row['sried']['data_series'],true);
+        unset($row['mbd_setting']);
+        unset($row['sried']['data_series']);
+        for($j=0;$j<sizeof($row['data']);$j++) {
+            // print_r2($row['data'][$j]);
+            $row['chr_names'][] = $row['data'][$j]['name'];
+            $row['chr_mms_idxs'][] = $row['data'][$j]['id']['mms_idx']; // in order to check multi mms
+            // target should be from local
+            if($row['data'][$j]['id']['dta_json_file']=='output.target') {
+                $row['data'][$j]['id']['dta_data_url'] = strip_http(G5_ADMIN_URL).'/v10/ajax';
+            }
+        }
+        // 그래프 이름 (tag name array if not desiganated name.)
+        $row['mbd_graph_name'] = $row['sried']['graph_name'] ?: implode(", ",$row['chr_names']);
+        // mms 다중 아이콘 표현 (mms_idx 중복 제거)
+        $row['chr_mms_idxs'] = array_unique($row['chr_mms_idxs']);
+        for($j=0;$j<sizeof($row['chr_mms_idxs']);$j++) {
+            $row['chr_mms_idx_icons'] .= '<i class="fa fa-circle"></i>';
+        }
         ?>
-        <div class="pkt_title">sdf</div>
+        <div class="pkt_title"><?=$row['mbd_graph_name']?></div>
     </div>
     </div>
     <i class="fa fa-pencil-square grid_edit grid_mod" aria-hidden="true"></i>

@@ -259,5 +259,6 @@ min-width:1160px;
 
 
 /* 위젯 내부 설정 */
+.pkt_wrapper {position:relative;}
 .pkt_wrapper:after {display:block;visibility:hidden;clear:both;content:'';}
-.pkt_wrapper .pkt_title {padding:5px;}
+.pkt_wrapper .pkt_title {padding:6px 10px;border-bottom:solid 2px #040816;}
