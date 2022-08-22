@@ -6,10 +6,10 @@ $padding = 10;
 <style>
 @charset "utf-8";
 
-.dash_empty{text-align:center;border:1px solid #354667;background:#0c162a;padding:200px 0;font-size:1.5em;color:#777;}
+.dash_empty{text-align:center;border:1px solid #354667;background:#0c162a;padding:200px 0;color:#555;}
 
 /* ---- pkr ---- */
-.pkr {max-width: 100%;background: #1c232f;}
+.pkr {max-width: 100%;}
 
 /* clear fix */
 .pkr:after {content: '';display: block;clear: both;}
@@ -38,7 +38,7 @@ $padding = 10;
 .pkr-item .grid_mod.focus{color:yellow;}
 .pkr-item .grid_del{right:<?=($padding*2)?>px;}
 .pkr-item .grid_del:hover{color:orange;}
-.pkr-item .pkr-cont{position:absolute;top:<?=$padding?>px;bottom:<?=$padding?>px;left:<?=$padding?>px;right:<?=$padding?>px;border:1px solid #555555;background-color:#333;background-image:url(https://icongr.am/clarity/line-chart.svg?size=148&color=555555);background-position: center center;background-repeat:no-repeat;
+.pkr-item .pkr-cont{position:absolute;top:<?=$padding?>px;bottom:<?=$padding?>px;left:<?=$padding?>px;right:<?=$padding?>px;border:1px solid #2f426c;background-color:#1d263a;background-image:url(https://icongr.am/clarity/line-chart.svg?size=148&color=2f426c);background-position: center center;background-repeat:no-repeat;
 }
 .pkr-item .pkr-cont.focus{border:2px solid yellow;}
 

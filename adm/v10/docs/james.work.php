@@ -1313,3 +1313,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 #* *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
 #* *      * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php
 * *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
+
+GMP2030 광장비
+이혜민씨
+

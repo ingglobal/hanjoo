@@ -1,7 +1,5 @@
 @charset "utf-8";
 
-#container{background: #1c232f;}
-
 /* 공통 클래스 */
 .float_l{float:left;}
 .float_r{float:right;}
@@ -250,8 +248,6 @@ min-width:1160px;
     border-bottom:1px solid #3E4B64;
 }
 
-
-
 /* 1600px 이상 일때*/
 @media screen and (min-width: 1600px){
 	.c_ellipsis{max-width: 102px;width: 102px;}
@@ -260,3 +256,8 @@ min-width:1160px;
 	.result_con .proceed_con .tbl_frm01 td.table_tit{max-width: 540px;width: 540px;}
 	.result_con .recently_con .tbl_frm01 td.table_tit{max-width: 540px;width: 540px;}
 }
+
+
+/* 위젯 내부 설정 */
+.pkt_wrapper:after {display:block;visibility:hidden;clear:both;content:'';}
+.pkt_wrapper .pkt_title {padding:5px;}

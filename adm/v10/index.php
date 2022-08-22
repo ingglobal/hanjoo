@@ -7,7 +7,10 @@ include_once ('./_head.php');
 //$sub_menu : 현재 메뉴코드 915140
 //$cur_mta_idx : 현재 메타idx 422
 
+$demo = 0;  // 데모인 경우 1로 설정하세요.
+
 $sql = " SELECT * FROM {$g5['dash_grid_table']} WHERE mta_idx = '{$cur_mta_idx}' AND dsg_status = 'ok' ORDER BY dsg_order ";
+// echo $sql.'<br>';
 $result = sql_query($sql,1);
 ?>
 <style>
@@ -24,6 +27,7 @@ for($i=0;$row=sql_fetch_array($result);$i++){
     $pkr_item_h = (!$row['dsg_height_num'])?:' pkr-item-h'.$row['dsg_height_num'];
     $it_wd_per = $g5['set_pkr_size_value'][$row['dsg_width_num']] / 100;
     $test_acc_wd = $acc_wd + $it_wd_per;
+    // echo $pkr_item_w.'<br>';
     //첫번째 그리드는 무조건
     if($i==0){
         $pos_x = $acc_wd;
@@ -41,9 +45,26 @@ for($i=0;$row=sql_fetch_array($result);$i++){
         }
         $pos_json .= ',{"attr":"'.$row['dsg_idx'].'","x":'.$pos_x.'}';
     }
+   
 ?>
 <div class="pkr-item<?=$pkr_item_w.$pkr_item_h?>" dsg_idx="<?=$row['dsg_idx']?>">
-    <div class="pkr-cont"><?=$row['dsg_idx']?></div>
+    <div class="pkr-cont" style="display:<?=$demo?'none':''?>;">
+    <div class="pkt_wrapper">
+        <?php
+        // 대시보드 내용 구성 -----------------
+        $sql1 = "SELECT *
+                FROM {$g5['member_dash_table']}
+                WHERE dsg_idx = '".$row['dsg_idx']."'
+        ";
+        // echo $sql1.'<br>';
+        $mbd1 = sql_fetch($sql1,1);
+        $sried = get_serialized($mbd1['mbd_setting']);
+        unset($sried['data_series']);   // hide temporally for debuging.
+        // print_r2($sried);
+        ?>
+        <div class="pkt_title">sdf</div>
+    </div>
+    </div>
     <i class="fa fa-pencil-square grid_edit grid_mod" aria-hidden="true"></i>
     <i class="fa fa-window-close grid_edit grid_del" aria-hidden="true"></i>
 </div><!--//.pkr-item-->

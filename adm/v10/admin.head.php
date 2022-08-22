@@ -81,6 +81,7 @@ if( ! empty($_COOKIE['g5_admin_btn_gnb']) ){
     $adm_menu_cookie['gnb'] = 'gnb_small';
     $adm_menu_cookie['btn_gnb'] = 'btn_gnb_open';
 }
+// 대시보드 공통 파일
 if($g5['dir_name'] == 'v10' && $g5['file_name'] == 'index') include_once('./_dashboard_top_submenu.php');
 ?>
 

@@ -23,7 +23,7 @@ font-family: 'Noto Sans KR', sans-serif;
 }
 ::-webkit-scrollbar-thumb:window-inactive{background:#888888;}
 
-body {font-family: 'Noto Sans KR', sans-serif;background: #060D1B !important;font-size:1em;color:#e1e1e1;}
+body {font-family: 'Noto Sans KR', sans-serif;background: #040816 !important;font-size:1em;color:#e1e1e1;}
 h1, h2, h3, h4, h5, h6 {font-family: 'Noto Sans KR', sans-serif;}
 input, button {font-family: 'Noto Sans KR', sans-serif;font-size:0.83em;}
 textarea, select {font-family: 'Noto Sans KR', sans-serif;font-size:0.83em;}
@@ -63,8 +63,8 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 
 .btn_top_menu_active {color:#f28d4f !important;}
 /* 레이아웃 (default_project에서 width:1100px 선언된 부분 무력화  */
-#container {width: inherit;background:#060D1B;}
-#container_title {font-size: 1.1em;border-bottom:1px solid #142546;padding-left:235px;}
+#container {width: inherit;background:#040816;}
+#container_title {font-size: 1.0em;border-bottom:1px solid #040816;padding-left:235px;}
 #container.container-small #container_title{padding-left:64px;}
 .container_wr {padding: 15px 15px;}
 #ft{background:#020710;}
@@ -81,11 +81,11 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 #logo a{font-size:1.2em;}
 #logo span{position:absolute;top:15px;left:235px;}
 #logo a img{display:none;}
-#btn_gnb {width:50px;background:url(../svg/collapse_20_ffffff.svg) 50% 50% no-repeat #30343f !important;transform:rotate(270deg);}
-#btn_gnb.btn_gnb_open{background:url(../svg/collapse_20_ffffff.svg) 50% 50% no-repeat #30343f !important;transform:rotate(90deg);}
-#gnb .gnb_oparea {background: #162c52;}
+#btn_gnb {width:50px;background:url(../svg/collapse_20_ffffff.svg) 50% 50% no-repeat #162037 !important;transform:rotate(270deg);}
+#btn_gnb.btn_gnb_open{background:url(../svg/collapse_20_ffffff.svg) 50% 50% no-repeat #162037 !important;transform:rotate(90deg);}
+#gnb .gnb_oparea {background: #162037;}
 #btn_gnb.btn_gnb_open {
-    background-color:#0f1e3b;
+    background-color:#040816;
 }
 #gnb .gnb_li .btn_op {background-color:#363c5e;}
 #tnb .tnb_community:hover {
@@ -94,54 +94,54 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 
 /* 관리자단 왼편 하단 아이콘 */
 #gnb .gnb_ul {
-    background: #0B1838;
+    background: #040816;
 }
-#gnb .gnb_li .btn_op{background-color:#0f1e3b}
-#gnb .on .btn_op{background-color:#162c52; font-size:0;}
-#gnb .gnb_li .btn_op{background:url(../img/menu_default.png) 50% 24% no-repeat #0f1e3b; font-size:0;}
-#gnb .on .btn_op{background:url(../img/menu_default_on.png) 50% 24% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-100{background:url(../svg/cog_20_bbbbbb.svg) 50% 50% no-repeat #0f1e3b;}
-#gnb .on .btn_op.menu-100{background:url(../svg/cog_20_efefef.svg) 50% 50% no-repeat #162c52;}
-#gnb .gnb_li .btn_op.menu-200{background:url(../svg/group_21_bbbbbb.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-200{background:url(../svg/group_21_efefef.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-300{background:url(../svg/clipboard_20_bbbbbb.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-300{background:url(../svg/clipboard_20_efefef.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-400{background:url(../svg/shield_20_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-400{background:url(../svg/shield_20_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-500{background:url(../img/menu-6-1.png) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-500{background:url(../img/menu-6.png) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-900{background:url(../img/menu-4-1.png) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-900{background:url(../img/menu-4.png) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-910{background:url(../svg/file-settings_20_00b894.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-910{background:url(../svg/file-settings_20_55efc4.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-915{background:url(../svg/dashboard_20_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-915{background:url(../svg/dashboard_20_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-917{background:url(../svg/scroll_20_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-917{background:url(../svg/scroll_20_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-919{background:url(../img/menu-950-1.png) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-919{background:url(../img/menu-950.png) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-920{background:url(../svg/slider_22_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-920{background:url(../svg/slider_22_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-925{background:url(../svg/factory_21_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-925{background:url(../svg/factory_21_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-930{background:url(../svg/wrench_22_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-930{background:url(../svg/wrench_22_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-935{background:url(../svg/line-chart_21_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-935{background:url(../svg/line-chart_21_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-937{background:url(../svg/process-on-vm_21_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-937{background:url(../svg/process-on-vm_21_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-940{background:url(../svg/success-standard_21_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-940{background:url(../svg/success-standard_21_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-945{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-945{background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-955{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-955{background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-960{background:url(../svg/block_20_cc5b95.svg) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-960{background:url(../svg/block_20_f08abe.svg) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-965{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-965{background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
-#gnb .gnb_li .btn_op.menu-990{background:url(../img/menu-960-1.png) 50% 50% no-repeat #0f1e3b }
-#gnb .on .btn_op.menu-990{background:url(../img/menu-960.png) 50% 50% no-repeat #162c52}
+#gnb .gnb_li .btn_op{background-color:#040816}
+#gnb .on .btn_op{background-color:#162037; font-size:0;}
+#gnb .gnb_li .btn_op{background:url(../img/menu_default.png) 50% 24% no-repeat #040816; font-size:0;}
+#gnb .on .btn_op{background:url(../img/menu_default_on.png) 50% 24% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-100{background:url(../svg/cog_20_bbbbbb.svg) 50% 50% no-repeat #040816;}
+#gnb .on .btn_op.menu-100{background:url(../svg/cog_20_efefef.svg) 50% 50% no-repeat #162037;}
+#gnb .gnb_li .btn_op.menu-200{background:url(../svg/group_21_bbbbbb.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-200{background:url(../svg/group_21_efefef.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-300{background:url(../svg/clipboard_20_bbbbbb.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-300{background:url(../svg/clipboard_20_efefef.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-400{background:url(../svg/shield_20_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-400{background:url(../svg/shield_20_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-500{background:url(../img/menu-6-1.png) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-500{background:url(../img/menu-6.png) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-900{background:url(../img/menu-4-1.png) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-900{background:url(../img/menu-4.png) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-910{background:url(../svg/file-settings_20_00b894.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-910{background:url(../svg/file-settings_20_55efc4.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-915{background:url(../svg/dashboard_20_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-915{background:url(../svg/dashboard_20_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-917{background:url(../svg/scroll_20_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-917{background:url(../svg/scroll_20_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-919{background:url(../img/menu-950-1.png) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-919{background:url(../img/menu-950.png) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-920{background:url(../svg/slider_22_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-920{background:url(../svg/slider_22_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-925{background:url(../svg/factory_21_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-925{background:url(../svg/factory_21_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-930{background:url(../svg/wrench_22_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-930{background:url(../svg/wrench_22_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-935{background:url(../svg/line-chart_21_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-935{background:url(../svg/line-chart_21_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-937{background:url(../svg/process-on-vm_21_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-937{background:url(../svg/process-on-vm_21_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-940{background:url(../svg/success-standard_21_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-940{background:url(../svg/success-standard_21_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-945{background:url(../img/menu-960-1.png) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-945{background:url(../img/menu-960.png) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-955{background:url(../img/menu-960-1.png) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-955{background:url(../img/menu-960.png) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-960{background:url(../svg/block_20_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-960{background:url(../svg/block_20_f08abe.svg) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-965{background:url(../img/menu-960-1.png) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-965{background:url(../img/menu-960.png) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-990{background:url(../img/menu-960-1.png) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-990{background:url(../img/menu-960.png) 50% 50% no-repeat #162037}
 
 #gnb .gnb_li {border-bottom:none;}
 #gnb .gnb_li button:hover {background-color: #030c1d;}
@@ -153,7 +153,7 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 #gnb .gnb_oparea li a {color: #cccccc;font-size:0.95em;}
 #gnb .gnb_oparea li a:hover, #gnb .gnb_oparea li .on {color: #ecb859 !important;}
 #container_title {
-    background: #292d37;
+    background: #040816;
 }
 #gnb .gnb_oparea {
     border-right: 1px solid #262d46;

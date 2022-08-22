@@ -220,7 +220,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 </div>
 
 <div class="btn_fixed_top" style="display:no ne;">
-    <a href="javascript:alert('설정된 그래프를 대시보드로 내보냅니다.');" class="btn btn_03 btn_add_dash" style="display:none;"><i class="fa fa-line-chart"></i> 내보내기</a>
+    <a href="javascript:alert('설정된 그래프를 대시보드로 내보냅니다.');" class="btn btn_03 btn_add_dash" style="display:no ne;"><i class="fa fa-line-chart"></i> 내보내기</a>
     <a href="./data_graph_add.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_03 btn_add_chart"><i class="fa fa-bar-chart"></i>불러오기</a>
 </div>
 
@@ -597,6 +597,53 @@ $(document).on('click','#fsearch button[type=submit]',function(e){
     $('.div_btn_add').show();
 
 });
+
+// 그래프 내보내기
+$(document).on('click','.btn_add_dash',function(e){
+    e.preventDefault();
+    if(seriesOptions.length == 0) {
+        alert('내보내기할 그래프가 없습니다.');
+        return false;
+    }
+    if(confirm('설정된 그래프를 대시보드로 내보시겠습니까?')) {
+        // 폼 설정값 
+        var frm_serialized = $('#fsearch').serialize();
+
+        // 그래프 설정값
+        // console.log(seriesOptions);
+        for(i=0;i<seriesOptions.length;i++) {
+            // console.log(seriesOptions[i]);
+            data_series[i] = {
+                name: seriesOptions[i].name,
+                id: seriesOptions[i].id,
+                type:seriesOptions[i].type,
+                dashStyle:seriesOptions[i].dashStyle
+            };
+        }
+        // console.log(frm_serialized);
+        // console.log(data_series);
+        //-- 디버깅 Ajax --//
+        $.ajax({
+            url:g5_user_admin_ajax_url+'/dash.php',
+            data:{"aj":"put","com_idx":"<?=$com['com_idx']?>","mms_idx":"<?=$mms_idx?>","mbd_idx":"<?=$mbd_idx?>","frm_data":frm_serialized,"data_series":data_series},
+            dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
+                // console.log(res);
+                //var prop1; for(prop1 in res.rows) { console.log( prop1 +': '+ res.rows[prop1] ); }
+                if(res.result == true) {
+                    self.location.href = '../index.php?mms_idx=<?=$mms_idx?>';
+                }
+                else {
+                    alert(res.msg);
+                }
+            },
+            error:function(xmlRequest) {
+                alert('Status: ' + xmlRequest.status + ' \n\rstatusText: ' + xmlRequest.statusText 
+                    + ' \n\rresponseText: ' + xmlRequest.responseText);
+            } 
+        });
+    }
+});
+
 
 // Y축 스케일 조정 (크게, 작게, 제쟈리로)
 $('.btn_bigger, .btn_orig, .btn_smaller').click(function(e) {
