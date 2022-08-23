@@ -37,9 +37,15 @@ else if($_REQUEST['mms_idx']){
     if($dta_no) {
         $where[] =  " dta_no = '".$dta_no."' ";
     }
-    // 날짜 조건
-    $start = $st_date.' '.$st_time;
-    $end = $en_date.' '.$en_time;
+    // 날짜 조건 (mbd_idx 있는 경우 대시보드에서 호출할 때 범위안에 값이 없으면 시간 범위를 앞쪽으로 할당해서 그래프가 최소한 보이게 설정합니다.)
+    if($_REQUEST['mbd_idx']) {  // 대시보드에서 호출한 경우
+        $start = $st_date.' '.$st_time;
+        $end = $en_date.' '.$en_time;
+    }
+    else {
+        $start = $st_date.' '.$st_time;
+        $end = $en_date.' '.$en_time;
+    }
     $where[] =  " dta_dt >= '".$start."' AND dta_dt <= '".$end."' ";
     
     // 최종 WHERE 생성
@@ -47,8 +53,6 @@ else if($_REQUEST['mms_idx']){
         $sql_search = ' WHERE '.implode(' AND ', $where);
     }
 
-
- 
  	// 측정 추출
     $sql = "SELECT * FROM g5_1_data_measure_".$mms_idx."
             {$sql_search}

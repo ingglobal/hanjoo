@@ -1317,3 +1317,18 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 GMP2030 광장비
 이혜민씨
 
+// 온도, 압력은 최근 시간에는 없다. 1시간에 한번씩만 동기화를 진행함
+//hanjoo.epcs.co.kr/user/json/measure.php?token=1099de5drf09&mms_idx=58&dta_type=8&dta_no=1&
+st_date=2022-08-23&st_time=16:57:12&en_date=2022-08-23&en_time=17:57:12
+
+//hanjoo.epcs.co.kr/user/json/measure.php?token=1099de5drf09&mms_idx=58&dta_type=8&dta_no=1&
+st_date=2022-08-23&st_time=15:54:34&en_date=2022-08-23&en_time=16:54:34
+
+http://hanjoo.epcs.co.kr/user/json/measure.php?token=1099de5drf09&mms_idx=58&dta_type=1&dta_no=3&st_date=2022-08-23&st_time=17:35:51&en_date=2022-08-23&en_time=18:35:51&graph_name=%ED%95%98%ED%98%95%ED%9E%88%ED%8A%B8&graph_id=NThfMV8z&mbd_idx=1526
+
+
+// 온도 압력 같은 경우 시간대에 정보가 없으면 마지막 시점 기준으로 거꾸로 시간을 계산해서 보여주는 것으로 해야 겠어요.
+
+// 대시보드
+. 상세보기하면 이동!!
+. 기타 다른 버튼들도 기능을 붙여주세요.

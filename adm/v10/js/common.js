@@ -155,3 +155,11 @@ $(function(e) {
 	}
 });	// ehd of $(document).ready(function()	-------------
 
+// Highchart 관련 함수들
+// highchart.com이라는 로고 제거
+function removeLogo() {
+    //Highcharts.com 로고 제거
+    setTimeout(function(e){
+        $('.highcharts-credits').remove();
+    },10);
+}

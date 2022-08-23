@@ -39,14 +39,18 @@ CREATE TABLE g5_1_robot_test (
   et5 DOUBLE PRECISION NULL,
   et6 DOUBLE PRECISION NULL
 );
-// auto_increment 생성
-ALTER SEQUENCE g5_1_robot_test_id_seq RESTART WITH 3;
 SELECT create_hypertable('g5_1_robot_test', 'time');
 CREATE INDEX g5_1_robot_test_robot_no ON g5_1_robot_test (robot_no);
 
 INSERT INTO "g5_1_robot_test" ("id", "time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6")
 VALUES ('1', '2022-08-10 08:16:43',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36');
 INSERT INTO "g5_1_robot_test" ("id", "time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6")
+
+// auto_increment 생성
+// pgadmin 페이지에서 column 항목을 보고 Default 항목의 설명을 보면 정확한 이름이 나와있음
+ALTER SEQUENCE g5_1_robot_test_id_seq RESTART WITH 3;
+
+// auto_increment가 되는지 입력해 봄
 VALUES ('2', '2022-08-10 08:16:43',           '2',       '31', '32',  '33',   '34',  '35',  '36',  '41', '42',  '43',   '44',  '45',  '46');
 INSERT INTO "g5_1_robot_test" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6")
 VALUES ('2022-08-10 08:16:43',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36');
@@ -54,6 +58,53 @@ INSERT INTO "g5_1_robot_test" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "
 VALUES ('2022-08-10 08:16:44',           '2',       '31', '32',  '33',   '34',  '35',  '36',  '41', '42',  '43',   '44',  '45',  '46');
 INSERT INTO "g5_1_robot_test" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6")
 VALUES ('2022-08-10 08:16:45',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36');
+
+CREATE TABLE g5_1_robot_test2 (
+  rob_idx SERIAL,
+  time timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'Asia/Seoul'),
+  robot_no integer NOT NULL,
+  tq1 DOUBLE PRECISION NULL,
+  tq2 DOUBLE PRECISION NULL,
+  tq3 DOUBLE PRECISION NULL,
+  tq4 DOUBLE PRECISION NULL,
+  tq5 DOUBLE PRECISION NULL,
+  tq6 DOUBLE PRECISION NULL,
+  et1 DOUBLE PRECISION NULL,
+  et2 DOUBLE PRECISION NULL,
+  et3 DOUBLE PRECISION NULL,
+  et4 DOUBLE PRECISION NULL,
+  et5 DOUBLE PRECISION NULL,
+  et6 DOUBLE PRECISION NULL,
+  mtq1 DOUBLE PRECISION NULL,
+  mtq2 DOUBLE PRECISION NULL,
+  mtq3 DOUBLE PRECISION NULL,
+  mtq4 DOUBLE PRECISION NULL,
+  mtq5 DOUBLE PRECISION NULL,
+  mtq6 DOUBLE PRECISION NULL,
+  alarm DOUBLE PRECISION NULL,
+  status DOUBLE PRECISION NULL
+);
+SELECT create_hypertable('g5_1_robot_test2', 'time');
+CREATE INDEX g5_1_robot_test2_robot_no ON g5_1_robot_test2 (robot_no);
+
+INSERT INTO "g5_1_robot_test2" ("rob_idx", "time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('1', '2022-08-10 08:16:43',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36',  '31', '32',  '33',   '34',  '35',  '36',  '1',  '2');
+INSERT INTO "g5_1_robot_test2" ("rob_idx", "time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('2', '2022-08-10 08:16:43',           '2',       '31', '32',  '33',   '34',  '35',  '36',  '41', '42',  '43',   '44',  '45',  '46',  '51', '52',  '53',   '54',  '55',  '56',  '1',  '2');
+
+// auto_increment 생성
+// pgadmin 페이지에서 column 항목을 보고 Default 항목의 설명을 보면 정확한 이름이 나와있음
+ALTER SEQUENCE g5_1_robot_test2_rob_idx_seq RESTART WITH 3;
+
+// auto_increment가 되는지 입력해 봄
+INSERT INTO "g5_1_robot_test2" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('2022-08-10 08:16:43',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36',  '31', '32',  '33',   '34',  '35',  '36',  '1',  '2');
+INSERT INTO "g5_1_robot_test2" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('2022-08-10 08:16:44',           '2',       '31', '32',  '33',   '34',  '35',  '36',  '41', '42',  '43',   '44',  '45',  '46',  '41', '42',  '43',   '44',  '45',  '46',  '1',  '2');
+INSERT INTO "g5_1_robot_test2" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('2022-08-10 08:16:45',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36',  '31', '32',  '33',   '34',  '35',  '36',  '1',  '2');
+
+
 
 CREATE TABLE g5_1_data_measure_58 (
   dta_idx SERIAL,

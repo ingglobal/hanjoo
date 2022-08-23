@@ -41,7 +41,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
 <style>
 #chart1 {background:#0c172c;position:relative;width:100%; height:500px;line-height:300px;text-align:center;border:solid 1px #333;overflow:hidden;}
-#chart1 .text01{color:yellow;}
 .graph_detail ul:after{display:block;visibility:hidden;clear:both;content:'';}
 .graph_detail ul li {float:left;width:32%;margin-right:10px;margin-bottom:10px;}
 .graph_detail ul li > div{border:solid 1px #ddd;height:300px;}
@@ -99,7 +98,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         </div>
         <!-- 차트 -->
         <div id="chart1">
-            <span class="text01">그래프를 추가하세요.</span>
+            <span class="text01">[불러오기] 버튼을 클릭하여 그래프를 추가하세요.</span>
         </div>
     </div><!-- .graph_wrap -->
 
@@ -515,6 +514,9 @@ function drawChart(data) {
         // 해당하는 graphs 배열에서 값을 뽑아서 graph_id 를 생성
         var graph_id1 = getGraphId(graphs[chr_idx].mms_idx, graphs[chr_idx].dta_type, graphs[chr_idx].dta_no);
         var chr_id = {
+            dta_data_url_host: graphs[chr_idx].dta_data_url_host,
+            dta_data_url_path: graphs[chr_idx].dta_data_url_path,
+            dta_data_url_file: graphs[chr_idx].dta_data_url_file,
             mms_idx: graphs[chr_idx].mms_idx,
             dta_type: graphs[chr_idx].dta_type,
             dta_no: graphs[chr_idx].dta_no,
@@ -580,7 +582,7 @@ $(document).on('click','#fsearch button[type=submit]',function(e){
         // console.log(i+'. '+graph_id1);
 
         // 그래프 호출 URL
-        var dta_url = 'http://'+dta_data_url_host+dta_data_url_path+'/'+dta_data_url_file+'?token=1099de5drf09'
+        var dta_url = '//'+dta_data_url_host+dta_data_url_path+'/'+dta_data_url_file+'?token=1099de5drf09'
                         +'&mms_idx='+mms_idx+'&dta_type='+dta_type+'&dta_no='+dta_no
                         +'&st_date='+st_date+'&st_time='+st_time+'&en_date='+en_date+'&en_time='+en_time
                         +'&graph_id='+graph_id1;
@@ -630,7 +632,7 @@ $(document).on('click','.btn_add_dash',function(e){
                 // console.log(res);
                 //var prop1; for(prop1 in res.rows) { console.log( prop1 +': '+ res.rows[prop1] ); }
                 if(res.result == true) {
-                    self.location.href = '../index.php?mms_idx=<?=$mms_idx?>';
+                    self.location.href = '../index.php';
                 }
                 else {
                     alert(res.msg);
@@ -748,14 +750,6 @@ function dta_loading(flag) {
         // console.log('hide');
         $('#spinner').remove();
     }
-}
-
-// highchart.com이라는 로고 제거
-function removeLogo() {
-    //Highcharts.com 로고 제거
-    setTimeout(function(e){
-        $('.highcharts-credits').remove();
-    },10);
 }
 
 // 증폭값 설정
