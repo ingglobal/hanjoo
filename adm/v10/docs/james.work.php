@@ -1324,11 +1324,21 @@ st_date=2022-08-23&st_time=16:57:12&en_date=2022-08-23&en_time=17:57:12
 //hanjoo.epcs.co.kr/user/json/measure.php?token=1099de5drf09&mms_idx=58&dta_type=8&dta_no=1&
 st_date=2022-08-23&st_time=15:54:34&en_date=2022-08-23&en_time=16:54:34
 
-http://hanjoo.epcs.co.kr/user/json/measure.php?token=1099de5drf09&mms_idx=58&dta_type=1&dta_no=3&st_date=2022-08-23&st_time=17:35:51&en_date=2022-08-23&en_time=18:35:51&graph_name=%ED%95%98%ED%98%95%ED%9E%88%ED%8A%B8&graph_id=NThfMV8z&mbd_idx=1526
-
+http://hanjoo.epcs.co.kr/user/json/measure.php?token=1099de5drf09&mms_idx=58&dta_type=1&dta_no=2&st_date=2022-08-24&st_time=07:31:14&en_date=2022-08-24&en_time=08:31:14&graph_name=%EC%83%81%ED%98%95%ED%9E%88%ED%8A%B8&graph_id=NThfMV8y&mbd_idx=1530
+st_date=2022-08-24&st_time=07:31:14&en_date=2022-08-24&en_time=08:31:14
 
 // 온도 압력 같은 경우 시간대에 정보가 없으면 마지막 시점 기준으로 거꾸로 시간을 계산해서 보여주는 것으로 해야 겠어요.
 
 // 대시보드
 . 상세보기하면 이동!!
 . 기타 다른 버튼들도 기능을 붙여주세요.
+
+
+
+
+
+
+08/30 발표 내용 ................................................
+1. 대시보드
+  . 100% 실시간은 아니고 온도, 압력 정보는 1시간 정도 시차가 있음: MES개발사인 큐빅에서 서버 부하 줄여달라는 요청이 있어서 1시간에 1회 수집된 정보를 동기화 작업진행중
+  . 다른 설비측정정보들은 20초 정도 시차가 있음 (데이터 수집 주기)

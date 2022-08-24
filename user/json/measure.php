@@ -37,14 +37,28 @@ else if($_REQUEST['mms_idx']){
     if($dta_no) {
         $where[] =  " dta_no = '".$dta_no."' ";
     }
+
     // 날짜 조건 (mbd_idx 있는 경우 대시보드에서 호출할 때 범위안에 값이 없으면 시간 범위를 앞쪽으로 할당해서 그래프가 최소한 보이게 설정합니다.)
-    if($_REQUEST['mbd_idx']) {  // 대시보드에서 호출한 경우
-        $start = $st_date.' '.$st_time;
-        $end = $en_date.' '.$en_time;
-    }
-    else {
-        $start = $st_date.' '.$st_time;
-        $end = $en_date.' '.$en_time;
+    $start = $st_date.' '.$st_time;
+    $end = $en_date.' '.$en_time;
+    if($_REQUEST['mbd_idx']) {  // 대시보드에서 호출한 경우 재설정이 필요한 경우는 재설정
+
+        $ar['type'] = 'data'; // 데이터 입력 시점을 기준으로 재설정한 시간
+        $ar['st_date'] = $st_date;
+        $ar['st_time'] = $st_time;
+        $ar['en_date'] = $en_date;
+        $ar['en_time'] = $en_time;
+        $ar['mms_idx'] = $mms_idx;
+        $ar['dta_type'] = $dta_type;
+        $ar['dta_no'] = $dta_no;
+        // print_r2($ar);
+        $start_end_dt = get_start_end_dt($ar);  // 데이터가 없을 때를 고려한 시간 범위로 재설정
+        // print_r2($start_end_dt);
+        unset($ar);
+    
+        $start = $start_end_dt['start'];
+        $end = $start_end_dt['end'];
+        // echo $start.'~'.$end.'<br>';
     }
     $where[] =  " dta_dt >= '".$start."' AND dta_dt <= '".$end."' ";
     

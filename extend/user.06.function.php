@@ -1,6 +1,63 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// 시간범위를 추출 (데이터가 없는 경우 최근 시간 범위로 설정)
+// type=(data:데이터기준, current:현재시점기준), st_date, st_time, en_date, en_time, mms_idx, dta_type, dta_no
+if(!function_exists('get_start_end_dt')){
+function get_start_end_dt($arr) {
+
+    // 시간차이(초)
+    $diff_timestamp = strtotime($arr['en_date'].' '.$arr['en_time'])-strtotime($arr['st_date'].' '.$arr['st_time']);
+    // data 기반, 넘어온 시간을 기준으로 계산
+    if($arr['type']=='current') {
+        $en_date = date("Y-m-d",G5_SERVER_TIME);
+        $en_time = date("H:i:s",G5_SERVER_TIME);
+        $st_date = date("Y-m-d",G5_SERVER_TIME-$diff_timestamp);
+        $st_time = date("H:i:s",G5_SERVER_TIME-$diff_timestamp);
+        $start = $st_date.' '.$st_time;
+        $end = $en_date.' '.$en_time;
+    }
+    // 현재시점 기준으로 계산
+    else {
+        $st_date = $arr['st_date'];
+        $st_time = $arr['st_time'];
+        $en_date = $arr['en_date'];
+        $en_time = $arr['en_time'];
+        $start = $st_date.' '.$st_time;
+        $end = $en_date.' '.$en_time;
+    }
+
+    $sql = "SELECT * FROM g5_1_data_measure_".$arr['mms_idx']."
+        WHERE dta_type = '".$arr['dta_type']."' AND dta_no = '".$arr['dta_no']."'
+            AND dta_dt >= '".$start."' AND dta_dt <= '".$end."'
+        ORDER BY dta_dt DESC LIMIT 1
+    ";
+    // echo $sql.'<br>';
+    $one1 = sql_fetch_pg($sql,1);
+    // print_r2($one1);
+    // 해당 범위에 값이 없으면 재설정
+    if(!$one1['dta_idx']) {
+        $sql = "SELECT * FROM g5_1_data_measure_".$arr['mms_idx']."
+                WHERE dta_type = '".$arr['dta_type']."' AND dta_no = '".$arr['dta_no']."'
+                ORDER BY dta_dt DESC LIMIT 1
+        ";
+        // echo $sql.'<br>';
+        $one2 = sql_fetch_pg($sql,1);
+        // print_r2($one2);
+        // 마지막 시점을 기준으로 시간 범위를 거꾸로 역산 설정
+        $end = substr($one2['dta_dt'],0,19);
+        $en_timestamp = strtotime($end);
+        $en_date = substr($end,0,10);;
+        $en_time = substr($end,11,8);;
+        $start = date("Y-m-d H:i:s",$en_timestamp-$diff_timestamp);
+        $st_date = substr($start,0,10);;
+        $st_time = substr($start,11,8);;
+    }
+    // echo $start.'~'.$end.'<br>';
+    return array('start'=>$start,'st_date'=>$st_date,'st_time'=>$st_time,'end'=>$end,'en_date'=>$en_date,'en_time'=>$en_time);
+}
+}
+
 // 초를 분으로 변환
 if(!function_exists('sec2m')){
 function sec2m($t) {

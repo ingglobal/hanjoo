@@ -77,6 +77,7 @@ function createChart(mbd_idx,seriesOptions,dta_item,mmses,mms_count) {
         plotOptions: {
             series: {
                 showInNavigator: true,
+                turboThreshold: 0,
                 dataGrouping: {
                     enabled: false, // dataGrouping 안 함 (range가 변경되면 평균으로 바뀌어서 헷갈림)
                 },
@@ -604,6 +605,13 @@ $('.ds_edit_btn').on('click',function(){
 </script>
 
 <script>
+// 상세보기로 이동
+$(document).on('click','.graph_view, .chart_view',function(e){
+    e.preventDefault();
+    var my_mbd_idx = $(this).closest('div[mbd_idx]').attr('mbd_idx');
+    self.location.href = './system/graph.php?mbd_idx='+my_mbd_idx;
+});
+
 // 그래프 설정
 $(document).on('click','.chart_setting',function(e){
     e.preventDefault();

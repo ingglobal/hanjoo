@@ -9,6 +9,38 @@ $g5['title'] = '설비측정그래프';
 include_once('./_head.php');
 // echo $g5['container_sub_title'];
 
+// mbd_idx 가 존재하면 저장된 값에서 그래프 추출
+if($mbd_idx) {
+    $mbd = get_table_meta('member_dash','mbd_idx',$mbd_idx);
+    // print_r2($mbd);
+    $mbd['sried'] = get_serialized($mbd['mbd_setting']);
+    $mbd['data'] = json_decode($mbd['sried']['data_series'],true);
+    unset($mbd['mbd_setting']);
+    unset($mbd['sried']['data_series']);
+    // print_r2($mbd);
+    // for($j=0;$j<sizeof($mbd['data']);$j++) {
+    //     // print_r2($mbd['data'][$j]);
+    // }
+    $ar['type'] = 'current'; // 현재 시점으로 바꿔달라는 요청에 따라 변경됨
+    $ar['st_date'] = $mbd['sried']['st_date'];
+    $ar['st_time'] = $mbd['sried']['st_time'];
+    $ar['en_date'] = $mbd['sried']['en_date'];
+    $ar['en_time'] = $mbd['sried']['en_time'];
+    $ar['mms_idx'] = $mbd['data'][0]['id']['mms_idx'];  // 그래프는 serialized된 배열중에서 첫번째 항목을 참조함
+    $ar['dta_type'] = $mbd['data'][0]['id']['dta_type'];
+    $ar['dta_no'] = $mbd['data'][0]['id']['dta_no'];
+    // print_r2($ar);
+    $start_end_dt = get_start_end_dt($ar);  // 데이터가 없을 때를 고려한 시간 범위로 재설정
+    // print_r2($start_end_dt);
+    unset($ar);
+
+    $st_date = $start_end_dt['st_date'];
+    $st_time = $start_end_dt['st_time'];
+    $en_date = $start_end_dt['en_date'];
+    $en_time = $start_end_dt['en_time'];
+}
+
+
 // 검색 조건
 $st_time_ahead = 3600*1;  // 5hour ahead.
 // $st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
@@ -544,9 +576,7 @@ function drawChart(data) {
     }
 }
 
-// ==========================================================================================
-// 그래프 호출 =================================================================================
-// ==========================================================================================
+// 그래프 확인클릭(Submit) ======================================================================
 $(document).on('click','#fsearch button[type=submit]',function(e){
     e.preventDefault();
     var frm = $('#fsearch');
@@ -793,6 +823,37 @@ $( "#chr_move_value" ).val( $( "#chr_move" ).slider( "value" ) );
 //     chr_move_slider.slider("option", "max", 400);
 // },2000);
 
+
+// 대시보드에서 넘어온 페이지 그래프 Default 추가 ====================================================
+<?php
+// mbd_idx 가 존재하면 저장된 값에서 그래프 추출
+if($mbd_idx) {
+    for($j=0;$j<sizeof($mbd['data']);$j++) {
+        // print_r2($mbd['data'][$j]);
+        ?>
+            var graph_id1 = getGraphId('<?=$mbd['data'][$j]['id']['mms_idx']?>','<?=$mbd['data'][$j]['id']['dta_type']?>','<?=$mbd['data'][$j]['id']['dta_no']?>','<?=$mbd['data'][$j]['id']['shf_no']?>','<?=$mbd['data'][$j]['id']['dta_mmi_no']?>');
+            // console.log(graph_id1);
+            graphs2[<?=$j?>] = {
+                dta_data_url_host: '<?=$mbd['data'][$j]['id']['dta_data_url_host']?>',
+                dta_data_url_path: '<?=$mbd['data'][$j]['id']['dta_data_url_path']?>',
+                dta_data_url_file: '<?=$mbd['data'][$j]['id']['dta_data_url_file']?>',
+                mms_idx: <?=$mbd['data'][$j]['id']['mms_idx']?>,
+                mms_name: "<?=$mbd['data'][$j]['id']['mms_name']?>",
+                dta_type: "<?=$mbd['data'][$j]['id']['dta_type']?>",
+                dta_no: "<?=$mbd['data'][$j]['id']['dta_no']?>",
+                graph_type: "<?=$mbd['data'][$j]['type']?>",
+                graph_line: "<?=$mbd['data'][$j]['dashStyle']?>",
+                graph_name: "<?=$mbd['data'][$j]['id']['graph_name']?>",
+                graph_id: graph_id1
+            };
+        <?php
+    }
+    echo '$("#chart1").attr("graphs",JSON.stringify(graphs2));';
+    echo 'console.log( $("#chart1").attr("graphs") );';
+    // [확인] 버튼 클릭
+    echo "$('#fsearch button[type=submit]').trigger('click');";
+}
+?>
 
 
 // 그래프 불러오기 (팝업모달)
