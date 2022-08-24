@@ -849,7 +849,7 @@ if($mbd_idx) {
         <?php
     }
     echo '$("#chart1").attr("graphs",JSON.stringify(graphs2));';
-    echo 'console.log( $("#chart1").attr("graphs") );';
+    // echo 'console.log( $("#chart1").attr("graphs") );';
     // [확인] 버튼 클릭
     echo "$('#fsearch button[type=submit]').trigger('click');";
 }
