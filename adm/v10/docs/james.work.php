@@ -429,13 +429,16 @@ Update the package lists and install postgresql package:
 # sudo apt update
 # sudo apt install postgresql-12
 
+Start postgresql-demon
+# sudo service postgresql start | restart 
+
 The configuration file for PostgreSQL 10 is /etc/postgresql/12/main/postgresql.conf
 
 Set PostgreSQL admin user’s password
 # sudo su - postgres
 # psql -c "alter user postgres with password 'db@ypage2018'"
 
-if error occurs..
+if error occurs.. ()
 postgres@ypagepy:~$ psql -c "alter user postgres with password 'db@ypage2018'"
 -su: /usr/bin/psql: /usr/bin/perl: bad interpreter: Permission denied
 $ exit (back to root account)
