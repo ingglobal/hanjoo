@@ -577,14 +577,6 @@ function dta_loading(flag) {
     }
 }
 
-// highchart.com이라는 로고 제거
-function removeLogo() {
-    //Highcharts.com 로고 제거
-    setTimeout(function(e){
-        $('.highcharts-credits').remove();
-    },10);
-}
-
 // amplification setting
 var chr_amp_slider = $( "#chr_amp" ).slider({
     range: "max",

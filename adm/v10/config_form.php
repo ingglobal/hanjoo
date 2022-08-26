@@ -527,6 +527,46 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
 				<input type="text" name="set_data_pressure_no" value="<?php echo $g5['setting']['set_data_pressure_no']; ?>" class="frm_input" style="width:60%;">
 			</td>
 		</tr>
+		<tr>
+			<th scope="row">X-ray 판정정보 입력</th>
+			<td colspan="3">
+                <input type="hidden" name="set_xray_test_yn" value="<?=($g5['setting']['set_xray_test_yn'])?'1':''?>">
+                <label><input type="checkbox" <?=($g5['setting']['set_xray_test_yn'])?'checked':''?> id="set_xray_test_yn"> 테스트 입력</label>
+                <script>
+                $(document).on('click','#set_xray_test_yn',function(e){
+                    if($(this).is(':checked')) {$('input[name=set_xray_test_yn]').val(1);}
+                    else {$('input[name=set_xray_test_yn]').val(0);}
+                });
+                </script>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">주조코드 테스트 입력</th>
+			<td colspan="3">
+                <input type="hidden" name="set_dicast_test_yn" value="<?=($g5['setting']['set_dicast_test_yn'])?'1':''?>">
+                <label><input type="checkbox" <?=($g5['setting']['set_dicast_test_yn'])?'checked':''?> id="set_dicast_test_yn"> 테스트 입력</label>
+                <script>
+                $(document).on('click','#set_dicast_test_yn',function(e){
+                    if($(this).is(':checked')) {$('input[name=set_dicast_test_yn]').val(1);}
+                    else {$('input[name=set_dicast_test_yn]').val(0);}
+                });
+                </script>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">데이타 테스트 입력</th>
+			<td colspan="3">
+				<?php echo help('데이터를 테스트로 생성할 때 체크하세요. 정상 데이터가 입력되면 체크를 제거하세요.') ?>
+                <input type="hidden" name="set_data_test_yn" value="<?=($g5['setting']['set_data_test_yn'])?'1':''?>">
+                <label><input type="checkbox" <?=($g5['setting']['set_data_test_yn'])?'checked':''?> id="set_data_test_yn"> 테스트 입력</label>
+                <script>
+                $(document).on('click','#set_data_test_yn',function(e){
+                    if($(this).is(':checked')) {$('input[name=set_data_test_yn]').val(1);}
+                    else {$('input[name=set_data_test_yn]').val(0);}
+                });
+                </script>
+			</td>
+		</tr>
         </tbody>
 		</table>
 	</div>
