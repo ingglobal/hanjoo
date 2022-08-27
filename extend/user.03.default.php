@@ -259,8 +259,6 @@ if(defined('G5_IS_ADMIN')){
 		if(is_file(G5_USER_ADMIN_CSS_PATH.'/user_popup.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/user_popup.css">',1);
         // 사용자 정의 css, 파일명과 같은 css가 있으면 자동으로 추가됨
         if(is_file(G5_USER_ADMIN_CSS_PATH.'/'.$g5['file_name'].'.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/'.$g5['file_name'].'.css">',0);
-        //채용관련 css
-        if(is_file(G5_THEME_PATH.'/css/recruit.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_THEME_URL.'/css/recruit.css">',0);
         //날짜픽커의 다크테마를 위한 css
         add_stylesheet('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css">', 1);
         //jquery-ui structure css
