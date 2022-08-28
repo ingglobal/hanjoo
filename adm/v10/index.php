@@ -325,9 +325,10 @@ for($i=0;$row=sql_fetch_array($result);$i++) {
             </span>
             <ul class="graph_setting">
                 <li><a href="javascript:" class="graph_view">상세보기</a></li>
-                <li><a href="javascript:" class="graph_excel_down">엑셀다운</a></li>
+                <li style="display:none;"><a href="javascript:" class="graph_excel_down">엑셀다운</a></li>
                 <li><a href="javascript:" class="graph_name_change">이름변경</a></li>
                 <li><a href="javascript:" class="graph_delete">삭제</a></li>
+                <li><a href="javascript:" class="graph_config">위젯설정</a></li>
             </ul>
         </div>
         <!--================ 챠트 부분 ==================-->

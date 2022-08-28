@@ -1,4 +1,6 @@
 <?php
+// 빠르게 최적파마메터를 생성하기 위한 임시파일입니다. 
+// 정식파일은 /user/cron/output_list_parameters.php 파일을 참고하세요.
 include_once('./_common.php');
 
 $demo = 0;  // 데모모드 = 1
@@ -58,7 +60,7 @@ for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
     $mms_name[$j] = $g5['mms'][$g5['set_dicast_mms_idxs_array'][$j]]['mms_name'];
     // echo $mms_name[$j].' ------------- <br>';
 
-    // 온도, 압력 부분만 저장(1,8) - This is just temporary.
+    // 온도, 압력 부분만 저장(1,8) - This is just temporary. These are just one day average for values.
     $sql = "SELECT dta_type, dta_no, AVG(dta_value) AS dta_value, MIN(dta_idx) AS dta_idx
             FROM g5_1_data_measure_".$g5['set_dicast_mms_idxs_array'][$j]."
             WHERE dta_type IN (1,8)

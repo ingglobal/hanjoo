@@ -1337,7 +1337,19 @@ st_date=2022-08-24&st_time=07:31:14&en_date=2022-08-24&en_time=08:31:14
 . 기타 다른 버튼들도 기능을 붙여주세요.
 
 
+// 최적 파라메터 
+SELECT dta_type, dta_no, AVG(dta_value) AS dta_value, MIN(dta_idx) AS dta_idx
+FROM g5_1_data_measure_61
+WHERE dta_type IN (1,8)
+  AND dta_dt >= '2022-08-23 00:00:00' AND dta_dt <= '2022-08-23 23:59:59'
+GROUP BY dta_type, dta_no
+ORDER BY dta_type, dta_no ASC
 
+
+피씨크기:
+560:315 = 890:x (500)
+모바일크기: 
+560:315 = 373:x (209)
 
 
 
