@@ -202,8 +202,8 @@ function urlParaToJSON(furl) {
 
 //url에서 파일명 구하기
 if(typeof(getGraphId)!='function') {
-function getGraphId(mms_idx,dta_type,dta_no) {
-    var graph_id1 = mms_idx+'_'+dta_type+'_'+dta_no;
+function getGraphId(mms_idx,dta_type,dta_no,type1) {
+    var graph_id1 = mms_idx+'_'+dta_type+'_'+dta_no+'_'+type1;
     var graph_id2 = btoa(graph_id1).replace(/=/g,''); // encoded
     // console.log('f encoded > '+graph_id2);
     // graph_id3 = atob(graph_id2); // decode

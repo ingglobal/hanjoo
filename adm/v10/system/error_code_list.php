@@ -314,7 +314,7 @@ $items1 = array(
                     $list[$k1] = ($row['cod_memo']) ? cut_str($row['cod_memo'],10) : '';
                 }
                 else if($k1=='cod_code_count') {
-                    $list[$k1] = '<a href="./error_data_list.php?ser_mms_idx='.$row['mms_idx'].'&sfl=dta_code&stx='.$row['cod_code'].'">'.number_format($row[$k1]).'</a>';
+                    $list[$k1] = '<a href="./alarm_data_list.php?ser_mms_idx='.$row['mms_idx'].'&sfl=arm_cod_code&stx='.$row['cod_code'].'">'.number_format($row[$k1]).'</a>';
                 }
                 else if($k1=='cod_status') {
                     $list[$k1] = '<span class="font_size_8">'.$g5['set_cod_status_value'][$row[$k1]].'</span>';

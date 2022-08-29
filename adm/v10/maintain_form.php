@@ -69,8 +69,6 @@ $g5['title'] = '정비조치 '.$html_title;
 //include_once('./_top_menu_data.php');
 include_once ('./_head.php');
 //echo $g5['container_sub_title'];
-
-echo sec2hms(685); // 00:11:25
 ?>
 <style>
     .towhom_wrapper {

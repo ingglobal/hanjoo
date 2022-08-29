@@ -34,7 +34,7 @@ include_once('./_head.php');
 		<tr>
 			<th scope="row">등급 합계 기준</th>
 			<td colspan="3">
-				<?php echo help('1~18등급까지의 등급 합계 기준을 설정합니다.<br>등급합계가 설정값 범위를 벗어나면 기준 정보에서 제외됩니다.') ?>
+				<?php echo help('1~18등급까지의 등급 합계에 대한 기준값을 설정합니다.<br>등급합계가 설정값 범위를 벗어나면 초기화를 한 다음 다시 최적 파라메타를 추적합니다.') ?>
 				<input type="text" name="set_ok_sum_min" value="<?php echo $g5['setting']['set_ok_sum_min'] ?>" id="set_monitor_reload" required class="required frm_input" style="width:50px;">
 				~
 				<input type="text" name="set_ok_sum_max" value="<?php echo $g5['setting']['set_ok_sum_max'] ?>" id="set_monitor_reload" required class="required frm_input" style="width:50px;">

@@ -280,7 +280,17 @@ i.fa-remove {cursor:pointer;}
 	</tr>
 	<tr>
 		<th scope="row"><label for="cod_memo">알림내용 (메모)</label></th>
-		<td colspan="3"><textarea name="cod_memo" id="cod_memo" style="height:100px;"><?php echo $cod['cod_memo'] ?></textarea></td>
+		<td colspan="3">
+            <input type="hidden" name="set_ppurio_stop_yn" value="<?=($g5['setting']['set_ppurio_stop_yn'])?'1':''?>">
+            <label style="display:block;margin-bottom:10px;"><input type="checkbox" <?=($g5['setting']['set_ppurio_stop_yn'])?'checked':''?> id="set_ppurio_stop_yn"> 조치내용 자동제안</label>
+            <script>
+            $(document).on('click','#set_ppurio_stop_yn',function(e){
+                if($(this).is(':checked')) {$('input[name=set_ppurio_stop_yn]').val(1);}
+                else {$('input[name=set_ppurio_stop_yn]').val(0);}
+            });
+            </script>
+            <textarea name="cod_memo" id="cod_memo" style="height:100px;"><?php echo $cod['cod_memo'] ?></textarea>
+        </td>
 	</tr>
 	<tr class="tr_send_type" style="display:<?=$tr_send_type?>;">
 		<th scope="row">메시지발송설정</th>

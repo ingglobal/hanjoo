@@ -64,6 +64,7 @@ else {
     $ymdhis = $dat['start_time'];
 
     $search1 = " WHERE START_TIME > '".$ymdhis."' AND END_TIME != '' ";
+    // $search1 = " WHERE START_TIME >= '".$ymdhis."' AND END_TIME != '' "; // uncomment this for testing ------------
     $latest = 1;
 }
 
@@ -95,6 +96,26 @@ $status_array = array("00"=>"pending"
     ,"20"=>"pending"
 );
 
+// 레드존(7, 10, 11 포인트): 무조건 1등급이어야 OK
+// 옐로우존(1,2,3,4,5,6,8,14,15,16,17,18 포인트): 1,2등급이면 OK
+// 그린존(9,12,13 포인트): 1,2,3등급이면 OK
+$position_result = array("1"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"2"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"3"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"4"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"5"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"6"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"8"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"9"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3"
+    ,"12"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3"
+    ,"13"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3"
+    ,"14"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"15"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"16"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"17"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+    ,"18"=>"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2"
+);
+
 
 flush();
 ob_flush();
@@ -121,6 +142,18 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     // table2 입력을 위한 table1 변수 치환
     // $row['EVENT_TIME'] = substr($arr['EVENT_TIME'],0,19);
     // print_r2($arr);
+    // 품질 정보 임시 입력
+    if($g5['setting']['set_xray_test_yn']) {
+        for($j=1;$j<19;$j++) {
+            // 해당 포지션의 배열값이 있으면 랜덤선택
+            if($position_result[$j]) {
+                $position_result_arr = explode(",",$position_result[$j]);
+                // print_r2($position_result_arr);
+                // echo $j.' - '.$position_result[$j].'<br>';
+                $arr['position_'.$j] = $position_result_arr[rand(0,sizeof($position_result_arr)-1)];
+            }
+        }
+    }
 
     // table2 입력을 위한 변수배열 일괄 생성 ---------
     // 건너뛸 변수들 설정
@@ -166,16 +199,38 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 	    else {echo $sql.'<br><br>';}
     }
 
+    // timescaleDB insert record.
     // 공통쿼리 생성
     $sql_fields[$i] = (is_array($sql_field_arr[$i])) ? "(".implode(",",$sql_field_arr[$i]).")" : '';
     $sql_values[$i] = (is_array($sql_value_arr[$i])) ? "(".implode(",",$sql_value_arr[$i]).")" : '';
-    // timescaleDB insert record.
     $sql3 = "INSERT INTO {$table2}
                 {$sql_fields[$i]} VALUES {$sql_values[$i]} 
             RETURNING xry_idx 
 	";
     if(!$demo) {sql_query_pg($sql3,1);}
     else {echo $sql3.'<br><br>';}
+
+
+
+    // 주조코드 테스트 입력 (2시간 전에 주조코드가 들어갔다고 가정함)
+    // qr_cast_code 테이블에 임시로 입력
+    if($g5['setting']['set_dicast_test_yn']) {
+        $qr_time = get_qr_time($arr['qrcode']);
+        // $cast_time = get_cast_time('825442610','3289922');
+        // echo $cast_time.' -------- <br>';
+        $cast_time = date("Y-m-d H:i:s", strtotime($qr_time)-3600*2);   // 주조코드가 2시간 전에 입력된 걸로 보고 설정
+        $time_cast = get_time2castcode($cast_time); // ex) 2022-01-31 11:32:00 > 2A31B32
+        // echo $time_cast.' -------- <br>';
+        $mms_idx = substr($time_cast,0,1) + 57; // 58(17호기)....61(20호기)
+
+        $ar['qrcode'] = $arr['qrcode'];
+        $ar['cast_code'] = $time_cast;
+        $ar['mms_idx'] = $mms_idx;
+        $ar['event_time'] = $cast_time;
+		if(!$demo) {qr_cast_code_update($ar);unset($ar);}
+	    else {print_r2($ar);}
+    }
+
 
 
     echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$arr['work_date']." (".$arr['production_id'].", ".$arr['qrcode'].") ".$arr['result']." 완료<br>'; </script>\n";

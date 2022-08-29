@@ -12,7 +12,11 @@ echo $g5['container_sub_title'];
 ?>
 <style>
 /* /adm/v10/css/robot_realtime.css 에서 기본설정 */
-
+.highcharts-dynamic {width:100%;}
+.highcharts-dynamic > div {width:49%;}
+.highcharts-dynamic:after {display:block;visibility:hidden;clear:both;content:'';}
+#chart1 {display:inline-block;float:left;}
+#chart2 {display:inline-block;float:right;}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
@@ -31,6 +35,7 @@ echo $g5['container_sub_title'];
 
 <div class="highcharts-dynamic">
     <div id="chart1"></div>
+    <div id="chart2"></div>
 </div>
 
 <div class="div_button" style="margin-top:40px;">
@@ -89,7 +94,121 @@ Highcharts.chart('chart1', {
     },
 
     title: {
-        text: 'Live random data'
+        text: '토크'
+    },
+
+    accessibility: {
+        announceNewData: {
+            enabled: true,
+            minAnnounceInterval: 15000,
+            announcementFormatter: function (allSeries, newSeries, newPoint) {
+                if (newPoint) {
+                    return 'New point added. Value: ' + newPoint.y;
+                }
+                return false;
+            }
+        }
+    },
+
+    xAxis: {
+        type: 'datetime',
+        tickPixelInterval: 150
+    },
+
+    yAxis: {
+        title: {
+            text: 'Value'
+        },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    },
+
+    tooltip: {
+        headerFormat: '<b>{series.name}</b><br/>',
+        pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    exporting: {
+        enabled: false
+    },
+
+    // 초기 데이터 19개 series
+    series: [{
+        name: 'Random data',
+        data: (function () {
+            // generate an array of random data
+            var data = [],
+                time = (new Date()).getTime(),
+                i;
+
+            for (i = -19; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    y: Math.random()
+                });
+            }
+            return data;
+        }())
+    }]
+});
+
+Highcharts.chart('chart2', {
+    chart: {
+        type: 'spline',
+        animation: Highcharts.svg, // don't animate in old IE
+        marginRight: 10,
+        events: {
+            load: function () {
+                // set up the updating of the chart each second
+                // 1초에 하나 데이터를 추가하고 오래된 건 delete off from the start point.
+                var series = this.series[0];
+                console.log(this.series[0]);
+                // setInterval(function () {
+                //     var x = (new Date()).getTime(), // current time
+                //         y = Math.random();
+                //     series.addPoint([x, y], true, true);
+                //     // console.log(x + '=' + y);
+                //     // console.log(series.data[0].options);
+                //     // console.log(series.data[1].options);
+                // }, 3000);
+                setInterval(function () {
+                    dt1 = new Date();
+                    dt1.setSeconds(dt1.getSeconds());
+                    var x = dt1.getTime(),
+                        y = Math.random();
+                    series.addPoint([x, y], true, true);
+                    // addPoint() adds only single point. To add more points use that function multiple times.
+
+                    console.log( dt1 );
+                    dt1.setSeconds(dt1.getSeconds() - 1);
+                    var x = dt1.getTime(),
+                        y = Math.random();
+                    series.addPoint([x, y], true, true);
+                    console.log( dt1 );
+
+                    dt1.setSeconds(dt1.getSeconds() - 1);
+                    console.log( dt1 );
+                    var x = dt1.getTime(),
+                        y = Math.random();
+                    series.addPoint([x, y], true, true);
+                }, 3000);
+            }
+        }
+    },
+
+    time: {
+        useUTC: false
+    },
+
+    title: {
+        text: '온도'
     },
 
     accessibility: {

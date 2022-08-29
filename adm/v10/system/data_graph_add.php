@@ -185,6 +185,7 @@ include_once('./_head.sub.php');
                                     .'mms_data_url_path="/user/json" '
                                     .'mms_data_url_file="measure.php" '
                                     .'dta_type="'.$row1['dta_type'].'" dta_no="'.$row1['dta_no'].'" '
+                                    .'type1="" '
                                     .'graph_name="'.$row1['dta_label'].'" '
                                     .'>'.$row1['dta_label'].'</span>';
             }
@@ -244,6 +245,7 @@ var mms_idx;
 var mms_name;
 var dta_type;  // 
 var dta_no;    // 
+var type1;    // 
 var graph_type = "spline";
 var graph_line = "solid";
 var graph_name = "Graph";
@@ -275,6 +277,7 @@ $(function() {
         mms_name = encodeURIComponent($(this).attr('mms_name'));
         dta_type = $(this).attr('dta_type');  // 
         dta_no = $(this).attr('dta_no');    // 
+        type1 = $(this).attr('type1');    // 
         graph_name = encodeURIComponent($(this).attr('graph_name'));
         $('#spinner').show();
 
@@ -286,7 +289,7 @@ $(function() {
             }
         }
         var chr_idx = graphs2.length; // graph count
-        var graph_id1 = getGraphId(mms_idx,dta_type,dta_no);
+        var graph_id1 = getGraphId(mms_idx,dta_type,dta_no,type1);
         for(i=0;i<graphs2.length;i++) {
             // console.log(i);
             // console.log(graphs[i].dta_data_url_host);
@@ -310,7 +313,7 @@ $(function() {
 
 // graphs 배열 변수 업데이트
 function applyGraphs(idx) {
-    var graph_id1 = getGraphId(mms_idx,dta_type,dta_no);
+    var graph_id1 = getGraphId(mms_idx,dta_type,dta_no,type1);
     graphs2[idx] = {
         dta_data_url_host: dta_data_url_host,
         dta_data_url_path: dta_data_url_path,
@@ -319,6 +322,7 @@ function applyGraphs(idx) {
         mms_name: mms_name,
         dta_type: dta_type,
         dta_no: dta_no,
+        type1: type1,
         graph_type: graph_type,
         graph_line: graph_line,
         graph_name: graph_name,

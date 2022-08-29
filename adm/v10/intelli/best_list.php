@@ -7,7 +7,7 @@ auth_check($auth[$sub_menu],"r");
 $pre = 'css';
 $fname = preg_replace("/_list/","",$g5['file_name']); // 파일명생성
 
-// Get default mms_idx for first mms_idx.
+// Get the list of mms
 $sql = "SELECT mms_idx, mms_name
         FROM {$g5['mms_table']}
         WHERE com_idx = '".$_SESSION['ss_com_idx']."'
@@ -58,6 +58,12 @@ if ($stx) {
             break;
     }
 }
+
+// mms_idx 검색
+if ($ser_mms_idx) {
+    $where[] = " mms_idx = '".$ser_mms_idx."' ";
+}
+
 
 // 태그검색
 if ($ser_type_no) {
@@ -140,7 +146,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
 <select name="ser_mms_idx" id="ser_mms_idx">
-    <option value="">설비전체</option>
     <?php
     if(is_array($g5['mms'])) {
         foreach ($g5['mms'] as $k1=>$v1 ) {
@@ -244,7 +249,7 @@ $rs = sql_query_pg($sql,1);
 				<td>'.$row['dmb_idx'].'</td>
 				<td>'.$g5['mms'][$row['mms_idx']]['mms_name'].'</td>
 				<td>'.$row['dta_type_no_name'].'</td>
-				<td>'.$row['dta_value'].'</td>
+				<td>'.round($row['dta_value'],2).'</td>
 				<td>'.$row['dmb_reg_dt'].'</td>
 				<td style="display:no ne;">'.$s_mod.'</td>
 			</tr>

@@ -248,13 +248,24 @@ $items = array_merge($items1,$items2);
         $row['maintain'] = sql_fetch($sql,1);
 
         // 태그수 (PgSQL에서 추출)
-        $sql = "SELECT dta_type, dta_no
-                FROM g5_1_data_measure_".$row['mms_idx']."
-                GROUP BY dta_type, dta_no
-                ORDER BY dta_type, dta_no
+        $row['tag_count'] = 0;
+        // $sql = "SELECT dta_type, dta_no
+        //         FROM g5_1_data_measure_".$row['mms_idx']."
+        //         GROUP BY dta_type, dta_no
+        //         ORDER BY dta_type, dta_no
+        // ";
+        // $rs1 = sql_query_pg($sql,1);
+        // $row['tag_count'] = sql_num_rows_pg($rs1);
+        // 속도가 너무 느려서 meta 테이블에 등록된 것만 일단 가지고 오는 걸로..
+        $sql = "SELECT mta_value
+                FROM {$g5['meta_table']}
+                WHERE mta_key LIKE 'dta_type_label%' 
+                    AND mta_db_table = 'mms' AND mta_db_id = '".$row['mms_idx']."'
+                ORDER BY mta_key
         ";
-        $rs1 = sql_query_pg($sql,1);
-        $row['tag_count'] = sql_num_rows_pg($rs1);
+        // echo $sql.'<br>';
+        $rs1 = sql_query($sql,1);
+        $row['tag_count'] = sql_num_rows($rs1);
         
         // 관리 버튼
         $s_mod = '<a href="./mms_form.php?'.$qstr.'&amp;w=u&amp;mms_idx='.$row['mms_idx'].'&amp;ser_mms_type='.$ser_mms_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'">수정</a>';

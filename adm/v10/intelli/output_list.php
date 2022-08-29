@@ -197,7 +197,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 <div class="btn_fixed_top" style="display:no ne;">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="./<?=$g5['file_name']?>_best.php" class="btn_04 btn btn_best">최적파라메터생성</a>
+        <a href="./<?=$g5['file_name']?>_best.php" class="btn_04 btn btn_best" style="margin-right:50px;">최적파라메터임시생성</a>
         <a href="./<?=$fname?>_parameter.php" class="btn_04 btn btn_parameter">최적파라메터추적</a>
         <a href="./<?=$fname?>_change.php" class="btn_04 btn btn_change">품질데이터조작</a>
         <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">

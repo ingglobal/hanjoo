@@ -1,13 +1,57 @@
 <?php
-$sub_menu = "925120";
+$sub_menu = "920130";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
 
-$g5['title'] = '설비측정그래프';
-// include_once('./_top_menu_db.php');
+$g5['title'] = '생산현황그래프';
+include_once('./_top_menu_output.php');
 include_once('./_head.php');
-// echo $g5['container_sub_title'];
+echo $g5['container_sub_title'];
+
+// 검색 조건
+$st_time_ahead = 3600*24;  // 5hour ahead.
+
+// 초기 디폴트 로딩
+if(!$mbd_idx) {
+    // Set the search period reset according to the last data input.
+    $sql = " SELECT * FROM g5_1_xray_inspection ORDER BY xry_idx DESC LIMIT 1 ";
+    $one = sql_fetch($sql,1);
+    // print_r3($one);
+    $mbd['sried']['en_date'] = substr($one['end_time'],0,10);
+    $mbd['sried']['en_time'] = substr($one['end_time'],11);
+    $mbd['sried']['st_date'] = date("Y-m-d",strtotime($en_date.' '.$en_time)-$st_time_ahead);
+    $mbd['sried']['st_time'] = date("H:i:s",strtotime($en_date.' '.$en_time)-$st_time_ahead);
+
+    // 등급합계
+    $mbd['data'][0]['name'] = '등급합계';
+    $mbd['data'][0]['type'] = 'spline';
+    $mbd['data'][0]['dashStyle'] = 'solid';
+    $mbd['data'][0]['id']['dta_data_url_host'] = 'hanjoo.epcs.co.kr';
+    $mbd['data'][0]['id']['dta_data_url_path'] = '/user/json';
+    $mbd['data'][0]['id']['dta_data_url_file'] = 'output.php';
+    $mbd['data'][0]['id']['mms_idx'] = '';
+    $mbd['data'][0]['id']['dta_type'] = '';
+    $mbd['data'][0]['id']['dta_no'] = '';
+    $mbd['data'][0]['id']['type1'] = '';
+    $mbd['data'][0]['id']['graph_name'] = urlencode($mbd['data'][0]['name']);
+    $mbd['data'][0]['id']['graph_id'] = '1';
+    // 양불 판정
+    $mbd['data'][1]['name'] = '불량판정';
+    $mbd['data'][1]['type'] = 'column';
+    $mbd['data'][1]['dashStyle'] = 'solid';
+    $mbd['data'][1]['id']['dta_data_url_host'] = 'hanjoo.epcs.co.kr';
+    $mbd['data'][1]['id']['dta_data_url_path'] = '/user/json';
+    $mbd['data'][1]['id']['dta_data_url_file'] = 'output.php';
+    $mbd['data'][1]['id']['mms_idx'] = '';
+    $mbd['data'][1]['id']['dta_type'] = '';
+    $mbd['data'][1]['id']['dta_no'] = '';
+    $mbd['data'][1]['id']['type1'] = 'ng';   // ng=양불데이터
+    $mbd['data'][1]['id']['graph_name'] = urlencode($mbd['data'][1]['name']);
+    $mbd['data'][1]['id']['graph_id'] = '2';
+    // print_r2($mbd);
+}
+
 
 // mbd_idx 가 존재하면 저장된 값에서 그래프 추출
 if($mbd_idx) {
@@ -42,33 +86,20 @@ if($mbd_idx) {
 }
 
 
-// 검색 조건
-$st_time_ahead = 3600*1;  // 5hour ahead.
-// $st_date = ($st_date) ? $st_date : date("Y-m-d",G5_SERVER_TIME-$st_time_ahead);
-// $st_time = ($st_time) ? $st_time : date("H:i:s",G5_SERVER_TIME-$st_time_ahead);
-// $en_date = ($en_date) ? $en_date : G5_TIME_YMD;
-// $en_time = ($en_time) ? $en_time : date("H:i:s",G5_SERVER_TIME);
-
 // Set the search period reset according to the last data input.
-$sql = " SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 1 ";
+$sql = " SELECT * FROM g5_1_xray_inspection ORDER BY xry_idx DESC LIMIT 1 ";
 $one = sql_fetch($sql,1);
 // print_r3($one);
-$en_date = ($en_date) ? $en_date : substr($one['event_time'],0,10);
-$en_time = ($en_time) ? $en_time : substr($one['event_time'],11);
+$en_date = ($en_date) ? $en_date : substr($one['end_time'],0,10);
+$en_time = ($en_time) ? $en_time : substr($one['end_time'],11);
 $st_date = ($st_date) ? $st_date : date("Y-m-d",strtotime($en_date.' '.$en_time)-$st_time_ahead);
 $st_time = ($st_time) ? $st_time : date("H:i:s",strtotime($en_date.' '.$en_time)-$st_time_ahead);
-// echo $en_date.' '.$en_time.'<br>';
-// echo $st_date.' '.$st_time.'<br>';
+// echo $en_date.' '.$en_time.' en_date<br>';
+// echo $st_date.' '.$st_time.' st_date<br>';
 // exit;
 
-
-
-// mms_idx
-$mms_idx = ($mms_idx) ? $mms_idx : 45;
-// item_type
-$item_type = ($item_type) ? $item_type : 'hold_temp';
 // query string
-$qs = 'token=1099de5drf09&mms_idx='.$mms_idx.'&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time.'&item_type='.$item_type;
+$qs = 'token=1099de5drf09&st_date='.$st_date.'&st_time='.$st_time.'&en_date='.$en_date.'&en_time='.$en_time;
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
 <script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
@@ -251,7 +282,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <div class="div_btn_add" style="float:right;display:no ne;">
 </div>
 
-<div class="btn_fixed_top" style="display:no ne;">
+<div class="btn_fixed_top" style="display:none;">
     <a href="javascript:alert('설정된 그래프를 대시보드로 내보냅니다.');" class="btn btn_03 btn_add_dash" style="display:no ne;"><i class="fa fa-line-chart"></i> 내보내기</a>
     <a href="./data_graph_add.php?file_name=<?php echo $g5['file_name']?>" class="btn btn_03 btn_add_chart"><i class="fa fa-bar-chart"></i>불러오기</a>
 </div>
@@ -260,36 +291,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <script>
 var graphs2 = [], seriesOptions = [], data_series = [], graph_type = 'spline', graph_line = 'solid',
     seriesCounter = 0, chart, options;
-
-// ======================================================================
-// graphs attr in in chart div
-// 변수가 바뀌면 graph_id를 바꿔줘야 합니다. 테스트하려면 주석 해제 후 [확인]만 하면 됩니다.
-// graphs[0] = {
-//     dta_data_url: "icmms.co.kr/device/json",
-//     dta_json_file: "measure",
-//     dta_group: "mea",
-//     mms_idx: 7,
-//     dta_type: 1,
-//     dta_no: 0,
-//     graph_type: 'spline',
-//     graph_line: 'solid',
-//     graph_name: '측정1',
-//     graph_id: 'bWVhc3VyZV9tZWFfN18xXzBfMF8wXzAsMV8wXw'
-// };
-// graphs[1] = {
-//     dta_data_url: "icmms.co.kr/device/json",
-//     dta_json_file: "output",
-//     dta_group: "product",
-//     mms_idx: 7,
-//     dta_type: 1,
-//     dta_no: 0,
-//     graph_type: 'spline',
-//     graph_line: 'solid',
-//     graph_name: '생산1',
-//     graph_id: 'b3V0cHV0X3Byb2R1Y3RfN18xXzBfMF8wXzAsMV8wXw'
-// };
-// $("#chart1").attr("graphs",JSON.stringify(graphs));
-
 
 function createChart() {
     // var chart = new Highcharts.stockChart({
@@ -401,7 +402,6 @@ function createChart() {
                         
                         // console.log(chr_idx + '번 그래프 항목 클릭');
                         // 이동범위 계산, 
-                        // 참고(구글슬라이드): https://docs.google.com/presentation/d/1PgyOrKMaDaHxMUC_Atl_1dbZH5TenVj58-DGzIXqZhk/edit?usp=sharing
                         // for(i=0;i<seriesOptions.length;i++) {
                         //     // console.log(seriesOptions[i].data);
                         //     console.log(i);
@@ -528,7 +528,7 @@ function getMinMax2DArr(arr, idx) {
 function drawChart(data) {
     // find which graph
     var para = urlParaToJSON2(this.url); // get values from Json Url
-    // console.log('this.url='+this.url);
+    // console.log(this.url);
     var graph_id = para.graph_id;
     // console.log('기준: '+graph_id);
     
@@ -830,7 +830,7 @@ $( "#chr_move_value" ).val( $( "#chr_move" ).slider( "value" ) );
 // 대시보드에서 넘어온 페이지 그래프 Default 추가 ====================================================
 <?php
 // mbd_idx 가 존재하면 저장된 값에서 그래프 추출
-if($mbd_idx) {
+// if($mbd_idx) {
     for($j=0;$j<sizeof($mbd['data']);$j++) {
         // print_r2($mbd['data'][$j]);
         ?>
@@ -856,7 +856,7 @@ if($mbd_idx) {
     // echo 'console.log( $("#chart1").attr("graphs") );';
     // [확인] 버튼 클릭
     echo "$('#fsearch button[type=submit]').trigger('click');";
-}
+// }
 ?>
 
 

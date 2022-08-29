@@ -60,50 +60,67 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/css/intelli/i
                         $ar['dta_no'] = $one['dta_no'];
                         $ar['dta_value'] = $one['tag_value'];
                         $ar['dta_name'] = $one['tag_name'];
-                        $ar['dmb_reg_dt'] = $one['dmb_reg_dt'];
                         $best[$one['dta_type']][$one['dta_no']][] = $ar;
                     }
+    
                 }
+
             }
         }
     }
     // print_r2($best);
     ?>
     <div class="cont01">
-        <?php
-        // 각 설비별로 최적값 일단 추출
-        if(is_array($best)) {
-            foreach($best as $k1=>$v1) {
-                // echo $k1.'=>'.$v1.'<br>===============<br>';
-                foreach($v1 as $k2=>$v2) {
-                    // echo $k2.'=>'.$v2.'<br>';
-                    $i=0;
-                    foreach($v2 as $k3=>$v3) {
-                        // print_r2($v3);
-                        $i++;   // 항목수
-                        $best1[$v3['dta_type']][$v3['dta_no']]['sum'] += $v3['dta_value'];
-                        $best1[$v3['dta_type']][$v3['dta_no']]['name'] = $v3['dta_name'];
-                        $best1[$v3['dta_type']][$v3['dta_no']]['reg_dt'] = $v3['dmb_reg_dt'];
-                    }
-                    // echo $best1[$v3['dta_type']][$v3['dta_no']]['sum'].'<br>';
-                    // echo 'display this below -----<br>';
-                    $best_item['avg'] = round($best1[$v3['dta_type']][$v3['dta_no']]['sum']/$i,2);
-                    $best_item['name'] = $best1[$v3['dta_type']][$v3['dta_no']]['name'];
-                    $best_item['reg_dt'] = $best1[$v3['dta_type']][$v3['dta_no']]['reg_dt'];
-                    // print_r2($best_item);
-                    ?>
-                    <div class="rec_item">
-                        <p><?=$best_item['name']?></p>
-                        <strong><?=$best_item['avg']?></strong>
-                        <span><?=substr($best_item['reg_dt'],0,16)?></span>
-                    </div>
-                    <?php
-                    unset($best_item);
-                    // echo '----------------------------<br>';
-                }
-            }
-        }
-        ?>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
+        <div class="rec_item">
+            <p>보온로온도</p>
+            <strong>687.4</strong>
+            <span>22-07-15 10:00</span>
+        </div>
     </div>
 </div>
 

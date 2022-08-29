@@ -93,11 +93,11 @@ else if(is_array($getData[0]['list'])) {
         }
 
         // 주조코드 입력... 이건 뭔가 다른 방법이 필요하다.
-        // if($arr['mms_idx']=='62' && $arr['dta_type']=='13') {
-        //     if(in_array($arr['dta_no'],array(1,2,4,5))) {
-        //         qr_cast_update($sql,1);
-        //     }
-        // }
+        if($arr['mms_idx']=='62' && $arr['dta_type']=='13') {
+            // if(in_array($arr['dta_no'],array(1,2,4,5))) {
+            //     qr_cast_update($sql,1);
+            // }
+        }
 
         $result_arr[$i]['code'] = 200;
         $result_arr[$i]['message'] = "Inserted OK!";

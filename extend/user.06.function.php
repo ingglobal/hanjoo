@@ -1,6 +1,158 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// 
+if(!function_exists('qr_cast_code_update')){
+function qr_cast_code_update($arr)
+{
+	global $g5;
+	
+	if(!$arr['qrcode']||!$arr['cast_code']) {
+		return false;
+    }
+
+    $g5_table_name = $g5['qr_cast_code_table'];
+    $fields = sql_field_names($g5_table_name);
+    $pre = substr($fields[0],0,strpos($fields[0],'_'));
+    
+    // 변수 재설정
+    $arr[$pre.'_update_dt'] = G5_TIME_YMDHIS;
+    // $arr[$pre.'_end_ym'] = $arr[$pre.'_end_year'].'-'.$arr[$pre.'_end_month'];   // 년월
+
+    // 공통쿼리
+    $skips[] = $pre.'_idx';	// 건너뛸 변수 배열
+    $skips[] = $pre.'_reg_dt';
+    for($i=0;$i<sizeof($fields);$i++) {
+        if(in_array($fields[$i],$skips)) {continue;}
+        $sql_commons[] = " ".$fields[$i]." = '".$arr[$fields[$i]]."' ";
+    }
+
+    // after sql_common value setting
+    // $sql_commons[] = " com_idx = '".$arr['ss_com_idx']."' ";
+
+    // 공통쿼리 생성
+    $sql_common = (is_array($sql_commons)) ? implode(",",$sql_commons) : '';
+    
+    // 중복 조건은 함수마다 다르게 설정!!
+    $sql = "SELECT * FROM {$g5_table_name} 
+            WHERE qrcode = '{$arr['qrcode']}' AND cast_code = '{$arr['cast_code']}'
+    ";
+    // echo $sql.'<br>';
+    $row = sql_fetch($sql,1);
+	if($row[$pre."_idx"]) {
+		$sql = "UPDATE {$g5_table_name} SET 
+                    {$sql_common} 
+				WHERE ".$pre."_idx = '".$row[$pre."_idx"]."'
+        ";
+		sql_query($sql,1);
+	}
+	else {
+		$sql = "INSERT INTO {$g5_table_name} SET 
+                    {$sql_common} 
+                    , ".$pre."_reg_dt = '".G5_TIME_YMDHIS."'
+        ";
+		sql_query($sql,1);
+        $row[$pre."_idx"] = sql_insert_id();
+	}
+//    echo $sql.'<br>';
+    return $row[$pre."_idx"];
+}
+}
+
+// get hour(01,02...23) from alphanum which are 1,2,3,….9, A(10), B(11), C(12) ~ M(22), N(23)
+if(!function_exists('get_hour_number')){
+function get_hour_number($str) {
+    $str = (is_numeric($str)) ? $str : ord($str)-55;
+    $hour = sprintf("%02d",$str);
+    return $hour;
+}
+}
+
+// get 1 unit hour string(1,2,3..A, B(11)) from hour 2 digit number(01,02...23)
+if(!function_exists('get_hour_string')){
+function get_hour_string($str) {
+    $str = (intval($str)<10) ? intval($str) : chr(intval($str)+55);
+    $hour = $str;
+    return $hour;
+}
+}
+
+// get month mm from alphbet, ex A=01, B=02...
+if(!function_exists('get_month_number')){
+function get_month_number($str) {
+    $mon = sprintf("%02d",ord($str)-64);
+    return $mon;
+}
+}
+
+// get month string from number, ex 01=A, 02=B...
+if(!function_exists('get_month_string')){
+function get_month_string($str) {
+    $mon = chr(64+intval($str));
+    return $mon;
+}
+}
+
+// qrcode 2 qrtime
+if(!function_exists('get_qr_time')){
+function get_qr_time($qrcode) {
+    
+    if($qrcode<17) {
+        return false;
+    }
+    $YY = '20'.substr($qrcode,0,2);
+    $mm = get_month_number(substr($qrcode,2,1));
+    $dd = substr($qrcode,3,2);
+    $HH = substr($qrcode,-4,2);
+    $ii = substr($qrcode,-2,2);
+
+    return $YY.'-'.$mm.'-'.$dd.' '.$HH.':'.$ii.':00';
+}
+}
+
+// castcode 2 casttime
+if(!function_exists('get_cast_time')){
+function get_cast_time($str1, $str2) {
+    
+    if(!$str1||!$str2) {
+        return false;
+    }
+    $hex1 = dechex($str1);
+    $hex2 = dechex($str2);
+    // echo $hex1.'<br>';
+    // echo $hex2.'<br>';
+    // $hex1을 2자리씩 거꾸로 읽어서 16진수 2 ascii 변환
+    $ascii1 = hex2bin(substr($hex1,-2,2)).hex2bin(substr($hex1,-4,2)).hex2bin(substr($hex1,-6,2)).hex2bin(substr($hex1,0,2));
+    $ascii2 = hex2bin(substr($hex2,-2,2)).hex2bin(substr($hex2,-4,2)).hex2bin(substr($hex2,-6,2));
+    $ascii = $ascii1.$ascii2;   // ex)1A25J59
+    // echo $ascii1.$ascii2.'<br>';
+    $mm = get_month_number(substr($ascii,1,1));
+    // 년도 (현재가 01월인데 12인 경우만 작년)
+    $YY = (date("m")=='01'&&$mm=='12') ? date("Y")-1 : date("Y");
+    $dd = substr($ascii,2,2);
+    $HH = get_hour_number(substr($ascii,-3,1));
+    $ii = substr($ascii,-2,2);
+
+    return $YY.'-'.$mm.'-'.$dd.' '.$HH.':'.$ii.':00';
+}
+}
+
+// casttime 2 castcode ex) 2022-01-31 11:32:00 > 2A31B32
+if(!function_exists('get_time2castcode')){
+function get_time2castcode($dt) {
+    
+    if(!$dt) {
+        return false;
+    }
+    $mm = get_month_string(intval(substr($dt,5,2)));
+    $dd = substr($dt,8,2);
+    $HH = get_hour_string(substr($dt,-8,2));
+    $ii = substr($dt,-5,2);
+
+    return rand(1,4).$mm.$dd.$HH.$ii;
+}
+}
+
 // 시간범위를 추출 (데이터가 없는 경우 최근 시간 범위로 설정)
 // type=(data:데이터기준, current:현재시점기준), st_date, st_time, en_date, en_time, mms_idx, dta_type, dta_no
 if(!function_exists('get_start_end_dt')){

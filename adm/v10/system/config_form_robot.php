@@ -30,36 +30,90 @@ echo $g5['container_sub_title'];
 		</colgroup>
 		<tbody>
 		<tr>
-			<th scope="row">경고 설정</th>
+			<th scope="row">로봇#1 경고 설정</th>
 			<td colspan="3">
 				<?php echo help('로봇 작동 경고 기준값을 설정합니다.') ?>
-                온도:
-				<input type="text" name="set_robot_alarm_temperature" value="<?php echo $g5['setting']['set_robot_alarm_temperature'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 이상
-                <span style="width:20px;display:inline-block;"></span>
-                토크:
-				<input type="text" name="set_robot_alarm_torque" value="<?php echo $g5['setting']['set_robot_alarm_torque'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 이상
+				<?php
+				for($i=1;$i<7;$i++) {
+				?>
+				<div style="margin-bottom:5px;">
+					토크<?=$i?>:
+					<input type="text" name="set_robot_alarm_torque1<?=$i?>" value="<?php echo $g5['setting']['set_robot_alarm_torque1'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+					<span style="width:20px;display:inline-block;"></span>
+					온도<?=$i?>:
+					<input type="text" name="set_robot_alarm_temperature1<?=$i?>" value="<?php echo $g5['setting']['set_robot_alarm_temperature1'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+				</div>
+				<?php
+				}
+				?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row">로봇중지 설정</th>
+			<th scope="row">로봇#2 경고 설정</th>
 			<td colspan="3">
-				<?php echo help('로봇이 작동을 중지할 기준값을 설정합니다.') ?>
-                온도:
-				<input type="text" name="set_robot_stop_temperature" value="<?php echo $g5['setting']['set_robot_stop_temperature'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 이상
-                <span style="width:20px;display:inline-block;"></span>
-                토크:
-				<input type="text" name="set_robot_stop_torque" value="<?php echo $g5['setting']['set_robot_stop_torque'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 이상
+				<?php echo help('로봇 작동 경고 기준값을 설정합니다.') ?>
+				<?php
+				for($i=1;$i<7;$i++) {
+				?>
+				<div style="margin-bottom:5px;">
+					토크<?=$i?>:
+					<input type="text" name="set_robot_alarm_torque2<?=$i?>" value="<?php echo $g5['setting']['set_robot_alarm_torque2'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+					<span style="width:20px;display:inline-block;"></span>
+					온도<?=$i?>:
+					<input type="text" name="set_robot_alarm_temperature2<?=$i?>" value="<?php echo $g5['setting']['set_robot_alarm_temperature2'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+				</div>
+				<?php
+				}
+				?>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">로봇#1 <span style="color:darkorange;">중지</span> 설정</th>
+			<td colspan="3">
+				<?php echo help('로봇 작동 경고 기준값을 설정합니다.') ?>
+				<?php
+				for($i=1;$i<7;$i++) {
+				?>
+				<div style="margin-bottom:5px;">
+					토크<?=$i?>:
+					<input type="text" name="set_robot_stop_torque1<?=$i?>" value="<?php echo $g5['setting']['set_robot_stop_torque1'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+					<span style="width:20px;display:inline-block;"></span>
+					온도<?=$i?>:
+					<input type="text" name="set_robot_stop_temperature1<?=$i?>" value="<?php echo $g5['setting']['set_robot_stop_temperature1'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+				</div>
+				<?php
+				}
+				?>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">로봇#2 <span style="color:darkorange;">중지</span> 설정</th>
+			<td colspan="3">
+				<?php echo help('로봇 작동 경고 기준값을 설정합니다.') ?>
+				<?php
+				for($i=1;$i<7;$i++) {
+				?>
+				<div style="margin-bottom:5px;">
+					토크<?=$i?>:
+					<input type="text" name="set_robot_stop_torque2<?=$i?>" value="<?php echo $g5['setting']['set_robot_stop_torque2'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+					<span style="width:20px;display:inline-block;"></span>
+					온도<?=$i?>:
+					<input type="text" name="set_robot_stop_temperature2<?=$i?>" value="<?php echo $g5['setting']['set_robot_stop_temperature2'.$i] ?>" class="frm_input" style="width:50px;"> 이상
+				</div>
+				<?php
+				}
+				?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row">로봇재시작 설정</th>
 			<td colspan="3">
-				<?php echo help('로봇 동작이 멈춘 후 다시 재시작할 기준값을 설정합니다.') ?>
-                온도:
-				<input type="text" name="set_robot_restart_temperature" value="<?php echo $g5['setting']['set_robot_restart_temperature'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 이상
-                <span style="width:20px;display:inline-block;"></span>
-                토크:
-				<input type="text" name="set_robot_restart_torque" value="<?php echo $g5['setting']['set_robot_restart_torque'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 이상
+				<?php echo help('로봇 동작이 멈춘 후 다시 재시작할 시간을 분 단위로 설정합니다.') ?>
+                로봇1:
+				<input type="text" name="set_robot_restart1" value="<?php echo $g5['setting']['set_robot_restart1'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 분 후
+                <div style="height:5px;"></div>
+                로봇2:
+				<input type="text" name="set_robot_restart2" value="<?php echo $g5['setting']['set_robot_restart2'] ?>" id="set_monitor_reload" class="frm_input" style="width:50px;"> 분 후
 			</td>
 		</tr>
         <tr>
