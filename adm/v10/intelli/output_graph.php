@@ -10,7 +10,7 @@ include_once('./_head.php');
 echo $g5['container_sub_title'];
 
 // 검색 조건
-$st_time_ahead = 3600*24;  // 5hour ahead.
+$st_time_ahead = 3600*12;  // 5hour ahead.
 
 // 초기 디폴트 로딩
 if(!$mbd_idx) {

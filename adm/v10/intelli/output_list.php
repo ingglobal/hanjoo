@@ -88,7 +88,7 @@ $result = sql_query_pg($sql,1);
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
 // 넘겨줄 변수가 추가로 있어서 qstr 별도 설정
-$qstr = $qstr."&st_date=$st_date&en_date=$en_date";
+$qstr = $qstr."&st_date=$st_date&en_date=$en_date"."&st_time=$st_time&en_time=$en_time";
 
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
