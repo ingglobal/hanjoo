@@ -1,6 +1,10 @@
 <?php
 if (!defined('_GNUBOARD_')) exit;
 
+// if($member['mb_id'] == 'super') {
+//     $_SERVER['HTTP_USER_AGENT'] = 'super_common_agent';
+// }
+
 // common 후킹
 add_event('common_header','u_common_header',10);
 function u_common_header(){
