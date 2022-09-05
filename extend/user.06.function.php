@@ -1,6 +1,244 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+
+// 조직코드가 변경된 경우 처리할 함수
+if(!function_exists('department_change')){
+function department_change($mb_id, $dept1, $dept2) {
+    global $g5;
+	
+	// 전부다 값이 있어야 함
+	if(!$mb_id||!$dept1||!$dept2)
+		return;
+	
+	// 이전코드랑 값이 같으면 리턴
+	if($dept1==$dept2)
+		return;
+
+//	// 업체 연결 코드 전부 업데이트
+//	$sql = "	UPDATE {$g5['company_member_table']}
+//					SET trm_idx_department = '".$dept2."'
+//				WHERE mb_id_saler = '".$mb_id."'
+//	";
+//    sql_query($sql,1);
+//	
+//	// 모든 게시판(gr_id=intra) 조직 코드(wr_7)를 수정
+//	$sql = " SELECT bo_table FROM {$g5['board_table']} WHERE gr_id = 'intra' ";
+//    $rs = sql_query($sql);
+//    for($i=0;$row=sql_fetch_array($rs);$i++) {
+//        //echo $row['bo_table'].'<br>';
+//        $write_table = $g5['write_prefix'].$row['bo_table'];
+//        $sql = "UPDATE ".$write_table." SET
+//                    wr_7 = '".$dept2."'
+//                WHERE wr_6 = '".$mb_id."' AND wr_7 = '".$dept1."'
+//        ";
+//        sql_query($sql,1);
+//        //echo $sql.'<br>';
+//    }
+//	
+//	// 모든 신청항목 조직코드 수정(g5_shop_order)
+//    $sql = "UPDATE {$g5['g5_shop_order_table']} SET
+//                trm_idx_department = '".$dept2."'
+//            WHERE mb_id_saler = '".$mb_id."' AND trm_idx_department = '".$dept1."'
+//    ";
+//    sql_query($sql,1);
+//    //echo $sql.'<br>';
+//	
+//	// 모든 신청상품 조직코드 수정(g5_shop_cart)
+//    $sql = "UPDATE {$g5['g5_shop_cart_table']} SET
+//                trm_idx_department = '".$dept2."'
+//            WHERE mb_id_saler = '".$mb_id."' AND trm_idx_department = '".$dept1."'
+//    ";
+//    sql_query($sql,1);
+//    //echo $sql.'<br>';
+//
+//	// 모든 매출의 조직코드 수정(g5_1_sales)
+//    $sql = "UPDATE {$g5['sales_table']} SET
+//                trm_idx_department = '".$dept2."'
+//                , sls_department_name = '".$g5['department_name'][$dept2]."'
+//            WHERE mb_id_saler = '".$mb_id."' AND trm_idx_department = '".$dept1."'
+//    ";
+//    sql_query($sql,1);
+//    //echo $sql.'<br>';
+    
+	return true;
+}
+}
+
+// 회원 레이어 - 원본 함수는 super일 때만 회원정보수정, 포인트관리가 나와서 수정함
+if(!function_exists('get_sideview2')){
+function get_sideview2($mb_id, $name='', $email='', $homepage='', $memo_yn=0, $formmail_yn=0, $profile_yn=0)
+{
+    global $config;
+    global $g5;
+    global $bo_table, $sca, $is_admin, $member;
+
+    $email_enc = new str_encrypt();
+    $email = $email_enc->encrypt($email);
+    $homepage = set_http(clean_xss_tags($homepage));
+
+    $name     = get_text($name, 0, true);
+    $email    = get_text($email);
+    $homepage = get_text($homepage);
+
+    $tmp_name = "";
+    if ($mb_id) {
+        //$tmp_name = "<a href=\"".G5_BBS_URL."/profile.php?mb_id=".$mb_id."\" class=\"sv_member\" title=\"$name 자기소개\" target=\"_blank\" onclick=\"return false;\">$name</a>";
+        $tmp_name = '<a href="'.G5_BBS_URL.'/profile.php?mb_id='.$mb_id.'" class="sv_member" title="'.$name.' 자기소개" target="_blank" onclick="return false;">';
+
+        if ($config['cf_use_member_icon']) {
+            $mb_dir = substr($mb_id,0,2);
+            $icon_file = G5_DATA_PATH.'/member/'.$mb_dir.'/'.$mb_id.'.gif';
+
+            if (file_exists($icon_file)) {
+                $width = $config['cf_member_icon_width'];
+                $height = $config['cf_member_icon_height'];
+                $icon_file_url = G5_DATA_URL.'/member/'.$mb_dir.'/'.$mb_id.'.gif';
+                $tmp_name .= '<img src="'.$icon_file_url.'" width="'.$width.'" height="'.$height.'" alt="">';
+
+                if ($config['cf_use_member_icon'] == 2) // 회원아이콘+이름
+                    $tmp_name = $tmp_name.' '.$name;
+            } else {
+                  $tmp_name = $tmp_name." ".$name;
+            }
+        } else {
+            $tmp_name = $tmp_name.' '.$name;
+        }
+        $tmp_name .= '</a>';
+
+        $title_mb_id = '['.$mb_id.']';
+    } else {
+        if(!$bo_table)
+            return $name;
+
+        $tmp_name = '<a href="'.G5_BBS_URL.'/board.php?bo_table='.$bo_table.'&amp;sca='.$sca.'&amp;sfl=wr_name,1&amp;stx='.$name.'" title="'.$name.' 이름으로 검색" class="sv_guest" onclick="return false;">'.$name.'</a>';
+        $title_mb_id = '[비회원]';
+    }
+
+    $str = "<span class=\"sv_wrap\">\n";
+    $str .= $tmp_name."\n";
+
+    $str2 = "<span class=\"sv\">\n";
+    if($mb_id && $memo_yn)
+        $str2 .= "<a href=\"".G5_BBS_URL."/memo_form.php?me_recv_mb_id=".$mb_id."\" onclick=\"win_memo(this.href); return false;\">쪽지보내기</a>\n";
+    if($email && $formmail_yn)
+        $str2 .= "<a href=\"".G5_BBS_URL."/formmail.php?mb_id=".$mb_id."&amp;name=".urlencode($name)."&amp;email=".$email."\" onclick=\"win_email(this.href); return false;\">메일보내기</a>\n";
+    if($homepage)
+        $str2 .= "<a href=\"".$homepage."\" target=\"_blank\">홈페이지</a>\n";
+    if($mb_id && $profile_yn)
+        $str2 .= "<a href=\"".G5_BBS_URL."/profile.php?mb_id=".$mb_id."\" onclick=\"win_profile(this.href); return false;\">자기소개</a>\n";
+    if($bo_table) {
+        if($mb_id)
+            $str2 .= "<a href=\"".G5_BBS_URL."/board.php?bo_table=".$bo_table."&amp;sca=".$sca."&amp;sfl=mb_id,1&amp;stx=".$mb_id."\">아이디로 검색</a>\n";
+        else
+            $str2 .= "<a href=\"".G5_BBS_URL."/board.php?bo_table=".$bo_table."&amp;sca=".$sca."&amp;sfl=wr_name,1&amp;stx=".$name."\">이름으로 검색</a>\n";
+    }
+    if($mb_id)
+        $str2 .= "<a href=\"".G5_BBS_URL."/new.php?mb_id=".$mb_id."\">전체게시물</a>\n";
+    if($member['mb_level'] >= 8 && $mb_id) {
+        $str2 .= "<a href=\"".G5_ADMIN_URL."/member_form.php?w=u&amp;mb_id=".$mb_id."\" target=\"_blank\">회원정보변경</a>\n";
+        $str2 .= "<a href=\"".G5_ADMIN_URL."/point_list.php?sfl=mb_id&amp;stx=".$mb_id."\" target=\"_blank\">포인트내역</a>\n";
+    }
+    $str2 .= "</span>\n";
+    $str .= $str2;
+    $str .= "\n<noscript class=\"sv_nojs\">".$str2."</noscript>";
+
+    $str .= "</span>";
+
+    return $str;
+}
+}
+
+
+// 내 소속 조직을 SELECT 형식으로 얻음
+if(!function_exists('get_dept_select')){
+function get_dept_select($trm_idx=0,$sub_menu,$select_type='form')
+{
+    global $g5,$auth,$member,$department_form_options,$department_select_options;
+    
+    // form의 select 박스이면 <option value='20'></option>과 같은 특정 trm_idx 한개
+    // 리스트 페이지의 조직 select에서는 <option value='1,43,20,35'></option>과 같은 trm_idx 여러개
+    if(!$select_type)
+        $select_type = 'select';
+
+    // 삭제 권한이 있고 모든법인 접근 권한이 있는 경우는 전부
+    if(!auth_check($auth[$sub_menu],'d',1) && $member['mb_firm_yn'] ) {
+        return ${'department_'.$select_type.'_options'};
+    }
+
+    if(${'department_'.$select_type.'_options'}) {
+        // 기본적으로는 나의 그룹 조직만 표현
+        for($i=0; $i<sizeof($g5['department']); $i++) {
+            if(preg_match("/".$g5['department_name'][$g5['department_uptop_idx'][$member['mb_2']]]."/", $g5['department'][$i]['up_names'])) {
+                if($select_type=='form')
+                    $str .= '<option value="'.$g5['department'][$i]['term_idx'].'"';
+                else
+                    $str .= '<option value="'.$g5['department'][$i]['down_idxs'].'"';
+                if ($k1 == $selected)
+                    $str .= ' selected="selected"';
+                $str .= ">".$g5['department'][$i]['up_names']."</option>\n";
+            }
+        }
+    }
+
+    return $str;
+}
+}
+
+
+// 팀 idxs 추출 함수, 접근 범위에 따라 idxs 추출이 달라짐
+// 매개변수 level (1=직속상위까지, 2=그룹전체까지, 9=전체조직)
+if(!function_exists('get_dept_idxs')){
+function get_dept_idxs($level=0) {
+    global $g5,$member;
+    
+    // 수퍼인 경우 모든 조직코드 리턴, $level=10인 경우는 조직 코드조건 필요없음 -> 전부
+    if($member['mb_allauth_yn']) {
+        $trm = sql_fetch(" SELECT GROUP_CONCAT(trm_idx) AS trm_idxs FROM {$g5['term_table']} WHERE trm_taxonomy = 'department' ");  // 삭제 포함 모든 조직코드값
+        return false;
+    }
+    else if($member['mb_level']>=6) {
+        //print_r3($member['mb_2']);
+        //print_r3($g5['department_up1_idx'][$member['mb_2']].'(바로상위idx)의 down_idxs = '.$g5['department_down_idxs'][$g5['department_up1_idx'][$member['mb_2']]]);
+        //print_r3($g5['department_uptop_idx'][$member['mb_2']].'(그룹최상위idx)의 down_idxs = '.$g5['department_down_idxs'][$g5['department_uptop_idx'][$member['mb_2']]]);
+        //print_r3($g5['department_uptop_idx'][$member['mb_2']].'(최상위 삭제조직idx)의 idxs = '.$g5['department_trash_idxs'][$g5['department_uptop_idx'][$member['mb_2']]]);
+        //print_r3($member);
+        // 개별 설정이 있는 경우는 개별 설정이 우선함
+        if($member['mb_group_level']) {
+            // 직속상위까지만
+            if($member['mb_group_level']==1) {
+                $trm_idx = $g5['department_up1_idx'][$member['mb_2']];
+            }
+            // 그룹전체까지
+            else if($member['mb_group_level']==2) {
+                $trm_idx = $g5['department_uptop_idx'][$member['mb_2']];
+            }
+        }
+        // 개별 설정이 없는 경우는 접근범위(매개변수)에 따라 설정
+        else if($level) {
+            // 직속상위까지만
+            if($level==1) {
+                $trm_idx = $g5['department_up1_idx'][$member['mb_2']];
+            }
+            // 그룹전체까지
+            else if($level==2) {
+                $trm_idx = $g5['department_uptop_idx'][$member['mb_2']];
+            }
+        }
+        // 디폴트는 내 조직만
+        else {
+            $trm_idx = $member['mb_2'];
+        }
+        
+        // 삭제조직코드도 포함해서 리턴
+        return $g5['department_down_idxs'][$trm_idx].$g5['department_trash_idxs'][$member['mb_2']];
+    }
+    else {
+        return false;
+    }
+}
+}
+
 // 
 if(!function_exists('qr_cast_code_update')){
 function qr_cast_code_update($arr)

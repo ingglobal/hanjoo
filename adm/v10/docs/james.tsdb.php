@@ -13,6 +13,7 @@ SELECT * FROM g5_1_data_measure_61 WHERE dta_idx=2
 SELECT * FROM g5_1_data_measure_60 WHERE dta_type IN (1,8) ORDER BY dta_dt DESC LIMIT 100;
 SELECT count(*) FROM g5_1_data_measure_61
 SELECT count(*) FROM g5_1_data_measure_64
+SELECT * FROM g5_1_xray_inspection ORDER BY xry_idx DESC LIMIT 100;
 
 SELECT * FROM pg_stat_activity ORDER BY query_start ASC;
 SELECT pg_cancel_backend(31956);

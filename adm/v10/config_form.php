@@ -567,6 +567,12 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
                 </script>
 			</td>
 		</tr>
+		<tr>
+			<th scope="row">불량입력 엑셀항목</th>
+			<td colspan="3">
+				<input type="text" name="set_return_item" value="<?php echo $g5['setting']['set_return_item']; ?>" class="frm_input" style="width:60%;">
+			</td>
+		</tr>
         </tbody>
 		</table>
 	</div>

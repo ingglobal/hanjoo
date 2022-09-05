@@ -23,8 +23,10 @@ $(function(e) {
     $('#ft .scroll_top').remove();
 
     // 관리자단 게시판관리 버튼 설정
-    $('.btn_bo_user').prepend('<li><a href="./config_form.php?bo_table='+g5_bo_table+'" class="btn_admin btn"><i class="fa fa-gears fa-fw"></i>&nbsp;환경설정</a></li>'); // 환경설정버튼 추가
-    $('.btn_bo_user .btn_admin i').removeClass('fa-spin');  // 설정 버튼 빙글이 제거
+    if(mb_level>4) {
+        $('.btn_bo_user').prepend('<li><a href="./config_form.php?bo_table='+g5_bo_table+'" class="btn_admin btn"><i class="fa fa-gears fa-fw"></i>&nbsp;환경설정</a></li>'); // 환경설정버튼 추가
+        $('.btn_bo_user .btn_admin i').removeClass('fa-spin');  // 설정 버튼 빙글이 제거
+    }
 
     // 메뉴 업데이트
     $('#gnb .gnb_li').each(function(e){

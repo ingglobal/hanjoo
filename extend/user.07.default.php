@@ -68,6 +68,18 @@ foreach ($set_values as $set_value) {
 unset($set_values);unset($set_value);
 // print_r3($g5['set_data_group_value']);
 
+// 불량입력 엑셀항목 설정, 쉼표가 있고 띄어쓰기도 있어서 따로 추출합니다.
+$set_values = explode('|', $g5['setting']['set_return_item']);
+foreach ($set_values as $set_value) {
+	list($key, $value) = explode('=', trim($set_value));
+	$g5['set_return_item2'][$key] = $value.' ('.$key.')';
+	$g5['set_return_item_value2'][$key] = $value;
+	$g5['set_return_item_options2'] .= '<option value="'.trim($key).'">'.trim($value).' ('.trim($key).')</option>';
+	$g5['set_return_item_value_options2'] .= '<option value="'.trim($key).'">'.trim($value).'</option>';
+}
+unset($set_values);unset($set_value);
+
+
 // 단위별(분,시,일,주,월,년) 초변환수
 // 첫번째 변수 = 단위별 초단위 전환값
 // 두번째 변수 = 종료일(or시작일)계산시 선택단위, 0이면 기존 선택된 단위값, 아니면 해당숫자 

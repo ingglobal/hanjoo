@@ -2,7 +2,7 @@
 $sub_menu = "925800";
 include_once('./_common.php');
 
-if(auth_check($auth[$sub_menu],"d",1)) {
+if(!$member['mb_manager_yn']) {
     alert('메뉴에 접근 권한이 없습니다.');
 }
 

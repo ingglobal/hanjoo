@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "935160";
+$sub_menu = "935110";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
@@ -14,13 +14,15 @@ $st_date = $st_date ?: date("Y-m-01",G5_SERVER_TIME);
 $en_date = $en_date ?: date("Y-m-d");
 $st_time = $st_time ?: '00:00:00';
 $en_time = $en_time ?: '23:59:59';
-$st_timestamp = strtotime($st_date.' '.$st_time);
-$en_timestamp = strtotime($en_date.' '.$en_time);
+$st_datetime = $st_date.' '.$st_time;
+$en_datetime = $en_date.' '.$en_time;
+$st_timestamp = strtotime($st_datetime);
+$en_timestamp = strtotime($en_datetime);
 
 $g5['title'] = 'UPH보고서';
-include_once('./_top_menu_stat.php');
+include_once('./_top_menu_output.php');
 include_once('./_head.php');
-// echo $g5['container_sub_title'];
+echo $g5['container_sub_title'];
 
 // Get all the mms_idx values to make them optionf for selection.
 $sql2 = "   SELECT mms_idx, mms_name
@@ -48,9 +50,9 @@ $sql = "SELECT table_name, table_rows, auto_increment
 // echo $sql.'<br>';
 $rs = sql_query($sql,1);
 for($i=0;$row=sql_fetch_array($rs);$i++) {
+    // print_r2($row);
     // echo ($i+1).'<br>';
     $row['ar'] = explode("_",$row['table_name']);
-    // print_r2($row);
     // print_r2($row['ar']);
     // 해당 업체 것만 추출, 아니면 통과
     if($mms[$row['ar'][4]]) {
@@ -76,6 +78,7 @@ $sql = "SELECT mms_idx, mmi_no, mmi_name
 // echo $sql.'<br>';
 $rs = sql_query($sql,1);
 for($i=0;$row=sql_fetch_array($rs);$i++) {
+    // print_r3($row);
     // print_r3('설비: '.$row['mms_idx'].' - '.$row['mmi_no'].'--------------------------');
     $mms_mmi[$row['mms_idx']][] = $row['mmi_no'];
     $mmi_name[$row['mms_idx']][$row['mmi_no']] = $row['mmi_name'];
@@ -152,14 +155,14 @@ for($j=0;$j<sizeof($offwork);$j++){
 // echo $off_total.'<br>';
 
 
-$sql_common = " FROM g5_1_data_output_sum ";
+$sql_common = " FROM g5_1_xray_inspection ";
 
 $where = array();
-$where[] = " mms_idx = '".$ser_mms_idx."' ";
+$where[] = " (1) ";
 
 if ($stx && $sfl) {
     switch ($sfl) {
-		case ( $sfl == $pre.'_id' || $sfl == $pre.'_idx' || $sfl == 'mms_idx' || $sfl == 'dta_mmi_no' ) :
+		case ( $sfl == $pre.'_id' || $sfl == $pre.'_idx' || $sfl == 'machine_id' || $sfl == 'result' ) :
             $where[] = " ({$sfl} = '{$stx}') ";
             break;
 		case ($sfl == $pre.'_hp') :
@@ -183,10 +186,10 @@ if ($stx && $sfl) {
 
 // 기간 검색
 if ($st_date) {
-    $where[] = " dta_date >= '".$st_date."' ";
+    $where[] = " end_time >= '".$st_datetime."' ";
 }
 if ($en_date) {
-    $where[] = " dta_date <= '".$en_date."' ";
+    $where[] = " end_time <= '".$en_datetime."' ";
 }
 
 // 최종 WHERE 생성
@@ -194,14 +197,15 @@ if ($where)
     $sql_search = ' WHERE '.implode(' AND ', $where);
 
 
-$sql = " SELECT SQL_CALC_FOUND_ROWS mms_idx, dta_mmi_no, dta_date
-            , SUM(dta_value) AS output_sum
+$sql = " SELECT SUBSTRING(qrcode,8,2) AS item_type
+            , SUBSTRING(end_time,1,10) AS work_date
+            , COUNT(xry_idx) AS output_sum
 		{$sql_common}
 		{$sql_search}
-        GROUP BY dta_mmi_no, dta_date
-        ORDER BY dta_date DESC, dta_mmi_no
+        GROUP BY item_type, work_date
+        ORDER BY work_date DESC, item_type
 ";
-// echo $sql;
+echo $sql;
 $result = sql_query($sql,1);
 
 
@@ -225,25 +229,6 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
-<select name="ser_mms_idx" id="ser_mms_idx">
-    <?php
-    // 해당 범위 안의 모든 설비를 select option으로 만들어서 선택할 수 있도록 한다.
-    // Get all the mms_idx values to make them optionf for selection.
-    $sql2 = "SELECT mms_idx, mms_name
-            FROM {$g5['mms_table']}
-            WHERE com_idx = '".$_SESSION['ss_com_idx']."'
-            ORDER BY mms_idx
-    ";
-    // echo $sql2.'<br>';
-    $result2 = sql_query($sql2,1);
-    for ($i=0; $row2=sql_fetch_array($result2); $i++) {
-        // print_r2($row2);
-        echo '<option value="'.$row2['mms_idx'].'" '.get_selected($ser_mms_idx, $row2['mms_idx']).'>'.$row2['mms_name'].'</option>';
-    }
-    ?>
-</select>
-<script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
-
 <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;">
 <!-- <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00"> -->
 ~
@@ -251,8 +236,8 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 <!-- <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00"> -->
 
 <select name="sfl" id="sfl">
-    <option value="dta_mmi_no" <?php echo get_selected($sfl, 'dta_mmi_no'); ?>>기종번호</option>
-    <option value="dta_shf_no" <?php echo get_selected($sfl, 'dta_shf_no'); ?>>교대번호</option>
+    <option value="result" <?php echo get_selected($sfl, 'result'); ?>>결과(OK,NG)</option>
+    <option value="machine_id" <?php echo get_selected($sfl, 'machine_id'); ?>>설비ID(56,60)</option>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">

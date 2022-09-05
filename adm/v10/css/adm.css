@@ -339,7 +339,7 @@ td.td_grpset{border-left:1px solid #4b5465;}
 .adm_color_ul .adm_color_li .adm_coupon{color:#017b01;}
 
 /* 설명문구 테두리 부분 */
-.local_desc01 {background:#0c162a;border:1px solid #354667;font-size:0.8em;}
+.local_desc01 {background:#0c162a;border:1px solid #354667;font-size:0.8em;padding:10px 10px;}
 .local_desc02{background:#0c162a;border:1px solid #354667;}
 
 .top_inf{}

@@ -10,6 +10,15 @@ CREATE TABLE `g5_1_data_measure_58` (
   PRIMARY KEY (`dta_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `g5_1_return` (
+  `ret_idx` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '불량idx',
+  `ret_ym` date DEFAULT '0000-00-00' COMMENT '년월',
+  `ret_type` varchar(20) DEFAULT '' NOT NULL COMMENT '구분',
+  `ret_count` int(11) NOT NULL DEFAULT '0' COMMENT '갯수',
+  `ret_reg_dt` int(11) DEFAULT NULL COMMENT '등록일',
+  `ret_update_dt` int(11) DEFAULT NULL COMMENT '수정일',
+  PRIMARY KEY (`ret_idx`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `g5_1_cast_shot_sub` (
   `css_idx` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -1357,3 +1366,141 @@ ORDER BY dta_type, dta_no ASC
 1. 대시보드
   . 100% 실시간은 아니고 온도, 압력 정보는 1시간 정도 시차가 있음: MES개발사인 큐빅에서 서버 부하 줄여달라는 요청이 있어서 1시간에 1회 수집된 정보를 동기화 작업진행중
   . 다른 설비측정정보들은 20초 정도 시차가 있음 (데이터 수집 주기)
+
+
+
+SELECT dept_name, mo01, mo02 ... mo12, tot
+FROM (SELECT dept
+   ,SUM (case substr(month,3,2) = '01' THEN amount) mo01  -- 1월
+   ,SUM (case substr(month,3,2) = '02' THEN amount) mo02  -- 2월
+   , ....
+   ,SUM (case substr(month,3,2) = '12' THEN amount) mo12  -- 12월
+   ,SUM (amount) tot       -- 총계
+   FROM plan_table
+   WHERE yymmdd LIKE '199606'     -- 1996년 06월일것만
+   GROUP BY dept
+  ) x, detp_table y
+WHERE y.dept = x.dept
+....
+SELECT ret_type
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='01', ret_count, 0)) AS mo01
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='02', ret_count, 0)) AS mo02
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='03', ret_count, 0)) AS mo03
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='04', ret_count, 0)) AS mo04
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='05', ret_count, 0)) AS mo05
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='06', ret_count, 0)) AS mo06
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='07', ret_count, 0)) AS mo07
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='08', ret_count, 0)) AS mo08
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='09', ret_count, 0)) AS mo09
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='10', ret_count, 0)) AS mo10
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='11', ret_count, 0)) AS mo11
+  ,SUM(IF(SUBSTR(ret_ym,6,2)='12', ret_count, 0)) AS mo12
+FROM g5_1_return
+WHERE ret_ym LIKE '2022%'
+GROUP BY ret_type
+....
+SELECT ret_type, mo01, mo02, mo03, mo04, mo05, mo06, mo07, mo08, mo09, mo10, mo11, mo12, flag
+FROM (
+  SELECT ret_type
+    , SUM(IF(SUBSTR(ret_ym,6,2)='01', ret_count, 0)) AS mo01
+    , SUM(IF(SUBSTR(ret_ym,6,2)='02', ret_count, 0)) AS mo02
+    , SUM(IF(SUBSTR(ret_ym,6,2)='03', ret_count, 0)) AS mo03
+    , SUM(IF(SUBSTR(ret_ym,6,2)='04', ret_count, 0)) AS mo04
+    , SUM(IF(SUBSTR(ret_ym,6,2)='05', ret_count, 0)) AS mo05
+    , SUM(IF(SUBSTR(ret_ym,6,2)='06', ret_count, 0)) AS mo06
+    , SUM(IF(SUBSTR(ret_ym,6,2)='07', ret_count, 0)) AS mo07
+    , SUM(IF(SUBSTR(ret_ym,6,2)='08', ret_count, 0)) AS mo08
+    , SUM(IF(SUBSTR(ret_ym,6,2)='09', ret_count, 0)) AS mo09
+    , SUM(IF(SUBSTR(ret_ym,6,2)='10', ret_count, 0)) AS mo10
+    , SUM(IF(SUBSTR(ret_ym,6,2)='11', ret_count, 0)) AS mo11
+    , SUM(IF(SUBSTR(ret_ym,6,2)='12', ret_count, 0)) AS mo12
+    , (CASE ret_type
+          WHEN '투입' THEN 1
+          WHEN 'N02' THEN 2
+          WHEN 'L/ARM' THEN 3
+          WHEN 'SKID' THEN 4
+          WHEN 'A/ARM' THEN 5
+          WHEN 'B/MTG' THEN 6
+          WHEN '기타' THEN 7
+      ELSE 1000
+      END) AS flag
+  FROM g5_1_return
+  WHERE ret_ym LIKE '2022%'
+  GROUP BY ret_type
+) AS db1
+ORDER BY flag
+....
+SELECT ret_type, mo01, mo02, mo03, mo04, mo05, mo06, mo07, mo08, mo09, mo10, mo11, mo12, flag
+FROM (
+  SELECT ret_type
+    , SUM(IF(SUBSTR(ret_ym,6,2)='01', ret_count, 0)) AS mo01
+    , SUM(IF(SUBSTR(ret_ym,6,2)='02', ret_count, 0)) AS mo02
+    , SUM(IF(SUBSTR(ret_ym,6,2)='03', ret_count, 0)) AS mo03
+    , SUM(IF(SUBSTR(ret_ym,6,2)='04', ret_count, 0)) AS mo04
+    , SUM(IF(SUBSTR(ret_ym,6,2)='05', ret_count, 0)) AS mo05
+    , SUM(IF(SUBSTR(ret_ym,6,2)='06', ret_count, 0)) AS mo06
+    , SUM(IF(SUBSTR(ret_ym,6,2)='07', ret_count, 0)) AS mo07
+    , SUM(IF(SUBSTR(ret_ym,6,2)='08', ret_count, 0)) AS mo08
+    , SUM(IF(SUBSTR(ret_ym,6,2)='09', ret_count, 0)) AS mo09
+    , SUM(IF(SUBSTR(ret_ym,6,2)='10', ret_count, 0)) AS mo10
+    , SUM(IF(SUBSTR(ret_ym,6,2)='11', ret_count, 0)) AS mo11
+    , SUM(IF(SUBSTR(ret_ym,6,2)='12', ret_count, 0)) AS mo12
+    , (CASE ret_type
+          WHEN '투입' THEN 1
+          WHEN 'N02' THEN 2
+          WHEN 'L/ARM' THEN 3
+          WHEN 'SKID' THEN 4
+          WHEN 'A/ARM' THEN 5
+          WHEN 'B/MTG' THEN 6
+          WHEN '기타' THEN 7
+      ELSE 1000
+      END) AS flag
+  FROM g5_1_return
+  WHERE ret_ym LIKE '2022%'
+  GROUP BY ret_type
+) AS db1
+ORDER BY flag
+....
+
+// output from old database
+SELECT SQL_CALC_FOUND_ROWS mms_idx
+  , dta_mmi_no, dta_date 
+  , SUM(dta_value) AS output_sum 
+FROM g5_1_data_output_sum 
+WHERE mms_idx = '58' AND dta_date >= '2022-09-01' AND dta_date <= '2022-09-04' 
+GROUP BY dta_mmi_no, dta_date 
+ORDER BY dta_date DESC, dta_mmi_no
+....
+// now let's get the new one based on PgSQL -------------------------------------
+SELECT SQL_CALC_FOUND_ROWS mms_idx
+  , dta_mmi_no, dta_date 
+  , SUM(dta_value) AS output_sum 
+FROM g5_1_data_output_sum 
+WHERE mms_idx = '58' AND dta_date >= '2022-09-01' AND dta_date <= '2022-09-04' 
+GROUP BY dta_mmi_no, dta_date 
+ORDER BY dta_date DESC, dta_mmi_no
+....
+SELECT SUBSTRING(qrcode,8,2) AS item_type
+  , work_date
+  , COUNT(xry_idx) AS output_sum
+FROM g5_1_xray_inspection
+WHERE work_date >= '2022-04-01' AND work_date <= '2022-09-04' 
+GROUP BY item_type, work_date
+ORDER BY work_date DESC
+....
+SELECT SUBSTRING(qrcode,8,2) AS item_type
+  , SUBSTRING(end_time,1,10) AS work_date
+  , COUNT(xry_idx) AS output_sum
+FROM g5_1_xray_inspection
+WHERE end_time >= '2022-04-01 00:00:00' AND end_time <= '2022-09-04 23:59:59' 
+GROUP BY item_type, work_date
+ORDER BY work_date DESC, item_type
+....
+// remove the type RH, LH
+SELECT SUBSTRING(end_time,1,10) AS work_date
+  , COUNT(xry_idx) AS output_sum
+FROM g5_1_xray_inspection
+WHERE end_time >= '2022-04-01 00:00:00' AND end_time <= '2022-09-04 23:59:59' 
+GROUP BY work_date
+ORDER BY work_date DESC
+....

@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "925800";
+$sub_menu = "935110";
 include_once('./_common.php');
 
 if(!$member['mb_manager_yn']) {
@@ -15,59 +15,44 @@ function func_db_update($arr) {
 
     // print_r3($arr);
 
-    $sql_common = " com_idx	= '".$arr['com_idx']."',
-        imp_idx	            = '".$arr['imp_idx']."',
-        mms_idx	            = '".$arr['mms_idx']."',
-        cod_code	        = '".$arr['cod_code']."',
-        trm_idx_category    = '".$arr['trm_idx_category']."',
-        cod_offline_yn      = '".$arr['cod_offline_yn']."',
-        cod_quality_yn      = '".$arr['cod_quality_yn']."',
-        cod_group	        = '".$arr['cod_group']."',
-        cod_type	        = '".$arr['cod_type']."',
-        cod_interval	    = '".$arr['cod_interval']."',
-        cod_count	        = '".$arr['cod_count']."',
-        cod_count_limit     = '".$arr['cod_count_limit']."',
-        cod_min_sec	        = '".$arr['cod_min_sec']."',
-        cod_name	        = '".$arr['cod_name']."',
-        cod_memo	        = '".$arr['cod_memo']."'
+    $arr['ret_ym'] = $arr['ret_ym'].'-01';
+
+    $sql_common = " ret_ym	= '".$arr['ret_ym']."',
+        ret_type	        = '".$arr['ret_type']."',
+        ret_count	        = '".$arr['ret_count']."'
     ";
 
     // create if not exists, update for existing
-    $sql = "	SELECT cod_idx FROM {$g5['code_table']} 
-                WHERE mms_idx = '".$arr['mms_idx']."'
-                    AND cod_code = '".$arr['cod_code']."'
-                    AND cod_group = '".$arr['cod_group']."'
-                    AND cod_status = 'ok'
+    $sql = "	SELECT ret_idx FROM {$g5['return_table']} 
+                WHERE ret_ym = '".$arr['ret_ym']."' AND ret_type = '".$arr['ret_type']."'
     ";
     // print_r3($sql);
     $row = sql_fetch($sql,1);
     // 삭제 우선 처리
     if($arr['mnt_status']=='삭제') {
-        if($row['cod_idx']) {
-            $sql = "DELETE FROM {$g5['code_table']} WHERE cod_idx = '".$row['cod_idx']."' ";
+        if($row['ret_idx']) {
+            $sql = "DELETE FROM {$g5['return_table']} WHERE ret_idx = '".$row['ret_idx']."' ";
             if(!$demo) {sql_query($sql,1);}
             else {print_r3($sql);}
         }
     }
     else {
         // 없으면 등록
-        if(!$row['cod_idx']) {
-            $sql = "INSERT INTO {$g5['code_table']} SET
+        if(!$row['ret_idx']) {
+            $sql = "INSERT INTO {$g5['return_table']} SET
                     {$sql_common}
-                    , cod_send_type = 'email,push'
-                    , cod_status = 'ok'
-                    , cod_reg_dt = '".G5_TIME_YMDHIS."'
-                    , cod_update_dt = '".G5_TIME_YMDHIS."'
+                    , ret_reg_dt = '".G5_TIME_YMDHIS."'
+                    , ret_update_dt = '".G5_TIME_YMDHIS."'
             ";
             if(!$demo) {sql_query($sql,1);}
-            $row['cod_idx'] = sql_insert_id();
+            $row['ret_idx'] = sql_insert_id();
         }
         // 있으면 수정
         else {
-            $sql = "UPDATE {$g5['code_table']} SET
+            $sql = "UPDATE {$g5['return_table']} SET
                     {$sql_common}
-                    , cod_update_dt = '".G5_TIME_YMDHIS."'
-                    WHERE cod_idx = '".$row['cod_idx']."'
+                    , ret_update_dt = '".G5_TIME_YMDHIS."'
+                    WHERE ret_idx = '".$row['ret_idx']."'
             ";
             if(!$demo) {sql_query($sql,1);}
         }
@@ -75,7 +60,7 @@ function func_db_update($arr) {
         // print_r3($sql);
     }
  
-    return $row['cod_idx'];
+    return $row['ret_idx'];
 }
 }
 
@@ -129,8 +114,6 @@ include_once ('./_tail.php');
 ?>
 
 <?php
-$idx = 0;  // 엑셀 카운터
-
 $countgap = 10; // 몇건씩 보낼지 설정
 $sleepsec = 200;  // 백만분의 몇초간 쉴지 설정
 $maxscreen = 100; // 몇건씩 화면에 보여줄건지?
@@ -144,10 +127,10 @@ $idx = 0;
 
 // 첫번째 시트
 for ($x=0;$x<sizeof($allData);$x++) {
-    // print_r3($x);
     // print_r3(sizeof($allData[$x]));
     // print_r3($allData[$x]);
     for($i=0;$i<=sizeof($allData[$x]);$i++) {
+        // print_r3($i);
         // print_r3($allData[$x][$i]);
         if($demo) {
             if($i>4) {break;}
@@ -164,51 +147,70 @@ for ($x=0;$x<sizeof($allData);$x++) {
             }
         }
         // print_r3($list);
-        $arr['cod_idx'] = $list[0];      // 고유번호
-        $arr['com_idx'] = $list[1];     // 업체번호
-        $arr['imp_idx'] = $list[2];     // IMP
-        $arr['mms_idx'] = $list[3];     // mms
-        $arr['cod_code'] = $list[4];    // 코드(iMMS)
-        $arr['trm_idx_category'] = $list[5];    // 분류
-        $arr['cod_offline_yn'] = $list[6];      // 비가동영향
-        $arr['cod_quality_yn'] = $list[7];      // 품질영향
-        $arr['cod_group'] = $list[8];           // 코드그룹
-        $arr['cod_type'] = $list[9];            // 코드타입
-        $arr['cod_interval'] = $list[10];       // 주기시간
-        $arr['cod_count'] = $list[11];          // 횟수
-        $arr['cod_count_limit'] = $list[12];    // 하루최대
-        $arr['cod_min_sec'] = $list[13];        // 발생지연
-        $arr['cod_name'] = $list[14];           // 내용
-        $arr['cod_memo'] = $list[15];           // 메모(알림내용)
-        // print_r3($arr);
 
-        // 조건에 맞는 해당 라인만 추출
-        if( preg_match("/[-0-9A-Z]/",$arr['mms_idx'])
-            && preg_match("/[a-z]/",$arr['cod_type'])
-            && preg_match("/[-0-9]/",$arr['imp_idx']) )
-        {
-            // print_r3($arr);
-
-            // remove all characters which is not number
-            $arr['cod_idx'] = trim( preg_replace("/[^0-9]*/s", "", $arr['cod_idx']) );
-            $arr['com_idx'] = trim( preg_replace("/[^0-9]*/s", "", $arr['com_idx']) );
-            $arr['imp_idx'] = trim( preg_replace("/[^0-9]*/s", "", $arr['imp_idx']) );
-            $arr['mms_idx'] = trim( preg_replace("/[^0-9]*/s", "", $arr['mms_idx']) );    //MMS번호
-
-            // 데이터 입력&수정&삭제
-            $db_idx = func_db_update($arr);
-
-            $idx++;
+        // 월이 나타나는 라인의 항목을 일단 배열로 저장 (아래쪽에 해당 라인의 수량을 찾기 위해서)
+        if($list[1]=='工程' && !$mon_arr[0]) {
+            for($j=0;$j<=sizeof($list);$j++) {
+                // print_r3($list[$j]);
+                if(preg_match("/년/",$list[$j])) {
+                    $year_arr[] = preg_replace("/[^0-9]*/s", "", $list[$j]);
+                }
+                if(preg_match("/월/",$list[$j])) {
+                    $mon_arr[] = $j;
+                }
+            }
+            // print_r3($year_arr);
+            // print_r3($mon_arr);
+            $year = $year_arr[sizeof($year_arr)-1]; // 해당년도 추출
         }
-        else {continue;}
 
-
-        // 메시지 보임
-        if($arr['cod_code']) {
-            echo "<script> document.all.cont.innerHTML += '".$idx
-                    .". ".$arr['cod_code'].": ".$arr['cod_name']
-                    ." ----------->> 완료<br>'; </script>\n";
+        // 보은 첫 단어 등장시 설정하고 계속 유지하다가 $list[2]='보은 불량율'을 만나면 다시 0으로 reset
+        if(preg_match("/사외/",$list[1])) {
+            define('BOEUN',true);
         }
+        // $list[2]='보은 불량율'을 만나면 다시 0으로 reset
+        if(preg_match("/보은 불량율/",$list[2])) {
+            define('BOEUN_DONE',true);
+        }
+
+        // 해당 라인만 계산을 진행합니다.
+        if (defined('BOEUN')) {
+            // print_r3($list);
+            // print_r3($g5['set_return_item_value2']);
+            // 환경 설정단어에 포함된 항목만 추출
+            foreach($g5['set_return_item_value2'] as $k1=>$v1) {
+                // print_r3($k1.'=>'.$v1);
+                // 두번째 항목일 수도 있고 세번째일 수도 있음
+                if(preg_match("|".$k1."|",$list[2]) || preg_match("|".$k1."|",$list[3])) {
+                    // print_r3($list);
+                    $arr['ret_type_name'] = $list[3] ? $list[3]:$list[2];
+                    $arr['ret_type'] = $k1;
+                    for($j=0;$j<sizeof($mon_arr);$j++) {
+                        $arr['ret_ym'] = $year.'-'.sprintf("%02d",($j+1));
+                        $arr['ret_count'] = intval(preg_replace("/,/","",$list[$mon_arr[$j]]));
+                        // print_r3($arr);
+
+                        // 데이터 입력&수정&삭제
+                        $db_idx = func_db_update($arr);
+                        $idx++;
+
+                        // 메시지 보임
+                        if($arr['ret_ym']) {
+                            echo "<script> document.all.cont.innerHTML += '".$idx
+                                    .". ".$arr['ret_type_name']."(".$arr['ret_ym']."): ".number_format($arr['ret_count'])
+                                    ." ----------->> 완료<br>'; </script>\n";
+                        }
+
+                    }
+                }
+            }
+
+        }
+        // 계산을 종료하고 이후에는 루프를 빠져나감
+        if (defined('BOEUN_DONE')) {
+            break;
+        }
+
 
         flush();
         ob_flush();

@@ -87,7 +87,7 @@ $listall = '<a href="'.$board_adm_basic_url.'" class="ov_listall">전체목록</
             <th scope="col">부품명</th>
             <th scope="col">수량</th>
             <th scope="col">단가</th>
-            <th scope="col" style="width:50px;display:<?=(!$member['mb_manager_yn'])?'none':''?>;">수정</th>
+            <th scope="col" style="width:50px;;">수정</th>
         </tr>
         </thead>
         <tbody>

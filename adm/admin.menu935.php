@@ -6,7 +6,6 @@ $menu["menu935"] = array (
     array('935130', '예지보고서', ''.G5_USER_ADMIN_URL.'/stat/predict.php', 'predict'),
     array('935140', '정비및재고', ''.G5_USER_ADMIN_URL.'/stat/maintain.php', 'maintain'),
     array('935150', '조치보고서', ''.G5_USER_ADMIN_URL.'/stat/repair.php', 'repair'),
-    array('935160', 'UPH보고서', ''.G5_USER_ADMIN_URL.'/stat/uph.php', 'uph'),
     array('935900', '통계설정', ''.G5_USER_ADMIN_URL.'/stat/config_form.php', 'config_form')
 );
 ?>

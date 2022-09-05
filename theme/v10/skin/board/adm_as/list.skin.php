@@ -138,7 +138,7 @@ $listall = '<a href="'.$board_adm_basic_url.'" class="ov_listall">전체목록</
             <td class="td_mms_name"><?=$list[$i]['wr_6']?></td><!-- 전화번호 -->
             <td class="td_mms_name"><?=$list[$i]['wr_7']?></td><!-- 이메일 -->
             <td class="td_status"><?=$mb1['mb_name']?></td><!-- 등록자 -->
-            <td class="td_modify sv_use" style="display:<?=(!$member['mb_manager_yn'])?'none':''?>;"><!-- 수정 -->
+            <td class="td_modify sv_use"><!-- 수정 -->
                 <a href="<?php echo G5_USER_ADMIN_BBS_URL?>/write.php?w=u&bo_table=<?php echo $bo_table?>&wr_id=<?php echo $list[$i]['wr_id']?>&<?php echo $qstr?>">수정</a>
             </td>
         </tr>
@@ -161,7 +161,6 @@ $listall = '<a href="'.$board_adm_basic_url.'" class="ov_listall">전체목록</
             <li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><button type="submit" name="btn_submit" value="선택이동" onclick="document.pressed=this.value" class="btn btn_admin"><i class="fa fa-arrows" aria-hidden="true"></i> 선택이동</button></li>
             <?php } ?>
             <?php } ?>
-            <?php if ($admin_href) { ?><li style="display:<?php if(auth_check($auth[$sub_menu],"d",1)) echo 'none';?>"><a href="<?php echo $admin_href ?>" class="btn_admin btn btn_company"><i class="fa fa-list-alt" aria-hidden="true"></i> 업체검색</a></li><?php } ?>
             <?php if ($list_href) { ?><li><a href="<?php echo $list_href ?>" class="btn_b01 btn"><i class="fa fa-list" aria-hidden="true"></i> 목록</a></li><?php } ?>
             <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn_b02 btn"><i class="fa fa-pencil" aria-hidden="true"></i> 등록</a></li><?php } ?>
         </ul>
