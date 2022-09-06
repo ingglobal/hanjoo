@@ -54,7 +54,7 @@ for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
         $row['dta_value'] += $row['position_'.$j];
     }
     if($_REQUEST['type1'] == 'ng') {
-        $row['dta_value'] = ($row['result']=='OK') ? 0:10;
+        $row['dta_value'] = ($row['result']=='OK') ? 0:1;
     }
     // 좌표에 표현할 value
     $dta1[$i]['x'] = $row['timestamp']*1000;

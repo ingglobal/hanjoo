@@ -11,7 +11,7 @@ if(!$config['cf_mobile_faq_skin']) $config['cf_mobile_faq_skin'] = "basic";
 $g5['title'] = '통합설비관리설정';
 include_once('./_top_menu_setting.php');
 include_once('./_head.php');
-// echo $g5['container_sub_title'];
+echo $g5['container_sub_title'];
 
 $pg_anchor = '<ul class="anchor">
     <li><a href="#anc_cf_default">통합설비관리설정</a></li>

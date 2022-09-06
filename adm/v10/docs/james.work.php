@@ -1489,18 +1489,61 @@ GROUP BY item_type, work_date
 ORDER BY work_date DESC
 ....
 SELECT SUBSTRING(qrcode,8,2) AS item_type
-  , SUBSTRING(end_time,1,10) AS work_date
+  , SUBSTRING(end_time,1,10) AS end_date
   , COUNT(xry_idx) AS output_sum
 FROM g5_1_xray_inspection
 WHERE end_time >= '2022-04-01 00:00:00' AND end_time <= '2022-09-04 23:59:59' 
-GROUP BY item_type, work_date
-ORDER BY work_date DESC, item_type
+GROUP BY item_type, end_date
+ORDER BY end_date DESC, item_type
+....
+// include the item_type of Regular and Electric viechel.
+SELECT SUBSTRING(end_time,1,10) AS end_date
+  , SUBSTRING(qrcode,7,1) AS item_type
+  , SUBSTRING(qrcode,8,2) AS item_lhrh
+  , COUNT(xry_idx) AS output_sum
+FROM g5_1_xray_inspection
+WHERE end_time >= '2022-04-01 00:00:00' AND end_time <= '2022-09-04 23:59:59' 
+GROUP BY end_date, item_type, item_lhrh
+ORDER BY end_date DESC, item_type, item_lhrh
 ....
 // remove the type RH, LH
-SELECT SUBSTRING(end_time,1,10) AS work_date
+SELECT SUBSTRING(end_time,1,10) AS end_date
   , COUNT(xry_idx) AS output_sum
 FROM g5_1_xray_inspection
 WHERE end_time >= '2022-04-01 00:00:00' AND end_time <= '2022-09-04 23:59:59' 
-GROUP BY work_date
-ORDER BY work_date DESC
+GROUP BY end_date
+ORDER BY end_date DESC
 ....
+
+
+// start_time and end_time baseed on end_time field.
+SELECT SUBSTRING(end_time,1,10) AS end_date
+  , SUBSTRING(qrcode,7,1) AS item_type
+  , SUBSTRING(qrcode,8,2) AS item_lhrh
+  , min(end_time) AS dta_ymdhis_min
+  , max(end_time) AS dta_ymdhis_max
+  , SUBSTRING(min(end_time),11,9) AS dta_start_his
+  , SUBSTRING(max(end_time),11,9) AS dta_end_his
+FROM g5_1_xray_inspection 
+WHERE end_time >= '2022-09-05 00:00:00' AND end_time <= '2022-09-05 23:59:59'
+
+
+SELECT dta_mmi_no, dta_date, dta_dt 
+  , min(dta_dt) 
+  , max(dta_dt) 
+  , FROM_UNIXTIME(min(dta_dt),'%Y-%m-%d %H:%i:%s') AS dta_ymdhis_min 
+  , FROM_UNIXTIME(max(dta_dt),'%Y-%m-%d %H:%i:%s') AS dta_ymdhis_max 
+  , FROM_UNIXTIME(min(dta_dt),'%H%i%s') AS dta_start_his 
+  , FROM_UNIXTIME(max(dta_dt),'%H%i%s') AS dta_end_his 
+FROM g5_1_data_output_58 
+WHERE dta_mmi_no = '' AND dta_date IN ('')
+....
+SELECT work_date AS dta_date
+  , SUBSTRING(qrcode,7,1) AS item_type
+  , SUBSTRING(qrcode,8,2) AS item_lhrh
+  , min(end_time) AS dta_ymdhis_min
+  , max(end_time) AS dta_ymdhis_max
+  , SUBSTRING(min(end_time),11,9) AS dta_start_his
+  , SUBSTRING(max(end_time),11,9) AS dta_end_his
+FROM g5_1_xray_inspection 
+WHERE end_time >= '2022-09-05 00:00:00' AND end_time <= '2022-09-05 23:59:59'

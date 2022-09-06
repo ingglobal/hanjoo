@@ -178,11 +178,11 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 <!-- //리스트 테이블 -->
 
 <div class="btn_fixed_top">
-    <a href="javascript:alert('작업중입니다.')" id="btn_excel_upload" class="btn btn_01" style="margin-right:50px;">엑셀등록</a>
+    <a href="javascript:alert('작업중입니다.')" id="btn_excel_upload" class="btn btn_01" style="margin-right:0px;">엑셀등록</a>
     <?php if(!auth_check($auth[$sub_menu],"d",1)) { ?>
     <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
-    <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn">
-    <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01">추가하기</a>
+    <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
+    <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a>
     <?php } ?>
 </div>
 

@@ -7,7 +7,7 @@ auth_check($auth[$sub_menu],"r");
 
 // 변수 설정, 필드 구조 및 prefix 추출
 $pre = 'dta';
-$qstr .= '&ser_mms_idx='.$ser_mms_idx.'&st_date='.$st_date.'&en_date='.$en_date.'&st_time='.$st_time.'&en_time='.$en_time; // 추가로 확장해서 넘겨야 할 변수들
+$qstr .= '&ser_item_type='.$ser_item_type.'&st_date='.$st_date.'&en_date='.$en_date.'&st_time='.$st_time.'&en_time='.$en_time; // 추가로 확장해서 넘겨야 할 변수들
 
 // st_date, en_date
 $st_date = $st_date ?: date("Y-m-01",G5_SERVER_TIME);
@@ -163,10 +163,17 @@ $where[] = " (1) ";
 if ($stx && $sfl) {
     switch ($sfl) {
 		case ( $sfl == $pre.'_id' || $sfl == $pre.'_idx' || $sfl == 'machine_id' || $sfl == 'result' ) :
-            $where[] = " ({$sfl} = '{$stx}') ";
+            $where[] = " {$sfl} = '{$stx}' ";
             break;
 		case ($sfl == $pre.'_hp') :
             $where[] = " REGEXP_REPLACE(mb_hp,'-','') LIKE '".preg_replace("/-/","",$stx)."' ";
+            break;
+		case ($sfl == 'item_lhrh') :
+            $sql_select = ", SUBSTRING(qrcode,8,2) AS item_lhrh";
+            $sql_group = ", item_lhrh";
+            $sql_order = ", item_lhrh";
+            $where[] = " SUBSTRING(qrcode,8,2) = '".trim($stx)."' ";
+            $sql_search2 .= " AND SUBSTRING(qrcode,8,2) = '".trim($stx)."' ";
             break;
 		case ($sfl == 'dta_more') :
             $where[] = " dta_value >= '".$stx."' ";
@@ -179,17 +186,26 @@ if ($stx && $sfl) {
             $where[] = " dta_value >= '".$stxs[0]."' AND dta_value <= '".$stxs[1]."' ";
             break;
         default :
-            $where[] = " ({$sfl} LIKE '%{$stx}%') ";
+            $where[] = " {$sfl} LIKE '%{$stx}%' ";
             break;
     }
 }
 
+// 사양
+if ($ser_item_type) {
+    $sql_select .= ", SUBSTRING(qrcode,7,1) AS item_type";
+    $sql_group .= ", item_type";
+    $sql_order .= ", item_type";
+    $where[] = " SUBSTRING(qrcode,7,1) = '".trim($ser_item_type)."' ";
+    $sql_search2 .= " AND SUBSTRING(qrcode,7,1) = '".trim($ser_item_type)."' ";
+}
+
 // 기간 검색
 if ($st_date) {
-    $where[] = " end_time >= '".$st_datetime."' ";
+    $where[] = " work_date >= '".$st_date."' ";
 }
 if ($en_date) {
-    $where[] = " end_time <= '".$en_datetime."' ";
+    $where[] = " work_date <= '".$en_date."' ";
 }
 
 // 최종 WHERE 생성
@@ -197,18 +213,19 @@ if ($where)
     $sql_search = ' WHERE '.implode(' AND ', $where);
 
 
-$sql = " SELECT SUBSTRING(qrcode,8,2) AS item_type
-            , SUBSTRING(end_time,1,10) AS work_date
+$sql = " SELECT work_date
+            {$sql_select}
             , COUNT(xry_idx) AS output_sum
 		{$sql_common}
 		{$sql_search}
-        GROUP BY item_type, work_date
-        ORDER BY work_date DESC, item_type
+        GROUP BY work_date{$sql_group}
+        ORDER BY work_date DESC{$sql_order}
 ";
-echo $sql;
+// echo $sql;
 $result = sql_query($sql,1);
 
 
+$listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
 
 
@@ -227,8 +244,18 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_JS_URL.'/timepicker
 add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/timepicker/jquery.timepicker.js"></script>', 2);
 ?>
 
+<div class="local_ov01 local_ov">
+    <?php echo $listall ?>
+</div>
+
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
+<select name="ser_item_type" id="ser_item_type">
+    <option value="">전체사양</option>
+    <option value="R" <?php echo get_selected('ser_item_type', 'R'); ?>>일반사양(R)</option>
+    <option value="E" <?php echo get_selected('ser_item_type', 'E'); ?>>EV사양(E)</option>
+</select>
+<script>$('select[name=ser_item_type]').val("<?=$ser_item_type?>").attr('selected','selected');</script>
 <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;">
 <!-- <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00"> -->
 ~
@@ -236,6 +263,8 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 <!-- <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00"> -->
 
 <select name="sfl" id="sfl">
+    <option value="">전체</option>
+    <option value="item_lhrh" <?php echo get_selected($sfl, 'item_lhrh'); ?>>LH,RH</option>
     <option value="result" <?php echo get_selected($sfl, 'result'); ?>>결과(OK,NG)</option>
     <option value="machine_id" <?php echo get_selected($sfl, 'machine_id'); ?>>설비ID(56,60)</option>
 </select>
@@ -247,7 +276,6 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 
 <div class="local_desc01 local_desc" style="display:no ne;">
     <p>시간당 생산보고서입니다. (UPH 혹은 SPH 통계입니다.)</p>
-    <p>설비를 선택하시고 기종번호 또는 교대번호를 입력하시고 검색해 주시면 되겠습니다.</p>
     <p>공제시간은 교대및목표설정 하위 메뉴인 공제시간설정 페이지를 참고합니다. 필요 시 해당 페이지 설정값을 조정해 주시기 바랍니다.</p>
 </div>
 
@@ -258,8 +286,8 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
     <thead>
     <tr>
         <th scope="col">날짜</th>
-        <th scope="col">기종</th>
-        <th scope="col">품명</th>
+        <th scope="col">사양</th>
+        <th scope="col" style="display:<?=($sfl=='item_lhrh'&&$stx)?'':'none'?>;">LH/RH</th>
         <th scope="col">생산수량(타)</th>
         <th scope="col">시작시간</th>
         <th scope="col">종료시간</th>
@@ -267,26 +295,28 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         <th scope="col">공제(분)</th>
         <th scope="col">실작업시간(시)</th>
         <th scope="col">비가동시간(시)</th>
-        <th scope="col">SPH(비가동포함)</th>
-        <th scope="col">SPH(비가동제외)</th>
+        <th scope="col">UPH(비가동포함)</th>
+        <th scope="col">UPH(비가동제외)</th>
     </tr>
     </thead>
     <tbody>
     <?php
     for ($i=0; $row=sql_fetch_array($result); $i++)
     {
+        // print_r2($row);
         // 시작시간, 종료시간
-        $sql2 = "   SELECT dta_mmi_no, dta_date, dta_dt
-                        , min(dta_dt)
-                        , max(dta_dt)
-                        , FROM_UNIXTIME(min(dta_dt),'%Y-%m-%d %H:%i:%s') AS dta_ymdhis_min
-                        , FROM_UNIXTIME(max(dta_dt),'%Y-%m-%d %H:%i:%s') AS dta_ymdhis_max
-                        , FROM_UNIXTIME(min(dta_dt),'%H%i%s') AS dta_start_his
-                        , FROM_UNIXTIME(max(dta_dt),'%H%i%s') AS dta_end_his
-                    FROM g5_1_data_output_".$ser_mms_idx."
-                    WHERE dta_mmi_no = '".$row['dta_mmi_no']."'
-                        AND dta_date IN ('".$row['dta_date']."')
+        $sql2 = "   SELECT work_date AS dta_date
+                        , SUBSTRING(qrcode,7,1) AS item_type
+                        , SUBSTRING(qrcode,8,2) AS item_lhrh
+                        , min(end_time) AS dta_ymdhis_min
+                        , max(end_time) AS dta_ymdhis_max
+                        , SUBSTRING(min(end_time),11,9) AS dta_start_his
+                        , SUBSTRING(max(end_time),11,9) AS dta_end_his
+                    FROM g5_1_xray_inspection
+                    WHERE work_date = '".$row['work_date']."'
+                        {$sql_search2}
         ";
+        // echo $sql2.'<br>';
         $row2 = sql_fetch($sql2,1);
         $row['period'] = $row2;
         $row['period']['dta_ymdhis_max_display'] = $row['period']['dta_ymdhis_max'];    // 목록에 종료시간 표시(24기간 경계 때문에 중간에 값이 바뀔 수 있어서 따로 정의함)
@@ -558,14 +588,19 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         $row['downtimehour'] = round($row['downtime'][$i]/3600,2); // 비가동시간(시)
 
         // 링크
-        $row['ahref'] = '<a href="?'.$qstr.'&sfl=dta_mmi_no&stx='.$row['dta_mmi_no'].'">';
+        $row['ahref'] = '<a href="?'.$qstr.'&sfl=item_lhrh&stx='.$row['item_lhrh'].'">';
+        
+        // 사양명
+        $row['item_type'] = $ser_item_type ? $row['item_type'] : '전체';
         
         $bg = 'bg'.($i%2);
     ?>
     <tr class="<?php echo $bg; ?> tr_<?=$row['dmn_status']?>">
-        <td><?=$row['dta_date']?></td><!-- 날짜 -->
-        <td><?=$row['ahref'].$row['dta_mmi_no']?></a></td><!-- 기종번호 -->
-        <td><?=$row['ahref'].$mmi_name[$row['mms_idx']][$row['dta_mmi_no']]?></a></td><!-- 품명 -->
+        <td><?=$row['work_date']?></td><!-- 날짜 -->
+        <td><?=$row['ahref'].$row['item_type']?></a></td><!-- 사양 -->
+        <td style="display:<?=($sfl=='item_lhrh'&&$stx)?'':'none'?>;"><!-- LH/RH -->
+            <?=$row['ahref'].$row['item_lhrh']?></a>
+        </td>
         <td class="td_right pr_10"><?=number_format($row['output_sum'])?></td><!-- 생산수량(타) -->
         <td><?=substr($row['period']['dta_ymdhis_min'],5)?></td><!-- 시작시간 -->
         <td><?=substr($row['period']['dta_ymdhis_max_display'],5)?></td><!-- 종료시간 -->
