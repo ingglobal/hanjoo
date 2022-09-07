@@ -161,6 +161,11 @@ $(document).on('change','#ser_mms_idx',function(e){
 <input type="submit" class="btn_submit" value="검색">
 </form>
 
+<div class="local_desc01 local_desc" style="display:no ne;">
+    <p>긴급점검, 고장 등으로 설비가 비가동될 때 그 시간을 별도로 설정하고 관리합니다.</p>
+    <p>UPH 계산 시 공제 시간에 포함되는 포함됩니다.</p>
+</div>
+
 <form name="form01" id="form01" action="./manual_downtime_list_update.php" onsubmit="return form01_submit(this);" method="post" autocomplete="off">
 <input type="hidden" name="sst" value="<?php echo $sst ?>">
 <input type="hidden" name="sod" value="<?php echo $sod ?>">

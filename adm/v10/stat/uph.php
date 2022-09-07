@@ -24,48 +24,48 @@ include_once('./_top_menu_output.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
-// Get all the mms_idx values to make them optionf for selection.
-$sql2 = "   SELECT mms_idx, mms_name
-            FROM {$g5['mms_table']}
-            WHERE com_idx = '".$_SESSION['ss_com_idx']."'
-            ORDER BY mms_idx       
-";
-// echo $sql2.'<br>';
-$result2 = sql_query($sql2,1);
-for ($i=0; $row2=sql_fetch_array($result2); $i++) {
-    // print_r2($row2);
-    $mms[$row2['mms_idx']] = $row2['mms_name'];
-}
+// // Get all the mms_idx values to make them optionf for selection.
+// $sql2 = "   SELECT mms_idx, mms_name
+//             FROM {$g5['mms_table']}
+//             WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+//             ORDER BY mms_idx       
+// ";
+// // echo $sql2.'<br>';
+// $result2 = sql_query($sql2,1);
+// for ($i=0; $row2=sql_fetch_array($result2); $i++) {
+//     // print_r2($row2);
+//     $mms[$row2['mms_idx']] = $row2['mms_name'];
+// }
+// 
+// // 쪼개서 검색
+// $sql = "SELECT table_name, table_rows, auto_increment
+//             , SUBSTRING_INDEX (SUBSTRING_INDEX(table_name,'_',-3), '_', 1) AS mms_idx
+//             , SUBSTRING_INDEX (SUBSTRING_INDEX(table_name,'_',-2), '_', 1) AS dta_type
+//             , SUBSTRING_INDEX (SUBSTRING_INDEX(table_name,'_',-1), '_', 1) AS dta_no
+//         FROM Information_schema.tables
+//         WHERE TABLE_SCHEMA = '".G5_MYSQL_DB."'
+//             AND TABLE_NAME REGEXP 'g5_1_data_output_[0-9]{1,4}$'
+//         ORDER BY convert(mms_idx, decimal), convert(dta_type, decimal), convert(dta_no, decimal)
+// ";
+// // echo $sql.'<br>';
+// $rs = sql_query($sql,1);
+// for($i=0;$row=sql_fetch_array($rs);$i++) {
+//     // print_r2($row);
+//     // echo ($i+1).'<br>';
+//     $row['ar'] = explode("_",$row['table_name']);
+//     // print_r2($row['ar']);
+//     // 해당 업체 것만 추출, 아니면 통과
+//     if($mms[$row['ar'][4]] && in_array($row['dta_no'],array(63,64))) {
+//         // echo $mms[$row['ar'][4]].' / ';
+//         // echo $g5['set_data_type'][$row['ar'][5]].' / ';
+//         // echo $row['ar'][4].'_'.$row['ar'][5].'_'.$row['ar'][6].' (mms_idx='.$row['ar'][4].'/.dat_type='.$row['ar'][5].'/dat_no='.$row['ar'][6].')<br>';
+//         $ser_mms_idx = ($ser_mms_idx) ?: $row['ar'][4];
+//     }
+// }
+// // echo $ser_mms_idx.'<br>';
 
-// 쪼개서 검색
-$sql = "SELECT table_name, table_rows, auto_increment
-            , SUBSTRING_INDEX (SUBSTRING_INDEX(table_name,'_',-3), '_', 1) AS mms_idx
-            , SUBSTRING_INDEX (SUBSTRING_INDEX(table_name,'_',-2), '_', 1) AS dta_type
-            , SUBSTRING_INDEX (SUBSTRING_INDEX(table_name,'_',-1), '_', 1) AS dta_no
-        FROM Information_schema.tables
-        WHERE TABLE_SCHEMA = '".G5_MYSQL_DB."'
-            AND TABLE_NAME REGEXP 'g5_1_data_output_[0-9]{1,4}$'
-        ORDER BY convert(mms_idx, decimal), convert(dta_type, decimal), convert(dta_no, decimal)
-";
-// echo $sql.'<br>';
-$rs = sql_query($sql,1);
-for($i=0;$row=sql_fetch_array($rs);$i++) {
-    // print_r2($row);
-    // echo ($i+1).'<br>';
-    $row['ar'] = explode("_",$row['table_name']);
-    // print_r2($row['ar']);
-    // 해당 업체 것만 추출, 아니면 통과
-    if($mms[$row['ar'][4]]) {
-        // echo $mms[$row['ar'][4]].' / ';
-        // echo $g5['set_data_type'][$row['ar'][5]].' / ';
-        // echo $row['ar'][4].'_'.$row['ar'][5].'_'.$row['ar'][6].' (mms_idx='.$row['ar'][4].'/.dat_type='.$row['ar'][5].'/dat_no='.$row['ar'][6].')<br>';
-        $ser_mms_idx = ($ser_mms_idx) ?: $row['ar'][4];
-    }
-}
-// echo $ser_mms_idx.'<br>';
-
-if(!$ser_mms_idx)
-    alert('설비정보가 존재하지 않습니다.');
+// if(!$ser_mms_idx)
+//     alert('설비정보가 존재하지 않습니다.');
 
 
 // Get the mmi_nos for each mms
@@ -90,6 +90,7 @@ for($i=0;$row=sql_fetch_array($rs);$i++) {
 
 // 공제 get offwork time
 // 전체기간 설정이 있는 경우는 마지막 부분에서 돌면서 없는 날짜 목표를 채워줍니다.
+$ser_mms_idxs = $ser_mms_idx ? $ser_mms_idx.',0' : '0';
 $sql = "SELECT mms_idx, off_idx, off_period_type
         , off_start_time AS db_off_start_time
         , off_end_time AS db_off_end_time
@@ -104,12 +105,11 @@ $sql = "SELECT mms_idx, off_idx, off_period_type
             AND off_status IN ('ok')
             AND off_end_time >= '".$st_timestamp."'
             AND off_start_time <= '".$en_timestamp."'
-            AND mms_idx IN (".$ser_mms_idx.",0)
+            AND mms_idx IN (".$ser_mms_idxs.")
         ORDER BY mms_idx DESC, off_period_type, off_start_time
 ";
 // echo $sql.'<br>';
 $rs = sql_query($sql,1);
-$byunit = 86400;
 for($i=0;$row=sql_fetch_array($rs);$i++){
     // print_r2($row);
     $offwork[$i]['mms_idx'] = $row['mms_idx'];
@@ -162,7 +162,7 @@ $where[] = " (1) ";
 
 if ($stx && $sfl) {
     switch ($sfl) {
-		case ( $sfl == $pre.'_id' || $sfl == $pre.'_idx' || $sfl == 'machine_id' || $sfl == 'result' ) :
+		case ( $sfl == $pre.'_id' || $sfl == $pre.'_idx' || $sfl == 'result' ) :
             $where[] = " {$sfl} = '{$stx}' ";
             break;
 		case ($sfl == $pre.'_hp') :
@@ -189,6 +189,13 @@ if ($stx && $sfl) {
             $where[] = " {$sfl} LIKE '%{$stx}%' ";
             break;
     }
+}
+
+// 설비, 56=ADR1호기(로봇1=63), 60=ADR2호기(로봇2=64)
+$ser_mms_idx_array = array(63=>56,64=>60);
+// print_r2($ser_mms_idx_array);
+if ($ser_mms_idx) {
+    $where[] = " machine_id = '".$ser_mms_idx_array[$ser_mms_idx]."' ";
 }
 
 // 사양
@@ -250,6 +257,27 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
+<select name="ser_mms_idx" id="ser_mms_idx">
+    <option value="">전체설비</option>
+    <?php
+    // 해당 범위 안의 모든 설비를 select option으로 만들어서 선택할 수 있도록 한다.
+    // Get all the mms_idx values to make them optionf for selection.
+    $sql2 = "SELECT mms_idx, mms_name
+            FROM {$g5['mms_table']}
+            WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+                AND mms_idx IN (63,64)
+            ORDER BY mms_idx
+    ";
+    // echo $sql2.'<br>';
+    $result2 = sql_query($sql2,1);
+    for ($i=0; $row2=sql_fetch_array($result2); $i++) {
+        // print_r2($row2);
+        echo '<option value="'.$row2['mms_idx'].'" '.get_selected($ser_mms_idx, $row2['mms_idx']).'>'.$row2['mms_name'].'</option>';
+    }
+    ?>
+</select>
+<script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
+
 <select name="ser_item_type" id="ser_item_type">
     <option value="">전체사양</option>
     <option value="R" <?php echo get_selected('ser_item_type', 'R'); ?>>일반사양(R)</option>
@@ -266,7 +294,6 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
     <option value="">전체</option>
     <option value="item_lhrh" <?php echo get_selected($sfl, 'item_lhrh'); ?>>LH,RH</option>
     <option value="result" <?php echo get_selected($sfl, 'result'); ?>>결과(OK,NG)</option>
-    <option value="machine_id" <?php echo get_selected($sfl, 'machine_id'); ?>>설비ID(56,60)</option>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
@@ -276,7 +303,7 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 
 <div class="local_desc01 local_desc" style="display:no ne;">
     <p>시간당 생산보고서입니다. (UPH 혹은 SPH 통계입니다.)</p>
-    <p>공제시간은 교대및목표설정 하위 메뉴인 공제시간설정 페이지를 참고합니다. 필요 시 해당 페이지 설정값을 조정해 주시기 바랍니다.</p>
+    <p>공제시간은 교대및목표설정 하위 메뉴인 공제시간설정 페이지를 참고합니다. 필요 시 해당 페이지 설정값을 조정해 주시기 바랍니다. <a href="../system/offwork_list.php">[바로가기]</a></p>
 </div>
 
 
@@ -304,14 +331,14 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
     for ($i=0; $row=sql_fetch_array($result); $i++)
     {
         // print_r2($row);
-        // 시작시간, 종료시간
+        // 시작시간(dta_start_his HHIISS), 종료시간(dta_end_his HHIISS), 시간형식은 숫자만(크기 비교를 위해서)
         $sql2 = "   SELECT work_date AS dta_date
                         , SUBSTRING(qrcode,7,1) AS item_type
                         , SUBSTRING(qrcode,8,2) AS item_lhrh
                         , min(end_time) AS dta_ymdhis_min
                         , max(end_time) AS dta_ymdhis_max
-                        , SUBSTRING(min(end_time),11,9) AS dta_start_his
-                        , SUBSTRING(max(end_time),11,9) AS dta_end_his
+                        , REPLACE(SUBSTRING(min(end_time),11,9),':','') AS dta_start_his
+                        , REPLACE(SUBSTRING(max(end_time),11,9),':','') AS dta_end_his
                     FROM g5_1_xray_inspection
                     WHERE work_date = '".$row['work_date']."'
                         {$sql_search2}
@@ -428,7 +455,9 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 
         // echo $row['period']['dta_start_his'].' / '.$row['period']['dta_end_his'].' 1차<br>';
         // echo $row['period']['dta_start_his2'].' / '.$row['period']['dta_end_his2'].' 2차<br>';
-        // // 비가동(downtime) 추출 1차 (24시 전)
+        // 비가동(downtime) 추출 1차 (24시 전)
+        $sql_downtime_mms_idxs = $ser_mms_idx ? " AND mms_idx = '".$ser_mms_idx."'" : "";
+
         $row['downtime_start'] = strtotime($row['period']['dta_ymdhis_min']);
         $row['downtime_end'] = strtotime($row['period']['dta_ymdhis_max']);
         // echo  $row['downtime_start'].' ('.$row['period']['dta_ymdhis_min'].') 1차 시작시점<br>';
@@ -445,9 +474,9 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
                 , FROM_UNIXTIME( GREATEST('".$row['downtime_start']."', dta_start_dt ) ,'%H%i%s') AS dta_start_his
                 , FROM_UNIXTIME( LEAST('".$row['downtime_end']."', dta_end_dt ) ,'%H%i%s') AS dta_end_his
                 FROM {$g5['data_downtime_table']}
-                WHERE mms_idx = '".$ser_mms_idx."'
-                    AND dta_end_dt >= '".$row['downtime_start']."'
+                WHERE dta_end_dt >= '".$row['downtime_start']."'
                     AND dta_start_dt <= '".$row['downtime_end']."'
+                    {$sql_downtime_mms_idxs}
                 ORDER BY dta_start_dt
         ";
         // echo $sql2.'<br>';
@@ -522,9 +551,9 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
                     , FROM_UNIXTIME( GREATEST('".$row['downtime_start']."', dta_start_dt ) ,'%H%i%s') AS dta_start_his
                     , FROM_UNIXTIME( LEAST('".$row['downtime_end']."', dta_end_dt ) ,'%H%i%s') AS dta_end_his
                     FROM {$g5['data_downtime_table']}
-                    WHERE mms_idx = '".$ser_mms_idx."'
-                        AND dta_end_dt >= '".$row['downtime_start']."'
+                    WHERE dta_end_dt >= '".$row['downtime_start']."'
                         AND dta_start_dt <= '".$row['downtime_end']."'
+                        {$sql_downtime_mms_idxs}
                     ORDER BY dta_start_dt
             ";
             // echo $sql2.'<br>';

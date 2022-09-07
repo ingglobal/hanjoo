@@ -26,6 +26,8 @@ if($_POST['off_period_type']) {
 }
 $_POST['off_start_time'] = strtotime($_POST['off_start_date'].' '.$_POST['off_start_his']);
 $_POST['off_end_time'] = strtotime($_POST['off_end_date'].' '.$_POST['off_end_his']);
+// echo $_POST['off_start_date'].' '.$_POST['off_start_his'].'<br>';
+// echo $_POST['off_end_date'].' '.$_POST['off_end_his'].'<br>';
 
 
 // 공통쿼리
@@ -59,7 +61,7 @@ else if ($w == 'u') {
 					, ".$pre."_update_dt = '".G5_TIME_YMDHIS."'
 				WHERE ".$pre."_idx = '".${$pre."_idx"}."' 
 	";
-    //echo $sql.'<br>';
+    // echo $sql.'<br>';
     sql_query($sql,1);
         
 }
@@ -95,8 +97,7 @@ foreach($_REQUEST as $key => $value ) {
 	}
 }
 
-//exit;
-
+// exit;
 if ($w == 'u') {
     $qstr .= '&ser_mms_idx='.$ser_mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 }

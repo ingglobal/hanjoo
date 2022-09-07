@@ -89,7 +89,7 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 // arr0:name, arr1:colspan, arr2:rowspan, arr3: sort
 $items1 = array(
     "mms_idx"=>array("설비",0,0,0)
-    ,"off_name"=>array("비가동명칭",0,0,0)
+    ,"off_name"=>array("공제시간명칭",0,0,0)
     ,"off_period"=>array("적용기간",0,0,0)
     ,"off_reg_dt"=>array("등록일시",0,0,1)
 );
@@ -146,8 +146,9 @@ $items1 = array(
 </form>
 
 <div class="local_desc01 local_desc" style="display:no ne;">
-    <p>전체 설비 비가동 시간 및 개별 설비 비가동 시간을 따로 설정할 수 있습니다.</p>
-    <p>개별 설비에 적용되는 비가동 시간이 우선 적용됩니다.</p>
+    <p>점심시간, 휴식시간, 교대시간과 같은 전체적으로 작업을 하지 않는 시간을 설정합니다.</p>
+    <p>설비별로 따로 공제시간을 설정할 수 있습니다. 설비를 선택하지 않으면 모든 설비에 대해 공통 적용됩니다.</p>
+    <p>중복 설정인 경우는 설비별 설정이 우선합니다.</p>
 </div>
 
 <form name="form01" id="form01" action="./<?=$g5['file_name']?>_update.php" onsubmit="return form01_submit(this);" method="post">
@@ -226,7 +227,7 @@ $items1 = array(
                 }
                 else if($k1=='mms_idx') {
                     $row['mms']['mms_name'] = ($row[$k1]==0) ? '전체설비' : $row['mms']['mms_name'];
-                    $list[$k1] = '<a href="./shift_list.php?sfl=off.mms_idx&stx='.$row[$k1].'">'.$row[$k1].'  <span class="font_size_8">'.$row['mms']['mms_name'].'</span></a>';
+                    $list[$k1] = '<a href="./shift_list.php?sfl=off.mms_idx&stx='.$row[$k1].'">'.$row['mms']['mms_name'].'  <span class="font_size_6">'.$row[$k1].'</span></a>';
                 }
                 // 적용기간
                 else if($k1=='off_period') {

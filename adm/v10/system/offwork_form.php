@@ -21,10 +21,12 @@ if ($w == '') {
     
     ${$pre}['com_idx'] = $_SESSION['ss_com_idx'];
     ${$pre}['mms_idx'] = 0;
-    ${$pre}['off_period_type'] = 1;
+    ${$pre}[$pre.'_period_type'] = 0;
     // ${$pre}['mms_idx'] = rand(1,4);
     ${$pre}[$pre.'_start_time'] = G5_SERVER_TIME;
     ${$pre}[$pre.'_end_time'] = G5_SERVER_TIME+3600*3;
+    ${$pre}[$pre.'_start_dt'] = date("Y-m-d H:i:00");
+    ${$pre}[$pre.'_end_dt'] = date("Y-m-d H:i:00",time()+86400*3);
     ${$pre}[$pre.'_status'] = 'ok';
 }
 else if ($w == 'u' || $w == 'c') {
@@ -39,6 +41,12 @@ else if ($w == 'u' || $w == 'c') {
 }
 else
     alert('제대로 된 값이 넘어오지 않았습니다.');
+
+// 적용기간 선택
+${$pre.'_period_type_'.${$pre}[$pre.'_period_type']} = ' checked';
+// print_r3(${$pre}[$pre.'_period_type']);
+// print_r3($off_period_type_0);
+// print_r3(${$pre.'_period_type_'.${$pre}[$pre.'_period_type']});
 
 // 날짜 표현
 ${$pre}[$pre.'_start_date'] = date("Y-m-d",${$pre}[$pre.'_start_time']);
@@ -59,16 +67,6 @@ include_once('./_top_menu_setting.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
-// 각 항목명 및 항목 설정값 정의, 형식: 항목명, required, 폭, 단위(개, 개월, 시, 분..), 설명, tr숨김, 한줄두항목여부
-$items1 = array(
-    "com_idx"=>array("업체번호","required",60,0,'','none',2)
-    ,"mms_idx"=>array("설비번호","required",60,0,'','',0)
-    ,"off_name"=>array("공제시간명칭","",250,'','','',0)
-    ,"off_period_type"=>array("적용기간","required",75,0,'전체기간을 선택하면 해당 설비에 대하여 전체 기간 동안 적용됩니다. 기간을 선택하고 입력하면 전체 기간 상관없이 우선 적용됩니다.','',0)
-    ,"off_start_time"=>array("시작시간","required",70,0,'시작시간은 17:00:00와 같이 입력하세요.','',2)
-    ,"off_end_time"=>array("종료시간","",70,0,'종료시간은 23:59:59와 같이 끝단위까지 모두 입력하세요.','',0)
-    ,"off_memo"=>array("메모","",70,0,'','',0)
-);
 ?>
 <style>
 .frm_date {width:75px;}
@@ -82,11 +80,13 @@ $items1 = array(
 <input type="hidden" name="sod" value="<?php echo $sod ?>">
 <input type="hidden" name="page" value="<?php echo $page ?>">
 <input type="hidden" name="token" value="">
+<input type="hidden" name="com_idx" value="<?=$_SESSION['ss_com_idx']?>">
 <input type="hidden" name="<?=$pre?>_idx" value="<?php echo ${$pre."_idx"} ?>">
 <input type="hidden" name="ser_mms_idx" value="<?php echo $ser_mms_idx ?>">
 
 <div class="local_desc01 local_desc" style="display:no ne;">
-    <p>각종 고유번호(설비번호, IMP번호..)들은 내부적으로 다른 데이타베이스 연동을 통해서 정보를 가지고 오게 됩니다.</p>
+    <p>설비별로 따로 공제시간을 설정할 경우 설비를 선택하세요. 모든설비를 선택하면 모든 설비에 대해 공통 적용됩니다.</p>
+    <p>밤 12시(자정) 경계를 넘어서는 시간대는 자정을 기준으로 분리해서 등록해 주세요. 24시전(~23:59:59)과 00시후(00:00:00~)로 분리하시면 됩니다.</p>
 </div>
 
 <div class="tbl_frm01 tbl_wrap">
@@ -99,128 +99,103 @@ $items1 = array(
 		<col style="width:35%;">
 	</colgroup>
 	<tbody>
-    <tr><!-- 첫줄은 무조건 출력 -->
-    <?php
-    // 폼 생성 (폼형태에 따른 다른 구조)
-    $skips = array($pre.'_idx',$pre.'_reg_dt',$pre.'_update_dt');
-    foreach($items1 as $k1 => $v1) {
-        if(in_array($k1,$skips)) {continue;}
-//        echo $k1.'<br>';
-//        print_r2($items1[$k1]).'<br>';
-        // 폭
-        $form_width = ($items1[$k1][2]) ? 'width:'.$items1[$k1][2].'px' : '';
-        // 단위
-        $form_unit = ($items1[$k1][3]) ? ' '.$items1[$k1][3] : '';
-        // 설명
-        $form_help = ($items1[$k1][4]) ? ' '.help($items1[$k1][4]) : '';
-        // tr 숨김
-        $form_none = ($items1[$k1][5]) ? 'display:'.$items1[$k1][5] : '';
-        // 한줄 두항목
-        $form_span = (!$items1[$k1][6]) ? ' colspan="3"' : '';
-
-        $item_name = $items1[$k1][0];
-        // 기본적인 폼 구조 먼저 정의
-        $item_form = '<input type="text" name="'.$k1.'" value="'.${$pre}[$k1].'" '.$items1[$k1][1].'
-                        class="frm_input '.$items1[$k1][1].'" style="'.$form_width.'">'.$form_unit;
-
-        // 폼이 다른 구조를 가질 때 재정의
-        if(preg_match("/_price$/",$k1)) {
-            $item_form = '<input type="text" name="'.$k1.'" value="'.number_format(${$pre}[$k1]).'" '.$items1[$k1][1].'
-                        class="frm_input '.$items1[$k1][1].'" style="'.$form_width.'"> '.$form_unit;
-        }
-        else if(preg_match("/_memo$/",$k1)) {
-            $item_form = '<textarea name="'.$k1.'" id="'.$k1.'">'.${$pre}[$k1].'</textarea>';
-        }
-        else if(preg_match("/_date$/",$k1)) {
-
-        }
-        else if(preg_match("/_dt$/",$k1)) {
-
-        }
-        // 설비번호인 경우는 전체적용과 개별설비로 나눔
-        else if($k1=='mms_idx') {
-            if($off['mms_idx']) {
-                $mms_idx_1 = ' checked';
-                $mms_idx_type = 'text';
-            }
-            else {
-                ${'mms_idx_'.$off['mms_idx']} = ' checked';
-                $mms_idx_type = 'hidden';
-            }
-            $item_form = '<input type="'.$mms_idx_type.'" name="'.$k1.'" value="'.${$pre}[$k1].'" '.$items1[$k1][1].'
-                    class="frm_input '.$items1[$k1][1].'" style="'.$form_width.'">';
-            $item_form .= ' <label id="'.$k1.'_1"><input type="radio" name="'.$k1.'_radio" id="'.$k1.'_1" value="1" '.$mms_idx_1.'> 설비선택</label>';
-            $item_form .= ' <label id="'.$k1.'_0"><input type="radio" name="'.$k1.'_radio" id="'.$k1.'_0" value="0" '.$mms_idx_0.'> 전체설비</label>';
-        }
-        // 적용기간인 경우는 전체기간과 기간선택으로 나눔
-        else if($k1=='off_period_type') {
-            // 전체기간
-            if($off['off_period_type']) {
-                $off_period_1 = ' checked';
-            }
-            else {
-                $off_period_0 = ' checked';
-            }
-            $item_form = ' <label id="'.$k1.'_0"><input type="radio" name="'.$k1.'" id="'.$k1.'_0" value="0" '.$off_period_0.'> 기간선택</label>';
-            $item_form .= ' <label id="'.$k1.'_1"><input type="radio" name="'.$k1.'" id="'.$k1.'_1" value="1" '.$off_period_1.'> 전체기간</label>';
-        }
-        // 시작시간
-        else if($k1=='off_start_time') {
-            // 전체기간
-            if($off['off_period_type']) {
-                $off_period_type = 'hidden';
-                $off_span_display = 'display:none;';
-            }
-            else {
-                $off_period_type = 'text';
-                $off_span_display = 'display:;';
-                ${$pre}['off_start_his'] = date("H:i:s",${$pre}['off_start_time']);
-            }
-            $item_form = '<input type="'.$off_period_type.'" name="off_start_date" value="'.${$pre}['off_start_date'].'"
-                    class="frm_input frm_date">';
-            $item_form .= ' <input type="text" name="off_start_his" value="'.${$pre}['off_start_his'].'"
-                    class="frm_input" style="'.$form_width.'" placeholder="HH:MM:SS">';
-        }
-        // 종료시간
-        else if($k1=='off_end_time') {
-            // 전체기간
-            if($off['off_period_type']) {
-                $off_period_type = 'hidden';
-                $off_span_display = 'display:none;';
-            }
-            else {
-                $off_period_type = 'text';
-                $off_span_display = 'display:;';
-                ${$pre}['off_end_his'] = date("H:i:s",${$pre}['off_end_time']);
-            }
-            $item_form = '<input type="'.$off_period_type.'" name="off_end_date" value="'.${$pre}['off_end_date'].'"
-                    class="frm_input frm_date">';
-            $item_form .= ' <input type="text" name="off_end_his" value="'.${$pre}['off_end_his'].'"
-                    class="frm_input" style="'.$form_width.'" placeholder="HH:MM:SS">';
-        }
-
-        // 이전(두줄 항목)값이 2인 경우 <tr>열지 않고 td 바로 연결
-        if($span_old<=1) {
-            echo '<tr style="'.$form_none.'">';
-        }
-        ?>
-            <th scope="row"><?=$item_name?></th>
-            <td <?=$form_span?>>
-                <?=$form_help?>
-                <?=$item_form?>
-            </td>
-            <?php
-            // 현재(두줄 항목)값이 2가 아닌 경우만 </tr>닫기
-            if($items1[$k1][6]<=1) {
-                echo '</tr>'.PHP_EOL;
-            }
-            ?>
+	<tr>
         <?php
-        // 이전값 저장 (2=한줄에 두개 항목을 넣는다는 의미다.)
-        $span_old = $items1[$k1][6];
-    }
-    ?>
+        $ar['id'] = 'off_name';
+        $ar['name'] = '공제시간명칭';
+        $ar['type'] = 'input';
+        $ar['width'] = '100%';
+        $ar['value'] = ${$pre}[$ar['id']];
+        $ar['required'] = 'required';
+        $ar['placeholder'] = 'ex)점심시간, 휴식시간';
+        echo create_td_input($ar);
+        unset($ar);
+        ?>
+		<th scope="row">설비선택</th>
+		<td>
+            <select name="mms_idx" id="mms_idx">
+                <option value="0">모든설비</option>
+                <?php
+                // 해당 범위 안의 모든 설비를 select option으로 만들어서 선택할 수 있도록 한다.
+                // Get all the mms_idx values to make them optionf for selection.
+                $sql2 = "SELECT mms_idx, mms_name
+                        FROM {$g5['mms_table']}
+                        WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+                        ORDER BY mms_idx       
+                ";
+                // echo $sql2.'<br>';
+                $result2 = sql_query($sql2,1);
+                for ($i=0; $row2=sql_fetch_array($result2); $i++) {
+                    // print_r2($row2);
+                    echo '<option value="'.$row2['mms_idx'].'" '.get_selected(${$pre}['mms_idx'], $row2['mms_idx']).'>'.$row2['mms_name'].'</option>';
+                }
+                ?>
+            </select>
+		</td>
     </tr>
+	<tr>
+        <?php
+        $ar['id'] = 'off_start_his';
+        $ar['name'] = '시작시간';
+        $ar['type'] = 'input';
+        $ar['width'] = '70px';
+        $ar['unit'] = '24시간제로 입력 ex) 11:30:00';
+        $ar['value'] = ${$pre}[$ar['id']];
+        $ar['required'] = 'required';
+        $ar['placeholder'] = 'HH:MM:SS';
+        echo create_td_input($ar);
+        unset($ar);
+        ?>
+        <?php
+        $ar['id'] = 'off_end_his';
+        $ar['name'] = '종료시간';
+        $ar['type'] = 'input';
+        $ar['width'] = '70px';
+        $ar['unit'] = 'ex) 19:30:00';
+        $ar['value'] = ${$pre}[$ar['id']];
+        $ar['required'] = 'required';
+        $ar['placeholder'] = 'HH:MM:SS';
+        echo create_td_input($ar);
+        unset($ar);
+        ?>
+    </tr>
+	<tr>
+        <th scope="row">적용기간</th>
+        <td colspan="3">
+            <?=help('<span style="color:red;">기간선택</span>: 설정 기간동안만 교대 시간 적용<br><span style="color:red;">전체기간</span>: 해당 설비에 대하여 전체 기간 동안 매일 적용됩니다.')?>
+            <label for="off_period_type_0"><input type="radio" name="off_period_type" id="off_period_type_0" value="0" <?=$off_period_type_0?>> 기간선택</label>
+            <label for="off_period_type_1"><input type="radio" name="off_period_type" id="off_period_type_1" value="1" <?=$off_period_type_1?>> 전체기간</label>
+            <div class="div_off_period" style="display:<?=(${$pre}['off_period_type'])?'none':''?>">
+                <input type="text" name="off_start_dt" value="<?=${$pre}['off_start_dt']?>"
+                    class="frm_input" style="width:133px;">
+                <span class="span_wave">~</span>
+                <input type="text" name="off_end_dt" value="<?=${$pre}['off_end_dt']?>"
+                    class="frm_input" style="width:133px;">
+            </div>
+            <script>
+            // 기간선택, 전체기간
+            $(document).on('click','input[name=off_period_type]',function(e){
+                // 기간선택
+                if( $(this).val() == '0' ) {
+                    $('.div_off_period').show();
+                }
+                // 전체기간
+                else {
+                    $('.div_off_period').hide();
+                }
+            });
+            </script>
+        </td>
+    </tr>
+    <?php
+    $ar['id'] = 'off_memo';
+    $ar['name'] = '메모';
+    $ar['type'] = 'textarea';
+    $ar['value'] = ${$pre}[$ar['id']];
+    $ar['colspan'] = 3;
+    echo create_tr_input($ar);
+    unset($ar);
+    ?>
 	<tr style="display:<?=(!$member['mb_manager_yn'])?'none':''?>;">
 		<th scope="row"><label for="com_status">상태</label></th>
 		<td colspan="3">

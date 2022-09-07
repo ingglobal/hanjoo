@@ -36,6 +36,8 @@ label[for^=set_] input[type=radio] {margin-right:2px;}
 .tahoma {font-family:tahoma}
 .font_size_9 {font-size:0.9em;}
 .font_size_8 {font-size:0.8em;}
+.font_size_7 {font-size:0.7em;}
+.font_size_6 {font-size:0.6em;}
 .font_weight {font-weight:bold;}
 .color_gray {color:darkgray!important;}
 .color_ddd {color:#ddd !important;}

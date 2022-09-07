@@ -343,6 +343,7 @@ $items1 = array(
 
 <div class="btn_fixed_top">
     <?php if($member['mb_manager_yn']) { ?>
+        <a href="javascript:" id="btn_excel_upload2" class="btn btn_03" style="margin-right:480px;display:<?=(!$member['mb_manager_yn'])?'none':'none'?>;">최호기</a>
         <a href="./<?=$fname?>_excel_down.php?<?=$qstr?>" id="btn_excel_down" class="btn btn_03">엑셀다운</a>
         <a href="javascript:" id="btn_excel_upload" class="btn btn_03" style="margin-right:20px;display:<?=(!$member['mb_manager_yn'])?'none':''?>;">엑셀등록</a>
         <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
@@ -356,6 +357,33 @@ $items1 = array(
 
 <div id="modal01" title="엑셀 파일 업로드" style="display:none;">
     <form name="form02" id="form02" action="./error_code_excel_upload.php" onsubmit="return form02_submit(this);" method="post" enctype="multipart/form-data">
+        <table>
+        <tbody>
+        <tr>
+            <td style="line-height:130%;padding:10px 0;">
+                <ol>
+                    <li>엑셀은 97-2003통합문서만 등록가능합니다. (*.xls파일로 저장)</li>
+                    <li>엑셀은 하단에 탭으로 여러개 있으면 등록 안 됩니다. (한개의 독립 문서이어야 합니다.)</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:15px 0;">
+                <input type="file" name="file_excel" onfocus="this.blur()">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:15px 0;">
+                <button type="submit" class="btn btn_01">확인</button>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </form>
+</div>
+
+<div id="modal20" title="엑셀 파일 업로드" style="display:none;">
+    <form name="form20" id="form20" action="./error_code_excel_upload2.php" onsubmit="return form20_submit(this);" method="post" enctype="multipart/form-data">
         <table>
         <tbody>
         <tr>
@@ -409,6 +437,15 @@ $(function(e) {
         $( "#modal01" ).dialog( "open" );
     });
 
+    // 최호기 엑셀 버튼
+    $( "#modal20" ).dialog({
+        autoOpen: false
+        , position: { my: "right-40 top-10", of: "#btn_excel_upload2"}
+    });
+    $( "#btn_excel_upload2" ).on( "click", function() {
+        $( "#modal20" ).dialog( "open" );
+    });
+
 });
 
 function form01_submit(f)
@@ -438,6 +475,18 @@ function form01_submit(f)
 }
 
 function form02_submit(f) {
+    if (!f.file_excel.value) {
+        alert('엑셀 파일(.xls)을 입력하세요.');
+        return false;
+    }
+    else if (!f.file_excel.value.match(/\.xls$|\.xlsx$/i) && f.file_excel.value) {
+        alert('엑셀 파일만 업로드 가능합니다.');
+        return false;
+    }
+
+    return true;
+}
+function form20_submit(f) {
     if (!f.file_excel.value) {
         alert('엑셀 파일(.xls)을 입력하세요.');
         return false;

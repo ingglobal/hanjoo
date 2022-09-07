@@ -20,8 +20,8 @@ if ($w == '') {
     $w_display_none = ';display:none';  // 쓰기에서 숨김
     
     ${$pre}['com_idx'] = $_SESSION['ss_com_idx'];
-    ${$pre}['shf_period_type'] = 0;
     ${$pre}['mms_idx'] = 0; // 모둔설비
+    ${$pre}[$pre.'_period_type'] = 0;
     ${$pre}[$pre.'_start_time'] = '09:00:00';
     ${$pre}[$pre.'_end_time'] = '23:59:59';
     ${$pre}[$pre.'_target_1'] = 100;
@@ -62,7 +62,7 @@ else
     alert('제대로 된 값이 넘어오지 않았습니다.');
 
 // 적용기간 선택
-${'shf_period_type_'.${$pre}['shf_period_type']} = ' checked';
+${$pre.'_period_type_'.${$pre}[$pre.'_period_type']} = ' checked';
 
 // 라디오&체크박스 선택상태 자동 설정 (필드명 배열 선언!)
 $check_array=array('mb_sex');
@@ -72,7 +72,7 @@ for ($i=0;$i<sizeof($check_array);$i++) {
 
 $html_title = ($w=='')?'추가':'수정'; 
 $html_title = ($w=='c')?'복제':$html_title; 
-$g5['title'] = '교대시간 '.$html_title;
+$g5['title'] = '작업교대 '.$html_title;
 //include_once('./_top_menu_shift.php');
 include_once ('./_head.php');
 //echo $g5['container_sub_title'];
