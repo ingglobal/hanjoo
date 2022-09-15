@@ -187,7 +187,7 @@ echo $g5['container_sub_title'];
                     </script>
                 </tr>
                 <tr>
-                    <th scope="row">비가동내용선택</th>
+                    <th scope="row">비가동타입</th>
                     <td colspan="3">
                         <i class="fa fa-spinner fa-spin fa-fw btn_spinner" style="display:none;"></i>
                         <select name="mst_idx" id="mst_idx" mst_idx="<?= ${$pre}['mst_idx'] ?>" class="required" required>

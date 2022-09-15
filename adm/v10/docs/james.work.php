@@ -1547,3 +1547,107 @@ SELECT work_date AS dta_date
   , SUBSTRING(max(end_time),11,9) AS dta_end_his
 FROM g5_1_xray_inspection 
 WHERE end_time >= '2022-09-05 00:00:00' AND end_time <= '2022-09-05 23:59:59'
+
+// find the records that has wide gap which is more than 20 secs between outputs.
+SELECT xry_idx, work_date AS dta_date
+  , UNIX_TIMESTAMP(end_time) AS end_timestamp
+  , ( UNIX_TIMESTAMP(end_time) - LAG(UNIX_TIMESTAMP(end_time)) OVER (order by xry_idx ASC) ) AS diff_timestamp
+FROM g5_1_xray_inspection
+WHERE end_time >= '2022-09-14 00:00:00' AND end_time <= '2022-09-14 23:59:59'
+ORDER BY xry_idx DESC
+LIMIT 10
+....
+SELECT xry_idx, work_date AS dta_date
+  , UNIX_TIMESTAMP(end_time) AS end_timestamp
+  , LAG(end_time)
+--  , ( end_time - LAG(end_time) OVER (order by xry_idx ASC) ) AS 'diff_timestamp'
+FROM g5_1_xray_inspection
+WHERE end_time >= '2022-09-14 00:00:00' AND end_time <= '2022-09-14 23:59:59'
+ORDER BY xry_idx DESC
+LIMIT 10
+....
+SELECT end_time
+     , (SELECT end_time
+        FROM g5_1_xray_inspection AS B
+        WHERE B.end_time < A.end_time
+        ORDER BY end_time DESC
+        LIMIT 1
+        ) AS end_time_prev
+FROM g5_1_xray_inspection AS A
+ORDER BY xry_idx DESC
+LIMIT 10
+....
+SELECT end_time, end_time_prev
+  , UNIX_TIMESTAMP(end_time) AS end_timestamp
+  , UNIX_TIMESTAMP(end_time_prev) AS end_timestamp_prev
+  , ( UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(end_time_prev) ) AS end_time_diff
+FROM (
+  SELECT end_time
+       , (SELECT end_time
+          FROM g5_1_xray_inspection AS B
+          WHERE B.end_time < A.end_time
+          ORDER BY end_time DESC
+          LIMIT 1
+          ) AS end_time_prev
+  FROM g5_1_xray_inspection AS A
+  ORDER BY xry_idx DESC
+  LIMIT 10
+) AS db1
+....
+3. 스칼라서브쿼리
+// not good for many data.
+SELECT end_time, end_time_prev
+  , UNIX_TIMESTAMP(end_time) AS end_timestamp
+  , UNIX_TIMESTAMP(end_time_prev) AS end_timestamp_prev
+  , ( UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(end_time_prev) ) AS end_time_diff
+FROM (
+  SELECT end_time
+       , (SELECT end_time
+          FROM g5_1_xray_inspection AS B
+          WHERE end_time >= '2022-09-14 00:00:00' AND end_time <= '2022-09-14 23:59:59'
+            AND B.end_time < A.end_time
+          ORDER BY end_time DESC
+          LIMIT 1
+          ) AS end_time_prev
+  FROM g5_1_xray_inspection AS A
+  ORDER BY xry_idx DESC
+) AS db1
+....
+1. Self join method.
+SELECT A.end_time
+  , MAX(B.end_time) end_time_prev
+FROM g5_1_xray_inspection AS A
+LEFT OUTER JOIN g5_1_xray_inspection AS B
+  ON A.end_time > B.end_time
+WHERE A.end_time >= '2022-09-14 00:00:00' AND A.end_time <= '2022-09-14 23:59:59'
+GROUP BY A.xry_idx DESC
+// After setting the search periof of one month, query speed was acceptable (about 10 secs.)
+....
+SELECT end_time, end_time_prev
+  , UNIX_TIMESTAMP(end_time) AS end_timestamp
+  , UNIX_TIMESTAMP(end_time_prev) AS end_timestamp_prev
+  , ( UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(end_time_prev) ) AS end_time_diff
+FROM (
+    SELECT A.end_time AS end_time
+      , MAX(B.end_time) AS end_time_prev
+    FROM g5_1_xray_inspection AS A
+    LEFT OUTER JOIN g5_1_xray_inspection AS B
+      ON A.end_time > B.end_time
+    WHERE A.end_time >= '2022-09-13 00:00:00' AND A.end_time <= '2022-09-13 23:59:59'
+    GROUP BY A.xry_idx DESC
+) AS db1
+ORDER BY end_time_diff
+WHERE ( UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(end_time_prev) ) <= 50
+// too big time span should be avoidable. 
+....
+
+
+SELECT * FROM g5_1_dash_grid WHERE mta_idx = '' AND dsg_status = 'ok' ORDER BY dsg_order
+
+SELECT mta_idx,mta_value,mta_title,mta_number FROM g5_5_meta
+WHERE mta_db_table = 'member' AND mta_db_id = 'tidy345' AND mta_key = 'dashboard_menu' ORDER BY mta_number
+
+SELECT mta_idx,mta_value,mta_title,mta_number FROM g5_5_meta
+WHERE mta_db_table = 'member' AND mta_db_id = 'jamesjoa' AND mta_key = 'dashboard_menu' ORDER BY mta_number
+
+// let's make default 2 dashboards in meta db tables.

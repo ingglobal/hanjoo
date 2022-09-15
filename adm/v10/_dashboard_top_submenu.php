@@ -12,11 +12,30 @@ $tmresult = sql_query($tmta_sql,1);
 $sub_menus = array();
 $sub_menu_titles = array();
 
-if($tmresult->num_rows){
-    for($i=0;$tmrow=sql_fetch_array($tmresult);$i++){
-        $sub_menus[$tmrow['mta_idx']] = $tmrow['mta_value'];    // 메뉴코드(915110...)
-        $sub_menu_titles[$tmrow['mta_idx']] = $tmrow['mta_title'];  // 대시보드명
-    }
+// 없으면 생성
+if(!$tmresult->num_rows){
+    // 메타 정보 입력
+    $ar['mta_db_table'] = 'member';
+    $ar['mta_db_id'] = $member['mb_id'];
+    $ar['mta_key'] = 'dashboard_menu';
+    $ar['mta_value'] = '915110';
+    $ar['mta_title'] = '대시보드';
+    meta_update($ar);
+    unset($ar);
+
+    $sql = " SELECT mta_idx,mta_value,mta_title,mta_number FROM {$g5['meta_table']} 
+        WHERE mta_db_table = 'member' 
+            AND mta_db_id = '{$member['mb_id']}'
+            AND mta_key = 'dashboard_menu'
+        ORDER BY mta_number
+    ";
+    // print_r3($tmta_sql);
+    $tmresult = sql_query($tmta_sql,1);
+}
+
+for($i=0;$tmrow=sql_fetch_array($tmresult);$i++){
+    $sub_menus[$tmrow['mta_idx']] = $tmrow['mta_value'];    // 메뉴코드(915110...)
+    $sub_menu_titles[$tmrow['mta_idx']] = $tmrow['mta_title'];  // 대시보드명
 }
 // print_r3($sub_menus);
 // print_r3($sub_menu_titles);

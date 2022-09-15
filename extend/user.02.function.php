@@ -786,7 +786,7 @@ function get_item2($db_id)
 if(!function_exists('meta_update')){
 function meta_update($meta_array)
 {
-	global $g5,$config;
+	global $g5;
 	
 	if(!$meta_array['mta_key'])
 		return 0;
@@ -811,9 +811,12 @@ function meta_update($meta_array)
 					mta_db_id='{$meta_array['mta_db_id']}', 
 					mta_key='{$meta_array['mta_key']}', 
 					mta_value='{$meta_array['mta_value']}', 
+					mta_title='{$meta_array['mta_title']}', 
 					mta_reg_dt='".G5_TIME_YMDHIS."' ";
 		sql_query($sql);
+		$row1['mta_idx'] = sql_insert_id();
 	}
+	return $row1['mta_idx'];
 }
 }
 

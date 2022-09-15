@@ -24,13 +24,16 @@ function func_db_update($arr) {
     // 조치분류 업데이트 = 고장부위
     $trm_idx = trm_idx_update($arr['mnt_part']);
 
-    // 관련 알람코드 추출
-    $sql = "SELECT *
-            FROM g5_1_code
-            WHERE com_idx = '15'
-                AND mms_idx = '".$arr['mms_idx']."'
-                AND cod_code = '".$arr['alarm_code']."'
-            ORDER BY cod_idx DESC LIMIT 1
+    // 알람 1개 랜덤으로 우선 추출
+    $sql = "SELECT cod_idx, cod_code, cod_name, COUNT(arm_idx) AS cnt
+            FROM g5_1_alarm AS arm
+                LEFT JOIN g5_1_code AS cod USING(cod_idx)
+            WHERE arm.com_idx = '15'
+                AND arm.mms_idx = '".$arr['mms_idx']."'
+                AND cod_quality_yn != '1'
+                AND cod_name != ''
+            GROUP BY arm_cod_code
+            ORDER BY RAND() LIMIT 1
     ";
     $cod = sql_fetch($sql,1);
 
@@ -152,7 +155,7 @@ function trm_idx_update($str) {
         if(!$demo) {sql_query($sql,1);}
         $row['trm_idx'] = sql_insert_id();
     }
-    if($demo) {print_r3('조치사항 분류 쿼리: '.$sql);}
+    if($demo) {print_r3($sql);}
     // print_r3($sql);
  
     return $row['trm_idx'];
@@ -217,51 +220,6 @@ $maxscreen = 200; // 몇건씩 화면에 보여줄건지?
 flush();
 ob_flush();
 
-// 시트를 돌면서 알람을 배열로 먼저 생성해 두고 나중에 사용
-for ($x=0;$x<sizeof($allData);$x++) {
-    // print_r3($x);
-    // print_r3(sizeof($allData[$x]));
-    // print_r3($allData[$x]);
-    for($i=0;$i<=sizeof($allData[$x]);$i++) {
-        // print_r3($allData[$x][$i]);
-        // 초기화
-        unset($arr);
-        unset($list);
-        // 한 라인씩 $list 숫자 배열로 변경!!
-        if(is_array($allData[$x][$i])) {
-            foreach($allData[$x][$i] as $k1=>$v1) {
-                // print_r3($k1.'='.$v1);
-                $list[] = trim($v1);
-            }
-        }
-        // print_r3($list);
-        $arr['machine_no'] = $list[0];
-        $arr['machine_name'] = $list[1];
-        $arr['mnt_date'] = $list[2];
-        $arr['alarm_no'] = $list[13];
-        $arr['alarm_name'] = $list[14];
-        $arr['alarm_code'] = $list[15];
-        // print_r3($arr);
-
-        // 조건에 맞는 해당 라인만 추출
-        if( preg_match("/[-0-9A-Z]/",$arr['machine_no'])
-            && preg_match("/[가-힝]/",$arr['machine_name'])
-            && preg_match("/[-0-9]/",$arr['mnt_date'])
-            && preg_match("/[0-9A-Z]/",$arr['alarm_code']) )
-        {
-            // print_r3($arr);
-
-            // 배열생성
-            $alarm_arr[$arr['machine_no']][$arr['alarm_no']] = $arr['alarm_code'];
-
-        }
-        else {continue;}
-
-    }
-}
-// print_r3($alarm_arr);
-
-
 // print_r3($allData);
 $idx = 0;
 
@@ -300,7 +258,6 @@ for ($x=0;$x<sizeof($allData);$x++) {
         // $arr['mnt_end_time'] = '00:40';
         $arr['mnt_minutes'] = $list[9];
         $arr['mnt_company'] = $list[10];
-        $arr['alarm_no'] = $list[11];    // 알람번호
         // print_r3($arr);
 
         // 조건에 맞는 해당 라인만 추출
@@ -322,12 +279,8 @@ for ($x=0;$x<sizeof($allData);$x++) {
             $arr['mnt_content'] = addslashes($arr['mnt_content_new']);
             $arr['mnt_subject'] = implode(" => ",$arr['mnt_subject_arr']);
 
-            // 알람코드
-            $arr['alarm_code'] = $alarm_arr[$arr['machine_no']][$arr['alarm_no']];
-
-            // print_r3($arr);
             // 데이터 입력&수정&삭제
-            $db_idx = func_db_update($arr);
+            // $db_idx = func_db_update($arr);
 
             $idx++;
         }

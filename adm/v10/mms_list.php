@@ -269,7 +269,7 @@ $items = array_merge($items1,$items2);
         
         // 관리 버튼
         $s_mod = '<a href="./mms_form.php?'.$qstr.'&amp;w=u&amp;mms_idx='.$row['mms_idx'].'&amp;ser_mms_type='.$ser_mms_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'">수정</a>';
-        $s_view = '<a href="./mms_view.popup.php?&mms_idx='.$row['mms_idx'].'" class="btn_view">보기</a>';
+        // $s_view = '<a href="./mms_view.popup.php?&mms_idx='.$row['mms_idx'].'" class="btn_view">보기</a>';
 		//$s_del = '<a href="./mms_form_update.php?'.$qstr.'&amp;w=d&amp;mms_idx='.$row['mms_idx'].'&amp;ser_mms_type='.$ser_mms_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'" onclick="return delete_confirm();" style="color:darkorange;">삭제</a>';
         
         $bg = 'bg'.($i%2);

@@ -1,6 +1,13 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// Seconds to H:M:s 초를 시:분:초
+// t = seconds, f = separator 
+if(!function_exists('sectohis')){
+function sectohis($t,$f=':') {
+    return sprintf("%02d%s%02d%s%02d", floor($t/3600), $f, ($t/60)%60, $f, $t%60);
+}
+}
 
 // 조직코드가 변경된 경우 처리할 함수
 if(!function_exists('department_change')){

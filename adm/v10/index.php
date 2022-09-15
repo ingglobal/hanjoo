@@ -9,7 +9,7 @@ include_once ('./_head.php');
 
 $demo = 0;  // 데모인 경우 1로 설정하세요. (packery 박스가 맨 위에 떠 있어서 디버깅 데이터를 가려버리네요.)
 
-// $cur_mta_idx 변수는 _dashboard_top_submenu.php 에서 생성함 (해당 파일 include는 /adm/v10/admin.head.php 참조)
+// $cur_mta_idx 변수는 _dashboard_top_submenu.php 에서 생성함 (해당 파일 include는 /adm/v10/admin.head.php에서 해당 파일 include 호출)
 $sql = " SELECT * FROM {$g5['dash_grid_table']} WHERE mta_idx = '{$cur_mta_idx}' AND dsg_status = 'ok' ORDER BY dsg_order ";
 // echo $sql.'<br>';
 $result = sql_query($sql,1);

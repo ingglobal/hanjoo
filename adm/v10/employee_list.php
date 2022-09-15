@@ -181,10 +181,10 @@ $colspan = 16;
 
 <div class="btn_fixed_top">
     <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn btn_02" style="display:none;">
-    <?php if (!auth_check($auth[$sub_menu],'w')) { //($member['mb_manager_yn']) { ?>
+    <?php if (!auth_check($auth[$sub_menu],'w',1)) { //($member['mb_manager_yn']) { ?>
     <input type="submit" name="act_button" value="선택탈퇴" onclick="document.pressed=this.value" class="btn btn_02">
     <?php } ?>
-    <?php if (!auth_check($auth[$sub_menu],'w')) { ?>
+    <?php if (!auth_check($auth[$sub_menu],'w',1)) { ?>
     <a href="./employee_form.php" id="member_add" class="btn btn_01">추가하기</a>
     <?php } ?>
 

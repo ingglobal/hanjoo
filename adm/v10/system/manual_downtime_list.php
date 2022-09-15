@@ -4,7 +4,7 @@ include_once('./_common.php');
 
 auth_check($auth[$sub_menu],'w');
 
-$g5['title'] = '비가동정보 관리';
+$g5['title'] = '비가동 관리';
 include_once('./_top_menu_setting.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
@@ -223,7 +223,7 @@ $(document).on('change','#ser_mms_idx',function(e){
     </table>
 </div>
 <div class="btn_fixed_top">
-    <?php if (!auth_check($auth[$sub_menu],'w')) { ?>
+    <?php if (!auth_check($auth[$sub_menu],'w',1)) { ?>
     <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn btn_02">
     <a href="./manual_downtime_form.php" id="dta_add" class="btn btn_01">추가하기</a>
     <?php } ?>

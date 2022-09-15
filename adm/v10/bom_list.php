@@ -266,7 +266,7 @@ $qstr .= '&sca='.$sca.'&ser_bom_type='.$ser_bom_type; // 추가로 확장해서 
     <?php if (false){ //(!auth_check($auth[$sub_menu],'d')) { ?>
        <a href="javascript:" id="btn_excel_upload" class="btn btn_02" style="margin-right:50px;">엑셀등록</a>
     <?php } ?>
-    <?php if (!auth_check($auth[$sub_menu],'w')) { ?>
+    <?php if (!auth_check($auth[$sub_menu],'w',1)) { ?>
     <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn btn_02">
     <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn btn_02">
     <a href="./bom_form.php" id="member_add" class="btn btn_01">추가하기</a>
