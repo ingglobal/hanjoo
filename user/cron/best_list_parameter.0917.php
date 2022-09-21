@@ -9,69 +9,18 @@ include_once('./_head.sub.php');
 //-- 화면 표시
 $countgap = ($demo||$db_id) ? 10 : 20;    // 몇건씩 보낼지 설정
 $maxscreen = ($demo||$db_id) ? 30 : 100;  // 몇건씩 화면에 보여줄건지?/
-$sleepsec = 10000;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
-
-$table2 = 'g5_1_xray_inspection';
-$fields2 = sql_field_names($table2);
-// print_r2($fields2);
+$sleepsec = 100;     // 천분의 몇초간 쉴지 설정 (1sec=1000)
 
 // default date.
 $ymd = $ymd ?: date("Y-m-d");
 
-// NEXT YMD Default
-if($ym) {
-    // 다음달
-    $sql = " SELECT DATE_ADD('".$ym."-01' , INTERVAL -1 MONTH) AS ym FROM dual ";
-    $dat = sql_fetch($sql,1);
-    $ym_next = substr($dat['ym'],0,7);
-    // echo $ym.'<br>';
-    // echo $ym_next.'<br>';
-    // exit;
-}
-else if($ymd) {
-    // 다음일
-    $sql = " SELECT DATE_ADD('".$ymd."' , INTERVAL -1 DAY) AS ymd FROM dual ";
-    $dat = sql_fetch($sql,1);
-    $ymd_next = substr($dat['ymd'],0,10);
-    // echo $ymd.'<br>';
-    // echo $ymd_next.'<br>';
-    // exit;
-}
-
-// if db_id exists.
-if($db_id) {
-    $search1 = " WHERE xry_idx = '".$db_id."' ";
-}
-// 한달씩
-else if($ym) {
-    // $search1 = " WHERE EVENT_TIME LIKE '".$ym."' ";
-    $search1 = " WHERE start_time >= '".$ym."-01 00:00:00' AND start_time <= '".$ym."-31 23:59:59' ";     
-}
-// 하루씩
-else if($ymd) {
-    // $search1 = " WHERE EVENT_TIME LIKE '".$ymd."%' ";
-    $search1 = " WHERE start_time >= '".$ymd." 00:00:00' AND start_time <= '".$ymd." 23:59:59' ";     
-    // $search1 = " WHERE CAMP_NO IN ('C0175987','C0175987') ";    // 특정레코드
-}
-else {
-    // 데이터의 마지막 일시 ------
-    $sql = " SELECT start_time FROM {$table2} ORDER BY xry_idx DESC LIMIT 1 ";
-    $dat = sql_fetch($sql,1);
-    $ymdhis = $dat['start_time'];
-
-    $search1 = " WHERE start_time > '".$ymdhis."' AND END_TIME != '' ";
-    $latest = 1;
-}
-
-
-$sql = "SELECT *
-        FROM {$table2}
-        {$search1}
-        ORDER BY start_time DESC
-";
-// echo $sql.'<br>';
+// NEXT YMD Default = yester day (It goes one day prior continuely till the set day.(30days))
+$sql = " SELECT DATE_ADD('".$ymd."' , INTERVAL -1 DAY) AS ymd FROM dual ";
+$dat = sql_fetch($sql,1);
+$ymd_next = substr($dat['ymd'],0,10);
+// echo $ymd.'<br>';
+// echo $ymd_next.'<br>';
 // exit;
-$result = sql_query_pg($sql,1);
 ?>
 <style>
 #hd_login_msg {display:none;}
@@ -106,6 +55,51 @@ $set_parameter_idx = (int)$set_parameter_group_count/2; // 가장 가운데 있�
 flush();
 ob_flush();
 ob_end_flush();
+
+
+// Rotating all mms_idx for tracing best parameters
+for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
+    // if the best parameter of due mms_idx is existed, continue for next mms_idx
+    $sql = "SELECT *
+            FROM g5_1_data_measure_best
+            WHERE mms_idx = '".$g5['set_dicast_mms_idxs_array'][$j]."'
+                AND dmb_dt >= '".$ymd." 00:00:00'
+            ORDER BY dmb_idx DESC
+            LIMIT 1
+    ";
+    // echo $sql.'<br>';
+    $dmb = sql_fetch($sql,1);
+    if($dmb['dmb_idx']) {
+        continue;
+    }
+
+    // echo $g5['set_dicast_mms_idxs_array'][$j].' ------------ <br>';
+    $sql = "SELECT *
+            FROM g5_1_xray_inspection AS xry
+                LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode)
+            WHERE mms_idx = '".$g5['set_dicast_mms_idxs_array'][$j]."'
+                AND end_time >= '".$ymd." 00:00:00' AND end_time <= '".$ymd." 23:59:59'
+            ORDER BY xry_idx DESC
+    ";
+    echo $sql.'<br>';
+    // $rs = sql_query_pg($sql,1);
+    // for($j=0;$row=sql_fetch_array_pg($rs);$j++) {
+    //     // print_r2($row);
+    // }
+}
+exit;
+
+
+// 하루범위씩 추적
+$sql = "SELECT *
+        FROM g5_1_xray_inspection
+        WHERE end_time >= '".$ymd." 00:00:00' AND end_time <= '".$ymd." 23:59:59'
+        ORDER BY end_time DESC
+";
+// echo $sql.'<br>';
+// exit;
+$result = sql_query_pg($sql,1);
+
 
 $xry_list = array();
 $cnt=$oks=$success=0;
@@ -186,7 +180,7 @@ for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
 
         $arr['result_data'] = '<div class="div_data"><b>보온로 온도:</b> </div>';
         echo "<script> document.all.cont.innerHTML += '<div class=\'div_result\'>최적 파라메타 추출 성공</div>'; </script>\n";
-        echo "<script> document.all.cont.innerHTML += '<div class=\'div_result2\'>xry_idx=".$arr['xry_idx'].", start_time=".$arr['start_time']."</div>'; </script>\n";
+        echo "<script> document.all.cont.innerHTML += '<div class=\'div_result2\'>xry_idx=".$arr['xry_idx'].", end_time=".$arr['end_time']."</div>'; </script>\n";
         echo "<script> document.all.cont.innerHTML += '<div class=\'div_result2\'>qrcode=".$arr['qrcode'].", production_id=".$arr['production_id']."</div>'; </script>\n";
         $success = 1;
         break;
@@ -223,7 +217,7 @@ if($db_id) {
     </script>
     <?php
 }
-// 월간 처리
+// 일간 처리
 else {
     if($ymd_next < date("Y-m-d", G5_SERVER_TIME - 86400*$set_parameter_max_day)
         || $demo || $latest || $success) {

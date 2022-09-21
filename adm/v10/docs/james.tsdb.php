@@ -892,3 +892,26 @@ GROUP BY dta_type, dta_no
 ORDER BY dta_type, dta_no ASC
 ....> 이걸로 최종 되었어요.
 
+
+SELECT * FROM g5_1_cast_shot WHERE machine_id = '60' AND end_time <= '2022-09-16 06:33:00' ORDER BY csh_idx DESC LIMIT 1 OFFSET 0
+SELECT * FROM g5_1_cast_shot WHERE machine_id = '45' AND end_time <= '2022-09-16 06:33:00' ORDER BY csh_idx DESC LIMIT 100 OFFSET 0
+
+SELECT * FROM g5_1_cast_shot WHERE machine_id = '45' AND end_time >= '2022-09-16 06:33:00' ORDER BY csh_idx LIMIT 10
+SELECT * FROM g5_1_cast_shot WHERE machine_id = '45' AND end_time < '2022-09-16 06:33:00' ORDER BY csh_idx DESC LIMIT 10
+
+SELECT string_agg(shot_id::character varying,',') AS shot_ids
+FROM g5_1_cast_shot WHERE machine_id = '45' AND end_time >= '2022-09-16 06:33:00' 
+GROUP BY shot_id, csh_idx
+ORDER BY csh_idx LIMIT 10
+
+SELECT * FROM g5_1_cast_shot_sub WHERE shot_id IN (494082,494086,494090) AND machine_id = '45' ORDER BY event_time
+starting poirt: 2022-09-16 06:22:25.608+09	
+end point: 2022-09-16 06:39:03.581+09
+total count: 692
+
+// I want to know that the counts are sameme not only with shot_id array but also with time arrange.
+SELECT * FROM g5_1_cast_shot_sub WHERE machine_id = '45' AND event_time >= '2022-09-16 06:22:25' AND event_time <= '2022-09-16 06:39:03.581+09'
+ORDER BY event_time
+total count: 692
+
+// Ok! those are same with shot_ids and time arrange.

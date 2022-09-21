@@ -1,150 +1,21 @@
 <?php
-$sub_menu = "920120";
+$sub_menu = "920115";
 include_once('./_common.php');
 
-$g5['title'] = '파라메터 분포';
-include_once('./_top_menu_db.php');
+auth_check($auth[$sub_menu],"r");
+
+$g5['title'] = '최적파라메타';
+// include_once('./_top_menu_db.php');
 include_once('./_head.php');
-echo $g5['container_sub_title'];
+// echo $g5['container_sub_title'];
 
-
-// 검색 조건
-$st_time_ahead = 3600*1;  // 5hour ahead.
-
-// Set the search period reset according to the last data input.
-$sql = " SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 1 ";
-$one = sql_fetch($sql,1);
-// print_r3($one);
-$en_date = ($en_date) ? $en_date : substr($one['event_time'],0,10);
-$en_time = ($en_time) ? $en_time : substr($one['event_time'],11);
-$st_date = ($st_date) ? $st_date : date("Y-m-d",strtotime($en_date.' '.$en_time)-$st_time_ahead);
-$st_time = ($st_time) ? $st_time : date("H:i:s",strtotime($en_date.' '.$en_time)-$st_time_ahead);
-// 시작 ~ 종료 기간
-$start_end = $en_date.' '.$en_time.' ~ '.$st_date.' '.$st_time;
-// echo $en_date.' '.$en_time.'<br>';
-// echo $st_date.' '.$st_time.'<br>';
-// exit;
-
-// Get mms_infos
-// print_r2($g5['set_dicast_mms_idxs_array']);
-$sql = "SELECT mms_idx, mms_name, mms_model
-        FROM {$g5['mms_table']}
-        WHERE com_idx = '".$_SESSION['ss_com_idx']."'
-            AND mms_idx IN (".implode(",",$g5['set_dicast_mms_idxs_array']).")
-        ORDER BY mms_idx
-";
-// echo $sql.'<br>';
-$result = sql_query($sql,1);
-for ($i=0; $row=sql_fetch_array($result); $i++) {
-    // print_r2($row);
-    $mms_name[$row['mms_idx']] = $row['mms_name'];
-    $mms_model[$row['mms_idx']] = $row['mms_model'];
+add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/css/intelli/style.css">', 2);
+if(is_file(G5_USER_ADMIN_PATH.'/css/intelli/'.$g5['file_name'].'.css')) {
+    add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/css/intelli/'.$g5['file_name'].'.css">', 2);
 }
-
-// 태그검색
-if($ser_dta_type) {
-    $sql_dta_type = " dta_type = '".$ser_dta_type."' ";
-}
-else {
-    $sql_dta_type = " dta_type IN (1,8) ";
-}
-
-if($ser_mms_idx) {
-    $g5['mms_idxs_array'] = array($ser_mms_idx);
-}
-else {
-    $g5['mms_idxs_array'] = $g5['set_dicast_mms_idxs_array'];
-}
-// print_r2($g5['mms_idxs_array']);
-
-// 주조기 설비 분포 범위 (max, min)
-for($i=0;$i<sizeof($g5['mms_idxs_array']);$i++) {
-    // echo $g5['mms_idxs_array'][$i].'<br>';
-    $mms_idx[$i] = $g5['mms_idxs_array'][$i];
-    // echo $mms_name[$mms_idx[$i]].' 설비명 ---------- <br>';
-    $mms = get_table_meta('mms', 'mms_idx', $mms_idx[$i]);  // mms meta 값으로 태그명들이 쭉 들어가 있음
-    // print_r2($mms);
-    $sql = "SELECT dta_type, dta_no, MAX(dta_value), MIN(dta_value)
-            FROM g5_1_data_measure_".$g5['mms_idxs_array'][$i]."
-            WHERE {$sql_dta_type}
-            AND dta_dt >= '".$st_date." ".$st_time."' AND dta_dt <= '".$en_date." ".$en_time."'
-            GROUP BY dta_type, dta_no
-            ORDER BY dta_type, dta_no ASC
-    ";
-    // echo $sql.'<br>';
-    $rs = sql_query_pg($sql,1);
-    for($j=0;$row=sql_fetch_array_pg($rs);$j++) {
-        // print_r2($row);
-        // 태그명
-        $row['dta_type_no_name'] = $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']] ? 
-                                        $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
-                                            : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
-        // echo $row['dta_type_no_name'].'<br>';
-        $row['dta_name'] = $row['dta_type_no_name'];
-
-        // 자바스크랩트에 표현할 태그명
-        $tags[$mms_idx[$i]][] = $row['dta_name'];
-
-        // 자바스크랩트에 표현할 배열 생성
-        $ranges[$mms_idx[$i]][$j][] = $row['dta_name'];
-        $ranges[$mms_idx[$i]][$j][] = round($row['max'],2);
-        $ranges[$mms_idx[$i]][$j][] = round($row['min'],2);
-
-        // 하단 for 문장내부 최적값 추출을 위한 배열 생성
-        $best_type_no[$mms_idx[$i]][$j]['dta_name'] = $row['dta_name'];
-        $best_type_no[$mms_idx[$i]][$j]['dta_type'] = $row['dta_type'];
-        $best_type_no[$mms_idx[$i]][$j]['dta_no'] = $row['dta_no'];
-    }
-}
-// print_r2($tags);
-// print_r2($ranges);
-// echo json_encode($ranges[58],JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
-// print_r2($best_type_no);
-
-// 최적값 추출
-if(is_array($best_type_no)) {
-    foreach($best_type_no as $k1=>$v1) {
-        // echo $k1.$v1.'<br>';
-        // echo $mms_name[$k1].' 설비 최적값들 ------------------------------------------ <br>';
-        $mms = get_table_meta('mms', 'mms_idx', $k1);  // mms meta 값으로 태그명들이 쭉 들어가 있음
-        for($i=0;$i<sizeof($v1);$i++) {
-            // print_r2($v1[$i]);
-            // echo $v1[$i]['dta_name'].'='.$v1[$i]['dta_type'].','.$v1[$i]['dta_no'].'<br>';
-            $sql = "SELECT *
-                    FROM {$g5['data_measure_best_table']}
-                    WHERE mms_idx = '".$k1."'
-                        AND dta_type = '".$v1[$i]['dta_type']."' AND dta_no = '".$v1[$i]['dta_no']."'
-                    ORDER BY dmb_reg_dt DESC
-                    LIMIT 1
-            ";
-            // echo $sql.'<br>';
-            $one = sql_fetch($sql,1);
-            // print_r2($one);
-            // 태그명
-            $one['dta_type_no_name'] = $mms['dta_type_label-'.$one['dta_type'].'-'.$one['dta_no']] ? 
-                                            $mms['dta_type_label-'.$one['dta_type'].'-'.$one['dta_no']]
-                                                : $g5['set_data_type_value'][$one['dta_type']].'-'.$one['dta_no'];
-            // echo $one['dta_type_no_name'].'<br>';
-            $one['dta_name'] = $one['dta_type_no_name'];
-
-            // 최적값 배열 생성
-            $averages[$k1][$i][] = $one['dta_name'];
-            $averages[$k1][$i][] = round($one['dta_value'],2);
-        }
-    }
-}
-// print_r2($averages);
-// echo json_encode($averages[58],JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
-
-
-
-add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
-<script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
 <style>
-.graph_wrap > div {margin-bottom:20px;}
 </style>
-
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highcharts-more.js"></script>
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/modules/data.js"></script>
@@ -153,145 +24,370 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <!-- 다양한 시간 표현을 위한 플러그인 -->
 <script src="<?php echo G5_URL?>/lib/highcharts/moment.js"></script>
 
-<form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
-    <select name="ser_mms_idx" id="ser_mms_idx">
-        <option value="">설비전체</option>
+<div class="local_desc01 local_desc" style="display:none;">
+    <p>작업중!!</p>
+</div>
+
+<div class="div_recommend">
+    <div class="title01">
+        최적파라미타 수집 포인트
+        <span class="btn_more"><a href="./best_list.php">더보기</a></span>
+    </div>
+    <div class="cont01">
         <?php
-        if(is_array($g5['mms'])) {
-            foreach ($g5['mms'] as $k1=>$v1 ) {
-                // print_r2($g5['mms'][$k1]);
-                if( $g5['mms'][$k1]['com_idx']==$_SESSION['ss_com_idx'] && in_array($k1,$g5['set_dicast_mms_idxs_array']) ) {
-                    echo '<option value="'.$k1.'" '.get_selected($ser_mms_idx, $k1).'>'.$g5['mms'][$k1]['mms_name'].'</option>';
-                }
+        // 각 설비별로 최적값 추출
+        if(is_array($g5['set_dicast_mms_idxs_array'])) {
+            foreach($g5['set_dicast_mms_idxs_array'] as $k1=>$v1) {
+                // echo $k1.'=>'.$v1.'<br>';
+                $sql = "SELECT *
+                        FROM {$g5['data_measure_best_table']}
+                        WHERE mms_idx = '".$v1."'
+                        ORDER BY dmb_reg_dt DESC
+                        LIMIT 1
+                ";
+                // echo $sql.'<br>';
+                $one = sql_fetch($sql,1);
+                $mms = get_table('mms','mms_idx',$one['mms_idx']);
+                $one['mms_name'] = $g5['mms'][$one['mms_idx']]['mms_name'];
+                $one['machine_id'] = $mms['mms_idx2'];
+                // print_r2($one);
+                $best[$k1] = $one;
+
+                echo '<div class="rec_item">
+                        <p>'.$g5['mms'][$one['mms_idx']]['mms_name'].'</p>
+                        <strong>'.$one['dmb_dt'].'</strong>
+                        <span>'.$one['dmb_min'].'~'.$one['dmb_max'].' ('.$one['dmb_group_count'].')</span>
+                    </div>
+                ';
             }
         }
+        // print_r2($best);
         ?>
-    </select>
-    <script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
-
-    <select name="ser_dta_type" id="ser_dta_type">
-        <option value="">태그전체</option>
-        <option value="1" <?=get_selected($ser_dta_type, 1)?>>온도</option>
-        <option value="8" <?=get_selected($ser_dta_type, 1)?>>압력</option>
-    </select>
-    <script>$('select[name=ser_dta_type]').val("<?=$ser_dta_type?>").attr('selected','selected');</script>
-
-    <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" required class="required frm_input" autocomplete="off" style="width:80px;" >
-    <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" required class="required frm_input" autocomplete="off" style="width:65px;">
-    ~
-    <input type="text" name="en_date" value="<?=$en_date?>" id="en_date" required class="required frm_input" autocomplete="off" style="width:80px;">
-    <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" required class="required frm_input" autocomplete="off" style="width:65px;">
-    <button type="submit" class="btn btn_01 btn_search">확인</button>
-</form>
-
-<div class="local_desc01 local_desc" style="display:no ne;">
-    <p>가운데 빨간색으로 표시된 그래프가 최적기준선입니다. 기간내 추출된 태그 항목들만 표시됩니다.</p>
-</div>
-
-<div id="graph_wrapper">
-<div class="graph_wrap">
-
-    <!-- 차트 -->
-    <?php
-    for($i=0;$i<sizeof($g5['mms_idxs_array']);$i++) {
-        $mms_idx[$i] = $g5['mms_idxs_array'][$i];
-        // echo $mms_name[$mms_idx[$i]].' 설비명 ---------- <br>';
-        // if(!$tags[$mms_idx[$i]][0]) {continue;}
-    ?>
-    <div id="chart<?=$mms_idx[$i]?>" style="position:relative;width:100%; height:400px;">
-        <div class="chart_empty">그래프가 존재하지 않습니다.</div>
     </div>
-    <?php
-    }
-    ?>
-
-</div><!-- .graph_wrap -->
-</div><!-- #graph_wrapper -->
-
-<div class="btn_fixed_top" style="display:none;">
-    <a href="./parameters.php" class="btn_04 btn">개별그래프</a>
-    <a href="./parameters.php" class="btn_04 btn">전체그래프</a>
 </div>
+
 
 <script>
-<?php
-// 각 설비별 루틴
-for($i=0;$i<sizeof($g5['mms_idxs_array']);$i++) {
-    $mms_idx[$i] = $g5['mms_idxs_array'][$i];
-    // echo $mms_name[$mms_idx[$i]].' 설비명 ---------- <br>';
-    // if(!$tags[$mms_idx[$i]][0]) {continue;}
-    $tags[$i] = json_encode($tags[$mms_idx[$i]],JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
-    $ranges[$i] = json_encode($ranges[$mms_idx[$i]],JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
-    $averages[$i] = json_encode($averages[$mms_idx[$i]],JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
-?>
-var ranges<?=$mms_idx[$i]?> = <?=$ranges[$i]?>,
-    averages<?=$mms_idx[$i]?> = <?=$averages[$i]?>;
+// 로딩 spinner 이미지 표시/비표시
+function dta_loading(flag,chart_id) {
+    var img_loading = $('<i class="fa fa-spin fa-spinner" id="spinner_'+chart_id+'" style="position:absolute;top:80px;left:46%;font-size:4em;"></i>');
+    if(flag=='show') {
+        // console.log('show');
+        $('#'+chart_id).append(img_loading);
+    }
+    else if(flag=='hide') {
+        // console.log('hide');
+        $('#spinner_'+chart_id).remove();
+    }
+}
 
-Highcharts.chart('chart<?=$mms_idx[$i]?>', {
-    title: {
-        text: '<?=$mms_name[$mms_idx[$i]]?> <?=$mms_model[$mms_idx[$i]]?>'
-    },
-    subtitle: {
-        text: '<?=$start_end?>'
-    },
-    xAxis: {
-        categories: <?=$tags[$i]?>
-    },
-    yAxis: {
-        title: {
-            text: null
-        }
-    },
-    tooltip: {
-        crosshairs: true,
-        shared: true,
-        valueSuffix: ''   // °C
-    },
-    series: [{
-        name: '최적',
-        data: averages<?=$mms_idx[$i]?>,
-        type: 'spline',
-        zIndex: 1,
-        color: '#FF0000'
-    }, {
-        name: '범위',
-        data: ranges<?=$mms_idx[$i]?>,
-        type: 'areasplinerange',
-        lineWidth: 0,
-        linkedTo: ':previous',
-        color: Highcharts.getOptions().colors[0],
-        fillOpacity: 0.5,
-        zIndex: 0,
-        marker: {
+function createChart(chart_id,seriesOptions,shot_ids) {
+    console.log(chart_id);
+    console.log(seriesOptions);
+    var chart = new Highcharts.stockChart({
+        chart: {
+            renderTo: chart_id
+        },
+        scrollbar: {
             enabled: false
-        }
-    }]
-});
+        },
+        subtitle: {
+            text: 'Shot id: '+shot_ids
+        },        
+
+        animation: false,
+
+        xAxis: {
+            // min: 1587635789000,
+            // max: 1587643939000,
+            type: 'datetime',
+            labels: {
+                formatter: function() {
+                    return moment(this.value).format("MM/DD HH:mm");
+                }
+            },
+        },
+
+        yAxis: {
+            // max: 1800,   // 크게 확대해서 보려면 20
+            // min: -100,  // 크게 확대해서 보려면 -10, 없애버리면 자동 스케일
+            showLastLabel: true,    // 위 아래 마지막 label 보임 (이게 없으면 끝label이 안 보임)
+            opposite: false,
+            tickInterval: null,
+            // minorTickInterval: 5,
+            // minorTickLength: 0,
+        },
+
+        plotOptions: {
+            series: {
+                showInNavigator: true,
+                turboThreshold: 0,
+                dataGrouping: {
+                    enabled: false, // dataGrouping 안 함 (range가 변경되면 평균으로 바뀌어서 헷갈림)
+                },
+                marker: {
+                    enabled: true   // point dot display
+                }
+            }
+        },
+
+        navigator: {
+            enabled: false
+        },
+
+        navigation: {
+            buttonOptions: {
+                enabled: false, // contextButton (인쇄, 다운로드..) 설정 (기본옵션 사용자들에게는 안 보이게!!)
+                align: 'right',
+                x: -20,
+                y: 15
+            }
+        },
+
+        legend: {
+            enabled: true,
+            useHTML: true,
+            // labelFormatter: function () { // 하단 항목명(legend) 수정
+            //     // console.log(this._i);
+            //     // console.log(mmses);
+            //     var mms_name = (mms_count>1 && mmses[this._i]) ? '<br>'+decodeURIComponent(mmses[this._i]) : '';
+            //     return '<span>'+this.name+mms_name+'</span>';
+            // }
+        },
+
+        rangeSelector: {
+            enabled: false,
+        },
+
+        tooltip: {
+            formatter: function(e) {
+                var tooltip1 =  moment(this.x).format("YYYY-MM-DD HH:mm:ss");
+                // console.log(this);
+                var tooltip2 = [];
+                $.each(this.points, function () {
+                    var this_name = this.series.name;
+                    tooltip1 += '<br/><span style="color:' + this.color + '">\u25CF '+this_name+'</span>: <b>' + this.point.y + '</b>';
+                });
+                return tooltip1;
+            },
+            split: false,
+            shared: true
+        },
+        series: seriesOptions
+    });
+
+    dta_loading('hide',chart_id);
+    removeLogo();
+}
+</script>
+
 <?php
+// Rotate each machines.
+for($i=0;$i<sizeof($best);$i++) {
+    $shod_ids1 = $shod_ids2 = array();
+    $mms = get_table_meta('mms', 'mms_idx', $best[$i]['mms_idx']);  // mms meta 값으로 태그명들이 쭉 들어가 있음
+    // print_r2($best[$i]);
+
+    // 해당 시간 근처의 해당 설비의 주조공정(cast_shot) 추출, 중요한 변수들은 shot_id, start_time, end_time, machine_cycletime, product_cycletime
+    // 기준 시간 위쪽으로 10개 
+    $sql = "SELECT * FROM g5_1_cast_shot
+            WHERE machine_id = '".$best[$i]['machine_id']."' AND end_time >= '".$best[$i]['dmb_dt']."'
+            ORDER BY csh_idx LIMIT 10 OFFSET 0
+    ";
+    // echo $sql.'<br>';
+    $rs = sql_query_pg($sql,1);
+    for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
+        // print_r2($row);
+        $shod_ids1[] = $row['shot_id'];
+    }
+    // print_r2($shod_ids1);
+
+    // 기준 시간 아래쪽으로 10개 (향후 활용을 위해서 일단 추출해 둠)
+    $sql = "SELECT * FROM g5_1_cast_shot
+            WHERE machine_id = '".$best[$i]['machine_id']."' AND end_time < '".$best[$i]['dmb_dt']."'
+            ORDER BY csh_idx DESC LIMIT 10 OFFSET 0
+    ";
+    // echo $sql.'<br>';
+    $rs = sql_query_pg($sql,1);
+    for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
+        // print_r2($row);
+        $shod_ids2[] = $row['shot_id'];
+    }
+    // print_r2($shod_ids2);
+
+    // 기준점 중심 3개 값
+    $shot_ids = array($shod_ids2[0],$shod_ids1[0],$shod_ids1[1]);
+    // print_r2($shot_ids);
+    ?>
+    <script>
+        var seriesOptions1 = []; // 압력배열 초기화
+        var seriesOptions2 = []; // 압력배열 초기화
+    </script>
+    <div class="div_detail">
+        <div class="title01">
+            <?=$best[$i]['mms_name']?> <span class="title_date"><?=$best[$i]['dmb_dt']?></span>
+        </div>
+        <div id="tabs<?=$i?>">
+        <ul>
+            <li><a href="#tabs-<?=$i?>1">압력</a></li>
+            <li><a href="#tabs-<?=$i?>2">온도</a></li>
+            <li><a href="#tabs-<?=$i?>3">설정값</a></li>
+        </ul>
+        <div id="tabs-<?=$i?>1">
+            <?php
+            // 압력 ===========================================================================================
+            // 온도 (3개 포인트 - 기준점 아래, 기준점, 기준점 위)
+            // $sql = "SELECT *
+            //         FROM g5_1_cast_shot_sub
+            //         WHERE machine_id = '".$best[$i]['machine_id']."' AND shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
+            //         ORDER BY event_time
+            // ";
+            $sql = "SELECT *
+                    FROM g5_1_cast_shot_pressure
+                    WHERE shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
+                    ORDER BY event_time
+            ";
+            // echo $sql.'<br>';
+            $rs = sql_query_pg($sql,1);
+            $list = array();
+            $dta = array();
+            for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
+                // print_r2($row);
+                $row['no'] = $i;
+                $row['timestamp'] = strtotime($row['event_time']);
+
+                // 각 태그별로 데이터 설정
+                // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5, upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3, detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소, hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
+                foreach($g5['set_data_name_value'] as $k1=>$v1) {
+                    // echo $k1.'=>'.$v1.'<br>';
+                    if($row[$k1]) {
+                        $dta[$mms['mms_idx']][$k1][$j]['x'] = $row['timestamp']*1000;
+                        $dta[$mms['mms_idx']][$k1][$j]['y'] = (float)$row[$k1];
+                    }
+                }
+            }
+            // print_r2($dta[$mms['mms_idx']]);
+            ?>
+            <!-- // 챠트 표시 ====================================================== -->
+            <div id="pressure_<?=$i?>" class="chart_cont">
+                <i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:80px;left:46%;font-size:4em;color:#38425b;"></i>
+            </div>
+            <?php
+            if(is_array($dta[$mms['mms_idx']])) {
+                $j=0;
+                foreach($dta[$mms['mms_idx']] as $k1=>$v1) {
+                    // echo $k1.'('.$g5['set_data_name_value'][$k1].')=>'.$v1.'<br>';
+                    ?>
+                    <script>
+                        // for 돌면서 변수를 생성해 두고..
+                        var data = <?=json_encode($v1)?>;
+                        seriesOptions1[<?=$j?>] = {
+                            name: '<?=$g5['set_data_name_value'][$k1]?>',
+                            type: 'spline',
+                            dashStyle: 'solid',
+                            data: data
+                        };
+                    </script>
+                    <?php
+                    $j++;
+                }
+            }
+            ?>
+            <script>
+                // 만들어진 배열 변수 실행
+                createChart('pressure_<?=$i?>',seriesOptions1,'<?=implode(" ",$shot_ids)?>');
+            </script>
+        </div>
+        <div id="tabs-<?=$i?>2">
+            <?php
+            // 온도 ===========================================================================================
+            $sql = "SELECT *
+                    FROM g5_1_cast_shot_sub
+                    WHERE machine_id = '".$best[$i]['machine_id']."' AND shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
+                    ORDER BY event_time
+            ";
+            // echo $sql.'<br>';
+            $rs = sql_query_pg($sql,1);
+            $list = array();
+            $dta = array();
+            for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
+                // print_r2($row);
+                $row['no'] = $i;
+                $row['timestamp'] = strtotime($row['event_time']);
+
+                // 각 태그별로 데이터 설정
+                // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5, upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3, detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소, hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
+                foreach($g5['set_data_name_value'] as $k1=>$v1) {
+                    // echo $k1.'=>'.$v1.'<br>';
+                    if($row[$k1]) {
+                        $dta[$mms['mms_idx']][$k1][$j]['x'] = $row['timestamp']*1000;
+                        $dta[$mms['mms_idx']][$k1][$j]['y'] = (float)$row[$k1];
+                    }
+                }
+            }
+            // print_r2($dta[$mms['mms_idx']]);
+            ?>
+            <!-- // 챠트 표시 ====================================================== -->
+            <div id="temperature_<?=$i?>" class="chart_cont">
+                <i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:80px;left:46%;font-size:4em;color:#38425b;"></i>
+            </div>
+            <?php
+            if(is_array($dta[$mms['mms_idx']])) {
+                $j=0;
+                foreach($dta[$mms['mms_idx']] as $k1=>$v1) {
+                    // echo $k1.'('.$g5['set_data_name_value'][$k1].')=>'.$v1.'<br>';
+                    ?>
+                    <script>
+                        // for 돌면서 변수를 생성해 두고..
+                        var data = <?=json_encode($v1)?>;
+                        seriesOptions2[<?=$j?>] = {
+                            name: '<?=$g5['set_data_name_value'][$k1]?>',
+                            type: 'spline',
+                            dashStyle: 'solid',
+                            data: data
+                        };
+                    </script>
+                    <?php
+                    $j++;
+                }
+            }
+            ?>
+            <script>
+                // 만들어진 배열 변수 실행
+                createChart('temperature_<?=$i?>',seriesOptions2,'<?=implode(" ",$shot_ids)?>');
+            </script>
+
+        </div>
+        <div id="tabs-<?=$i?>3">
+        <div class="div_set_value">
+            3. 여기는 설정값이 들어갑니다.
+            
+        </div>
+        </div>
+        </div>
+    </div>
+    <script>
+    var $tabs = $("#tabs<?=$i?>");
+    $("#tabs<?=$i?>").tabs({
+        create: function(event, ui) {
+            // Adjust hashes to not affect URL when clicked.
+            var widget = $tabs.data("uiTabs");
+            widget.panels.each(function(i){
+            this.id = "uiTab_" + this.id; // Prepend a custom string to tab id.
+            widget.anchors[i].hash = "#" + this.id;
+            $(widget.tabs[i]).attr("aria-controls", this.id);
+            });
+        },
+        activate: function(event, ui) {
+            // Add the original "clean" tab id to the URL hash.
+            window.location.hash = ui.newPanel.attr("id").replace("uiTab_", "");
+        },
+    });
+    </script>
+
+    <?php
 }
 ?>
-</script>
-<script>
-    // timepicker 설정
-    $("input[name$=_time]").timepicker({
-        'timeFormat': 'H:i:s',
-        'step': 10
-    });
-
-    $("input[name$=_date]").datepicker({
-        closeText: "닫기",
-        currentText: "오늘",
-        monthNames: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
-        monthNamesShort: ["1월","2월","3월","4월","5월","6월", "7월","8월","9월","10월","11월","12월"],
-        dayNamesMin:['일','월','화','수','목','금','토'],
-        changeMonth: true,
-        changeYear: true,
-        dateFormat: "yy-mm-dd",
-        showButtonPanel: true,
-        yearRange: "c-99:c+99",
-        //maxDate: "+0d"
-    });
-</script>
 
 <?php
 include_once ('./_tail.php');

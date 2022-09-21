@@ -1651,3 +1651,54 @@ SELECT mta_idx,mta_value,mta_title,mta_number FROM g5_5_meta
 WHERE mta_db_table = 'member' AND mta_db_id = 'jamesjoa' AND mta_key = 'dashboard_menu' ORDER BY mta_number
 
 // let's make default 2 dashboards in meta db tables.
+
+SELECT DATE_ADD(now(), INTERVAL -1 DAY) FROM dual
+SELECT DATE_ADD(now(), INTERVAL -6 HOUR) FROM dual
+
+
+
+[
+  {
+    x: 1663589512000,
+    y: 0,
+    yraw: 0,
+    yamp: 1,
+    ymove: 0
+  },
+  {
+    x: 1663589580000,
+    y: 0,
+    yraw: 0,
+    yamp: 1,
+    ymove: 0
+  },
+  {
+    x: 1663589600000,
+    y: 0,
+    yraw: 0,
+    yamp: 1,
+    ymove: 0
+  },
+  {
+    x: 1663589652000,
+    y: 0,
+    yraw: 0,
+    yamp: 1,
+    ymove: 0
+  },
+  {
+    x: 1663589688000,
+    y: 0,
+    yraw: 0,
+    yamp: 1,
+    ymove: 0
+  }
+]
+
+
+컨베이어 동작은 지금 무조건 위로 올라가고 있다.
+0,1,2..
+
+유재선 상무
+
+

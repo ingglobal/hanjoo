@@ -13,7 +13,8 @@ if($member['mb_level']>=9) {
 $g5['container_sub_title'] = '
 <h2 id="container_sub_title">
     <a href="./output_list.php" class="btn_top_menu '.$active_output_list.'">제품현황</a>
-    <a href="./best_list.php" class="btn_top_menu '.$active_best_list.'">최적파라메터</a>
+    <a href="./qr_cast_list.php" class="btn_top_menu '.$active_qr_cast_list.'">주조코드조회</a>
+    <a href="./best_list.php" class="btn_top_menu '.$active_best_list.'">최적파라메타</a>
     <a href="./output_graph.php" class="btn_top_menu '.$active_output_graph.'">생산현황그래프</a>
 	'.$sub_title_list.'
 </h2>

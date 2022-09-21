@@ -77,7 +77,7 @@ $sql = "SELECT *
         {$sql_common} {$sql_search} {$sql_order}
 		LIMIT {$rows} OFFSET {$from_record}
 ";
-// echo $sql.'<br>';
+echo $sql.'<br>';
 $result = sql_query_pg($sql,1);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
@@ -159,9 +159,9 @@ $qstr = $qstr."&st_date=$st_date&en_date=$en_date&mms_idx=$mms_idx";
 			<tr tr_id="'.$i.'" style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
 				<td>'.$row['csh_idx'].'<br>'.$row['shot_id'].'</td>
 				<td>'.$row['work_date'].'<br>'.$g5['set_work_shift'][$row['work_shift']].'</td>
-				<td>'.$row['start_time'].'<br>~'.$row['end_time'].'<br>('.$row['elapsed_time'].' sec)</td>
+				<td class="font_size_7">'.substr($row['start_time'],0,19).'<br>~'.substr($row['end_time'],0,19).'<br>('.$row['elapsed_time'].' sec)</td>
 				<td>'.$row['machine_no'].'<br>'.$row['machine_id'].'</td>
-				<td>'.$row['item_no'].'<br>'.$row['item_name'].'</td>
+				<td class="font_size_7">'.$row['item_no'].'<br>'.$row['item_name'].'</td>
 				<td>'.$row['mold_no'].'</td>
 				<td>'.$row['shot_no'].'</td>
 				<td>'.$row['pv_cycletime'].'</td>

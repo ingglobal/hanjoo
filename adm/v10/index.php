@@ -43,6 +43,7 @@ function dta_loading(flag,mbd_idx) {
 }
 
 function createChart(mbd_idx,seriesOptions,dta_item,mmses,mms_count) {
+    // console.log(seriesOptions);
     var chart = new Highcharts.stockChart({
         chart: {
             renderTo: 'chart_'+mbd_idx
