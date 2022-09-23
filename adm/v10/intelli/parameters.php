@@ -82,8 +82,8 @@ function dta_loading(flag,chart_id) {
 }
 
 function createChart(chart_id,seriesOptions,shot_ids) {
-    console.log(chart_id);
-    console.log(seriesOptions);
+    // console.log(chart_id);
+    // console.log(seriesOptions);
     var chart = new Highcharts.stockChart({
         chart: {
             renderTo: chart_id
@@ -359,10 +359,26 @@ for($i=0;$i<sizeof($best);$i++) {
 
         </div>
         <div id="tabs-<?=$i?>3">
-        <div class="div_set_value">
-            3. 여기는 설정값이 들어갑니다.
-            
-        </div>
+            <div class="div_set_value">
+                <ul>
+                    <?php
+                    // get the setting values round the found spot.
+                    $sql = "SELECT * FROM g5_1_data_measure_".$best[$i]['machine_id']."
+                            WHERE machine_id = '".$best[$i]['machine_id']."' AND dta_dt >= '".$best[$i]['dmb_dt']."'
+                            ORDER BY csh_idx LIMIT 10 OFFSET 0
+                    ";
+                    echo $sql.'<br>';
+                    for($j=0;$j<31;$j++) {
+                        echo '<li>
+                                <strong>제목</strong>
+                                <div>내용</div>
+                            </li>
+                        ';
+                    }
+                    ?>
+                </ul>
+                
+            </div>
         </div>
         </div>
     </div>

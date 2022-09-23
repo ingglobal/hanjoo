@@ -59,6 +59,7 @@ for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
     // print_r2($row['ar']);
 
     $sql2 = " SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('".$row['tablename']."') ";
+    // echo $sql2.'<br>';
     $row2 = sql_fetch_pg($sql2,1);
     $table_count = $row2['cnt'];
     // echo $table_count.'<br>';
@@ -134,7 +135,7 @@ if ($where)
 
 
 if (!$sst) {
-    $sst = $pre."_idx";
+    $sst = $pre."_dt";
     $sod = "DESC";
 }
 $sql_order = " ORDER BY {$sst} {$sod} ";
@@ -145,6 +146,7 @@ if(sizeof($where)<=1) {
 else {
     $sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 }
+// echo $sql.'<br>';
 $row = sql_fetch_pg($sql,1);
 $total_count = $row['cnt'];
 
@@ -206,37 +208,44 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 </select>
 <script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
 
+<?php
+// // get mms info with meta extened data.
+$mms = get_table_meta('mms', 'mms_idx', $ser_mms_idx);
+// print_r2($mms);
+$sql = "SELECT mta_key, mta_value
+        FROM {$g5['meta_table']}
+        WHERE mta_key LIKE 'dta_type_label%' 
+            AND mta_db_table = 'mms' AND mta_db_id = '".$ser_mms_idx."'
+        ORDER BY mta_key
+";
+// echo $sql.'<br>';
+$rs = sql_query($sql,1);
+// chang query for query speed issue.
+// $sql = "SELECT dta_type, dta_no
+//         FROM g5_1_data_measure_".$ser_mms_idx."
+//         GROUP BY dta_type, dta_no
+//         ORDER BY dta_type, dta_no
+// ";
+// echo $sql.'<br>';
+// $rs = sql_query_pg($sql,1);
+// for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
+for($i=0;$row=sql_fetch_array($rs);$i++) {
+    // print_r2($row);
+    $opt_type_no_arr = explode("-",$row['mta_key']);
+    // print_r2($opt_type_no_arr);
+    $opt_dta_type = $opt_type_no_arr[1];
+    $opt_dta_no = $opt_type_no_arr[2];
+    // 각 태그별 명칭
+    $row['dta_type_no_name'] = $mms['dta_type_label-'.$opt_dta_type.'-'.$opt_dta_no] ? 
+                                    $mms['dta_type_label-'.$opt_dta_type.'-'.$opt_dta_no]
+                                        : $g5['set_data_type_value'][$opt_dta_type].'-'.$opt_dta_no;
+    // echo $row['dta_type_no_name'].'<br>';
+    $type_no_options .= '<option value="'.$opt_dta_type.'_'.$opt_dta_no.'">'.$row['dta_type_no_name'].'</option>';
+}
+?>
 <select name="ser_type_no" id="ser_type_no">
     <option value="">태그전체</option>
-    <?php
-    // get mms info with meta extened data.
-    $mms = get_table_meta('mms', 'mms_idx', $ser_mms_idx);
-    // print_r2($mms);
-    $sql = "SELECT dta_type, dta_no
-            FROM g5_1_data_measure_".$ser_mms_idx."
-            GROUP BY dta_type, dta_no
-            ORDER BY dta_type, dta_no
-    ";
-    // echo $sql.'<br>';
-    $rs = sql_query_pg($sql,1);
-    for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
-        // print_r2($row);
-
-        // 각 태그별 명칭
-        // if($mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]) {
-        //     echo $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']].'<br>';
-        // }
-        // else {
-        //     echo $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'].'<br>';
-        // }
-        $row['dta_type_no_name'] = $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']] ? 
-                                        $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
-                                            : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
-        // echo $row['dta_type_no_name'].'<br>';
-        echo '<option value="'.$row['dta_type'].'_'.$row['dta_no'].'">'.$row['dta_type_no_name'].'</option>';
-    }
-    // print_r2($dta_arr);
-    ?>
+    <?=$type_no_options?>
 </select>
 <script>$('select[name=ser_type_no]').val("<?=$ser_type_no?>").attr('selected','selected');</script>
 

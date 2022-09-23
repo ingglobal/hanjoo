@@ -68,11 +68,22 @@ else if(is_array($getData[0]['list'])) {
         }
 
 
+        // PgSQL insert record.
+        $sql = "INSERT INTO {$table_name} (dta_type,dta_no,dta_value,dta_dt) VALUES
+                    ('".$arr['dta_type']."','".$arr['dta_no']."','".$arr['dta_value']."','".$arr['dta_dt']."')
+                RETURNING dta_idx
+        ";
+        // echo $sql.'<br>';
+        // 한주: 온도,습도가 아닌 경우만 측정값 저장 (한주의 온도,습도는 MES를 통해서 입력받아요.)
+        if(!in_array($arr['dta_type'],array(0,1,8))) {
+            sql_query_pg($sql,1);
+        }
 
         // MySQL insert record.
+        $arr['dta_type2'] = (in_array($arr['dta_type'],array(0,1,8))) ? 13 : $arr['dta_type'];  // 한주전용: 온도,습도인 경우 13(기타)로 만듦
         $sql = "INSERT INTO {$table_name} SET 
                     dta_dt = '".$arr['dta_dt']."'
-                    , dta_type = '".$arr['dta_type']."'
+                    , dta_type = '".$arr['dta_type2']."'
                     , dta_no = '".$arr['dta_no']."'
                     , dta_value = '".$arr['dta_value']."'
         ";
@@ -80,17 +91,6 @@ else if(is_array($getData[0]['list'])) {
         sql_query($sql,1);
         $dta['dta_idx'] = sql_insert_id();
         $result_arr[$i]['dta_idx'] = $dta['dta_idx'];   // 고유번호
-
-        // PgSQL insert record.
-        $sql = "INSERT INTO {$table_name} (dta_type,dta_no,dta_value,dta_dt) VALUES
-                    ('".$arr['dta_type']."','".$arr['dta_no']."','".$arr['dta_value']."','".$arr['dta_dt']."')
-                RETURNING dta_idx
-        ";
-        // echo $sql.'<br>';
-        // 한주를 위해서.. 온도,습도가 아닌 경우만 측정값 저장, 한주의 온도,습도는 MES를 통해서 입력받아요.
-        if(!in_array($arr['dta_type'],array(0,1,8))) {
-            sql_query_pg($sql,1);
-        }
 
         // 주조코드 입력... 이건 뭔가 다른 방법이 필요하다.
         if($arr['mms_idx']=='62' && $arr['dta_type']=='13') {

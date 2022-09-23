@@ -915,3 +915,19 @@ ORDER BY event_time
 total count: 692
 
 // Ok! those are same with shot_ids and time arrange.
+
+// data_measure_list page QUERYs which page are very slow to load.
+SELECT * FROM pg_tables WHERE tableowner = 'postgres' AND tablename ~ 'g5_1_data_measure_[0-9]+$' ORDER BY tablename
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_58')
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_59')
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_60')
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_61')
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_62')
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_63')
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_64')
+
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_59')
+SELECT * FROM g5_1_data_measure_59 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
+SELECT * FROM g5_1_data_measure_60 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
+SELECT * FROM g5_1_data_measure_61 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
+SELECT * FROM g5_1_data_measure_58 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0

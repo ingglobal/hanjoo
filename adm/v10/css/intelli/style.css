@@ -57,3 +57,5 @@
 .chart_cont:after {display:block;visibility:hidden;clear:both;content:'';}
 
 .div_set_value {min-height:350px;}
+.div_set_value ul{padding:2px;}
+.div_set_value ul li{width:15%;float:left;margin:7px;}
