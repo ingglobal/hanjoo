@@ -1702,3 +1702,15 @@ SELECT DATE_ADD(now(), INTERVAL -6 HOUR) FROM dual
 유재선 상무
 
 
+// get the parameters at the point around the found spot.
+SELECT * FROM g5_1_data_measure_58 ORDER BY dta_dt DESC LIMIT 100;
+2022-09-16 06:33:00
+
+// Query speed is too slow.
+SELECT * FROM g5_1_data_measure_60 WHERE 1=1 ORDER BY dta_idx DESC LIMIT 15 OFFSET 0
+SELECT * FROM g5_1_data_measure_61 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
+
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_60')
+
+
+SELECT mta_value FROM g5_5_meta WHERE mta_key LIKE 'dta_type_label%' AND mta_db_table = 'mms' AND mta_db_id = '58' ORDER BY mta_key
