@@ -14,8 +14,8 @@ echo $g5['container_sub_title'];
 .highcharts-dynamic {width:100%;}
 .highcharts-dynamic > div {width:49%;}
 .highcharts-dynamic:after {display:block;visibility:hidden;clear:both;content:'';}
-#chart1 {display:inline-block;float:left;}
-#chart2 {display:inline-block;float:right;}
+#chart1 {float:left;}
+#chart2 {float:right;}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
