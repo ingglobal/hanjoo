@@ -63,6 +63,7 @@ if(sizeof($where)<=1) {
 else {
     $sql = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 }
+// echo $sql.'<br>';
 $row = sql_fetch_pg($sql,1);
 $total_count = $row['cnt'];
 
@@ -77,7 +78,7 @@ $sql = "SELECT *
         {$sql_common} {$sql_search} {$sql_order}
 		LIMIT {$rows} OFFSET {$from_record}
 ";
-echo $sql.'<br>';
+// echo $sql.'<br>';
 $result = sql_query_pg($sql,1);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';

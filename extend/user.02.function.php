@@ -67,6 +67,31 @@ function sql_num_rows_pg($result)
 }
 }
 
+if(!function_exists('sql_field_names_pg')){
+function sql_field_names_pg($table, $link=null)
+{
+    global $g5;
+
+    if(!$link)
+        $link = $g5['connect_pg'];
+
+    $columns = array();
+
+    $sql = "SELECT column_name, data_type, character_maximum_length
+			FROM INFORMATION_SCHEMA.COLUMNS
+			WHERE table_name = '".$table."'
+	";
+    $result = sql_query_pg($sql,1);
+	while($field = sql_fetch_array_pg($result)) {
+		// print_r2($field);
+		// echo $field['column_name'].'<br>';
+		$columns[] = $field['column_name'];
+	}
+
+    return $columns;
+}
+}
+
 // 쿼리를 실행한 후 결과값에서 한행을 얻는다.
 if(!function_exists('sql_fetch_pg')){
 function sql_fetch_pg($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)

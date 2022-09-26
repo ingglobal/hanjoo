@@ -23,6 +23,21 @@ DELETE FROM g5_1_cast_shot_pressure WHERE event_time > '2022-06-04 00:00:00'
 
 ..................................................................................
 
+-- Create a temporary TIMESTAMP column
+ALTER TABLE g5_1_robot ADD COLUMN time_temp TIMESTAMP without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'Asia/Seoul');
+
+-- Copy casted value over to the temporary column
+UPDATE g5_1_robot SET time_temp = time::TIMESTAMP;
+
+-- Modify original column using the temporary column
+ALTER TABLE g5_1_robot ALTER COLUMN time TYPE TIMESTAMP without time zone USING time_temp;
+
+-- Drop the temporary column (after examining altered column values)
+ALTER TABLE g5_1_robot DROP COLUMN time_temp;
+
+SELECT create_hypertable('g5_1_robot', 'time', migrate_data => true);
+
+
 CREATE TABLE g5_1_robot_test (
   id SERIAL,
   time timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'Asia/Seoul'),
@@ -59,6 +74,13 @@ INSERT INTO "g5_1_robot_test" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "
 VALUES ('2022-08-10 08:16:44',           '2',       '31', '32',  '33',   '34',  '35',  '36',  '41', '42',  '43',   '44',  '45',  '46');
 INSERT INTO "g5_1_robot_test" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6")
 VALUES ('2022-08-10 08:16:45',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36');
+
+ALTER TABLE g5_1_robot RENAME TO g5_1_robot_bak;
+ALTER TABLE g5_1_robot_test2 RENAME TO g5_1_robot;
+ALTER TABLE g5_1_robot_test RENAME TO g5_1_robot_test3;
+ALTER TABLE g5_1_robot RENAME TO g5_1_robot_test2;
+
+DROP TABLE g5_1_robot_test2;
 
 CREATE TABLE g5_1_robot_test2 (
   rob_idx SERIAL,
@@ -104,6 +126,49 @@ INSERT INTO "g5_1_robot_test2" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", 
 VALUES ('2022-08-10 08:16:44',           '2',       '31', '32',  '33',   '34',  '35',  '36',  '41', '42',  '43',   '44',  '45',  '46',  '41', '42',  '43',   '44',  '45',  '46',  '1',  '2');
 INSERT INTO "g5_1_robot_test2" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
 VALUES ('2022-08-10 08:16:45',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36',  '31', '32',  '33',   '34',  '35',  '36',  '1',  '2');
+
+DROP TABLE g5_1_borot;
+
+CREATE TABLE g5_1_robot (
+  rob_idx SERIAL,
+  time timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'Asia/Seoul'),
+  robot_no integer NOT NULL,
+  tq1 DOUBLE PRECISION NULL,
+  tq2 DOUBLE PRECISION NULL,
+  tq3 DOUBLE PRECISION NULL,
+  tq4 DOUBLE PRECISION NULL,
+  tq5 DOUBLE PRECISION NULL,
+  tq6 DOUBLE PRECISION NULL,
+  et1 DOUBLE PRECISION NULL,
+  et2 DOUBLE PRECISION NULL,
+  et3 DOUBLE PRECISION NULL,
+  et4 DOUBLE PRECISION NULL,
+  et5 DOUBLE PRECISION NULL,
+  et6 DOUBLE PRECISION NULL,
+  mtq1 DOUBLE PRECISION NULL,
+  mtq2 DOUBLE PRECISION NULL,
+  mtq3 DOUBLE PRECISION NULL,
+  mtq4 DOUBLE PRECISION NULL,
+  mtq5 DOUBLE PRECISION NULL,
+  mtq6 DOUBLE PRECISION NULL,
+  alarm DOUBLE PRECISION NULL,
+  status DOUBLE PRECISION NULL
+);
+SELECT create_hypertable('g5_1_robot', 'time');
+CREATE INDEX g5_1_robot_robot_no ON g5_1_robot (robot_no);
+
+INSERT INTO "g5_1_robot" ("rob_idx", "time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('1', '2022-08-10 08:16:43',           '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36',  '31', '32',  '33',   '34',  '35',  '36',  '1',  '2');
+INSERT INTO "g5_1_robot" ("rob_idx", "time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('2', '2022-08-10 08:16:43',           '2',       '31', '32',  '33',   '34',  '35',  '36',  '41', '42',  '43',   '44',  '45',  '46',  '51', '52',  '53',   '54',  '55',  '56',  '1',  '2');
+
+// auto_increment 생성
+// pgadmin 페이지에서 column 항목을 보고 Default 항목의 설명을 보면 정확한 이름이 나와있음
+ALTER SEQUENCE g5_1_robot_rob_idx_seq1 RESTART WITH 3;
+
+// auto_increment가 되는지 입력해 봄
+INSERT INTO "g5_1_robot" ("time", "robot_no", "tq1", "tq2", "tq3", "tq4", "tq5", "tq6", "et1", "et2", "et3", "et4", "et5", "et6", "mtq1", "mtq2", "mtq3", "mtq4", "mtq5", "mtq6", "alarm", "status")
+VALUES ('2022-08-10 08:16:43',     '1',       '21', '22',  '23',   '24',  '25',  '26',  '31', '32',  '33',   '34',  '35',  '36',  '31', '32',  '33',   '34',  '35',  '36',  '1',  '2');
 
 
 
@@ -931,3 +996,24 @@ SELECT * FROM g5_1_data_measure_59 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSE
 SELECT * FROM g5_1_data_measure_60 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
 SELECT * FROM g5_1_data_measure_61 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
 SELECT * FROM g5_1_data_measure_58 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
+
+
+-------+--------+----------+-------------+-------------------------------+--------------------------------------------------------------------------------------------------------
+  7405 | active | postgres |             | 2022-09-23 11:00:49.593405+09 | SELECT pid,state,usename,client_addr,query_start,query FROM pg_stat_activity ORDER BY query_start ASC;
+ 14281 |        | postgres |             |                               |
+ 14280 |        | postgres |             |                               |
+ 18707 | idle   | postgres | 192.1.2.1   |                               |
+ 14283 |        | postgres |             |                               |
+ 14284 |        | postgres |             |                               |
+ 14286 |        | postgres |             |                               |
+ 12453 | idle   | postgres | 127.0.0.1   |                               |
+ 14276 |        |          |             |                               |
+ 14275 |        |          |             |                               |
+ 14278 |        |          |             |                               |
+ 14277 |        |          |             |                               |
+(12 rows)
+
+
+SELECT column_name, data_type, character_maximum_length
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE table_name = 'g5_1_robot';

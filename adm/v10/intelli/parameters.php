@@ -363,18 +363,39 @@ for($i=0;$i<sizeof($best);$i++) {
                 <ul>
                     <?php
                     // get the setting values round the found spot.
-                    $sql = "SELECT * FROM g5_1_data_measure_".$best[$i]['machine_id']."
-                            WHERE machine_id = '".$best[$i]['machine_id']."' AND dta_dt >= '".$best[$i]['dmb_dt']."'
-                            ORDER BY csh_idx LIMIT 10 OFFSET 0
+                    $sql = "SELECT * FROM g5_1_data_measure_".$best[$i]['mms_idx']."
+                            WHERE dta_dt >= '".$best[$i]['dmb_dt']."' AND dta_type = 13
+                            ORDER BY dta_idx LIMIT 1
                     ";
-                    echo $sql.'<br>';
-                    for($j=0;$j<31;$j++) {
+                    // echo $sql.'<br>';
+                    $one = sql_fetch_pg($sql,1);
+                    // // print_r2($one);
+                    $sql = "SELECT * FROM g5_1_data_measure_".$best[$i]['mms_idx']."
+                            WHERE dta_dt = '".$one['dta_dt']."' AND dta_type = 13
+                    ";
+                    // echo $sql.'<br>';
+                    $rs = sql_query_pg($sql,1);
+                    for($j=0;$row=sql_fetch_array_pg($rs);$j++) {
+                        // print_r2($row);
+                        // 각 태그별 명칭
+                        $row['dta_type_no_name'] = $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']] ? 
+                                                        $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
+                                                            : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
+                        // echo $row['dta_type_no_name'].'<br>';
                         echo '<li>
-                                <strong>제목</strong>
-                                <div>내용</div>
+                                <div class="set_title">'.$row['dta_type_no_name'].'</div>
+                                <strong>'.$row['dta_value'].'</strong>
                             </li>
                         ';
                     }
+
+                    // for($j=0;$j<31;$j++) {
+                    //     echo '<li>
+                    //             <strong>제목</strong>
+                    //             <div>내용</div>
+                    //         </li>
+                    //     ';
+                    // }
                     ?>
                 </ul>
                 
