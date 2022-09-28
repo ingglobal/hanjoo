@@ -8,14 +8,15 @@ $g5['title'] = '로봇실시간제어';
 include_once('./_top_menu_robot.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
+
+$type_array = array('tq1'=>'토크1','tq2'=>'토크2','tq3'=>'토크3','tq4'=>'토크4','tq5'=>'토크5','tq6'=>'토크6'
+                    ,'et1'=>'온도1','et2'=>'온도2','et3'=>'온도3','et4'=>'온도4','et5'=>'온도5','et6'=>'온도6');
+// foreach($type_array as $k1=>$v1) {
+//     echo $k1.'=>'.$v1.'<br>';
+// }
 ?>
 <style>
 /* /adm/v10/css/robot_realtime.css 에서 기본설정 */
-.highcharts-dynamic {width:100%;}
-.highcharts-dynamic > div {width:49%;}
-.highcharts-dynamic:after {display:block;visibility:hidden;clear:both;content:'';}
-#chart1 {float:left;}
-#chart2 {float:right;}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
@@ -32,71 +33,92 @@ echo $g5['container_sub_title'];
     <p>작업중!!</p>
 </div>
 
-<div class="highcharts-dynamic">
-    <div id="chart1"></div>
-    <div id="chart2"></div>
+<div class="chart_wrapper">
+    <div class="chart_left">
+        <div class="chart_title">
+            <strong>로봇1</strong>
+            <div class="buttons">
+                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇중지</a>
+                <a href="javascript:alert('경고를 전달하시겠습니까?');">경고</a>
+                <a href="javascript:alert('로봇을 재시작 시키겠습니까?');">로봇재시작</a>
+            </div>
+        </div>
+        <div id="chart1_tq1"></div><!-- 토크1 -->
+        <div id="chart1_tq2"></div><!-- 토크2 -->
+        <div id="chart1_tq3"></div><!-- 토크3 -->
+        <div id="chart1_tq4"></div><!-- 토크4 -->
+        <div id="chart1_tq5"></div><!-- 토크5 -->
+        <div id="chart1_tq6"></div><!-- 토크6 -->
+        <div id="chart1_et1"></div><!-- 온도1 -->
+        <div id="chart1_et2"></div><!-- 온도2 -->
+        <div id="chart1_et3"></div><!-- 온도3 -->
+        <div id="chart1_et4"></div><!-- 온도4 -->
+        <div id="chart1_et5"></div><!-- 온도5 -->
+        <div id="chart1_et6"></div><!-- 온도6 -->
+    </div>
+    <div class="chart_right">
+        <div class="chart_title">
+            <strong>로봇2</strong>
+            <div class="buttons">
+                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇중지</a>
+                <a href="javascript:alert('경고를 전달하시겠습니까?');">경고</a>
+                <a href="javascript:alert('로봇을 재시작 시키겠습니까?');">로봇재시작</a>
+            </div>
+        </div>
+        <div id="chart2_tq1"></div><!-- 토크1 -->
+        <div id="chart2_tq2"></div><!-- 토크2 -->
+        <div id="chart2_tq3"></div><!-- 토크3 -->
+        <div id="chart2_tq4"></div><!-- 토크4 -->
+        <div id="chart2_tq5"></div><!-- 토크5 -->
+        <div id="chart2_tq6"></div><!-- 토크6 -->
+        <div id="chart2_et1"></div><!-- 온도1 -->
+        <div id="chart2_et2"></div><!-- 온도2 -->
+        <div id="chart2_et3"></div><!-- 온도3 -->
+        <div id="chart2_et4"></div><!-- 온도4 -->
+        <div id="chart2_et5"></div><!-- 온도5 -->
+        <div id="chart2_et6"></div><!-- 온도6 -->
+    </div>
 </div>
 
-<div class="div_button" style="margin-top:40px;">
-    <a href="javascript:alert('정말 중지시키겠습니까?');" style="padding:20px 50px;background-color:#555;">로봇중지</a>
-    <a href="javascript:alert('경고를 전달하시겠습니까?');" style="padding:20px 50px;background-color:#555;">경고</a>
-    <a href="javascript:alert('로봇을 재시작 시키겠습니까?');" style="padding:20px 50px;background-color:#555;">로봇재시작</a>
-</div>
 
 <script>
-Highcharts.chart('chart1', {
+<?php
+for($x=1;$x<3;$x++) {
+    foreach($type_array as $k1=>$v1) {
+?>
+Highcharts.chart('chart<?=$x?>_<?=$k1?>', {
     chart: {
         type: 'spline',
         animation: Highcharts.svg, // don't animate in old IE
         marginRight: 10,
         events: {
             load: function () {
-                // set up the updating of the chart each second
-                // 1초에 하나 데이터를 추가하고 오래된 건 delete off from the start point.
-                var series = this.series[0];
+                var series0 = this.series[0];   // 그래프중에서 첫번째 (실제로 여러개의 그래프가 들어갈 수 있음)
                 // console.log(this.series[0]);
+                console.log('<?=G5_USER_URL?>/json/robot.php?token=1099de5drf09&robot=<?=$x?>&type=<?=$k1?>');
                 setInterval(function () {
-                    dt1 = new Date();
-
-                    dt1.setSeconds(dt1.getSeconds());
-                    var x1 = dt1.getTime(),
-                        y1 = Math.random();
-                    // series.addPoint([x, y], true, true);
-                    setTimeout(function(e){
-                        series.addPoint([x1, y1], true, true);
-                    },2000);
-                    // addPoint() adds only single point. To add more points use that function multiple times.
-
-                    // console.log( dt1 );
-                    dt1.setSeconds(dt1.getSeconds() - 1);
-                    var x2 = dt1.getTime(),
-                        y2 = Math.random();
-
-                    setTimeout(function(e){
-                        series.addPoint([x2, y2], true, true);
-                    },1000);
-
-                    dt1.setSeconds(dt1.getSeconds() - 1);
-                    var x3 = dt1.getTime(),
-                        y3 = Math.random();
-
-                    setTimeout(function(e){
-                        series.addPoint([x3, y3], true, true);
-                    },0);
-
-                }, 3000);
+                    $.getJSON(g5_user_url+'/json/robot.php',{"token":"1099de5drf09","robot":"<?=$x?>","type":"<?=$k1?>"},function(res) {
+                        // console.log(res);
+                        $.each(res, function(i, v) {
+                            // console.log(i+':'+v);
+                            // console.log(i+':'+v['x']+','+v['y']);
+                            var setTime = i*1000;
+                            // console.log(setTime+':'+v['x']+','+v['y']);
+                            setTimeout(function(e){
+                                series0.addPoint([v['x'], v['y']], true, true);
+                            },setTime);
+                        });
+                    });
+                }, 10000);
             }
         }
     },
-
     time: {
         useUTC: false
     },
-
     title: {
-        text: '토크'
+        text: '<?=$v1?>'
     },
-
     accessibility: {
         announceNewData: {
             enabled: true,
@@ -109,167 +131,76 @@ Highcharts.chart('chart1', {
             }
         }
     },
-
     xAxis: {
         type: 'datetime',
         tickPixelInterval: 150
     },
-
     yAxis: {
         title: {
             text: 'Value'
         },
         plotLines: [{
-            value: 0,
-            width: 1,
-            color: '#808080'
-        }]
+                value: 24,  // 경고 기준값
+                color: 'yellow',
+                dashStyle: 'solid',
+                width: 3
+            },
+            {
+                value: 45,  // 정지 기준값
+                color: 'red',
+                dashStyle: 'solid',
+                width: 3
+            }]
     },
-
-    tooltip: {
-        headerFormat: '<b>{series.name}</b><br/>',
-        pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+    plotOptions: {
+        series: {
+            marker: {
+                enabled: true   // point dot display
+            }
+        }
     },
-
     legend: {
         enabled: false
     },
-
     exporting: {
         enabled: false
     },
-
-    // 초기 데이터 19개 series
-    series: [{
-        name: '토크1',
-        data: (function() {
-            // generate an array of random data
-            var data = [],
-                time = (new Date()).getTime(),
-                i;
-            for (i = -39; i <= 0; i += 1) {
-                data.push({
-                    x: time + i * 1000,
-                    y: Math.random()
-                });
-            }
-            return data;
-        }())
-    }]
-});
-
-Highcharts.chart('chart2', {
-    chart: {
-        type: 'spline',
-        animation: Highcharts.svg, // don't animate in old IE
-        marginRight: 10,
-        events: {
-            load: function () {
-                // set up the updating of the chart each second
-                // 1초에 하나 데이터를 추가하고 오래된 건 delete off from the start point.
-                var series = this.series[0];
-                // console.log(this.series[0]);
-                // setInterval(function () {
-                //     var x = (new Date()).getTime(), // current time
-                //         y = Math.random();
-                //     series.addPoint([x, y], true, true);
-                //     // console.log(x + '=' + y);
-                //     // console.log(series.data[0].options);
-                //     // console.log(series.data[1].options);
-                // }, 3000);
-                setInterval(function () {
-                    dt1 = new Date();
-                    dt1.setSeconds(dt1.getSeconds());
-                    var x = dt1.getTime(),
-                        y = Math.random();
-                    series.addPoint([x, y], true, true);
-                    // addPoint() adds only single point. To add more points use that function multiple times.
-
-                    // console.log( dt1 );
-                    dt1.setSeconds(dt1.getSeconds() - 1);
-                    var x = dt1.getTime(),
-                        y = Math.random();
-                    series.addPoint([x, y], true, true);
-                    // console.log( dt1 );
-
-                    dt1.setSeconds(dt1.getSeconds() - 1);
-                    // console.log( dt1 );
-                    var x = dt1.getTime(),
-                        y = Math.random();
-                    series.addPoint([x, y], true, true);
-                }, 3000);
-            }
-        }
-    },
-
-    time: {
-        useUTC: false
-    },
-
-    title: {
-        text: '온도'
-    },
-
-    accessibility: {
-        announceNewData: {
-            enabled: true,
-            minAnnounceInterval: 15000,
-            announcementFormatter: function (allSeries, newSeries, newPoint) {
-                if (newPoint) {
-                    return 'New point added. Value: ' + newPoint.y;
-                }
-                return false;
-            }
-        }
-    },
-
-    xAxis: {
-        type: 'datetime',
-        tickPixelInterval: 150
-    },
-
-    yAxis: {
-        title: {
-            text: 'Value'
+    tooltip: {
+        formatter: function(e) {
+            var tooltip1 =  moment(this.x).format("YYYY-MM-DD HH:mm:ss");
+            // console.log(this);
+            var tooltip2 = [];
+            $.each(this.points, function () {
+                var this_name = this.series.name;
+                tooltip1 += '<br/><span style="color:' + this.color + '">\u25CF '+this_name+'</span>: <b>' + this.point.y + '</b>';
+            });
+            return tooltip1;
         },
-        plotLines: [{
-            value: 0,
-            width: 1,
-            color: '#808080'
-        }]
+        split: false,
+        shared: true
     },
-
-    tooltip: {
-        headerFormat: '<b>{series.name}</b><br/>',
-        pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
-    },
-
-    legend: {
-        enabled: false
-    },
-
-    exporting: {
-        enabled: false
-    },
-
-    // 초기 데이터 19개 series
     series: [{
-        name: '토크1',
+        name: '<?=$v1?>',
         data: (function () {
             // generate an array of random data
             var data = [],
                 time = (new Date()).getTime(),
                 i;
-            for (i = -19; i <= 0; i += 1) {
+            for (i = -29; i <= 0; i += 1) {
                 data.push({
                     x: time + i * 1000,
-                    y: Math.random()
+                    y: Math.random()*20
                 });
             }
             return data;
         }())
     }]
 });
+<?php
+    }
+}
+?>
+
 </script>
 
 

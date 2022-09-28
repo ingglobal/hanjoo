@@ -231,6 +231,7 @@ if(defined('G5_IS_ADMIN')){
 		echo 'var mb_name = "'.$member['mb_name'].'";'.PHP_EOL;
 		echo 'var mb_level = "'.$member['mb_level'].'";'.PHP_EOL;
 		echo 'var g5_community_use = "'.G5_COMMUNITY_USE.'";'.PHP_EOL;
+		echo 'var g5_user_url = "'.G5_USER_URL.'";'.PHP_EOL;
 		echo 'var g5_user_admin_url = "'.G5_USER_ADMIN_URL.'";'.PHP_EOL;
 		echo 'var g5_user_admin_ajax_url = "'.G5_USER_ADMIN_AJAX_URL.'";'.PHP_EOL;
 		echo 'var g5_user_admin_mobile_url = "'.G5_USER_ADMIN_MOBILE_URL.'";'.PHP_EOL;
@@ -257,8 +258,6 @@ if(defined('G5_IS_ADMIN')){
         if(is_file(G5_USER_ADMIN_CSS_PATH.'/user.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/user.css">',0);
         // 팝업창 관련 css
 		if(is_file(G5_USER_ADMIN_CSS_PATH.'/user_popup.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/user_popup.css">',1);
-        // 사용자 정의 css, 파일명과 같은 css가 있으면 자동으로 추가됨
-        if(is_file(G5_USER_ADMIN_CSS_PATH.'/'.$g5['file_name'].'.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/'.$g5['file_name'].'.css">',0);
         //날짜픽커의 다크테마를 위한 css
         add_stylesheet('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css">', 1);
         //jquery-ui structure css
@@ -271,6 +270,14 @@ if(defined('G5_IS_ADMIN')){
         if(is_file(G5_USER_ADMIN_JS_PATH.'/datetimepicker/jquery.datetimepicker.min.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_JS_URL.'/datetimepicker/jquery.datetimepicker.min.css">',1);
         if( $board['gr_id']=='intra' && ($g5['file_name'] == 'board' || $g5['file_name'] == 'write')) { // 게시판인 경우
             if(is_file(G5_USER_ADMIN_CSS_PATH.'/board.css')) add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/board.css">',1);
+        }
+        // 사용자 정의 css, 디렉토리명과 같은 css가 있으면 자동으로 추가됨
+        if(is_file(G5_USER_ADMIN_CSS_PATH.'/'.$g5['dir_name'].'/style.css')) {
+            add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/'.$g5['dir_name'].'/style.css">',1);
+        }
+        // 사용자 정의 css, 파일명과 같은 css가 있으면 자동으로 추가됨
+        if(is_file(G5_USER_ADMIN_CSS_PATH.'/'.$g5['file_name'].'.css')) {
+            add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_CSS_URL.'/'.$g5['file_name'].'.css">',1);
         }
 
         // js 추가
@@ -302,7 +309,7 @@ if(defined('G5_IS_ADMIN')){
 	}
 }
 // User mode default hooking
-else{
+else {
 
     add_event('shop_head_end','u_shop_head_end',10);
 	function u_shop_head_end(){

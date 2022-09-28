@@ -1714,3 +1714,8 @@ SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_meas
 
 
 SELECT mta_value FROM g5_5_meta WHERE mta_key LIKE 'dta_type_label%' AND mta_db_table = 'mms' AND mta_db_id = '58' ORDER BY mta_key
+
+
+
+
+lbk1130 / lee0710a

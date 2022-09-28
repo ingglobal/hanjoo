@@ -39,3 +39,21 @@
 }
 
 .div_button:after {display:block;visibility:hidden;clear:both;content:'';}
+
+.highcharts-dynamic {width:100%;}
+.highcharts-dynamic > div {width:49%;height:180px;}
+.highcharts-dynamic:after {display:block;visibility:hidden;clear:both;content:'';}
+#chart1 {float:left;}
+#chart2 {float:right;}
+
+
+.chart_wrapper {display:block;}
+.chart_wrapper:after {display:block;visibility:hidden;clear:both;content:'';}
+.chart_wrapper > div {width:49.5%;border:solid 1px #354667;padding:5px;}
+.chart_wrapper > div:after {display:block;visibility:hidden;clear:both;content:'';}
+.chart_left {float:left;}
+.chart_right {float:right;}
+.chart_wrapper .chart_title {padding:5px;}
+.chart_wrapper .chart_title strong {font-size:1.2em;}
+.chart_wrapper .chart_title .buttons {float:right;}
+div[id^=chart1],div[id^=chart2] {height:200px;border:solid 1px #354667;margin-bottom:10px;}

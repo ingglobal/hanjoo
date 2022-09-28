@@ -12,17 +12,11 @@ $g5['title'] = '로봇설정';
 include_once('./_top_menu_robot.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
-
-
-$fields = sql_field_names('g5_1_robot_setup');
-
-$sql = " SELECT * FROM g5_1_robot_setup ";
-// echo $sql.'<br>';
-$result = sql_query($sql,1);
 ?>
 
-<form name="form01" id="form01" action="./config_form_robot_update.php" onsubmit="return form01_submit(this);" method="post">
-<input type="hidden" name="token" value="">
+<form name="fconfigform" id="fconfigform" method="post" onsubmit="return fconfigform_submit(this);">
+<input type="hidden" name="token" value="" id="token">
+<input type="hidden" name="fname" value="<?=$g5['file_name']?>">
 
 <section id="anc_cf_default">
 	<div class="tbl_frm01 tbl_wrap">
@@ -35,34 +29,6 @@ $result = sql_query($sql,1);
 			<col>
 		</colgroup>
 		<tbody>
-		<?php
-		for ($i=0; $row=sql_fetch_array($result); $i++) {
-			// print_r2($row);
-		?>
-		<tr>
-			<th scope="row">로봇#1 경고 설정</th>
-			<td colspan="3">
-				<?php echo help('로봇 작동 경고 기준값을 설정합니다.') ?>
-				<?php
-				for($i=1;$i<7;$i++) {
-				?>
-				<div style="margin-bottom:5px;">
-					토크<?=$i?>:
-					<input type="text" name="set_robot_alarm_torque1<?=$i?>" value="<?php echo $g5['setting']['set_robot_alarm_torque1'.$i] ?>" class="frm_input" style="width:50px;"> 이상
-					<span style="width:20px;display:inline-block;"></span>
-					온도<?=$i?>:
-					<input type="text" name="set_robot_alarm_temperature1<?=$i?>" value="<?php echo $g5['setting']['set_robot_alarm_temperature1'.$i] ?>" class="frm_input" style="width:50px;"> 이상
-				</div>
-				<?php
-				}
-				?>
-			</td>
-		</tr>
-		<?php
-		}
-		if ($i == 0)
-			echo "<tr><td colspan='6' class=\"empty_table\">자료가 없습니다.</td></tr>";
-		?>
 		<tr>
 			<th scope="row">로봇#1 경고 설정</th>
 			<td colspan="3">

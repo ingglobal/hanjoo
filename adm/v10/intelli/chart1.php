@@ -245,13 +245,16 @@ Highcharts.getJSON('https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/sam
 
         yAxis: {
             plotLines: [{
+                value: 0.83,
+                color: 'yellow',
+                dashStyle: 'solid',
+                width: 3
+            },
+            {
                 value: maxRate,
                 color: 'red',
                 dashStyle: 'solid',
-                width: 1,
-                label: {
-                    text: 'Last quarter maximum'
-                }
+                width: 3
             }]
         },
 
