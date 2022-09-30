@@ -315,7 +315,7 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         <th scope="col">날짜</th>
         <th scope="col">사양</th>
         <th scope="col" style="display:<?=($sfl=='item_lhrh'&&$stx)?'':'none'?>;">LH/RH</th>
-        <th scope="col">생산수량(타)</th>
+        <th scope="col">생산수량</th>
         <th scope="col">시작시간</th>
         <th scope="col">종료시간</th>
         <th scope="col">작업시간(분)</th>

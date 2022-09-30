@@ -1719,3 +1719,18 @@ SELECT mta_value FROM g5_5_meta WHERE mta_key LIKE 'dta_type_label%' AND mta_db_
 
 
 lbk1130 / lee0710a
+
+// 로봇 데이터가 자꾸 죽어요.
+admin 계정
+cd robot
+nohup bash robot_mon_start.sh &
+nohup.out
+
+// 조치 제안 토픽모델링 실행하는 방법
+admin 계정 로그인
+cd maintain
+python maintain_test.py
+
+
+// 이병구 요청
+. 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.

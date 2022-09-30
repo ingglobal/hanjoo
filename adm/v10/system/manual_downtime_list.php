@@ -4,6 +4,8 @@ include_once('./_common.php');
 
 auth_check($auth[$sub_menu],'w');
 
+$pre = 'dta';
+
 $g5['title'] = '비가동 관리';
 include_once('./_top_menu_setting.php');
 include_once('./_head.php');
@@ -175,6 +177,8 @@ $(document).on('change','#ser_mms_idx',function(e){
 <input type="hidden" name="page" value="<?php echo $page ?>">
 <input type="hidden" name="com_idx" value="<?php echo $_SESSION['ss_com_idx'] ?>">
 <input type="hidden" name="token" value="">
+<input type="hidden" name="w" value="">
+<input type="hidden" name="ser_mms_idx" value="<?=$ser_mms_idx?>">
 
 <div class="tbl_head01 tbl_wrap">
     <table>
@@ -204,8 +208,9 @@ $(document).on('change','#ser_mms_idx',function(e){
     ?>
     <tr class="<?php echo $bg; ?>" tr_id="<?php echo $row['dta_idx'] ?>">
         <td class="td_chk">
+            <input type="hidden" name="<?=$pre?>_idx[<?php echo $i ?>]" value="<?php echo $row[$pre.'_idx'] ?>" id="<?=$pre?>_idx_<?php echo $i ?>">
             <label for="chk_<?php echo $i; ?>" class="sound_only"><?php echo get_text($row['dta_name']); ?></label>
-            <input type="checkbox" name="chk[]" value="<?php echo $row['dta_idx'] ?>" id="chk_<?php echo $i ?>">
+            <input type="checkbox" name="chk[]" value="<?php echo $i ?>" id="chk_<?php echo $i ?>">
         </td>
         <td class="td_mms_name"><?=$row['mms_name']?> <span class="font_size_7"><?=$row['mms_idx']?></span></td>
         <td class="td_mst_name"><?=$row['mst_name']?></td>
@@ -309,11 +314,26 @@ function sch_submit(f){
     return true;
 }
 
-function form01_submit(f) {
-	
+function form01_submit(f)
+{
+    if (!is_checked("chk[]")) {
+        alert(document.pressed+" 하실 항목을 하나 이상 선택하세요.");
+        return false;
+    }
+
+	if(document.pressed == "선택수정") {
+		$('input[name="w"]').val('u');
+	}
+	if(document.pressed == "선택삭제") {
+		if (!confirm("선택한 항목(들)을 정말 삭제 하시겠습니까?\n복구가 어려우니 신중하게 결정 하십시오.")) {
+			return false;
+		}
+		else {
+			$('input[name="w"]').val('d');
+		} 
+	}
     return true;
 }
-
 </script>
 
 <?php

@@ -13,9 +13,9 @@ $fname = preg_replace("/_list/","",$g5['file_name']); // _list을 제외한 파�
 $qstr .= "&st_date=$st_date&st_time=$st_time&en_date=$en_date&en_time=$en_time&ser_mms_idx=$ser_mms_idx";
 
 $g5['title'] = '정비조치관리';
-//include_once('./_top_menu_data.php');
+include_once('./_top_menu_maintain.php');
 include_once('./_head.php');
-//echo $g5['container_sub_title'];
+echo $g5['container_sub_title'];
 
 
 $sql_common = " FROM {$g5_table_name} AS ".$pre."
