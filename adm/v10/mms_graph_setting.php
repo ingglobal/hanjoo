@@ -7,18 +7,15 @@ auth_check($auth[$sub_menu], 'w');
 $mms = get_table_meta('mms', 'mms_idx', $mms_idx);
 // print_r2($mms);
 
-$sql = "SELECT dta_type, dta_no
-        FROM g5_1_data_measure_".$mms_idx."
-        GROUP BY dta_type, dta_no
-        ORDER BY dta_type, dta_no
+$sql = "SELECT mta_key, mta_value
+          , SUBSTRING_INDEX(SUBSTRING_INDEX(mta_key,'-',-2),'-',1) AS dta_type
+          , SUBSTRING_INDEX(mta_key,'-',-1) AS dta_no
+        FROM {$g5['meta_table']}
+        WHERE mta_key LIKE 'dta_type_label%' 
+            AND mta_db_table = 'mms' AND mta_db_id = '".$mms_idx."'
+        ORDER BY convert(dta_type, decimal), convert(dta_no, decimal)
 ";
-$rs = sql_query_pg($sql,1);
-for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
-    // print_r2($row);
-    // 각 태그별 번호 배열 (아래 for 문장에서 활용)
-    $dta_arr[$row['dta_type']][] = $row['dta_no'];
-}
-// print_r2($dta_arr);
+$rs = sql_query($sql,1);
 
 $html_title = ($w=='')?'추가':'수정'; 
 $g5['title'] = $mms['mms_name'].' 그래프 설정';
@@ -51,28 +48,25 @@ input[type=file] {width: 165px;}
             </colgroup>
             <tbody>
             <?php
-            if(is_array($dta_arr)) {
-                foreach($dta_arr as $k1 => $v1) {
-                    // echo $k1.'<br>';
-                    // print_r2($v1);
-                    for($i=0;$i<sizeof($v1);$i++) {
-                        // echo $v1[$i].'<br>';
-                        $item_name = $g5['set_data_type_value'][$k1] ?: $k1;
-                    ?>
-                        <tr>
-                            <th scope="row"><?=$item_name.'-'.$v1[$i]?></th>
-                            <td>
-                                <input type="hidden" name="dta_type[]" value="<?=$k1?>" class="frm_input">
-                                <input type="hidden" name="dta_no[]" value="<?=$v1[$i]?>" class="frm_input">
-                                <input type="text" name="dta_label[]" value="<?=$mms['dta_type_label-'.$k1.'-'.$v1[$i]]?>" class="frm_input" style="width:80%;">
-                                <span class="dta_type_no"><?=$k1.'-'.$v1[$i]?></span>
-                            </td>
-                        </tr>
-                    <?php
-                    }
-                }
+            for($i=0;$row=sql_fetch_array($rs);$i++) {
+                $row['mta_key_arr'] = explode("-",$row['mta_key']);
+                // print_r2($row['mta_key_arr']);
+                $row['dta_type'] = $row['mta_key_arr'][1];
+                $row['dta_no'] = $row['mta_key_arr'][2];
+                $item_name = $g5['set_data_type_value'][$row['dta_type']] ?: $row['dta_type'];
+            ?>
+                <tr>
+                    <th scope="row"><?=$item_name.'-'.$row['dta_no']?></th>
+                    <td>
+                        <input type="hidden" name="dta_type[]" value="<?=$row['dta_type']?>" class="frm_input">
+                        <input type="hidden" name="dta_no[]" value="<?=$row['dta_no']?>" class="frm_input">
+                        <input type="text" name="dta_label[]" value="<?=$mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]?>" class="frm_input" style="width:80%;">
+                        <span class="dta_type_no"><?=$row['dta_type'].'-'.$row['dta_no']?></span>
+                    </td>
+                </tr>
+            <?php
             }
-            else {
+            if($i<=0) {
             ?>
                 <tr>
                     <td colspan="2" class="empty_table">측정값이 존재하지 않습니다.</td>

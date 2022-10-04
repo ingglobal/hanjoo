@@ -1732,5 +1732,59 @@ cd maintain
 python maintain_test.py
 
 
+SELECT * FROM g5_5_meta
+WHERE mta_db_table = 'mms' AND mta_db_id = 59
+
+
+SELECT mta_key, mta_value
+FROM g5_5_meta
+WHERE mta_key LIKE 'dta_type_label%' 
+    AND mta_db_table = 'mms' AND mta_db_id = '59'
+ORDER BY mta_key
+....
+SELECT mta_key, mta_value
+  , SUBSTRING_INDEX(mta_key,'-',2) AS dta_type
+  , SUBSTRING_INDEX(mta_key,'-',-1) AS dta_no
+  , SUBSTRING_INDEX(mta_key,'-',-2) AS dta_type_no
+FROM g5_5_meta
+WHERE mta_key LIKE 'dta_type_label%' 
+    AND mta_db_table = 'mms' AND mta_db_id = '59'
+ORDER BY mta_key
+....
+SELECT mta_key, mta_value
+  , SUBSTRING_INDEX(SUBSTRING_INDEX(mta_key,'-',-2),'-',1) AS dta_type
+  , SUBSTRING_INDEX(mta_key,'-',-1) AS dta_no
+FROM g5_5_meta
+WHERE mta_key LIKE 'dta_type_label%' 
+    AND mta_db_table = 'mms' AND mta_db_id = '59'
+ORDER BY convert(dta_type, decimal), convert(dta_no, decimal)
+....
+
+DELETE FROM g5_5_meta WHERE mta_key IN ('james1','james2');
+
+
+
+$mbd['data'][0]['name'] = '검출압력';
+$mbd['data'][0]['id']['dta_data_url_host'] = 'hanjoo.epcs.co.kr';
+$mbd['data'][0]['id']['dta_data_url_path'] = '/user/json';
+$mbd['data'][0]['id']['dta_data_url_file'] = 'measure.php';
+$mbd['data'][0]['id']['mms_idx'] = 60;
+$mbd['data'][0]['id']['dta_type'] = 8;
+$mbd['data'][0]['id']['dta_no'] = 1;
+$mbd['data'][0]['id']['type1'] = '';
+$mbd['data'][0]['id']['graph_name'] = '%EA%B2%80%EC%B6%9C%EC%95%95%EB%A0%A5';
+$mbd['data'][0]['id']['graph_id'] = 'NjBfOF8xXw';
+$mbd['data'][0]['type'] = 'spline';
+$mbd['data'][0]['dashStyle'] = 'solid';
+
+SELECT *
+FROM g5_1_cast_shot_pressure
+WHERE shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
+ORDER BY event_time
+
+
+
 // 이병구 요청
 . 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.
+
+

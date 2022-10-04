@@ -13,7 +13,7 @@ $fname = preg_replace("/_list/","",$g5['file_name']); // _list을 제외한 파�
 $qstr .= '&ser_mms_idx='.$ser_mms_idx; // 추가로 확장해서 넘겨야 할 변수들
 
 
-$g5['title'] = '공제시간설정';
+$g5['title'] = '계획정지관리';
 include_once('./_top_menu_setting.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];

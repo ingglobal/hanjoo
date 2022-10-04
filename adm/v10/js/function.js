@@ -231,9 +231,10 @@ function urlParaToJSON(furl) {
 if(typeof(getGraphId)!='function') {
 function getGraphId(mms_idx,dta_type,dta_no,type1) {
     var graph_id1 = mms_idx+'_'+dta_type+'_'+dta_no+'_'+type1;
-    var graph_id2 = btoa(graph_id1).replace(/=/g,''); // encoded
+    var graph_id2 = btoa(graph_id1).replace(/=/g,''); // encoded(자바스크립트에서 문자열을 base64로 인코드)
+    // console.log(mms_idx+'/'+dta_type+'/'+dta_no+'/'+type1);
     // console.log('f encoded > '+graph_id2);
-    // graph_id3 = atob(graph_id2); // decode
+    // graph_id3 = atob(graph_id2); // decode(자바스크립트에서 문자열을 base64로 디코드)
     // console.log('f decoded > '+graph_id3);
     return graph_id2;
 }    

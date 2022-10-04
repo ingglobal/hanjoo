@@ -226,11 +226,12 @@ for($i=0;$i<sizeof($best);$i++) {
     <div class="div_detail">
         <div class="title01">
             <?=$best[$i]['mms_name']?> <span class="title_date"><?=$best[$i]['dmb_dt']?></span>
+            <a href="../system/graph.php?mode=detail&mms_idx=<?=$best[$i]['mms_idx']?>&machine_id=<?=$best[$i]['machine_id']?>" class="btn_graph">Detail</a>
         </div>
         <div id="tabs<?=$i?>">
         <ul>
-            <li><a href="#tabs-<?=$i?>1">압력</a></li>
-            <li><a href="#tabs-<?=$i?>2">온도</a></li>
+            <li><a href="#tabs-<?=$i?>1" tag="pressure" st_dt="" en_dt="">압력</a></li>
+            <li><a href="#tabs-<?=$i?>2" tag="temperature" st_dt="" en_dt="">온도</a></li>
             <li><a href="#tabs-<?=$i?>3">설정값</a></li>
         </ul>
         <div id="tabs-<?=$i?>1">
@@ -255,6 +256,9 @@ for($i=0;$i<sizeof($best);$i++) {
                 // print_r2($row);
                 $row['no'] = $i;
                 $row['timestamp'] = strtotime($row['event_time']);
+                // 시작시점, 종료시점
+                if($j==0) {$st_dt_pressure[$i] = substr($row['event_time'],0,19);}
+                $en_dt_pressure[$i] = substr($row['event_time'],0,19);
 
                 // 각 태그별로 데이터 설정
                 // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5, upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3, detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소, hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
@@ -267,7 +271,13 @@ for($i=0;$i<sizeof($best);$i++) {
                 }
             }
             // print_r2($dta[$mms['mms_idx']]);
+            // echo $st_dt_pressure[$i].'~'.$en_dt_pressure[$i].'<br>'; // 시작시점~종료시점
             ?>
+            <script>
+                // 그래프 시작시점, 종료시점 입력
+                $('#tabs<?=$i?>').find('a[tag=pressure]').attr('st_dt','<?=$st_dt_pressure[$i]?>');
+                $('#tabs<?=$i?>').find('a[tag=pressure]').attr('en_dt','<?=$en_dt_pressure[$i]?>');
+            </script>
             <!-- // 챠트 표시 ====================================================== -->
             <div id="pressure_<?=$i?>" class="chart_cont">
                 <i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:80px;left:46%;font-size:4em;color:#38425b;"></i>
@@ -314,6 +324,9 @@ for($i=0;$i<sizeof($best);$i++) {
                 // print_r2($row);
                 $row['no'] = $i;
                 $row['timestamp'] = strtotime($row['event_time']);
+                // 시작시점, 종료시점
+                if($j==0) {$st_dt_temperature[$i] = substr($row['event_time'],0,19);}
+                $en_dt_temperature[$i] = substr($row['event_time'],0,19);
 
                 // 각 태그별로 데이터 설정
                 // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5, upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3, detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소, hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
@@ -327,6 +340,11 @@ for($i=0;$i<sizeof($best);$i++) {
             }
             // print_r2($dta[$mms['mms_idx']]);
             ?>
+            <script>
+                // 그래프 시작시점, 종료시점 입력
+                $('#tabs<?=$i?>').find('a[tag=temperature]').attr('st_dt','<?=$st_dt_temperature[$i]?>');
+                $('#tabs<?=$i?>').find('a[tag=temperature]').attr('en_dt','<?=$en_dt_temperature[$i]?>');
+            </script>
             <!-- // 챠트 표시 ====================================================== -->
             <div id="temperature_<?=$i?>" class="chart_cont">
                 <i class="fa fa-spin fa-circle-o-notch" id="spinner" style="position:absolute;top:80px;left:46%;font-size:4em;color:#38425b;"></i>
@@ -425,6 +443,25 @@ for($i=0;$i<sizeof($best);$i++) {
     <?php
 }
 ?>
+<script>
+// Detail 클릭시 이동
+$(document).on('click','.btn_graph',function(e){
+    e.preventDefault();
+    var $div_par = $(this).closest('div.div_detail')
+    var href = $(this).attr('href');
+    // console.log( $div_par.find('li.ui-state-active').text() );
+    var tag = 'pressure';
+    tag = ($div_par.find('li.ui-state-active').text() == '온도') ? 'temperature' : tag;
+    // console.log(tag);
+    var st_dt = $div_par.find('li.ui-state-active').find('a').attr('st_dt');
+    var en_dt = $div_par.find('li.ui-state-active').find('a').attr('en_dt');
+    if($div_par.find('li.ui-state-active').text() == '설정값') {
+        return false;
+    }
+    location.href = href+'&tag='+tag+'&st_dt='+st_dt+'&en_dt='+en_dt;
+});
+</script>
+
 
 <?php
 include_once ('./_tail.php');

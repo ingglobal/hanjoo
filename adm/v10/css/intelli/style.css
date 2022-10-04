@@ -12,6 +12,7 @@
 .div_detail:after {display:block;visibility:hidden;clear:both;content:'';}
 .div_detail .title01 {position:relative;}
 .div_detail .title01 .title_date {float:right;font-size:0.7em;margin-top:6px;}
+.div_detail .title01 .btn_graph {z-index:10;position:absolute;top:48px;right:15px;font-size:0.7em;}
 
 .ui-widget.ui-widget-content {
     border: none;

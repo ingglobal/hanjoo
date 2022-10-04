@@ -9,7 +9,7 @@ $g5['title'] = '설비측정그래프';
 include_once('./_head.php');
 // echo $g5['container_sub_title'];
 
-// mbd_idx 가 존재하면 저장된 값에서 그래프 추출
+// mbd_idx가 존재하면 저장된 값에서 그래프 추출
 if($mbd_idx) {
     $mbd = get_table_meta('member_dash','mbd_idx',$mbd_idx);
     // print_r2($mbd);
@@ -19,7 +19,7 @@ if($mbd_idx) {
     unset($mbd['sried']['data_series']);
     // print_r2($mbd);
     // for($j=0;$j<sizeof($mbd['data']);$j++) {
-    //     // print_r2($mbd['data'][$j]);
+    //     print_r2($mbd['data'][$j]);
     // }
     $ar['type'] = 'current'; // 현재 시점으로 바꿔달라는 요청에 따라 변경됨
     $ar['st_date'] = $mbd['sried']['st_date'];
@@ -39,6 +39,26 @@ if($mbd_idx) {
     $st_time = $start_end_dt['st_time'];
     $en_date = $start_end_dt['en_date'];
     $en_time = $start_end_dt['en_time'];
+}
+// 최적파라메타조회 같은 페이지에서 상세그래프를 그려달라고 값을 가지고 넘어오는 경우
+else if($mode=='detail') {
+    // print_r2($_REQUEST);
+    // print_r2($g5['set_data_name_value']);
+
+    $ar['mms_idx'] = $mms_idx;
+    $ar['machine_id'] = $machine_id;
+    $ar['tag'] = $tag;
+    $ar['st_dt'] = $st_dt;
+    $ar['en_dt'] = $en_dt;
+    $mbd['data'] = get_graph_array($ar);
+    unset($ar);
+    // print_r2($mbd['data']);
+    // exit;
+    $st_date = substr($st_dt,0,10);
+    $st_time = substr($st_dt,11,8);
+    $en_date = substr($en_dt,0,10);
+    $en_time = substr($en_dt,11,8);
+    // echo $st_date.' '.$st_time.'~'.$en_date.' '.$en_time;
 }
 
 
@@ -435,7 +455,9 @@ function createChart() {
             }
         },
 
+        // 하단 시간범위 설정가능한 영역 설정
         navigator: {
+            enabled: true,
             xAxis: {
                 type: 'datetime',
                 dateTimeLabelFormats: {
@@ -507,7 +529,6 @@ function createChart() {
             shared: true
         },
         series: seriesOptions
-        
     };
 
     chart = new Highcharts.stockChart(options);
@@ -830,7 +851,8 @@ $( "#chr_move_value" ).val( $( "#chr_move" ).slider( "value" ) );
 // 대시보드에서 넘어온 페이지 그래프 Default 추가 ====================================================
 <?php
 // mbd_idx 가 존재하면 저장된 값에서 그래프 추출
-if($mbd_idx) {
+if($mbd_idx || $mode=='detail') {
+    // echo 'alert(5);';
     for($j=0;$j<sizeof($mbd['data']);$j++) {
         // print_r2($mbd['data'][$j]);
         ?>

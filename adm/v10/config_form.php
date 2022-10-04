@@ -661,6 +661,26 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
         </colgroup>
         <tbody>
         <tr>
+            <th scope="row">디비구조 다운로드</th>
+            <td>
+				<a href="./db_table_excel.php" class="btn btn_02">다운로드</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">디비테이블 명칭</th>
+            <td>
+                <?php echo help('엑셀 다운로드 시 디비테이블 명칭을 설정합니다.') ?>
+                <textarea name="set_db_table_name" id="set_db_table_name"><?php echo get_text($g5['setting']['set_db_table_name']); ?></textarea>
+            </td>
+        </tr>
+		<tr>
+			<th scope="row">엑셀에서 건너뛸 디비</th>
+			<td colspan="3">
+                <?php echo help('엑셀 다운로드 시 다운로드 필요없는 디비테이블을 설정합니다.') ?>
+                <textarea name="set_db_table_skip" id="set_db_table_skip"><?php echo get_text($g5['setting']['set_db_table_skip']); ?></textarea>
+			</td>
+		</tr>
+        <tr>
             <th scope="row">관리자메모</th>
             <td>
                 <?php echo help('관리자 메모입니다.') ?>

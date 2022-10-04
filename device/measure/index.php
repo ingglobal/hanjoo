@@ -103,6 +103,26 @@ else if(is_array($getData[0]['list'])) {
         $result_arr[$i]['message'] = "Inserted OK!";
 
 
+        // meta 태그명 생성
+        $sql = "SELECT mta_idx, mta_key, mta_value
+                FROM {$g5['meta_table']}
+                WHERE mta_key = 'dta_type_label-".$arr['dta_type']."-".$arr['dta_no']."' 
+                    AND mta_db_table = 'mms' AND mta_db_id = '".$arr['mms_idx']."'
+        ";
+        // echo $sql.PHP_EOL;
+        $mta = sql_fetch($sql,1);
+        if(!$mta['mta_idx']) {
+            // sql_query(" INSERT INTO {$g5['meta_table']} SET mta_key ='james1',  mta_value = '".addslashes($sql)."' ");
+            // sql_query(" INSERT INTO {$g5['meta_table']} SET mta_key ='james2',  mta_value = '".$g5['set_data_type_value'][$arr['dta_type']].$arr['dta_no']."' ");
+            $ar['mta_db_table'] = 'mms';
+            $ar['mta_db_id'] = $arr['mms_idx'];
+            $ar['mta_key'] = 'dta_type_label-'.$arr['dta_type'].'-'.$arr['dta_no'];
+            $ar['mta_value'] = $g5['set_data_type_value'][$arr['dta_type']].$arr['dta_no'];
+            meta_update($ar);
+            unset($ar);
+        }
+
+
 
 
         // 코드 정보 추출

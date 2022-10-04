@@ -1,6 +1,136 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// Get the pressure and temperature arrays for specific machine. 
+if(!function_exists('get_graph_array')){
+function get_graph_array($arr) {
+    global $g5;
+    // print_r2($arr);
+    
+    // 압력인 경우
+    if($arr['tag']=='pressure') {
+
+        // 수집된 항목값이 존재하는 경우만 가지고 배열생성 (값이 0인 경우를 무시하기 위해서..)
+        $sql = "SELECT *
+                FROM g5_1_cast_shot_pressure
+                WHERE machine_id = '".$arr['machine_id']."' AND event_time >= '".$arr['st_dt']."' AND event_time <= '".$arr['en_dt']."'
+        ";
+        // echo $sql.'<br>';
+        $rs = sql_query_pg($sql,1);
+        $dta = array();
+        for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
+            // print_r2($row);
+            // 각 태그별로 데이터 설정
+            // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5
+            // upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3
+            // detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소
+            // hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
+            foreach($g5['set_data_name_value'] as $k1=>$v1) {
+                // echo $k1.'=>'.$v1.'<br>';
+                if($row[$k1] && !in_array($k1,$dta)) { // 값이 존재하는 것만!
+                    $dta[] = $k1;
+                }
+            }
+        }
+        // print_r2($dta);
+        // 수집된 항목만 가지고 배열생성
+        for ($j=0; $j<sizeof($dta); $j++) {
+            // echo $dta[$j].'<br>';
+            // echo $g5['set_data_name_value'][$dta[$j]].'<br>';
+            // echo $g5['set_data_pressure_no_value'][$dta[$j]].'<br>';
+            // graph id 생성
+            $ar['mms_idx'] = $arr['mms_idx'];
+            $ar['dta_type'] = 8;    // 압력
+            $ar['dta_no'] = $g5['set_data_pressure_no_value'][$dta[$j]];
+            $ar['type1'] = '';
+            $graph_id = get_graph_id($ar);
+            // echo $graph_id.'<br>';
+
+            $array[$j]['name'] = $g5['set_data_name_value'][$dta[$j]];
+            $array[$j]['id']['dta_data_url_host'] = 'hanjoo.epcs.co.kr';
+            $array[$j]['id']['dta_data_url_path'] = '/user/json';
+            $array[$j]['id']['dta_data_url_file'] = 'measure.php';
+            $array[$j]['id']['mms_idx'] = $arr['mms_idx'];
+            $array[$j]['id']['dta_type'] = $ar['dta_type'];
+            $array[$j]['id']['dta_no'] = $ar['dta_no'];
+            $array[$j]['id']['type1'] = '';
+            $array[$j]['id']['graph_name'] = urlencode($array[$j]['name']);
+            $array[$j]['id']['graph_id'] = $graph_id;
+            $array[$j]['type'] = 'spline';
+            $array[$j]['dashStyle'] = 'solid';
+        }
+    }
+    // 온도
+    else {
+
+        // 수집된 항목값이 존재하는 경우만 가지고 배열생성 (값이 0인 경우를 무시하기 위해서..)
+        $sql = "SELECT *
+                FROM g5_1_cast_shot_sub
+                WHERE machine_id = '".$arr['machine_id']."' AND event_time >= '".$arr['st_dt']."' AND event_time <= '".$arr['en_dt']."'
+        ";
+        // echo $sql.'<br>';
+        $rs = sql_query_pg($sql,1);
+        $dta = array();
+        for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
+            // print_r2($row);
+            // 각 태그별로 데이터 설정
+            // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5
+            // upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3
+            // detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소
+            // hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
+            foreach($g5['set_data_name_value'] as $k1=>$v1) {
+                // echo $k1.'=>'.$v1.'<br>';
+                if($row[$k1] && !in_array($k1,$dta)) { // 값이 존재하는 것만!
+                    $dta[] = $k1;
+                }
+            }
+        }
+        // print_r2($dta);
+        // 수집된 항목만 가지고 배열생성
+        for ($j=0; $j<sizeof($dta); $j++) {
+            // echo $dta[$j].'<br>';
+            // echo $g5['set_data_name_value'][$dta[$j]].'<br>';
+            // echo $g5['set_data_pressure_no_value'][$dta[$j]].'<br>';
+            // graph id 생성
+            $ar['mms_idx'] = $arr['mms_idx'];
+            $ar['dta_type'] = 1;    // 온도
+            $ar['dta_no'] = $g5['set_data_temp_no_value'][$dta[$j]];
+            $ar['type1'] = '';
+            $graph_id = get_graph_id($ar);
+            // echo $graph_id.'<br>';
+
+            $array[$j]['name'] = $g5['set_data_name_value'][$dta[$j]];
+            $array[$j]['id']['dta_data_url_host'] = 'hanjoo.epcs.co.kr';
+            $array[$j]['id']['dta_data_url_path'] = '/user/json';
+            $array[$j]['id']['dta_data_url_file'] = 'measure.php';
+            $array[$j]['id']['mms_idx'] = $arr['mms_idx'];
+            $array[$j]['id']['dta_type'] = $ar['dta_type'];
+            $array[$j]['id']['dta_no'] = $ar['dta_no'];
+            $array[$j]['id']['type1'] = '';
+            $array[$j]['id']['graph_name'] = urlencode($array[$j]['name']);
+            $array[$j]['id']['graph_id'] = $graph_id;
+            $array[$j]['type'] = 'spline';
+            $array[$j]['dashStyle'] = 'solid';
+        }
+    }
+
+    return $array;
+}
+}
+
+
+if(!function_exists('get_graph_id')){
+function get_graph_id($arr) {
+    // print_r2($arr);
+    $graph_id1 = $arr['mms_idx'].'_'.$arr['dta_type'].'_'.$arr['dta_no'].'_'.$arr['type1'];
+    $graph_id2 = preg_replace("/=/","",base64_encode($graph_id1));
+    // echo 'f encoded > '.$graph_id2.'<br>';
+    // $graph_id3 = base64_decode($graph_id2); // decode
+    // echo 'f decoded > '.$graph_id3.'<br>';
+    return $graph_id2;
+}
+}
+
 // Seconds to H:M:s 초를 시:분:초
 // t = seconds, f = separator 
 if(!function_exists('sectohis')){
@@ -405,7 +535,7 @@ function get_start_end_dt($arr) {
 
     // 시간차이(초)
     $diff_timestamp = strtotime($arr['en_date'].' '.$arr['en_time'])-strtotime($arr['st_date'].' '.$arr['st_time']);
-    // data 기반, 넘어온 시간을 기준으로 계산
+    // 현재시점 기준으로 계산
     if($arr['type']=='current') {
         $en_date = date("Y-m-d",G5_SERVER_TIME);
         $en_time = date("H:i:s",G5_SERVER_TIME);
@@ -414,7 +544,7 @@ function get_start_end_dt($arr) {
         $start = $st_date.' '.$st_time;
         $end = $en_date.' '.$en_time;
     }
-    // 현재시점 기준으로 계산
+    // data 기반, 넘어온 시간을 기준으로 계산
     else {
         $st_date = $arr['st_date'];
         $st_time = $arr['st_time'];

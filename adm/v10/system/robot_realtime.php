@@ -14,6 +14,24 @@ $type_array = array('tq1'=>'토크1','tq2'=>'토크2','tq3'=>'토크3','tq4'=>'�
 // foreach($type_array as $k1=>$v1) {
 //     echo $k1.'=>'.$v1.'<br>';
 // }
+
+// 로봇 설정값 추출
+$fields = sql_field_names('g5_1_robot_setup');
+$sql = " SELECT * FROM g5_1_robot_setup ORDER BY rst_robot_no, rst_type ";
+// echo $sql.'<br>';
+$result = sql_query($sql,1);
+for ($i=0; $row=sql_fetch_array($result); $i++) {
+    // print_r2($row);
+    for ($j=0; $j<sizeof($fields); $j++) {
+        // echo $fields[$j].'<br>';
+        if(preg_match("/(_tq|_et)/",$fields[$j])) {
+            // echo $fields[$j].'<br>';
+            $row['rst_type_key'] = substr($fields[$j],4,2).substr($fields[$j],-1);
+            $setups[$row['rst_robot_no']][$row['rst_type']][$row['rst_type_key']] = $row[$fields[$j]];
+        }
+    }
+}
+// print_r2($setups);
 ?>
 <style>
 /* /adm/v10/css/robot_realtime.css 에서 기본설정 */
@@ -87,6 +105,12 @@ $type_array = array('tq1'=>'토크1','tq2'=>'토크2','tq3'=>'토크3','tq4'=>'�
 <?php
 for($x=1;$x<3;$x++) {
     foreach($type_array as $k1=>$v1) {
+
+        // set setup values for toqrue and temperature.
+        $setups[$x]['A'][$k1] = $setups[$x]['A'][$k1] ?: 0;
+        $setups[$x]['S'][$k1] = $setups[$x]['S'][$k1] ?: 0;
+        // echo 'console.log("'.$k1.'");';
+        // echo 'console.log("'.$setups[$x]['A'][$k1].' '.$setups[$x]['S'][$k1].'");';
 ?>
 Highcharts.chart('chart<?=$x?>_<?=$k1?>', {
     chart: {
@@ -142,13 +166,13 @@ Highcharts.chart('chart<?=$x?>_<?=$k1?>', {
             text: 'Value'
         },
         plotLines: [{
-                value: 24,  // 경고 기준값
+                value: <?=$setups[$x]['A'][$k1]?>,  // 경고 기준값
                 color: 'yellow',
                 dashStyle: 'solid',
                 width: 3
             },
             {
-                value: 45,  // 정지 기준값
+                value: <?=$setups[$x]['S'][$k1]?>,  // 정지 기준값
                 color: 'red',
                 dashStyle: 'solid',
                 width: 3
@@ -191,7 +215,8 @@ Highcharts.chart('chart<?=$x?>_<?=$k1?>', {
             for (i = -29; i <= 0; i += 1) {
                 data.push({
                     x: time + i * 1000,
-                    y: Math.random()*20
+                    y: 0
+                    // y: Math.random()*20
                 });
             }
             return data;

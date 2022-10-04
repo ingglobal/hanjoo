@@ -46,6 +46,26 @@ foreach ($set_values as $set_value) {
 }
 unset($set_values);unset($set_value);
 
+// 디비테이블명
+$set_values = explode("\n", $g5['setting']['set_db_table_name']);
+foreach ($set_values as $set_value) {
+	list($key, $value) = explode('=', trim($set_value));
+    if($key&&$value) {
+        $g5['set_db_table_name'][$key] = $value.' ('.$key.')';
+        $g5['set_db_table_name_value'][$key] = $value;
+    }
+}
+unset($set_values);unset($set_value);
+
+// 디비테이블명 스킵해야 할 디비명
+$set_values = explode("\n", $g5['setting']['set_db_table_skip']);
+foreach ($set_values as $set_value) {
+    if(trim($set_value)) {
+        $g5['set_db_table_skip'][] = trim($set_value);
+    }
+}
+unset($set_values);unset($set_value);
+
 
 // 데이타그룹, 데이터그룹별 그래프 초기값도 추출
 $set_values = explode(',', preg_replace("/\s+/", "", $g5['setting']['set_data_group']));

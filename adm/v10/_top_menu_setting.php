@@ -5,7 +5,7 @@ if (!defined('_GNUBOARD_')) exit;
 ${'active_'.$g5['file_name']} = ' btn_top_menu_active';
 
 // 최고관리자인 경우만
-if($member['mb_level']>=9) {
+if($member['mb_manager_yn']) {
     $sub_title_list = ' <a href="./config_form.php" class="btn_top_menu '.$active_config_form.'">솔루션설정</a>
     ';
 }
