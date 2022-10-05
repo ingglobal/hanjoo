@@ -183,7 +183,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <button type="submit" class="btn btn_01 btn_search">확인</button>
 </form>
 
-<div class="local_desc01 local_desc" style="display:no ne;">
+<div class="local_desc01 local_desc" style="display:none;">
     <p>가운데 빨간색으로 표시된 그래프가 최적기준선입니다. 기간내 추출된 태그 항목들만 표시됩니다.</p>
 </div>
 
@@ -247,12 +247,6 @@ Highcharts.chart('chart<?=$mms_idx[$i]?>', {
         valueSuffix: ''   // °C
     },
     series: [{
-        name: '최적',
-        data: averages<?=$mms_idx[$i]?>,
-        type: 'spline',
-        zIndex: 1,
-        color: '#FF0000'
-    }, {
         name: '범위',
         data: ranges<?=$mms_idx[$i]?>,
         type: 'areasplinerange',
@@ -265,6 +259,26 @@ Highcharts.chart('chart<?=$mms_idx[$i]?>', {
             enabled: false
         }
     }]
+    // 최적 부분은 주기 형태로 표현되면서 의미가 없음
+    // series: [{
+    //     name: '최적',
+    //     data: averages<?=$mms_idx[$i]?>,
+    //     type: 'spline',
+    //     zIndex: 1,
+    //     color: '#FF0000'
+    // }, {
+    //     name: '범위',
+    //     data: ranges<?=$mms_idx[$i]?>,
+    //     type: 'areasplinerange',
+    //     lineWidth: 0,
+    //     linkedTo: ':previous',
+    //     color: Highcharts.getOptions().colors[0],
+    //     fillOpacity: 0.5,
+    //     zIndex: 0,
+    //     marker: {
+    //         enabled: false
+    //     }
+    // }]
 });
 <?php
 }

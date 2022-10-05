@@ -125,6 +125,8 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 .td_mnt_subject,.td_mms_idx {
     text-align:left !important;
 }
+.td_mnt_date, .td_code_name {font-size:0.8em;}
+.td_admin a, .td_mnt_date, .td_mnt_name {white-space:nowrap;}
 </style>
 
 <div class="local_ov01 local_ov">

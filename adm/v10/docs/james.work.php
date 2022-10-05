@@ -1783,6 +1783,97 @@ WHERE shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
 ORDER BY event_time
 
 
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run WHERE dta_dt >= '1664580032' AND dta_dt <= '1664652224' AND mms_idx IN (63,64)
+144228
+5316
+
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run WHERE dta_dt >= '1664580032' AND dta_dt <= '1664652224' AND mms_idx = '63'
+72114
+2658
+// by the unit of one hour.
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run
+WHERE dta_dt >= UNIX_TIMESTAMP('2022-10-01 08:20:32') AND dta_dt <= UNIX_TIMESTAMP('2022-10-01 09:20:32')
+AND mms_idx = '63'
+....
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run
+WHERE dta_dt >= UNIX_TIMESTAMP('2022-10-01 10:00:00') AND dta_dt <= UNIX_TIMESTAMP('2022-10-01 11:00:00')
+AND mms_idx = '63'
+....
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run
+WHERE dta_dt >= UNIX_TIMESTAMP('2022-10-01 00:00:00') AND dta_dt <= UNIX_TIMESTAMP('2022-10-01 23:59:59')
+AND mms_idx = '63'
+....
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run
+WHERE dta_dt >= UNIX_TIMESTAMP('2022-10-01 00:00:00') AND dta_dt <= UNIX_TIMESTAMP('2022-10-01 23:59:59')
+AND mms_idx = '64'
+....
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run
+WHERE dta_dt >= UNIX_TIMESTAMP('2022-09-30 00:00:00') AND dta_dt <= UNIX_TIMESTAMP('2022-09-30 23:59:59')
+AND mms_idx = '63'
+....
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run
+WHERE dta_dt >= UNIX_TIMESTAMP('2022-09-30 00:00:00') AND dta_dt <= UNIX_TIMESTAMP('2022-09-30 23:59:59')
+AND mms_idx = '64'
+....
+
+SELECT SUM(dta_value) AS dta_sum, COUNT(*) AS dta_count FROM g5_1_data_run WHERE dta_dt >= '1664580032' AND dta_dt <= '1664652224' AND mms_idx = '64'
+72114
+2658
+
+
+SELECT work_date AS dta_date
+    , SUBSTRING(qrcode,7,1) AS item_type
+    , SUBSTRING(qrcode,8,2) AS item_lhrh
+    , min(end_time) AS dta_ymdhis_min
+    , max(end_time) AS dta_ymdhis_max
+    , REPLACE(SUBSTRING(min(end_time),11,9),':','') AS dta_start_his
+    , REPLACE(SUBSTRING(max(end_time),11,9),':','') AS dta_end_his
+FROM g5_1_xray_inspection
+WHERE work_date = '2022-10-01'
+....
+SELECT *
+FROM g5_1_xray_inspection
+WHERE work_date = '2022-10-01'
+....
+SELECT machine_id, COUNT(*) AS dta_count
+FROM g5_1_xray_inspection
+WHERE work_date = '2022-09-30'
+GROUP BY machine_id
+....
+SELECT GROUP_CONCAT(machine_id) AS machine_ids
+FROM (
+  SELECT machine_id, COUNT(*) AS dta_count
+  FROM g5_1_xray_inspection
+  WHERE work_date = '2022-09-30'
+  GROUP BY machine_id
+) AS db1
+....
+SELECT machine_id, COUNT(*) AS dta_count
+FROM g5_1_xray_inspection
+WHERE work_date = '2022-10-01'
+GROUP BY machine_id
+....
+SELECT work_date AS dta_date
+    , SUBSTRING(qrcode,7,1) AS item_type
+    , SUBSTRING(qrcode,8,2) AS item_lhrh
+    , min(end_time) AS dta_ymdhis_min
+    , max(end_time) AS dta_ymdhis_max
+    , REPLACE(SUBSTRING(min(end_time),11,9),':','') AS dta_start_his
+    , REPLACE(SUBSTRING(max(end_time),11,9),':','') AS dta_end_his
+FROM g5_1_xray_inspection
+WHERE work_date = '2022-09-30' AND machine_id=56
+....
+SELECT work_date AS dta_date
+    , SUBSTRING(qrcode,7,1) AS item_type
+    , SUBSTRING(qrcode,8,2) AS item_lhrh
+    , min(end_time) AS dta_ymdhis_min
+    , max(end_time) AS dta_ymdhis_max
+    , REPLACE(SUBSTRING(min(end_time),11,9),':','') AS dta_start_his
+    , REPLACE(SUBSTRING(max(end_time),11,9),':','') AS dta_end_his
+FROM g5_1_xray_inspection
+WHERE work_date = '2022-09-30' AND machine_id=60
+....
+
 
 // 이병구 요청
 . 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.

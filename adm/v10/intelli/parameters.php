@@ -199,6 +199,10 @@ for($i=0;$i<sizeof($best);$i++) {
     for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
         // print_r2($row);
         $shod_ids1[] = $row['shot_id'];
+        // 금형번호 추출
+        if($j==0) {
+            $best_mold[$i] = $row['mold_no'];
+        }
     }
     // print_r2($shod_ids1);
 
@@ -225,7 +229,9 @@ for($i=0;$i<sizeof($best);$i++) {
     </script>
     <div class="div_detail">
         <div class="title01">
-            <?=$best[$i]['mms_name']?> <span class="title_date"><?=$best[$i]['dmb_dt']?></span>
+            <span class="title_name"><?=$best[$i]['mms_name']?></span>
+            <span class="title_date"><?=$best[$i]['dmb_dt']?></span>
+            <span class="title_mold">금형: <?=$best_mold[$i]?></span>
             <a href="../system/graph.php?mode=detail&mms_idx=<?=$best[$i]['mms_idx']?>&machine_id=<?=$best[$i]['machine_id']?>" class="btn_graph">Detail</a>
         </div>
         <div id="tabs<?=$i?>">

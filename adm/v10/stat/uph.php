@@ -250,6 +250,9 @@ add_javascript('<script src="'.G5_USER_ADMIN_URL.'/js/function.date.js"></script
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_JS_URL.'/timepicker/jquery.timepicker.css">', 2);
 add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/timepicker/jquery.timepicker.js"></script>', 2);
 ?>
+<style>
+.td_start_end {font-size:0.8em;}
+</style>
 
 <div class="local_ov01 local_ov">
     <?php echo $listall ?>
@@ -302,8 +305,9 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
 
 
 <div class="local_desc01 local_desc" style="display:no ne;">
-    <p>시간당 생산보고서입니다. (UPH 혹은 SPH 통계입니다.)</p>
-    <p>공제시간은 교대및목표설정 하위 메뉴인 공제시간설정 페이지를 참고합니다. 필요 시 해당 페이지 설정값을 조정해 주시기 바랍니다. <a href="../system/offwork_list.php">[바로가기]</a></p>
+    <p>별도의 비가동 설정이 필요한 경우 해당 페이지 설정값을 조정해 주시기 바랍니다. <a href="../system/manual_downtime_list.php">[바로가기]</a></p>
+    <p>UPH 계산은 설비의 가동시간을 기반으로 할 수도 있고 제품생산 시간을 기준으로 할 수도 있습니다.<a href="../stat/config_form.php">[바로가기]</a></p>
+    <p>UPH 계산에 계획정지 시간은 포함될 수도 있고 제외될 수 있습니다. (제품생산 시간이 기준일 때는 포함, 설비가동시간 기준인 경우는 포함되지 않습니다.)</p>
 </div>
 
 
@@ -316,12 +320,11 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         <th scope="col">사양</th>
         <th scope="col" style="display:<?=($sfl=='item_lhrh'&&$stx)?'':'none'?>;">LH/RH</th>
         <th scope="col">생산수량</th>
-        <th scope="col">시작시간</th>
-        <th scope="col">종료시간</th>
+        <th scope="col">시작 ~ 종료</th>
         <th scope="col">작업시간(분)</th>
-        <th scope="col">공제(분)</th>
-        <th scope="col">실작업시간(시)</th>
-        <th scope="col">비가동시간(시)</th>
+        <th scope="col" style="display:<?=($g5['setting']['set_uph_worktime']=='output')?'':'none'?>;">계획정지(분)</th>
+        <th scope="col">실작업(시)</th>
+        <th scope="col">비가동(시)</th>
         <th scope="col">UPH(비가동포함)</th>
         <th scope="col">UPH(비가동제외)</th>
     </tr>
@@ -349,9 +352,47 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         $row['period']['dta_ymdhis_max_display'] = $row['period']['dta_ymdhis_max'];    // 목록에 종료시간 표시(24기간 경계 때문에 중간에 값이 바뀔 수 있어서 따로 정의함)
         // print_r2($row['period']);
 
-        // 작업시간 합계
-        $row['worktime'] = strtotime($row['period']['dta_ymdhis_max']) - strtotime($row['period']['dta_ymdhis_min']);
-        // echo $row['worktime'].' 초<br>';
+        // 작업시간 합계... 생산품 기준이 아니고 장비 가동기준으로 바뀜에 따라 다시 계산합니다.
+        if($g5['setting']['set_uph_worktime']=='output') {
+            $row['worktime'] = strtotime($row['period']['dta_ymdhis_max']) - strtotime($row['period']['dta_ymdhis_min']);
+            // echo $row['worktime'].' 초<br>';
+        }
+        else {
+            // 가동설비들 추출 (설비별로 시작시간과 종료시간이 달라요.)
+            $sql2 = "   SELECT GROUP_CONCAT(machine_id) AS machine_ids
+                        FROM (
+                            SELECT machine_id, COUNT(*) AS dta_count
+                            FROM g5_1_xray_inspection
+                            WHERE work_date = '".$row['work_date']."'
+                            GROUP BY machine_id
+                        ) AS db1
+            ";
+            $row2 = sql_fetch($sql2,1);
+            $row['machine_array'] = explode(",",$row2['machine_ids']);
+            // echo $row2['machine_ids'].'<br>';
+
+            // 설비별로 가동시간 계산을 합해야 함
+            for($j=0;$j<sizeof($row['machine_array']);$j++){
+                // echo $row['machine_array'][$j].'<br>';
+                // echo array_search($row['machine_array'][$j],$ser_mms_idx_array).'--- 배열의 key값<br>';
+
+                // 가동시간 계산
+                $sql2 = "   SELECT SUM(dta_value) AS dta_sum
+                            FROM {$g5['data_run_table']}
+                            WHERE dta_dt >= '".strtotime($row['period']['dta_ymdhis_min'])."' AND dta_dt <= '".strtotime($row['period']['dta_ymdhis_max'])."'
+                                AND mms_idx = '".array_search($row['machine_array'][$j],$ser_mms_idx_array)."'
+                ";
+                // echo $sql2.'<br>';
+                $row2 = sql_fetch($sql2,1);
+                $row['runtime_sum'] += $row2['dta_sum'];
+            }
+            $row['worktime'] = $row['runtime_sum'];
+            // echo $row['worktime'].' 초 ---- <br>';
+
+        }
+
+
+
 
         // 종료시간이 시작보다 작은 경우는 다음날이므로 일단 24시까지 추출한 다음 한번 더 추출해야 함
         if( $row['period']['dta_start_his'] > $row['period']['dta_end_his'] ) {
@@ -444,7 +485,10 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         $row['offworkmin'] = round($row['offwork'][$i]/60);         // 공제시간(분)
 
         $row['workmin'] = round($row['worktime']/60);           // 작업시간(분)
-        $row['workreal'] = $row['worktime']-$row['offwork'][$i];    // 실작업시간 = 작업시간 - 공제
+        $row['workreal'] = ($g5['setting']['set_uph_worktime']=='output') ?
+                                $row['worktime']-$row['offwork'][$i]    // 실작업시간 = 작업시간 - 계획정지(공제)
+                                :$row['worktime'];  // 가동시간만
+        // $row['workreal'] = $row['worktime']-$row['offwork'][$i];
         $row['workrealmin'] = round($row['workreal']/60);       // 실작업시간(분)
         $row['workhour'] = round($row['workreal']/3600,2);      // 작업시간(시)
 
@@ -631,10 +675,9 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
             <?=$row['ahref'].$row['item_lhrh']?></a>
         </td>
         <td class="td_right pr_10"><?=number_format($row['output_sum'])?></td><!-- 생산수량(타) -->
-        <td><?=substr($row['period']['dta_ymdhis_min'],5)?></td><!-- 시작시간 -->
-        <td><?=substr($row['period']['dta_ymdhis_max_display'],5)?></td><!-- 종료시간 -->
+        <td class="td_start_end"><?=substr($row['period']['dta_ymdhis_min'],5)?> ~ <?=substr($row['period']['dta_ymdhis_max_display'],5)?></td><!-- 시작~종료 -->
         <td><?=$row['workmin']?></td><!-- 작업시간(분) -->
-        <td><?=$row['offworkmin']?></td><!-- 공제(분) -->
+        <td style="display:<?=($g5['setting']['set_uph_worktime']=='output')?'':'none'?>;"><?=$row['offworkmin']?></td><!-- 계획정지(분) -->
         <td><?=$row['workrealmin']?> (<?=$row['workhour']?>)</td><!-- 실작업시간(시) -->
         <td><?=$row['downtimemin']?> (<?=$row['downtimehour']?>)</td><!-- 비가동시간(시) -->
         <td><?=round($row['output_sum']/$row['workhour'],2)?></td><!-- SPH(비가동포함) -->
