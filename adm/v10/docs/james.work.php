@@ -1874,8 +1874,157 @@ FROM g5_1_xray_inspection
 WHERE work_date = '2022-09-30' AND machine_id=60
 ....
 
+구배 시간 P0S 0 SV SETTING
+
+// optimal cast parameters check and monitring.
+1. Expain page itself.
+2. Go to detail page and setting for detail view.
+3. Change setting name. 
+
+
+// 통계..................................................................................
+SELECT * FROM g5_1_xray_inspection ORDER BY xry_idx DESC LIMIT 100;
+
+// 설비별
+SELECT (CASE WHEN n='1' THEN machine_id ELSE 'total' END) AS item_name
+    , SUM(output_total) AS output_total
+    , MAX(output_total) AS output_max
+    , SUM(output_good) AS output_good
+    , SUM(output_defect) AS output_defect
+FROM
+(
+    SELECT 
+        machine_id
+        , COUNT(xry_idx) AS output_total
+        , SUM( CASE WHEN result = 'OK' THEN 1 ELSE 0 END ) AS output_good
+        , SUM( CASE WHEN result = 'NG' THEN 1 ELSE 0 END ) AS output_defect
+    FROM g5_1_xray_inspection
+    WHERE work_date >= '2022-10-01' AND work_date <= '2022-10-31'
+    GROUP BY machine_id
+    ORDER BY machine_id
+) AS db2, g5_5_tally AS db_no
+WHERE n <= 2
+GROUP BY item_name
+ORDER BY n DESC, convert(item_name, decimal)
+
+
+// 일자별
+SELECT (CASE WHEN n='1' THEN ymd_date ELSE 'total' END) AS item_name
+    , SUM(output_total) AS output_total
+    , MAX(output_total) AS output_max
+    , SUM(output_good) AS output_good
+    , SUM(output_defect) AS output_defect
+FROM
+(
+    SELECT 
+        ymd_date
+        , SUM(output_total) AS output_total
+        , SUM(output_good) AS output_good
+        , SUM(output_defect) AS output_defect
+    FROM
+    (
+        (
+        SELECT 
+            CAST(ymd_date AS CHAR) AS ymd_date
+            , 0 AS output_total
+            , 0 AS output_good
+            , 0 AS output_defect
+        FROM g5_5_ymd AS ymd
+        WHERE ymd_date BETWEEN '2022-10-01' AND '2022-10-31'
+        ORDER BY ymd_date
+        )
+        UNION ALL
+        (
+        SELECT 
+            work_date AS ymd_date
+            , COUNT(xry_idx) AS output_total
+            , SUM( CASE WHEN result = 'OK' THEN 1 ELSE 0 END ) AS output_good
+            , SUM( CASE WHEN result = 'NG' THEN 1 ELSE 0 END ) AS output_defect
+        FROM g5_1_xray_inspection
+        WHERE work_date >= '2022-10-01' AND work_date <= '2022-10-31'
+        GROUP BY ymd_date
+        ORDER BY ymd_date
+        )
+    ) AS db_table
+    GROUP BY ymd_date
+) AS db2, g5_5_tally AS db_no
+WHERE n <= 2
+GROUP BY item_name
+ORDER BY n DESC, item_name
+
+
+
+// 월간
+SELECT (CASE WHEN n='1' THEN ymd_month ELSE 'total' END) AS item_name
+    , SUM(output_total) AS output_total
+    , MAX(output_total) AS output_max
+    , SUM(output_good) AS output_good
+    , SUM(output_defect) AS output_defect
+FROM
+(
+
+    SELECT 
+        ymd_month
+        , SUM(output_total) AS output_total
+        , SUM(output_good) AS output_good
+        , SUM(output_defect) AS output_defect
+    FROM
+    (
+        (
+        SELECT 
+            substring( CAST(ymd_date AS CHAR),1,7) AS ymd_month
+            , 0 AS output_total
+            , 0 AS output_good
+            , 0 AS output_defect
+        FROM g5_5_ymd AS ymd
+        WHERE ymd_date BETWEEN '2022-10-01' AND '2022-10-31'
+        ORDER BY ymd_date
+        )
+        UNION ALL
+        (
+        SELECT 
+            substring( CAST(work_date AS CHAR),1,7) AS ymd_month
+            , COUNT(xry_idx) AS output_total
+            , SUM( CASE WHEN result = 'OK' THEN 1 ELSE 0 END ) AS output_good
+            , SUM( CASE WHEN result = 'NG' THEN 1 ELSE 0 END ) AS output_defect
+        FROM g5_1_xray_inspection
+        WHERE work_date >= '2022-10-01' AND work_date <= '2022-10-31'
+        GROUP BY ymd_month
+        ORDER BY ymd_month
+        )
+    ) AS db_table
+    GROUP BY ymd_month
+
+) AS db2, g5_5_tally AS db_no
+WHERE n <= 2
+GROUP BY item_name
+ORDER BY n DESC, item_name
+
+
+
+delete FROM `g5_1_member_dash` WHERE mb_id='ajintest'
+delete FROM `g5_1_member_dash` WHERE mb_id='lbk1130'
+
+SELECT mta_idx,mta_value,mta_title,mta_number FROM g5_5_meta WHERE mta_db_table = 'member' AND mta_db_id = 'super' AND mta_key = 'dashboard_menu' ORDER BY mta_number
+SELECT mta_idx FROM g5_5_meta WHERE mta_db_table = 'member' AND mta_db_id = 'super' AND mta_key = 'dashboard_menu' ORDER BY mta_number
+
+
+UPDATE g5_1_member_dash SET mbd_status = 'trash' ,mbd_update_dt = '2022-10-26 16:32:01' WHERE mta_idx = '417' AND dsg_idx = '3'
+UPDATE g5_1_dash_grid SET dsg_status = 'trash' ,dsg_update_dt = '2022-10-26 16:32:01' WHERE mta_idx = '417' AND dsg_idx = '3'
+SELECT mta_idx,mta_value,mta_title,mta_number FROM g5_5_meta WHERE mta_db_table = 'member' AND mta_db_id = 'super' AND mta_key = 'dashboard_menu' ORDER BY mta_number LIMIT 1
+
+http://hanjoo.epcs.co.kr/adm/v10/ajax/dash.php?aj=mv1&mbd_idx=10&mta_idx=1265
+
+
 
 // 이병구 요청
 . 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.
 
+
+. 이세영
+. 박은주 - 대창, ICT솔루션 관리로 참여시키자.
+. AWS 도입하겠다.
+. 사람을 뽑아야 한다. (김동언, 김윤주, 조한결, 유유빈... 나가고 안 뽑음)
+
+. 개발, 서버, 디비, 기획, AS, 고객전화까지...
 
