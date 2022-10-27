@@ -147,7 +147,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
         <th scope="row"><label for="mb_password">비밀번호<?php echo $sound_only ?></label></th>
         <td>
             <?php echo help('비밀번호는 반드시 영문으로 시작해야하고 이 후 영문숫자 조합으로 6글자이상 입력해 주세요.') ?>
-            <?php if($w==''||$member['mb_manager_yn']) { ?>
+            <?php if($w==''|| $member['mb_manager_yn'] || $member['mb_8'] == 'admin') { ?>
             <input type="password" name="mb_password" id="mb_password" <?php //echo $required_mb_password ?> class="frm_input <?php //echo $required_mb_password ?>" size="15" maxlength="20">
             <?php } else { ?>
             <span style="color:#aaa;">비밀번호 수정 불가</span>
@@ -207,7 +207,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
             <label style="margin-left:10px;"><input type="radio" name="mb_sales_cost_yn" value="0" <?php echo ($mb['mb_sales_cost_yn']) ? "" : "checked"; ?>> 원가공제안함</label>
         </td>
     </tr>
-    <tr>
+    <tr style="display:none;">
         <th scope="row">접속 디폴트 페이지</th>
         <td colspan="3">
             <?php echo help('로그인 후 접속하는 첫 페이지를 설정합니다. 품질 및 비가동 정보를 입력하는 분들은 품질정보입력 페이지로 설정해 주세요.') ?>
@@ -263,7 +263,7 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
         <th scope="row"><label for="mb_nick">닉네임<strong class="sound_only">필수</strong></label></th>
         <td colspan="3"><input type="text" name="mb_nick" value="<?php echo $mb['mb_nick'] ?>" id="reg_mb_nick" required class="required frm_input" size="15"  maxlength="20" <?php if(auth_check($auth[$sub_menu],'d',1)) echo 'readonly';?>></td>
     </tr>
-    <?php if($member['mb_level'] || $mb['mb_8'] == 'adm'){ ?>
+    <?php if($member['mb_level'] || $mb['mb_8'] == 'admin'){ ?>
     <tr>
         <th scope="row">메뉴권한</th>
         <td colspan="3">
@@ -272,6 +272,7 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
                 <?php echo $g5['set_mb_auth_options'];//echo get_set_options_select('set_mb_auth',1, 200, $mb['mb_8'], $sub_menu) ?>
             </select>
             <script>$('select[name=mb_8]').val('<?=$mb['mb_8']?>').attr('selected','selected');</script>
+            <label><input type="checkbox" name="auth_reset" value="1"> 메뉴권한 재설정</label>
         </td>
     </tr>
     <?php } ?>
@@ -422,31 +423,31 @@ function fmember_submit(f)
 {
     //비밀번호 체크
     //영문으로 시작하고 반드시 영문숫자 조합하여 6글자 이상
-    if(f.w.value == 'u' && f.mb_password.value){
-        var pw = f.mb_password.value;
-        var pt = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,}$/;
-        if(!pt.test(pw)){
-            alert('비밀번호가 영문숫자조합 및 6글자이상의 문자열\n규칙에 위반된 구성입니다.');
-            f.mb_password.focus();
-            return false;
-        }
-    }
-    else if(f.w.value == ''){
-        if(!f.mb_password.value){
-            alert('비밀번호를 반드시 입력해 주세요');
-            f.mb_password.focus();
-            return false;
-        }
-        else {
-            var pw = f.mb_password.value;
-            var pt = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,}$/;
-            if(!pt.test(pw)){
-                alert('비밀번호가 영문숫자조합 및 6글자이상의 문자열\n규칙에 위반된 구성입니다.');
-                f.mb_password.focus();
-                return false;
-            }
-        }
-    }
+    // if(f.w.value == 'u' && f.mb_password.value){
+    //     var pw = f.mb_password.value;
+    //     var pt = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,}$/;
+    //     if(!pt.test(pw)){
+    //         alert('비밀번호가 영문숫자조합 및 6글자이상의 문자열\n규칙에 위반된 구성입니다.');
+    //         f.mb_password.focus();
+    //         return false;
+    //     }
+    // }
+    // else if(f.w.value == ''){
+    //     if(!f.mb_password.value){
+    //         alert('비밀번호를 반드시 입력해 주세요');
+    //         f.mb_password.focus();
+    //         return false;
+    //     }
+    //     else {
+    //         var pw = f.mb_password.value;
+    //         var pt = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,}$/;
+    //         if(!pt.test(pw)){
+    //             alert('비밀번호가 영문숫자조합 및 6글자이상의 문자열\n규칙에 위반된 구성입니다.');
+    //             f.mb_password.focus();
+    //             return false;
+    //         }
+    //     }
+    // }
 
     // 닉네임 검사
     // empty_mb_nick, valid_mb_nick, count_mb_nick, exist_mb_nick, reserve_mb_nick 차례대로 다 검사합니다. 위치: /bbs/ajax.mb_nick.php (함수위치는 /lib/register.lib.php)

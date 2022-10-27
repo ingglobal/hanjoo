@@ -32,6 +32,7 @@ $g5['container_sub_title'] = '
     <a href="./tsdb_charge_in_list.php" class="btn_top_menu '.$active_tsdb_charge_in_list.'">장입현황</a>
     <a href="./tsdb_charge_out_list.php" class="btn_top_menu '.$active_tsdb_charge_out_list.'">출탕현황</a>
     <a href="./tsdb_melting_temp_list.php" class="btn_top_menu '.$active_tsdb_melting_temp_list.'">용해온도</a>
+    <a href="./rdb_charge_in_list.php" class="btn_top_menu '.$active_rdb_charge_in_list.'">장입현황(RDB)</a>
 	'.$sub_title_list.'
 </h2>
 ';

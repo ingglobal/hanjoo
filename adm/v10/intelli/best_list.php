@@ -177,9 +177,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         $s_mod = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=u&dmb_idx='.$row['dmb_idx'].'" class="btn btn_03">수정</a>';
         $s_copy = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=c&dmb_idx='.$row['dmb_idx'].'" class="btn btn_03">복제</a>';
 
+        $check_display = !$member['mb_manager_yn'] ? 'none':'';
         echo '
 			<tr tr_id="'.$i.'">
-                <td class="td_chk">
+                <td class="td_chk" style="display:'.$check_display.';">
                     <input type="hidden" name="dmb_idx['.$i.']" value="'.$row['dmb_idx'].'" id="dmb_idx_'.$i.'">
                     <input type="checkbox" name="chk[]" value="'.$i.'" id="chk_'.$i.'">
                 </td>

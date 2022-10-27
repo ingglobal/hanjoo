@@ -319,7 +319,7 @@ for($i=0;$row=sql_fetch_array($result);$i++) {
     <div class="pkt_wrapper">
         <!-- 타이틀 부분 -->
         <div class="pkt_title">
-            <span><?=$row['mbd_graph_name']?></span>
+            <span class="graph_title" title="<?=$row['mbd_graph_name']?>"><?=$row['mbd_graph_name']?></span>
             <span class='graph_icons'>
                 <a href="javascript:" class="chart_view" style="display:none;"><i class='fa fa-bar-chart'></i></a>
                 <a href="javascript:" class="chart_setting"><i class='fa fa-gear'></i></a>
@@ -329,7 +329,7 @@ for($i=0;$row=sql_fetch_array($result);$i++) {
                 <li style="display:none;"><a href="javascript:" class="graph_excel_down">엑셀다운</a></li>
                 <li><a href="javascript:" class="graph_name_change">이름변경</a></li>
                 <li><a href="javascript:" class="graph_delete">삭제</a></li>
-                <li><a href="javascript:" class="graph_config">위젯설정</a></li>
+                <li><a href="javascript:" class="graph_move">위젯이동</a></li>
             </ul>
         </div>
         <!--================ 챠트 부분 ==================-->
@@ -524,8 +524,8 @@ for($i=0;$row=sql_fetch_array($result);$i++) {
         <!--================ // 챠트 부분 ==================-->
     </div>
     </div>
-    <i class="fa fa-pencil-square grid_edit grid_mod" aria-hidden="true"></i>
-    <i class="fa fa-window-close grid_edit grid_del" aria-hidden="true"></i>
+    <i class="fa fa-pencil-square grid_edit grid_mod" aria-hidden="true" style="display:none;"></i>
+    <i class="fa fa-window-close grid_edit grid_del" aria-hidden="true" style="display:none;"></i>
 </div><!--//.pkr-item-->
 <?php 
 }
@@ -614,6 +614,62 @@ $(document).on('click','.graph_view, .chart_view',function(e){
     self.location.href = './system/graph.php?mbd_idx='+my_mbd_idx;
 });
 
+// 이름변경
+$(document).on('click','.graph_name_change',function(e){
+    e.preventDefault();
+    var my_mbd_idx = $(this).closest('div[mbd_idx]').attr('mbd_idx');
+    var my_mbd_title = $(this).closest('div[mbd_idx]').find('.graph_title').attr('title');
+    var my_mbd_title_input = '<input class="input_name" style="width:89%;height:19px;" value="'+my_mbd_title+'">';
+    $(this).closest('div[mbd_idx]').find('.graph_title').empty().append(my_mbd_title_input).find('input').select().focus();
+    $('.graph_setting').hide(); // 다른 모든 설정 팝오버 숨김
+    $('.graph_setting').closest('div').find('.chart_setting i').removeClass('fa-times').addClass('fa-gear');
+
+});
+// 이름변경 enterkey - action for change by ajax
+$(document).on('keyup focusout','.graph_title input',function(e){
+    e.preventDefault();
+    var my_title_span = $(this).closest('div[mbd_idx]').find('.graph_title');
+    var my_mbd_idx = $(this).closest('div[mbd_idx]').attr('mbd_idx');
+    var my_mbd_title = $(this).closest('div[mbd_idx]').find('.graph_title').attr('title');
+    if (e.type == 'focusout') {
+        my_title_span.text(my_mbd_title);
+    }
+    else if(e.keyCode == 13) {
+        // alert('Enter key was pressed.');
+        var chg_mbd_title = $(this).val();  // due to blur event bubbling, unique name required. 
+        var blur = false;
+        //-- 디버깅 Ajax --//
+        $.ajax({
+            url:g5_user_admin_ajax_url+'/dash.php',
+            data:{"aj":"tit","mbd_idx":my_mbd_idx,"mbd_title":chg_mbd_title},
+            dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
+                // console.log(res);
+                //var prop1; for(prop1 in res.rows) { console.log( prop1 +': '+ res.rows[prop1] ); }
+                if(res.result == true) {
+                    alert(res.msg);
+                    // time delay is needed.
+                    setTimeout(function(){
+                        if (!blur) {
+                            blur = true;
+                            my_title_span.text(chg_mbd_title);
+                            my_title_span.attr('title',chg_mbd_title);
+                            blur = false;
+                        }
+                    }, 150);
+                }
+                else {
+                    alert(res.msg);
+                    my_title_span.text(my_mbd_title);
+                }
+            },
+            error:function(xmlRequest) {
+                alert('Status: ' + xmlRequest.status + ' \n\rstatusText: ' + xmlRequest.statusText 
+                    + ' \n\rresponseText: ' + xmlRequest.responseText);
+            } 
+        });
+    }
+});
+
 // 그래프 설정
 $(document).on('click','.chart_setting',function(e){
     e.preventDefault();
@@ -627,6 +683,92 @@ $(document).on('click','.chart_setting',function(e){
     else {
         my_graph_setting.hide();
         $(this).find('i').removeClass('fa-times').addClass('fa-gear');
+    }
+});
+
+// 그래프 이동
+$(document).on('click','.graph_move',function(e){
+    e.preventDefault();
+    if($(this).hasClass('blink')) {
+        $(this).removeClass('blink');
+    }
+    else {
+        $('a.graph_move').removeClass('blink');
+        $(this).addClass('blink');
+    }
+});
+$(document).on('click','.li_dash_submenu a.gnb_2da',function(e){
+    e.preventDefault();
+    var href = $(this).attr('href');
+    // 깜빡이는 놈이 있으면 위젯이동해 주고 페이지 링크이동
+    var mbd_idx = $('a.graph_move.blink').closest('div[mbd_idx]').attr('mbd_idx');
+    var mta_idx = $(this).closest('li').attr('mta_idx');
+    if( mbd_idx ) {
+        // alert(mbd_idx+' move to '+mta_idx);
+        // 디버깅 Ajax ---------- 동기방식으로 처리해 줘야 함(async:false)
+        $.ajax({
+            url:g5_user_admin_ajax_url+'/dash.php',
+            data:{"aj":"mv1","mbd_idx":mbd_idx,"mta_idx":mta_idx},
+            async:false,dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
+        //$.getJSON(g5_board_skin_url+'/ajax.calendar_update.php',{"w":"u1","data_serialized":data_serialized},function(res){
+            if(res.result == true) {
+                location.href = href;
+            }
+            else {
+                alert(res.msg);
+            }
+            }, error:this_ajax_error    // 디버깅 Ajax ----------
+        });
+    }
+    else {
+        location.href = href;
+    }
+});
+
+// 그래프 제거하기
+$(document).on('click','.graph_delete',function(e){
+    e.preventDefault();
+    my_mbd_idx = $(this).closest('div[mbd_idx]').attr('mbd_idx');
+    $(this).closest('div[mbd_idx]').find('.chart_setting').trigger('click'); // 설정팝오버닫기
+    if(confirm('선택한 그래프를 삭제하시겠습니까?')) {
+
+        var ajax_url = g5_user_admin_ajax_url+'/grid_del.php';
+        var mta_idx = <?=$cur_mta_idx?>;
+        var dsg_idx = $(this).closest('div.pkr-item').attr('dsg_idx');
+        $.ajax({
+            type: 'POST',
+            url: ajax_url,
+            // dataType: 'text',
+            timeout: 30000,
+            data: {'mta_idx': mta_idx, 'dsg_idx': dsg_idx},
+            success: function(res){
+                location.reload();
+            },
+            error: function(req){
+                alert('Status: ' + req.status + ' \n\rstatusText: ' + req.statusText + ' \n\rresponseText: ' + req.responseText);
+            }
+        });
+
+        // //-- 디버깅 Ajax --//
+        // $.ajax({
+        //     url:g5_user_admin_ajax_url+'/dash.php',
+        //     data:{"aj":"del","mbd_idx":my_mbd_idx},
+        //     dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
+        //         // console.log(res);
+        //         //var prop1; for(prop1 in res.rows) { console.log( prop1 +': '+ res.rows[prop1] ); }
+        //         if(res.result == true) {
+        //             $('div[mbd_idx='+my_mbd_idx+']').toggle('scale'); // drop, fold, highlight, scale, slide
+        //         }
+        //         else {
+        //             alert(res.msg);
+        //         }
+        //     },
+        //     error:function(xmlRequest) {
+        //         alert('Status: ' + xmlRequest.status + ' \n\rstatusText: ' + xmlRequest.statusText 
+        //             + ' \n\rresponseText: ' + xmlRequest.responseText);
+        //     } 
+        // });
+
     }
 });
 </script>

@@ -47,7 +47,8 @@ $sql_common = "  mb_name = '{$_POST['mb_name']}',
                  mb_memo = '{$_POST['mb_memo']}',
                  mb_1 = '{$_POST['mb_1']}',
                  mb_5 = '{$_POST['mb_5']}',
-                 mb_6 = '{$_POST['mb_6']}'
+                 mb_6 = '{$_POST['mb_6']}',
+                 mb_8 = '{$_POST['mb_8']}'
 ";
 
 if ($w == '') {
@@ -159,43 +160,81 @@ else {
 }
 
 
-// 접속 첫페이지가 품질정보 입력페이지인 경우 권한을 줘야 합니다.
-if($_REQUEST['mb_first_page']=='manual_quality_input.php') {
-    $set_input_auth[] = '960650=r,w';
-    $set_input_auth[] = '960660=r,w';
-}
-if($_REQUEST['mb_first_page']=='manual_offwork_input.php') {
-    $set_input_auth[] = '960650=r,w';
-    $set_input_auth[] = '960670=r,w';
-}
-// 메뉴 접근 권한 설정
-for($i=0;$i<sizeof($set_input_auth);$i++) {
-    list($key, $value) = explode('=', trim($set_input_auth[$i]));
-    if($key&&$value) {
-        // echo $key.' / '.$value.'<br>';
+// // 접속 첫페이지가 품질정보 입력페이지인 경우 권한을 줘야 합니다.
+// if($_REQUEST['mb_first_page']=='manual_quality_input.php') {
+//     $set_input_auth[] = '960650=r,w';
+//     $set_input_auth[] = '960660=r,w';
+// }
+// if($_REQUEST['mb_first_page']=='manual_offwork_input.php') {
+//     $set_input_auth[] = '960650=r,w';
+//     $set_input_auth[] = '960670=r,w';
+// }
+// // 메뉴 접근 권한 설정
+// for($i=0;$i<sizeof($set_input_auth);$i++) {
+//     list($key, $value) = explode('=', trim($set_input_auth[$i]));
+//     if($key&&$value) {
+//         // echo $key.' / '.$value.'<br>';
 
-        $au1 = sql_fetch(" SELECT * FROM {$g5['auth_table']} WHERE mb_id = '".$mb_id."' AND au_menu = '".$key."' ",1);
-        // 존재하면 업데이트
-        if($au1['au_menu']) {
-            $sql = "UPDATE {$g5['auth_table']} SET
-                        au_auth = '".$value."'
-                    WHERE mb_id = '".$mb_id."' AND au_menu = '".$key."'
-            ";
-            //echo $sql.'<br>';
-            sql_query($sql,1);
-        }
-        // 없으면 생성
-        else {
-            $sql = "INSERT INTO {$g5['auth_table']} SET
-                        mb_id = '".$mb_id."'
-                        , au_menu = '".$key."'
-                        , au_auth = '".$value."'
-            ";
-            //echo $sql.'<br>';
-            sql_query($sql,1);
-        }
+//         $au1 = sql_fetch(" SELECT * FROM {$g5['auth_table']} WHERE mb_id = '".$mb_id."' AND au_menu = '".$key."' ",1);
+//         // 존재하면 업데이트
+//         if($au1['au_menu']) {
+//             $sql = "UPDATE {$g5['auth_table']} SET
+//                         au_auth = '".$value."'
+//                     WHERE mb_id = '".$mb_id."' AND au_menu = '".$key."'
+//             ";
+//             //echo $sql.'<br>';
+//             sql_query($sql,1);
+//         }
+//         // 없으면 생성
+//         else {
+//             $sql = "INSERT INTO {$g5['auth_table']} SET
+//                         mb_id = '".$mb_id."'
+//                         , au_menu = '".$key."'
+//                         , au_auth = '".$value."'
+//             ";
+//             //echo $sql.'<br>';
+//             sql_query($sql,1);
+//         }
 
+//     }
+// }
+
+// 메뉴 접근 권한 재설정
+if($auth_reset) {
+    // 기존 정보 삭제(초기화)
+    $sql = "DELETE FROM {$g5['auth_table']} WHERE mb_id = '".$mb_id."' ";
+    //echo $sql.'<br>';
+    sql_query($sql,1);
+
+    // 메뉴 접근 권한 설정
+    $set_values = explode("\n", $g5['setting']['set_'.$mb_8.'_auth']);
+    foreach ($set_values as $set_value) {
+        list($key, $value) = explode('=', trim($set_value));
+        if($key&&$value) {
+            // echo $key.' / '.$value.'<br>';
+            $au1 = sql_fetch(" SELECT * FROM {$g5['auth_table']} WHERE mb_id = '".$mb_id."' AND au_menu = '".$key."' ",1);
+            // 존재하면 업데이트
+            if($au1['au_menu']) {
+                $sql = "UPDATE {$g5['auth_table']} SET
+                            au_auth = '".$value."'
+                        WHERE mb_id = '".$mb_id."' AND au_menu = '".$key."'
+                ";
+                //echo $sql.'<br>';
+                sql_query($sql,1);
+            }
+            // 없으면 생성
+            else {
+                $sql = "INSERT INTO {$g5['auth_table']} SET
+                            mb_id = '".$mb_id."'
+                            , au_menu = '".$key."'
+                            , au_auth = '".$value."'
+                ";
+                //echo $sql.'<br>';
+                sql_query($sql,1);
+            }
+        }
     }
+    unset($set_values);unset($set_value);
 }
 
 
@@ -228,6 +267,6 @@ foreach($_REQUEST as $key => $value ) {
 $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs;
 
 // exit;
-// goto_url('./employee_form.php?'.$qstr.'&amp;w=u&amp;mb_id='.$mb_id, false);
-goto_url('./employee_list.php?'.$qstr, false);
+goto_url('./employee_form.php?'.$qstr.'&amp;w=u&amp;mb_id='.$mb_id, false);
+// goto_url('./employee_list.php?'.$qstr, false);
 ?>

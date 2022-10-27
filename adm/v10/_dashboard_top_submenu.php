@@ -32,7 +32,6 @@ if(!$tmresult->num_rows){
     // print_r3($tmta_sql);
     $tmresult = sql_query($tmta_sql,1);
 }
-
 for($i=0;$tmrow=sql_fetch_array($tmresult);$i++){
     $sub_menus[$tmrow['mta_idx']] = $tmrow['mta_value'];    // 메뉴코드(915110...)
     $sub_menu_titles[$tmrow['mta_idx']] = $tmrow['mta_title'];  // 대시보드명
@@ -48,9 +47,14 @@ if($tmresult->num_rows && !$idx) {
     $cur_mta_idx = array_search($sub_menu,$sub_menus);
 }
 else if($tmresult->num_rows && $idx) {
-    // print_r3(3);
+    // print_r3($idx);
     $sub_menu = $sub_menus[$idx];
     $cur_mta_idx = array_search($sub_menu,$sub_menus);
+    // print_r3($sub_menu);
+    // 메뉴가 사라진 경우이므로 새로고침해야 함
+    if(!$sub_menu) {
+        goto_url(G5_USER_ADMIN_URL);
+    }
 }
 else {
     // print_r3(4);
@@ -62,5 +66,5 @@ else {
 $sub_menu_title = ($sub_menu_titles[$cur_mta_idx]) ? '<span clas="ds_ttl">'.$sub_menu_titles[$cur_mta_idx].'</span>'
                                                         :'<span clas="ds_ttl">대시보드</span>';
 // 타이틀 생성
-$g5['title'] = $sub_menu_title.((!$sub_menu||!$cur_mta_idx) ?: '<i class="fa fa-cogs ds_edit_btn" aria-hidden="true" style="margin-left:10px;cursor:pointer;"></i>');
+$g5['title'] = $sub_menu_title.((!$sub_menu||!$cur_mta_idx) ?: '<i class="fa fa-cogs ds_edit_btn" aria-hidden="true" style="margin-left:10px;cursor:pointer;display:none;"></i>');
 // $sub_menu = '915110';

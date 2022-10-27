@@ -1017,3 +1017,6 @@ SELECT * FROM g5_1_data_measure_58 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSE
 SELECT column_name, data_type, character_maximum_length
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE table_name = 'g5_1_robot';
+
+
+SELECT * FROM g5_1_xray_inspection ORDER BY xry_idx DESC LIMIT 100;

@@ -43,6 +43,17 @@ if ($aj == "put") {
     $data_series = json_encode($data_series, JSON_UNESCAPED_UNICODE);
     // echo $data_series.'<br>';
 
+    // 디폴트 대시보드에 추출
+    $sql = " SELECT mta_idx,mta_value,mta_title,mta_number
+                    FROM {$g5['meta_table']} 
+                    WHERE mta_db_table = 'member' 
+                        AND mta_db_id = '{$member['mb_id']}'
+                        AND mta_key = 'dashboard_menu'
+                    ORDER BY mta_number
+                    LIMIT 1
+    ";
+    // echo $sql;
+    $mta = sql_fetch($sql,1);
 
     // 설정 정보
     $mbd_setting = '';
@@ -58,6 +69,7 @@ if ($aj == "put") {
     $sql_common = " mb_id = '".$member['mb_id']."'
                     , com_idx = '".$com_idx."'
                     , mms_idx = '".$mms_idx."'
+                    , mta_idx = '{$mta['mta_idx']}'
                     , mbd_type = 'graph '
                     , mbd_setting = '".$mbd_setting."'
     ";
@@ -74,29 +86,22 @@ if ($aj == "put") {
     }
     else {
 
-        // 디폴트 대시보드에 추가
-        $tmta_sql = " SELECT mta_idx,mta_value,mta_title,mta_number FROM {$g5['meta_table']} 
-                        WHERE mta_db_table = 'member' 
-                            AND mta_db_id = '{$member['mb_id']}'
-                            AND mta_key = 'dashboard_menu'
-                        ORDER BY mta_number
-                        LIMIT 1
-        ";
-        // echo $tmta_sql;
-        $tmresult = sql_fetch($tmta_sql,1);
-        $mores = sql_fetch(" SELECT MAX(dsg_order) AS max_order FROM {$g5['dash_grid_table']} WHERE mta_idx = '{$tmresult['mta_idx']}' ");
-        $next_order = ($mores['max_order']) ? $mores['max_order'] + 1 : 1;
+        // 기존거 다 +1 한 후에 (정렬을 맨 앞으로 가지고 오기 위해서)
+        $sql = " UPDATE {$g5['dash_grid_table']} SET dsg_order = dsg_order + 1 WHERE mta_idx = '".$mta['mta_idx']."' ";
+        sql_query($sql,1);
+        // 입력
+        // $mores = sql_fetch(" SELECT MAX(dsg_order) AS max_order FROM {$g5['dash_grid_table']} WHERE mta_idx = '{$mta['mta_idx']}' ");
+        // $next_order = ($mores['max_order']) ? $mores['max_order'] + 1 : 1;
         $sql = " INSERT INTO {$g5['dash_grid_table']} SET
-                    mta_idx = '{$tmresult['mta_idx']}'
+                    mta_idx = '{$mta['mta_idx']}'
                     ,dsg_width_num = '2'
                     ,dsg_height_num = '1'
-                    ,dsg_order = '{$next_order}'
+                    ,dsg_order = '1'
                     ,dsg_reg_dt = '".G5_TIME_YMDHIS."'
                     ,dsg_update_dt = '".G5_TIME_YMDHIS."'
         ";
         sql_query($sql,1);
         $dsg_idx = sql_insert_id();
-
 
         // 기존거 다 +1 한 후에 (큰 의미는 없네)
         $sql = " UPDATE {$g5['member_dash_table']} SET
@@ -106,7 +111,7 @@ if ($aj == "put") {
                         AND mbd_type = 'graph '
         ";
         sql_query($sql,1);
-
+        // 삽입
         $sql = " INSERT INTO {$g5['member_dash_table']} SET
                     {$sql_common}
                     , dsg_idx = '".$dsg_idx."'
@@ -191,6 +196,35 @@ else if ($aj == "srt") {
     else {
         $response->msg = "그래프 정보가 없습니다.";
     }
+
+}
+// 위젯이동
+else if ($aj == "mv1") {
+
+    $mbd = get_table('member_dash','mbd_idx',$mbd_idx);
+    // print_r2($mbd);
+
+    $sql = " UPDATE {$g5['member_dash_table']} SET
+                mta_idx = '".$mta_idx."'
+            WHERE mbd_idx = '".$mbd_idx."'
+    ";
+    // echo $sql.'<br>';
+    sql_query($sql,1);
+
+    // 기존거 다 +1 한 후에 (정렬을 맨 앞으로 가지고 오기 위해서)
+    $sql = " UPDATE {$g5['dash_grid_table']} SET dsg_order = dsg_order + 1 WHERE mta_idx = '".$mta_idx."' ";
+    sql_query($sql,1);
+    // 업데이트
+    $sql = " UPDATE {$g5['dash_grid_table']} SET
+                mta_idx = '".$mta_idx."'
+            WHERE dsg_idx = '".$mbd['dsg_idx']."'
+    ";
+    // echo $sql.'<br>';
+    sql_query($sql,1);
+
+    $response->sql = $sql;
+    $response->result = true;
+    $response->msg = "위젯을 이동하였습니다.";
 
 }
 else {

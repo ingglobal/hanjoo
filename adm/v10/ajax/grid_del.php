@@ -7,41 +7,52 @@ include_once('./_common.php');
 */
 
 //member_dash 상태값 trash
-$mbd_trash_sql = " UPDATE {$g5['member_dash_table']} SET
-                        mbd_status = 'trash'
-                        ,mbd_update_dt = '".G5_TIME_YMDHIS."'
+$mbd_trash_sql = " DELETE FROM {$g5['member_dash_table']}
                     WHERE mta_idx = '{$mta_idx}'
                         AND dsg_idx = '{$dsg_idx}'
 ";
-sql_query($mbd_trash_sql);
+// $mbd_trash_sql = " UPDATE {$g5['member_dash_table']} SET
+//                         mbd_status = 'trash'
+//                         ,mbd_update_dt = '".G5_TIME_YMDHIS."'
+//                     WHERE mta_idx = '{$mta_idx}'
+//                         AND dsg_idx = '{$dsg_idx}'
+// ";
+// echo $mbd_trash_sql.'<br>';
+sql_query($mbd_trash_sql,1);
 //dash_grid 상태값 trash
-$dsg_trash_sql = " UPDATE {$g5['dash_grid_table']} SET
-                        dsg_status = 'trash'
-                        ,dsg_update_dt = '".G5_TIME_YMDHIS."'
+$dsg_trash_sql = " DELETE FROM {$g5['dash_grid_table']}
                     WHERE mta_idx = '{$mta_idx}'
                         AND dsg_idx = '{$dsg_idx}'
 ";
-sql_query($dsg_trash_sql);
-//남은 dsg 레코드의 dsg_order 순서를 재지정
+// $dsg_trash_sql = " UPDATE {$g5['dash_grid_table']} SET
+//                         dsg_status = 'trash'
+//                         ,dsg_update_dt = '".G5_TIME_YMDHIS."'
+//                     WHERE mta_idx = '{$mta_idx}'
+//                         AND dsg_idx = '{$dsg_idx}'
+// ";
+// echo $dsg_trash_sql.'<br>';
+sql_query($dsg_trash_sql,1);
+
+
+// 남은 dsg 레코드의 dsg_order 순서를 재지정
 $sql = " SELECT dsg_idx FROM {$g5['dash_grid_table']}
             WHERE mta_idx = '{$mta_idx}'
                 AND dsg_status = 'ok'
             ORDER BY dsg_order, dsg_idx
 ";
-$result = sql_query($sql);
-
+$result = sql_query($sql,1);
 if($result->num_rows){
-$n = 0;
-for($i=0;$row=sql_fetch_array($result);$i++){
-    $n = $i+1;
-    $dsg_sql = " UPDATE {$g5['dash_grid_table']} SET
-                    dsg_order = '{$n}'
-                    ,dsg_update_dt = '".G5_TIME_YMDHIS."'
-                WHERE mta_idx = '{$mta_idx}'
-                    AND dsg_idx = '{$row['dsg_idx']}'
-    ";
-    sql_query($dsg_sql);
-}
+    $n = 0;
+    for($i=0;$row=sql_fetch_array($result);$i++){
+        $n = $i+1;
+        $dsg_sql = " UPDATE {$g5['dash_grid_table']} SET
+                        dsg_order = '{$n}'
+                        ,dsg_update_dt = '".G5_TIME_YMDHIS."'
+                    WHERE mta_idx = '{$mta_idx}'
+                        AND dsg_idx = '{$row['dsg_idx']}'
+        ";
+        sql_query($dsg_sql,1);
+    }
 }
 
 

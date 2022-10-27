@@ -280,3 +280,12 @@ min-width:1160px;
     width: 100%;
     height: 235px;
 }
+.input_name {border:solid 1px #848484;background-color:#131825;color:white;}
+@keyframes blink-effect {
+    50% {opacity: 0;}
+}
+@-webkit-keyframes blink-effect {
+    50% {opacity: 0;}
+}
+.blink {animation: blink-effect 1s step-start infinite;
+
