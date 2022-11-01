@@ -139,8 +139,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00">
 &nbsp;&nbsp;
 <select name="sfl" id="sfl">
-    <option value="result" <?=get_selected($sfl, 'result')?>>결과</option>
+    <option value="cast_code" <?=get_selected($sfl, 'cast_code')?>>주조코드</option>
     <option value="qrcode" <?=get_selected($sfl, 'qrcode')?>>QRCode</option>
+    <option value="qrc_grade" <?=get_selected($sfl, 'qrc_grade')?>>등급</option>
+    <option value="result" <?=get_selected($sfl, 'result')?>>결과</option>
     <option value="production_id" <?=get_selected($sfl, 'production_id')?>>생상품ID</option>
     <option value="work_shift" <?=get_selected($sfl, 'work_shift')?>>주야간</option>
     <option value="machine_id" <?=get_selected($sfl, 'machine_id')?>>설비번호</option>
@@ -165,9 +167,12 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 		<th scope="col">종료시각</th>
 		<th scope="col">설비번호</th>
 		<th scope="col">QRCode</th>
+		<th scope="col">결과</th>
 		<th scope="col">주조코드</th>
 		<th scope="col">주조기</th>
 		<th scope="col">주조시각</th>
+		<th scope="col">등급</th>
+		<th scope="col">판정</th>
 		<th scope="col" style="display:none;">관리</th>
 	</tr>
 	</thead>
@@ -196,9 +201,12 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 				<td>'.substr($row['end_time'],0,19).'</td>
 				<td>'.$row['machine_no'].'</td>
 				<td>'.$row['qrcode'].'</td>
+				<td>'.$row['result'].'</td>
 				<td>'.$row['cast_code'].'</td>
 				<td>'.$g5['mms'][$row['mms_idx']]['mms_name'].'</td>
 				<td>'.$row['event_time'].'</td>
+				<td>'.$row['qrc_grade'].'</td>
+				<td>'.$row['qrc_result'].'</td>
 				<td style="display:none;">'.$s_mod.'</td>
 			</tr>
 		';

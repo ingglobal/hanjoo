@@ -5,6 +5,8 @@ include(G5_PATH.'/head.sub.php');
 $arr['token'] = $_REQUEST['token'];
 $arr['qrcode'] = $_REQUEST['qrcode'];
 $arr['cast_code'] = $_REQUEST['cast_code'];
+$arr['grade'] = $_REQUEST['grade'];
+$arr['result'] = $_REQUEST['result'];
 //print_r2($arr);
 //exit;
 ?>

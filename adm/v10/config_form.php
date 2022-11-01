@@ -303,7 +303,7 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
 		<tr>
 			<th scope="row">메시지발송수단</th>
 			<td colspan="3">
-				<?php echo help('email=이메일, sms=문자, push=푸시...') ?>
+				<?php echo help('email=이메일, sms=문자, push=푸시') ?>
 				<input type="text" name="set_send_type" value="<?php echo $g5['setting']['set_send_type']; ?>" class="frm_input" style="width:60%;">
 			</td>
 		</tr>

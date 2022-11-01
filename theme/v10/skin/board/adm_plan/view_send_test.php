@@ -50,7 +50,7 @@ $towhom_hp = array_filter($towhom_hp);  // 빈배열 제거
 // exit;
 
 // $receive_number = preg_replace("/[^0-9]/", "", $towhom_li[1]['r_hp']);  // 수신자번호
-$send_number = preg_replace("/[^0-9]/", "", $sms5['cf_phone']); // 발신자번호
+$send_number = preg_replace("/[^0-9]/", "", $g5['setting']['set_from_number']); // 발신자번호
 // $sms_contents = '문자발송 내용입니다.(SMS) 80포트로 통신을 하나?';
 // $sms_contents = '문자발송 내용입니다.(LMS) 80포트로 통신을 하는가 싶기도 하고 그러네요. 어떤 포트로 하는가 모르겠네! 그렇지 않다면 보낼 필요가 없을 터이야';
 // 문자 내용
@@ -104,6 +104,7 @@ if ($config['cf_sms_use'] == 'icode' && count($towhom_hp) > 0)
         $SMS->Init(); // 보관하고 있던 결과값을 지웁니다.
     }
 }
+exit;
 
 // 메일발송
 for($i=0;$i<sizeof($towhom_li);$i++) {

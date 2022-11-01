@@ -36,14 +36,27 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
     <div class="write_div">
         <label for="wr_cart" class="sound_only">설비</label>
         <input type="hidden" name="com_idx" value="<?=(($w == '')?$_SESSION['ss_com_idx']:$write['wr_1'])?>"><!-- 업체번호 -->
-        <input type="hidden" name="mms_idx" value="<?=$write['wr_2']?>"><!-- 설비번호 -->
         <input type="hidden" name="com_name" value="<?=$write['com_name']?>"><!-- 업체명 -->
-
-        <input type="text" name="mms_name" value="<?=$write['mms_name']?>" id="mms_name" required class="frm_input required" placeholder="설비명" style="width:200px;" readonly>
-        <div style="display:<?=($write['mms_idx']&&$member['mb_manager_yn']) ? 'none':'inline-block';?>;">
-            <button type="button" class="btn btn_b01" id="btn_mms">설비찾기</button>
-            <span id="mms_info"><?=$write['mms_info']?></span>
-        </div>
+        
+        <select name="mms_idx" id="mms_idx">
+            <option value="">설비선택</option>
+            <?php
+            // 해당 범위 안의 모든 설비를 select option으로 만들어서 선택할 수 있도록 한다.
+            // Get all the mms_idx values to make them optionf for selection.
+            $sql2 = "SELECT mms_idx, mms_name
+                    FROM {$g5['mms_table']}
+                    WHERE com_idx = '".$_SESSION['ss_com_idx']."'
+                    ORDER BY mms_idx       
+            ";
+            // echo $sql2.'<br>';
+            $result2 = sql_query($sql2,1);
+            for ($i=0; $row2=sql_fetch_array($result2); $i++) {
+                // print_r2($row2);
+                echo '<option value="'.$row2['mms_idx'].'" '.get_selected($mms_idx, $row2['mms_idx']).'>'.$row2['mms_name'].'</option>';
+            }
+            ?>
+        </select>
+        <script>$('select[name=mms_idx]').val("<?=$write['mms_idx']?>").attr('selected','selected');</script>        
     </div>
 
     <?php
@@ -167,7 +180,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
             <input type="text" name="mb_role" class="frm_input" style="width:80px;" placeholder="직책">
             <input type="text" name="mb_hp" class="frm_input" style="width:120px;" placeholder="휴대폰" onKeyUp="chk_Number(this);">
             <input type="email" name="mb_email" class="frm_input" style="width:200px;" placeholder="이메일">
-            <a href="javascript:" class="btn btn_02 btn_mb_report" style="">추가</a>
+            <a href="javascript:" class="btn btn_02 btn_mb_report" style="position:relative;">추가</a>
         </div>
         <div class="towhom_info">
             <ul>
@@ -261,20 +274,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style2.css">', 
 
 <script>
 $("#wr_3").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", minDate: "+0d" });
-
-// validation check
-$.validator.addMethod('customphone', function (value, element) {
-    return this.optional(element) || /^01[016789]\-?\d{3,4}\-?\d{4}$/.test(value);
-}, "휴대폰 번호를 제대로 입력해 주세요.");
-
-$(function(){
-    $("#fwrite").validate({
-        rules: {
-            mb_hp: 'customphone'
-        }
-    });
-});
-
 
 function chk_Number(object){
     $(object).keyup(function(){
@@ -463,6 +462,15 @@ $(document).on('click','.btn_mb_report',function(e){
     $('.towhom_form input').val('');
 
 });
+// Enterkey action intercept
+// $(document).on('keyup','input[name=mb_name], input[name=mb_role], input[name=mb_hp], input[name=mb_email]',function(e){
+// $(document).on('keyup','input[name=mb_name]',function(e){
+//     $('#fwrite').attr('onsubmit','return false;');
+//     if(e.keyCode == 13 && $(this).val() ) {
+//         $('.btn_mb_report').trigger('click');
+//         $('#fwrite').attr('onsubmit','return true;');
+//     }
+// });
 // report people remove 
 $(document).on('click','.towhom_info .fa',function(e){
     $(this).closest('li').slideUp().remove();

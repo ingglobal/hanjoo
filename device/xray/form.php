@@ -5,6 +5,11 @@ include_once('./_common.php');
 // 실제로는 member_log.php가 크롤링 서버에서 정보를 받아서 저장합니다.
 // 파일명이 실제로는 member_feed_log.php가 더 적합할 수도..
 
+$grade_arr = array(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+$grade = $grade_arr[rand(0,sizeof($grade_arr)-1)];
+$result = ($grade<6) ? 'OK':'NG';
+
+
 // $com_idx_array = array(9999,67,66,65,64,10000);
 $com_idx_array = array($_SESSION['ss_com_idx']);
 $group_array = array('mea','mea');
@@ -48,6 +53,8 @@ Token(암호코드)
 <table>
 	<tr><td>QRcode</td><td><input type="text" name="qrcode" value="<?=$qrcode?>"></td></tr>
 	<tr><td>주조코드</td><td><input type="text" name="cast_code" value="<?=$time_cast?>"></td></tr>
+	<tr><td>등급</td><td><input type="text" name="grade" value="<?=$grade?>"></td></tr>
+	<tr><td>판정</td><td><input type="text" name="result" value="<?=$result?>"></td></tr>
 </table>
 
 <hr>

@@ -460,6 +460,14 @@ function get_month_number($str) {
 }
 }
 
+// get hour hh from alphbet, ex 1,2,3,4...9,A=10, B=11...
+if(!function_exists('get_hour_number')){
+function get_hour_number($str) {
+    $day = sprintf("%02d",dechex($str));
+    return $day;
+}
+}
+
 // get month string from number, ex 01=A, 02=B...
 if(!function_exists('get_month_string')){
 function get_month_string($str) {
@@ -525,6 +533,27 @@ function get_time2castcode($dt) {
     $ii = substr($dt,-5,2);
 
     return rand(1,4).$mm.$dd.$HH.$ii;
+}
+}
+
+// castcode 2 casttime ex) 2A31B32 > 2022-01-31 11:32:00
+if(!function_exists('get_castcode2time')){
+function get_castcode2time($code) {
+    // echo strlen($code).'<br>';
+    
+    if(strlen($code)<7) {
+        return false;
+    }
+    $m = substr($code,1,1);
+    $mm = get_month_number($m);
+    $dd = substr($code,2,2);
+    $h = substr($code,-3,1);
+    $HH = get_hour_number($h);
+    $ii = substr($code,-2,2);
+    $YY = date("Y");
+    // echo (ord(substr($code,1,1))-62).'<br>';
+
+    return $YY.'-'.$mm.'-'.$dd.' '.$HH.':'.$ii.':00';
 }
 }
 

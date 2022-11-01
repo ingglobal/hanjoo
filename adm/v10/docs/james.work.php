@@ -2028,3 +2028,22 @@ http://hanjoo.epcs.co.kr/adm/v10/ajax/dash.php?aj=mv1&mbd_idx=10&mta_idx=1265
 
 . 개발, 서버, 디비, 기획, AS, 고객전화까지...
 
+
+// icmms에서 발송
+Oct 31 21:02:24 q381-1158 sendmail[15376]: 29VC2Nr0015376: from=<master@icmms.co.kr>, size=1141, class=0, nrcpts=1, msgid=<7e4333e357a1525de4005c54def79476@icmms.co.kr>, proto=ESMTP, daemon=MTA, relay=localhost [127.0.0.1]
+Oct 31 21:02:24 q381-1158 sendmail[15379]: STARTTLS=client, relay=mx1.naver.com., version=TLSv1/SSLv3, verify=FAIL, cipher=ECDHE-RSA-AES256-GCM-SHA384, bits=256/256
+Oct 31 21:02:24 q381-1158 sendmail[15379]: 29VC2Nr0015376: to=<websiteman@naver.com>, delay=00:00:00, xdelay=00:00:00, mailer=esmtp, pri=121141, relay=mx1.naver.com. [125.209.238.100], dsn=2.0.0, stat=Sent (OK 6dOWzZKBTPSwJEJJAuZEZw - nsmtp)
+
+
+// 보광에서 발송
+Oct 31 21:03:40 q381-1158 sendmail[15444]: 29VC3c9f015444: from=<master@epcs.co.kr>, size=1148, class=0, nrcpts=1, msgid=<8f14a88e09facac75051d1faa016571b@bogwang.epcs.co.kr>, proto=ESMTP, daemon=MTA, relay=[119.202.74.194]
+Oct 31 21:03:44 q381-1158 sendmail[15448]: STARTTLS=client, relay=mx.yandex.net., version=TLSv1/SSLv3, verify=FAIL, cipher=ECDHE-RSA-AES128-GCM-SHA256, bits=128/128
+Oct 31 21:03:44 q381-1158 sendmail[15448]: 29VC3c9f015444: to=<websiteman@icmms.co.kr>, delay=00:00:04, xdelay=00:00:04, mailer=esmtp, pri=121148, relay=mx.yandex.net. [77.88.21.249], dsn=5.7.1, stat=User unknown
+Oct 31 21:03:47 q381-1158 sendmail[15448]: 29VC3c9f015444: 29VC3l9f015448: DSN: User unknown
+
+// 한주에서 발송
+Oct 31 21:05:17 q381-1158 sendmail[15715]: 29VC5Hbm015715: ruleset=check_rcpt, arg1=<websiteman@naver.com>, relay=[61.83.89.93], reject=550 5.7.1 <websiteman@naver.com>... Relaying denied. IP name lookup failed [61.83.89.93]
+Oct 31 21:05:17 q381-1158 sendmail[15715]: 29VC5Hbm015715: from=<jamesjoa@gmail.com>, size=0, class=0, nrcpts=0, proto=ESMTP, daemon=MTA, relay=[61.83.89.93]
+
+
+

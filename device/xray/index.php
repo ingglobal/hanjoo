@@ -22,16 +22,23 @@ else if(is_array($getData[0])) {
     $qr_time = get_qr_time($arr['qrcode']);
     // $cast_time = get_cast_time('825442610','3289922');
     // echo $cast_time.' -------- <br>';
-    $cast_time = date("Y-m-d H:i:s", strtotime($qr_time)-3600*2);   // 주조코드가 2시간 전에 입력된 걸로 보고 설정
-    $time_cast = get_time2castcode($cast_time); // ex) 2022-01-31 11:32:00 > 2A31B32
+    // if($g5['setting']['set_dicast_test_yn']) {
+    //     $cast_time = date("Y-m-d H:i:s", strtotime($qr_time)-3600*2);   // 주조코드가 2시간 전에 입력된 걸로 보고 설정
+    //     $arr['cast_code'] = get_time2castcode($cast_time); // ex) 2022-01-31 11:32:00 > 2A31B32
+    // }
+    // else {
+        $cast_time = get_castcode2time($arr['cast_code']); // ex) 2A31B32 > 2022-01-31 11:32:00
+    // }
     // echo $time_cast.' -------- <br>';
-    $mms_idx = substr($time_cast,0,1) + 57; // 58(17호기)....61(20호기)
+    $mms_idx = substr($arr['cast_code'],0,1) + 57; // 58(17호기)....61(20호기)
 
 
     $ar['qrcode'] = $arr['qrcode'];
-    $ar['cast_code'] = $time_cast;
+    $ar['cast_code'] = $arr['cast_code'];
     $ar['mms_idx'] = $mms_idx;
     $ar['event_time'] = $cast_time;
+    $ar['qrc_grade'] = $arr['grade'];
+    $ar['qrc_result'] = $arr['result'];
     // print_r2($ar);
     qr_cast_code_update($ar);
     unset($ar);
