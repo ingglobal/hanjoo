@@ -40,7 +40,7 @@ include_once('./_top_search.php');
                         <th scope="col" style="width:15%">생산</th>
                         <th scope="col" style="width:15%;">OK</th>
                         <th scope="col" style="width:15%;">NG</th>
-                        <th scope="col" style="width:150px;">비율(%)</th>
+                        <th scope="col" style="width:15%;">불량율</th>
                     </tr>
                     </thead>
                     <tbody class="tbl_body">
@@ -121,8 +121,9 @@ include_once('./_top_search.php');
                         // echo $output_total.'<br>';
                         // echo $output_max.'<br>';
 
-                        // 목표 대비 달성율
+                        // 비율
                         $row['rate'] = ($output_total) ? $row['output_total'] / $output_total * 100 : 0 ;
+                        $row['ng_rate'] = ($row['output_defect']) ? $row['output_defect'] / $row['output_total'] * 100 : 0 ;
 
                         // First line total skip, start from second line.
                         // if($i>0) {
@@ -132,7 +133,7 @@ include_once('./_top_search.php');
                                 <td class="text_right pr_5">'.number_format($row['output_total']).'</td><!-- 생산 -->
                                 <td class="text_right pr_5">'.number_format($row['output_good']).'</td><!-- 양호 -->
                                 <td class="text_right pr_5">'.number_format($row['output_defect']).'</td><!-- 불량 -->
-                                <td class="text_right pr_5">'.round($row['rate'],2).'</td>
+                                <td class="text_right pr_5">'.round($row['ng_rate'],2).' %</td><!-- 불량율 -->
                             </tr>
                             ';
                         // }
