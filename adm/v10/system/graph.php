@@ -128,6 +128,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
+<input type="hidden" name="machine_id" value="<?=$machine_id?>" id="machine_id" class="frm_input" style="width:40px;">
     <input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;" >
     <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;">
     ~
@@ -595,6 +596,34 @@ function drawChart(data) {
             console.log('graph drawing .................................');
             console.log('seriesOptions length: ' + seriesOptions.length);
             createChart();
+            // chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'Solid', color: '#FF0000', value: 1667232760000, zIndex:5});
+            // chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'LongDash', color: '#FF0000', value: 1667232980000, zIndex:5});
+            // 주기를 표현해야 하는 경우 주기표시
+            // console.log( $('input[name=machine_id]').val() );
+            if( $('input[name=machine_id]').val() > 0 ) {
+                // 폼 설정값 
+                var frm_serialized = $('#fsearch').serialize();
+                $.ajax({
+                    url:g5_user_admin_ajax_url+'/shot.json.php',
+                    data:{"frm_data":frm_serialized},
+                    dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
+                        // console.log(res);
+                        $.each(res,function(i,v){
+                            // console.log(v);
+                            if(v['shot_start']) {
+                                chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'Solid', color: '#FF0000', value: v['shot_start'], zIndex:5});
+                            }
+                            if(v['shot_end']) {
+                                chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'LongDash', color: '#FF0000', value: v['shot_end'], zIndex:5});
+                            }
+                        });
+                    },
+                    error:function(xmlRequest) {
+                        alert('Status: ' + xmlRequest.status + ' \n\rstatusText: ' + xmlRequest.statusText 
+                            + ' \n\rresponseText: ' + xmlRequest.responseText);
+                    } 
+                });
+            }
         }
     }
 }

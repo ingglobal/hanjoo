@@ -2016,19 +2016,6 @@ SELECT mta_idx,mta_value,mta_title,mta_number FROM g5_5_meta WHERE mta_db_table 
 http://hanjoo.epcs.co.kr/adm/v10/ajax/dash.php?aj=mv1&mbd_idx=10&mta_idx=1265
 
 
-
-// 이병구 요청
-. 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.
-
-
-. 이세영
-. 박은주 - 대창, ICT솔루션 관리로 참여시키자.
-. AWS 도입하겠다.
-. 사람을 뽑아야 한다. (김동언, 김윤주, 조한결, 유유빈... 나가고 안 뽑음)
-
-. 개발, 서버, 디비, 기획, AS, 고객전화까지...
-
-
 // icmms에서 발송
 Oct 31 21:02:24 q381-1158 sendmail[15376]: 29VC2Nr0015376: from=<master@icmms.co.kr>, size=1141, class=0, nrcpts=1, msgid=<7e4333e357a1525de4005c54def79476@icmms.co.kr>, proto=ESMTP, daemon=MTA, relay=localhost [127.0.0.1]
 Oct 31 21:02:24 q381-1158 sendmail[15379]: STARTTLS=client, relay=mx1.naver.com., version=TLSv1/SSLv3, verify=FAIL, cipher=ECDHE-RSA-AES256-GCM-SHA384, bits=256/256
@@ -2046,10 +2033,13 @@ Oct 31 21:05:17 q381-1158 sendmail[15715]: 29VC5Hbm015715: ruleset=check_rcpt, a
 Oct 31 21:05:17 q381-1158 sendmail[15715]: 29VC5Hbm015715: from=<jamesjoa@gmail.com>, size=0, class=0, nrcpts=0, proto=ESMTP, daemon=MTA, relay=[61.83.89.93]
 
 
-
-
  
-
+http://hanjoo.epcs.co.kr/adm/v10/ajax/shot.json.php?frm_data=machine_id%3D45%26st_date%3D2022-10-31%26st_time%3D23%253A24%253A51%26en_date%3D2022-11-01%26en_time%3D01%253A21%253A20
  
+SELECT * FROM g5_1_cast_shot WHERE machine_id = '45' AND start_time >= '2022-10-31 23:24:51' AND end_time <= '2022-11-01 01:21:20'
 
- 
+
+
+// 이병구 요청
+. 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.
+

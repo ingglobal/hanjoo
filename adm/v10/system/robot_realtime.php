@@ -105,7 +105,6 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
 <?php
 for($x=1;$x<3;$x++) {
     foreach($type_array as $k1=>$v1) {
-
         // set setup values for toqrue and temperature.
         $setups[$x]['A'][$k1] = $setups[$x]['A'][$k1] ?: 0;
         $setups[$x]['S'][$k1] = $setups[$x]['S'][$k1] ?: 0;

@@ -30,7 +30,7 @@ if(is_file(G5_USER_ADMIN_PATH.'/css/intelli/'.$g5['file_name'].'.css')) {
 
 <div class="div_recommend">
     <div class="title01">
-        최적파라미타 수집 포인트
+        최적파라미타 수집 시점
         <span class="btn_more"><a href="./best_list.php">더보기</a></span>
     </div>
     <div class="cont01">
@@ -84,7 +84,7 @@ function dta_loading(flag,chart_id) {
 function createChart(chart_id,seriesOptions,shot_ids) {
     // console.log(chart_id);
     // console.log(seriesOptions);
-    var chart = new Highcharts.stockChart({
+    chart = new Highcharts.stockChart({
         chart: {
             renderTo: chart_id
         },
@@ -106,6 +106,20 @@ function createChart(chart_id,seriesOptions,shot_ids) {
                     return moment(this.value).format("MM/DD HH:mm");
                 }
             },
+            // 샷 시작 & 종료표시
+            // plotLines: [
+            //     {
+            //         color: '#FF0000',
+            //         width: 2,
+            //         value: 1667226311000
+            //     },
+            //     {
+            //         color: '#FF0000',
+            //         width: 1,
+            //         dashStyle: 'LongDash',
+            //         value: 1667226348000
+            //     }
+            // ]
         },
 
         yAxis: {
@@ -184,7 +198,7 @@ function createChart(chart_id,seriesOptions,shot_ids) {
 <?php
 // Rotate each machines.
 for($i=0;$i<sizeof($best);$i++) {
-    $shod_ids1 = $shod_ids2 = array();
+    $shot_ids1 = $shot_ids2 = array();
     $mms = get_table_meta('mms', 'mms_idx', $best[$i]['mms_idx']);  // mms meta 값으로 태그명들이 쭉 들어가 있음
     // print_r2($best[$i]);
 
@@ -198,13 +212,18 @@ for($i=0;$i<sizeof($best);$i++) {
     $rs = sql_query_pg($sql,1);
     for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
         // print_r2($row);
-        $shod_ids1[] = $row['shot_id'];
+        $shot_ids1[$j] = $row['shot_id'];
         // 금형번호 추출
         if($j==0) {
             $best_mold[$i] = $row['mold_no'];
         }
+        // 샷 시작 & 종료시각
+        $shot_start1[$j] = strtotime($row['start_time']);
+        $shot_end1[$j] = strtotime($row['end_time']);
     }
-    // print_r2($shod_ids1);
+    // print_r2($shot_ids1);
+    // print_r2($shot_start1);
+    // print_r2($shot_end1);
 
     // 기준 시간 아래쪽으로 10개 (향후 활용을 위해서 일단 추출해 둠)
     $sql = "SELECT * FROM g5_1_cast_shot
@@ -215,13 +234,22 @@ for($i=0;$i<sizeof($best);$i++) {
     $rs = sql_query_pg($sql,1);
     for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
         // print_r2($row);
-        $shod_ids2[] = $row['shot_id'];
+        $shot_ids2[$j] = $row['shot_id'];
+        // 샷 시작 & 종료시각
+        $shot_start2[$j] = strtotime($row['start_time']);
+        $shot_end2[$j] = strtotime($row['end_time']);
     }
-    // print_r2($shod_ids2);
+    // print_r2($shot_ids2);
 
     // 기준점 중심 3개 값
-    $shot_ids = array($shod_ids2[0],$shod_ids1[0],$shod_ids1[1]);
+    $shot_ids = array($shot_ids2[0],$shot_ids1[0],$shot_ids1[1]);
     // print_r2($shot_ids);
+
+    // 샷시작, 종료 3개값
+    $shot_starts = array($shot_start2[0],$shot_start1[0],$shot_start1[1]);
+    $shot_ends = array($shot_end2[0],$shot_end1[0],$shot_end1[1]);
+    // print_r2($shot_starts);
+    // print_r2($shot_ends);
     ?>
     <script>
         var seriesOptions1 = []; // 압력배열 초기화
@@ -246,12 +274,12 @@ for($i=0;$i<sizeof($best);$i++) {
             // 온도 (3개 포인트 - 기준점 아래, 기준점, 기준점 위)
             // $sql = "SELECT *
             //         FROM g5_1_cast_shot_sub
-            //         WHERE machine_id = '".$best[$i]['machine_id']."' AND shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
+            //         WHERE machine_id = '".$best[$i]['machine_id']."' AND shot_id IN (".$shot_ids2[0].",".$shot_ids1[0].",".$shot_ids1[1].")
             //         ORDER BY event_time
             // ";
             $sql = "SELECT *
                     FROM g5_1_cast_shot_pressure
-                    WHERE shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
+                    WHERE shot_id IN (".$shot_ids2[0].",".$shot_ids1[0].",".$shot_ids1[1].")
                     ORDER BY event_time
             ";
             // echo $sql.'<br>';
@@ -262,6 +290,7 @@ for($i=0;$i<sizeof($best);$i++) {
                 // print_r2($row);
                 $row['no'] = $i;
                 $row['timestamp'] = strtotime($row['event_time']);
+                // echo $row['timestamp'].'<br>';
                 // 시작시점, 종료시점
                 if($j==0) {$st_dt_pressure[$i] = substr($row['event_time'],0,19);}
                 $en_dt_pressure[$i] = substr($row['event_time'],0,19);
@@ -312,6 +341,21 @@ for($i=0;$i<sizeof($best);$i++) {
             <script>
                 // 만들어진 배열 변수 실행
                 createChart('pressure_<?=$i?>',seriesOptions1,'<?=implode(" ",$shot_ids)?>');
+                <?php
+                // 샷 시작 종료 시점 표시
+                for ($j=0; $j<sizeof($shot_starts); $j++) {
+                    // echo 'console.log('.$shot_starts[$j].');';
+                    // echo 'console.log('.$shot_ends[$j].');';
+                    if($shot_starts[$j]) {
+                        echo "chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'Solid', color: '#FF0000', value: ".$shot_starts[$j]."000, zIndex:5});".PHP_EOL;
+                    }
+                    if($shot_ends[$j]) {
+                        echo "chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'LongDash', color: '#FF0000', value: ".$shot_ends[$j]."000, zIndex:5});".PHP_EOL;
+                    }
+                }
+                ?>
+                // chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'Solid', color: '#FF0000', value: 1667232760000, zIndex:5});
+                // chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'LongDash', color: '#FF0000', value: 1667232980000, zIndex:5});
             </script>
         </div>
         <div id="tabs-<?=$i?>2">
@@ -319,7 +363,7 @@ for($i=0;$i<sizeof($best);$i++) {
             // 온도 ===========================================================================================
             $sql = "SELECT *
                     FROM g5_1_cast_shot_sub
-                    WHERE machine_id = '".$best[$i]['machine_id']."' AND shot_id IN (".$shod_ids2[0].",".$shod_ids1[0].",".$shod_ids1[1].")
+                    WHERE machine_id = '".$best[$i]['machine_id']."' AND shot_id IN (".$shot_ids2[0].",".$shot_ids1[0].",".$shot_ids1[1].")
                     ORDER BY event_time
             ";
             // echo $sql.'<br>';
@@ -379,6 +423,21 @@ for($i=0;$i<sizeof($best);$i++) {
             <script>
                 // 만들어진 배열 변수 실행
                 createChart('temperature_<?=$i?>',seriesOptions2,'<?=implode(" ",$shot_ids)?>');
+                <?php
+                // 샷 시작 종료 시점 표시
+                for ($j=0; $j<sizeof($shot_starts); $j++) {
+                    // echo 'console.log('.$shot_starts[$j].');';
+                    // echo 'console.log('.$shot_ends[$j].');';
+                    if($shot_starts[$j]) {
+                        echo "chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'Solid', color: '#FF0000', value: ".$shot_starts[$j]."000, zIndex:5});".PHP_EOL;
+                    }
+                    if($shot_ends[$j]) {
+                        echo "chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'LongDash', color: '#FF0000', value: ".$shot_ends[$j]."000, zIndex:5});".PHP_EOL;
+                    }
+                }
+                ?>
+                // chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'Solid', color: '#FF0000', value: 1667232760000, zIndex:1});
+                // chart.xAxis[0].addPlotLine({width: 1, dashStyle: 'LongDash', color: '#FF0000', value: 1667232980000, zIndex:1});
             </script>
 
         </div>
