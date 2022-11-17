@@ -1020,3 +1020,92 @@ WHERE table_name = 'g5_1_robot';
 
 
 SELECT * FROM g5_1_xray_inspection ORDER BY xry_idx DESC LIMIT 100;
+
+// 설비 데이터 통계
+SELECT * FROM g5_1_data_measure_58 ORDER BY dta_dt DESC LIMIT 100;
+
+SELECT 
+  COUNT(*) as count, 
+  to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+FROM 
+  g5_1_data_measure_58
+WHERE 
+  dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+GROUP BY 
+  to_char(dta_dt, 'YYYY-MM-DD')
+....
+SELECT * 
+FROM (
+  (
+    SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+    FROM g5_1_data_measure_58
+    WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+    GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  )
+  UNION ALL
+  (
+    SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+    FROM g5_1_data_measure_59
+    WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+    GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  )
+)
+....
+SELECT *
+FROM (
+  SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+  FROM g5_1_data_measure_58
+  WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+  GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION
+  SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+  FROM g5_1_data_measure_59
+  WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+  GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+) AS db1
+....
+SELECT SUM(count) AS count_all, dta_date
+FROM (
+  SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+  FROM g5_1_data_measure_58
+  WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+  GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION
+  SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+  FROM g5_1_data_measure_59
+  WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+  GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION
+  SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date 
+  FROM g5_1_data_measure_60
+  WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08'
+  GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+) AS db1
+GROUP BY dta_date
+....
+SELECT SUM(count) AS count, dta_date
+FROM ( 
+  SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date FROM g5_1_data_measure_58 WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08' GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date FROM g5_1_data_measure_59 WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08' GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date FROM g5_1_data_measure_60 WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08' GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date FROM g5_1_data_measure_61 WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08' GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date FROM g5_1_data_measure_62 WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08' GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date FROM g5_1_data_measure_63 WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08' GROUP BY to_char(dta_dt, 'YYYY-MM-DD')
+  UNION SELECT COUNT(*) as count, to_char(dta_dt, 'YYYY-MM-DD') as dta_date FROM g5_1_data_measure_64 WHERE dta_dt >= '2022-11-01' AND dta_dt <= '2022-11-08' GROUP BY to_char(dta_dt, 'YYYY-MM-DD') 
+) AS db1
+GROUP BY dta_date
+
+
+SELECT * FROM g5_1_robot ORDER BY time DESC LIMIT 100;
+SELECT * FROM g5_1_robot WHERE robot_no = '1' ORDER BY time DESC LIMIT 10
+// 로봇데이터 통계
+SELECT 
+  COUNT(*) as count, 
+  to_char(time, 'YYYY-MM-DD') as dta_date 
+FROM 
+g5_1_robot
+WHERE 
+  time >= '2022-11-01' AND time <= '2022-11-08'
+GROUP BY 
+  to_char(time, 'YYYY-MM-DD')
+....

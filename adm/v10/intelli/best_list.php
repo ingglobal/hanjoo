@@ -163,7 +163,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 		</th>
 		<th scope="col">번호</th>
 		<th scope="col">설비</th>
-		<th scope="col">취적파마메타추출시점</th>
+		<th scope="col">최적파라메타추출시점</th>
 		<th scope="col">그룹핑수</th>
 		<th scope="col">등급범위</th>
 		<th scope="col" style="display:none;">관리</th>

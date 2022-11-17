@@ -35,6 +35,7 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
 ?>
 <style>
 /* /adm/v10/css/robot_realtime.css 에서 기본설정 */
+.buttons a {font-size:0.8em;padding:2px 10px;    border: solid 1px #2b3c76;background: #222;}
 </style>
 
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
@@ -58,9 +59,9 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
         <div class="chart_title">
             <strong>로봇1</strong>
             <div class="buttons">
-                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇중지</a>
                 <a href="javascript:alert('경고를 전달하시겠습니까?');">경고</a>
-                <a href="javascript:alert('로봇을 재시작 시키겠습니까?');">로봇재시작</a>
+                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇정지</a>
+                <a href="javascript:alert('로봇을 재시작 시키겠습니까?');" style="display:none">로봇재시작</a>
             </div>
         </div>
         <div id="chart1_tq1"></div><!-- 토크1 -->
@@ -80,9 +81,9 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
         <div class="chart_title">
             <strong>로봇2</strong>
             <div class="buttons">
-                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇중지</a>
                 <a href="javascript:alert('경고를 전달하시겠습니까?');">경고</a>
-                <a href="javascript:alert('로봇을 재시작 시키겠습니까?');">로봇재시작</a>
+                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇정지</a>
+                <a href="javascript:alert('로봇을 재시작 시키겠습니까?');" style="display:none">로봇재시작</a>
             </div>
         </div>
         <div id="chart2_tq1"></div><!-- 토크1 -->

@@ -2039,6 +2039,14 @@ http://hanjoo.epcs.co.kr/adm/v10/ajax/shot.json.php?frm_data=machine_id%3D45%26s
 SELECT * FROM g5_1_cast_shot WHERE machine_id = '45' AND start_time >= '2022-10-31 23:24:51' AND end_time <= '2022-11-01 01:21:20'
 
 
+http://hanjoo.epcs.co.kr/adm/v10/ajax/shot.json.php?frm_data=token%3D7470e62d1b3d9eea5ce88bea4a127a55%26machine_id%3D59%26st_date%3D2022-11-08%26st_time%3D10%253A00%253A00%26en_date%3D2022-11-08%26en_time%3D10%253A39%253A00
+SELECT * FROM g5_1_cast_shot WHERE machine_id = '59' AND start_time >= '2022-11-08 10:00:00' AND end_time <= '2022-11-08 10:39:00'
+
+
+로봇정지, 실시간컨트롤
+
+
+
 
 // 이병구 요청
 . 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.

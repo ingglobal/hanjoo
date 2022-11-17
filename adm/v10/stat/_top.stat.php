@@ -9,7 +9,7 @@ if (!defined('_GNUBOARD_')) exit;
 
 // 보고서별 기간 설정
 $mode = $mode ?: 'week';
-$st_ymd_offset = 0;
+$st_ymd_offset = 86400*7;
 if($g5['file_name']=='kpi_maintain') {
     if(!$st_date) {
         $st_ymd_offset = ($mode == 'week') ? 86400*30 : 86400*365/3;
