@@ -93,8 +93,8 @@ else if(is_array($getData[0]['list'])) {
             // 코드 정보가 이미 존재하면 업데이트
             if($cod['cod_idx']) {
 
-                // 메시지 값이 있을 때만 입력
-                $sql_cod_name = ($arr['dta_message']) ? ", cod_name = '".$arr['dta_message']."'" : "";
+                // 메시지 값이 있고 업데이트 보호가 아닐 때만 입력
+                $sql_cod_name = ($arr['dta_message']&&!$cod['cod_update_ny']) ? ", cod_name = '".$arr['dta_message']."'" : "";
 
                 $sql = "UPDATE {$g5['code_table']} SET
                             cod_group = '".$arr['dta_group']."'
@@ -151,6 +151,7 @@ else if(is_array($getData[0]['list'])) {
                 ";
                 $result = sql_query($sql);
                 $cod['cod_idx'] = sql_insert_id();
+                $cod['cod_interval'] = 0;
             }
 
 
@@ -184,6 +185,8 @@ else if(is_array($getData[0]['list'])) {
 
                 // 예외조건이 아닌 정상 조건일 때만 알람 입력
                 if(!$unsual_flag) {
+                    // echo $cod['cod_interval'].'<br>';
+                    // print_r2($cod);
 
                     // 예지 타이밍인지 체크 (해당 휫수에 해당하는 지 체크), 지난 예지 이후 발생한 횟수를 카운터해야 하므로 sub query를 사용함
                     $pre_yn = 0;   // 조건에 해당되면 1로 변경
@@ -267,7 +270,22 @@ else if(is_array($getData[0]['list'])) {
 
                         // 발송 내용 정의
                         if( preg_match("/sms/",$cod['cod_send_type']) || preg_match("/push/",$cod['cod_send_type']) ) {
-                            // 내용
+                            // 조치제안인 경우는 조치제안의 내용을 가져옴
+                            if($cod['cod_suggest_yn']) {
+                                $sql = "SELECT * FROM {$g5['maintain_suggest_table']} WHERE
+                                            com_idx = '".$arr['com_idx']."'
+                                            AND mms_idx = '".$arr['mms_idx']."'
+                                            AND msg_code = '".$arr['dta_code']."'
+                                        LIMIT 1
+                                ";
+                                $msg = sql_fetch($sql,1);
+                                for($x=1;$x<6;$x++) {
+                                    if($msg['msg_suggest'.$x]) {
+                                        $cod['cod_suggest_array'][] = $msg['msg_suggest'.$x];
+                                    }
+                                }
+                                $cod['cod_memo'] = $cod['cod_suggest_array'][0] ? implode("\r\n",$cod['cod_suggest_array']) : $cod['cod_memo'];
+                            }
                             $msg_body = '설비명:'.$mms['mms_name'].PHP_EOL;
                             $msg_body .= '['.$cod['cod_code'].']'.PHP_EOL;
                             $msg_body .= ($cod['cod_name']) ? '알람:'.$cod['cod_name'].PHP_EOL : '';

@@ -185,6 +185,10 @@ i.fa-remove {cursor:pointer;}
 		<td colspan="3">
 			<input type="text" name="cod_name" value="<?php echo $cod['cod_name'] ?>" id="cod_name" class="frm_input"
             <?=(!$member['mb_manager_yn'])?'style="width:80%;border:no ne;" read only':'style="width:80%;"'?>>
+            <label for="cod_update_ny" style="margin-left:10px;">
+               <input type="checkbox" name="cod_update_ny" id="cod_update_ny" value="1" <?=($cod['cod_update_ny'])?'checked':''?> class="frm_input">
+               업데이트 보호
+            </label>
 		</td>
 	</tr>
 	<tr>
@@ -281,12 +285,12 @@ i.fa-remove {cursor:pointer;}
 	<tr>
 		<th scope="row"><label for="cod_memo">알림내용 (메모)</label></th>
 		<td colspan="3">
-            <input type="hidden" name="set_ppurio_stop_yn" value="<?=($g5['setting']['set_ppurio_stop_yn'])?'1':''?>">
-            <label style="display:block;margin-bottom:10px;"><input type="checkbox" <?=($g5['setting']['set_ppurio_stop_yn'])?'checked':''?> id="set_ppurio_stop_yn"> 조치내용 자동제안</label>
+            <input type="hidden" name="cod_suggest_yn" value="<?=($g5['setting']['cod_suggest_yn'])?'1':''?>">
+            <label style="display:block;margin-bottom:10px;"><input type="checkbox" <?=($cod['cod_suggest_yn'])?'checked':''?> id="cod_suggest_yn"> 조치내용 자동제안</label>
             <script>
-            $(document).on('click','#set_ppurio_stop_yn',function(e){
-                if($(this).is(':checked')) {$('input[name=set_ppurio_stop_yn]').val(1);}
-                else {$('input[name=set_ppurio_stop_yn]').val(0);}
+            $(document).on('click','#cod_suggest_yn',function(e){
+                if($(this).is(':checked')) {$('input[name=cod_suggest_yn]').val(1);}
+                else {$('input[name=cod_suggest_yn]').val(0);}
             });
             </script>
             <textarea name="cod_memo" id="cod_memo" style="height:100px;"><?php echo $cod['cod_memo'] ?></textarea>

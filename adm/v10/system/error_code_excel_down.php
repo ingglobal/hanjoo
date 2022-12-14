@@ -73,8 +73,8 @@ if (!$total_count)
 
 
 // 각 항목 설정
-$headers = array('고유번호','업체번호','IMP번호','MMS번호','코드','분류','비가동영향','품질영향','그룹(pre=PLC예지)','타입(r,a,p,p2)','주기시간(초)','횟수','하루최대','발생지연','내용','메모(알림내용)');
-$widths  = array(10,      10,      10,     10,       10,   10,  10,        10,     15,               15,             13,          6,    10,     10,     40,    60);
+$headers = array('고유번호','업체번호','IMP번호','MMS번호','코드','분류','비가동영향','품질영향','그룹(pre=PLC예지)','타입(r,a,p,p2)','주기시간(초)','횟수','하루최대','발생지연','내용','메모(알림내용)','보호');
+$widths  = array(10,      10,      10,     10,       10,   10,  10,        10,     15,               15,             13,          6,    10,     10,     40,    60,          10);
 $header_bgcolor = 'FFABCDEF';
 $last_char = column_char(count($headers) - 1);
 
@@ -104,6 +104,7 @@ for($i=1; $row=sql_fetch_array($result); $i++) {
                   , $row['cod_min_sec']
                   , $row['cod_name']
                   , $row['cod_memo']
+                  , $row['cod_update_ny']
               );
 }
 // print_r2($headers);

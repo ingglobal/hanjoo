@@ -101,6 +101,7 @@ $g5['mms_item_table']               = NEW_TABLE_PREFIX.'mms_item';
 $g5['mms_item_price_table']         = NEW_TABLE_PREFIX.'mms_item_price';
 $g5['maintain_table']               = NEW_TABLE_PREFIX.'maintain';
 $g5['maintain_parts_table']         = NEW_TABLE_PREFIX.'maintain_parts';
+$g5['maintain_suggest_table']       = NEW_TABLE_PREFIX.'maintain_suggest';
 $g5['shift_table']                  = NEW_TABLE_PREFIX.'shift';
 $g5['shift_item_goal_table']        = NEW_TABLE_PREFIX.'shift_item_goal';
 $g5['data_table']                   = NEW_TABLE_PREFIX.'data';

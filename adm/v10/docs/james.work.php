@@ -2045,9 +2045,187 @@ SELECT * FROM g5_1_cast_shot WHERE machine_id = '59' AND start_time >= '2022-11-
 
 로봇정지, 실시간컨트롤
 
+admin
+['/home/admin/robot/james', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/home/admin/.local/lib/python2.7/site-packages', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages']
+['/home/admin/robot/james', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/home/admin/.local/lib/python2.7/site-packages']
+['/home/admin/robot/james', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/home/hanjoo/.local/lib/python2.7/site-packages', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages']
+
+hanjoo
+'/home/hanjoo/.local/lib/python2.7/site-packages'
+www-data
+'/usr/lib/python2.7/lib-dynload'
+
+sudo -u www-data python blahblah.py
+
+sudo -u admin python /home/admin/robot/james/robot_warn.py 1
+>> 내 계정으로 로그인 후 이건 되네! (root 로그인 후 실행하면 안 된다.)
+sudo -u root python /home/admin/robot/james/robot_warn.py 1
+>> 이건 되네!
+sudo -u www-data python /home/admin/robot/james/robot_warn.py 1
+sudo -u admin python /home/admin/robot/james/z1.py
+sudo -u www-data python /home/admin/robot/james/z1.py
+
+
+sudo vi /etc/sudoers
+www-data All=NOPASSWD: /usr/bin/python
+
+sudo vi /etc/sudoers
+www-data    raspberrypi=NOPASSWD:    /var/www/lights.py
+www-data All=NOPASSWD: /home/admin/robot/james/robot_warn.py
+www-data All=NOPASSWD: /home/admin/robot/james/z1.py
+
+
+php python 실행, www-date 권한으로 실행
+여러가시 시도들을 다 해 보다가...
+모듈, 패키지를 다른 디렉토리에서 참고하면 안 되는 것 같고..
+같은 디렉토리에 다 복제해서 넣어주니까 되는 거 같아요.
+
+
+SELECT SQL_CALC_FOUND_ROWS * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode)
+WHERE (1) ORDER BY xry_idx DESC LIMIT 0, 15
+
+SELECT SQL_CALC_FOUND_ROWS * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) 
+WHERE (1) AND event_time >= '2022-12-01 11:51:14' ORDER BY xry_idx DESC LIMIT 0, 15
 
 
 
-// 이병구 요청
-. 알람우선순위... EPCS에서 올린 거 우선하고 지우지 못하게 해 주세요.
+---------------------
+재생성 하려면 지우고 다시 해야 합니다.
+get-session-token was failing for me because I still had the environment variables AWS_SESSION_TOKEN and AWS_SECURITY_TOKEN set.
+These should be unset first or AWS will try to use them implicitly and fail because they're invalid.
+
+sudo rm -rf ~/.aws/credentials
+sudo rm -rf ~/.aws/config
+unset AWS_DEFAULT_REGION
+unset AWS_ACCESS_KEY_ID
+unset AWS_SECRET_ACCESS_KEY
+unset AWS_SESSION_TOKEN
+
+기본 설정부터 하고..
+aws configure
+
+
+james에 할당된 MFA 디바이스 확인해서 저장!!
+arn:aws:iam::215907354426:mfa/james
+
+Google OTP에서 확인해야 번호 확인해야 함 6자리 숫자
+
+$ aws sts get-session-token --serial-number arn:aws:iam::215907354426:mfa/james --token-code 303586
+james:~/environment $ aws sts get-session-token --serial-number arn:aws:iam::215907354426:mfa/james --token-code 303586
+{
+    "Credentials": {
+        "AccessKeyId": "ASIATERIUY45B7QMIQK2",
+        "SecretAccessKey": "ilRrWsUAlJrJPTvFylnFOti4W36AOWhgOZQZZTWv",
+        "SessionToken": "FwoGZXIvYXdzEM3//////////wEaDIeZWkI9kwX99VYcnyKGAfYgFA5TK9AOCl0i1iTmP1APtmD2IlQtk9nodmBZ7TywBGOHSqJiTtUB2zcb9kXwbEvjGEVcyRcVcbRseKNFsM2pPkrLTOecbBHYgff2BPvIBcC2hl0dwD5td2ogpgGYwuJsHBT7V9+Tq6SO+Edl4xrundw6CUlDiUWYwAigQSeiXUbwVGCAKNuTspwGMijjMotHP/jKiIfTEJsIU4QfsbhgoZbXkkpbVEUSVaG/t/lQYxOV75Wm",
+        "Expiration": "2022-12-04T23:51:55Z"
+    }
+}
+
+받은 코드를 넣어서 환경설정 파일로 저장
+export AWS_DEFAULT_REGION=us-east-1
+export AWS_ACCESS_KEY_ID=ASIATERIUY45B7QMIQK2
+export AWS_SECRET_ACCESS_KEY=ilRrWsUAlJrJPTvFylnFOti4W36AOWhgOZQZZTWv
+export AWS_SESSION_TOKEN=FwoGZXIvYXdzEM3//////////wEaDIeZWkI9kwX99VYcnyKGAfYgFA5TK9AOCl0i1iTmP1APtmD2IlQtk9nodmBZ7TywBGOHSqJiTtUB2zcb9kXwbEvjGEVcyRcVcbRseKNFsM2pPkrLTOecbBHYgff2BPvIBcC2hl0dwD5td2ogpgGYwuJsHBT7V9+Tq6SO+Edl4xrundw6CUlDiUWYwAigQSeiXUbwVGCAKNuTspwGMijjMotHP/jKiIfTEJsIU4QfsbhgoZbXkkpbVEUSVaG/t/lQYxOV75Wm
+
+
+환경설정 파일 확인!!
+echo $AWS_DEFAULT_REGION
+echo $AWS_ACCESS_KEY_ID
+echo $AWS_SECRET_ACCESS_KEY
+echo $AWS_SESSION_TOKEN
+
+다른 방법 확인
+env | grep AWS 
+
+
+이건 잘 되는데..
+james:~/environment $ curl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip && unzip greengrass-nucleus-latest.zip -d GreengrassInstaller
+Archive:  greengrass-nucleus-latest.zip
+  inflating: GreengrassInstaller/LICENSE  
+  inflating: GreengrassInstaller/NOTICE  
+  inflating: GreengrassInstaller/README.md  
+  inflating: GreengrassInstaller/THIRD-PARTY-LICENSES  
+  inflating: GreengrassInstaller/bin/greengrass.exe  
+  inflating: GreengrassInstaller/bin/greengrass.service.template  
+  inflating: GreengrassInstaller/bin/greengrass.xml.template  
+  inflating: GreengrassInstaller/bin/loader  
+  inflating: GreengrassInstaller/bin/loader.cmd  
+  inflating: GreengrassInstaller/conf/recipe.yaml  
+  inflating: GreengrassInstaller/lib/Greengrass.jar  
+
+이제 이거 실행하면 에러나요..
+sudo -E java -Droot="/greengrass/v2" -Dlog.store=FILE -jar ./GreengrassInstaller/lib/Greengrass.jar --aws-region us-east-1 --thing-name GreengrassQuickStartCore-184dcf24fe1 --thing-group-name GreengrassQuickStartGroup --component-default-user ggc_user:ggc_group --provision true --setup-system-service true --deploy-dev-tools true
+에러나는 이유는 설정을 몇 가지 빠뜨렸기 때문이죠.
+단계 3에서 1.2.3.4 특히 2번 항목을 잘 읽어보고
+james 권한을 다 줘야 하고..
+사용자 및 그룹 권한도 생성해서 만들어야 해요.
+
+
+....
+TES role alias "GreengrassV2TokenExchangeRoleAlias" does not exist, creating new alias...
+Error while trying to setup Greengrass Nucleus
+software.amazon.awssdk.services.iam.model.IamException: The security token included in the request is invalid (Service: Iam, Status Code: 403, Request ID: d71276c1-1b55-4aa6-b747-e590cfc53d45)
+        at software.amazon.awssdk.core.internal.http.CombinedResponseHandler.handleErrorResponse(CombinedResponseHandler.java:125)
+        at software.amazon.awssdk.core.internal.http.CombinedResponseHandler.handleResponse(CombinedResponseHandler.java:82)
+        at com.aws.greengrass.easysetup.GreengrassSetup.performSetup(GreengrassSetup.java:324)
+        at com.aws.greengrass.easysetup.GreengrassSetup.main(GreengrassSetup.java:274)
+
+
+참고: https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-system-service
+참고: https://nasanx2001.tistory.com/entry/%EC%9A%B0%EB%B6%84%ED%88%AC-1804-%EC%9E%90%EB%8F%99%EC%8B%A4%ED%96%89-%EC%84%9C%EB%B9%84%EC%8A%A4%EB%93%B1%EB%A1%9D
+
+james:~/environment $ sudo vi /etc/systemd/system/greengrass.service
+---------
+[Unit]
+Description=Greengrass Core
+
+[Service]
+Type=simple
+PIDFile=/greengrass/v2/alts/loader.pid
+RemainAfterExit=no
+Restart=on-failure
+RestartSec=10
+ExecStart=/bin/sh /greengrass/v2/alts/current/distro/bin/loader
+
+[Install]
+WantedBy=multi-user.target
+------------
+
+To check the status of the service (systemd)
+# sudo systemctl status greengrass.service
+
+To enable the nucleus to start when the device boots.
+# sudo systemctl enable greengrass.service
+
+To stop the nucleus from starting when the device boots.
+# sudo systemctl disable greengrass.service
+
+To start the AWS IoT Greengrass Core software.
+# sudo systemctl start greengrass.service
+
+To stop the AWS IoT Greengrass Core software.
+# sudo systemctl stop greengrass.service
+
+
+사용자 생성
+greengrass
+AKIATERIUY45AT42WBLW
+0cAhpkUJ0ckzCGTX2kESbJWEOw4fnJhKic9TcP9w
+us-east-1
+json
+
+
+
+/greengrass/v2/bin/greengrass-cli -V
+이거 안 나오더라.. 
+그래서 찾아봤더니.. cli 설정을 먼저 해 줘야 하더라.
+
+greengrass CLI 설정하기
+https://docs.aws.amazon.com/greengrass/v2/developerguide/install-gg-cli.html
+
+중간쯤
+Deploy the Greengrass CLI component
+여기 부분 아래를 실행하세요.
+
+scp -P22 ~/.ssh/ingglobal_rsa.pub ing@211.254.156.189:~/.ssh/authorized_keys
 

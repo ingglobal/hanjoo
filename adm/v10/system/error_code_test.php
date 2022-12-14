@@ -223,6 +223,22 @@ for ($j=0; $j<$cod['cod_count']*2; $j++) {
             // 메일발송
             for($i=0;$i<sizeof($towhom_li);$i++) {
 
+                // 조치제안인 경우는 조치제안의 내용을 가져옴
+                $sql = "SELECT * FROM {$g5['maintain_suggest_table']} WHERE
+                            com_idx = '".$com['com_idx']."'
+                            AND mms_idx = '".$mms['mms_idx']."'
+                            AND msg_code = '".$cod['cod_code']."'
+                        LIMIT 1
+                ";
+                $msg = sql_fetch($sql,1);
+                for($x=1;$x<6;$x++) {
+                    if($msg['msg_suggest'.$x]) {
+                        $cod['cod_suggest_array'][] = $msg['msg_suggest'.$x];
+                    }
+                }
+                $cod['cod_memo'] = $cod['cod_suggest_array'][0] ? implode("\r\n",$cod['cod_suggest_array']) : $cod['cod_memo'];
+                
+
                 $sw = preg_match("/[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+)*@[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+)*/", $towhom_li[$i]['r_email']);
                 // 올바른 메일 주소만
                 if ($sw == true && preg_match("/email/i",$cm['com_send_type']))

@@ -13,7 +13,7 @@ $_REQUEST['cod_send_type'] = implode(",",$cod_send_type_arr);
 // echo $cod_send_type.'<br>';
 
 //-- 체크박스 값이 안 넘어오는 현상 때문에 추가, 폼의 체크박스는 모두 배열로 선언해 주세요.
-$checkbox_array=array('cod_offline_yn','cod_quality_yn');
+$checkbox_array=array('cod_offline_yn','cod_quality_yn','cod_update_ny','cod_suggest_yn');
 for ($i=0;$i<sizeof($checkbox_array);$i++) {
 	if(!$_REQUEST[$checkbox_array[$i]])
 		$_REQUEST[$checkbox_array[$i]] = 0;

@@ -98,12 +98,13 @@ $items1 = array(
     ,"cod_name"=>array("알람내용",0,0,0)
     ,"cod_offline_yn"=>array("비가동",0,0,1)
     ,"cod_quality_yn"=>array("품질",0,0,1)
-    ,"cod_code_count"=>array("누적발생",0,0,0)
-    ,"cod_group"=>array("GROUP",0,0,0)
+    ,"cod_code_count"=>array("누적",0,0,0)
+    // ,"cod_group"=>array("GROUP",0,0,0)
     ,"cod_type"=>array("TYPE",0,0,0)
     ,"cod_setting"=>array("설정",0,0,0)
     ,"cod_reports_count"=>array("알림대상",0,0,0)
     ,"cod_memo_check"=>array("메모",0,0,0)
+    ,"cod_update_ny"=>array("보호",0,0,0)
 );
 ?>
 <style>
@@ -148,7 +149,7 @@ $items1 = array(
     <?=$g5['set_cod_type_value_options']?>
 </select>
 <script>$('select[name="ser_cod_type"]').val('<?=$ser_cod_type?>');</script>
-<select name="ser_cod_group" id="ser_cod_group">
+<select name="ser_cod_group" id="ser_cod_group" style="display:none;">
     <option value="">GROUP</option>
     <?=$g5['set_data_group_options']?>
 </select>
@@ -325,6 +326,9 @@ $items1 = array(
                 else if($k1=='cod_quality_yn') {
                     $list[$k1] = ($row[$k1]=='1') ? '<i class="fa fa-check"></i>' : '';
                 }
+                else if($k1=='cod_update_ny') {
+                    $list[$k1] = ($row[$k1]=='1') ? '<i class="fa fa-check"></i>' : '';
+                }
 
                 $row['colspan'] = ($v1[1]>1) ? ' colspan="'.$v1[1].'"' : '';   // colspan 설정
                 $row['rowspan'] = ($v1[2]>1) ? ' rowspan="'.$v1[2].'"' : '';   // rowspan 설정
@@ -344,6 +348,7 @@ $items1 = array(
 <div class="btn_fixed_top">
     <?php if($member['mb_manager_yn']) { ?>
         <a href="javascript:" id="btn_excel_upload2" class="btn btn_03" style="margin-right:480px;display:<?=(!$member['mb_manager_yn'])?'none':'none'?>;">최호기</a>
+        <a href="<?=G5_URL?>/device/error/form.php" target="_blank" class="btn btn_03" style="margin-right:400px;display:<?=(!$member['mb_manager_yn'])?'none':''?>;">테스트입력</a>
         <a href="./<?=$fname?>_excel_down.php?<?=$qstr?>" id="btn_excel_down" class="btn btn_03">엑셀다운</a>
         <a href="javascript:" id="btn_excel_upload" class="btn btn_03" style="margin-right:20px;display:<?=(!$member['mb_manager_yn'])?'none':''?>;">엑셀등록</a>
         <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">

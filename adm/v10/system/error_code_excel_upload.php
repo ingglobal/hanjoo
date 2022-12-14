@@ -29,7 +29,8 @@ function func_db_update($arr) {
         cod_count_limit     = '".$arr['cod_count_limit']."',
         cod_min_sec	        = '".$arr['cod_min_sec']."',
         cod_name	        = '".$arr['cod_name']."',
-        cod_memo	        = '".$arr['cod_memo']."'
+        cod_memo	        = '".$arr['cod_memo']."',
+        cod_update_ny       = '".$arr['cod_update_ny']."'
     ";
 
     // create if not exists, update for existing
@@ -180,6 +181,7 @@ for ($x=0;$x<sizeof($allData);$x++) {
         $arr['cod_min_sec'] = $list[13];        // 발생지연
         $arr['cod_name'] = $list[14];           // 내용
         $arr['cod_memo'] = $list[15];           // 메모(알림내용)
+        $arr['cod_update_ny'] = $list[16];     // 보호
         // print_r3($arr);
 
         // 조건에 맞는 해당 라인만 추출

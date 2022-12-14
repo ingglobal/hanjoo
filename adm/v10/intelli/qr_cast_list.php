@@ -39,20 +39,21 @@ if ($stx) {
 }
 
 // 기간 검색
+$ser_time_type = $ser_time_type ?: 'end_time';
 if ($st_date) {
     if ($st_time) {
-        $where[] = " event_time >= '".$st_date.' '.$st_time."' ";
+        $where[] = " ".$ser_time_type." >= '".$st_date.' '.$st_time."' ";
     }
     else {
-        $where[] = " event_time >= '".$st_date.' 00:00:00'."' ";
+        $where[] = " ".$ser_time_type." >= '".$st_date.' 00:00:00'."' ";
     }
 }
 if ($en_date) {
     if ($en_time) {
-        $where[] = " event_time <= '".$en_date.' '.$en_time."' ";
+        $where[] = " ".$ser_time_type." <= '".$en_date.' '.$en_time."' ";
     }
     else {
-        $where[] = " event_time <= '".$en_date.' 23:59:59'."' ";
+        $where[] = " ".$ser_time_type." <= '".$en_date.' 23:59:59'."' ";
     }
 }
 
@@ -91,7 +92,7 @@ $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
 // 넘겨줄 변수가 추가로 있어서 qstr 별도 설정
-$qstr = $qstr."&ser_mms_idx=$ser_mms_idx&st_date=$st_date&en_date=$en_date"."&st_time=$st_time&en_time=$en_time";
+$qstr = $qstr."&ser_mms_idx=$ser_mms_idx&ser_time_type=$ser_time_type&st_date=$st_date&en_date=$en_date"."&st_time=$st_time&en_time=$en_time";
 
 add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker/jquery.timepicker.css">', 0);
 ?>
@@ -106,10 +107,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 </div>
 
 <div class="local_desc01 local_desc" style="display:no ne;">
-    <p>기간을 입력하면 주조시각에 대해 검색합니다.</p>
+    <p>설비번호 검색 시: 56=ADR1호기, 60=ADR2호기</p>
 </div>
 
-<form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
+<form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get" autocomplete="off">
 <label for="sfl" class="sound_only">검색대상</label>
 <select name="ser_mms_idx" id="ser_mms_idx">
     <option value="">설비전체</option>
@@ -131,6 +132,11 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 </select>
 <script>$('select[name=ser_mms_idx]').val("<?=$ser_mms_idx?>").attr('selected','selected');</script>
 
+<select name="ser_time_type" id="ser_time_type">
+    <option value="end_time">종료시각</option>
+    <option value="event_time">주조시각</option>
+</select>
+<script>$('select[name=ser_time_type]').val("<?=$ser_time_type?>").attr('selected','selected');</script>
 기간:
 <input type="text" name="st_date" value="<?php echo $st_date ?>" id="st_date" class="frm_input" style="width:80px;"> ~
 <input type="text" name="st_time" value="<?=$st_time?>" id="st_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00">

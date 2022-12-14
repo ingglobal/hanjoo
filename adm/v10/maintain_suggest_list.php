@@ -136,7 +136,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <input type="text" name="en_time" value="<?=$en_time?>" id="en_time" class="frm_input" autocomplete="off" style="width:65px;" placeholder="00:00:00">
 &nbsp;&nbsp;
 <select name="sfl" id="sfl">
-    <option value="alarm" <?=get_selected($sfl, 'alarm')?>>알람</option>
+    <option value="msg_code" <?=get_selected($sfl, 'msg_code')?>>알람</option>
     <option value="status" <?=get_selected($sfl, 'status')?>>상태</option>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
@@ -203,7 +203,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 //-- $(document).ready 페이지로드 후 js실행 --//
 $(document).ready(function(){
 
-    // 최적파라메터추적 클릭
+    // 조치제안 머신러닝
     $(".btn_exec").click(function(e) {
         if(confirm('조치제안 머신러닝 실행하시겠습니까?\n데이터 처리양에 따라 시간이 꽤 걸릴 수 있습니다.')) {
             var href = '<?=G5_USER_URL?>/cron/maintain_suggest_exec.php';

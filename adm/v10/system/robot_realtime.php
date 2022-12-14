@@ -59,8 +59,8 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
         <div class="chart_title">
             <strong>로봇1</strong>
             <div class="buttons">
-                <a href="javascript:alert('경고를 전달하시겠습니까?');">경고</a>
-                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇정지</a>
+                <a href="javascript:robot_action('warn','1')">경고</a>
+                <a href="javascript:robot_action('stop','1')">로봇정지</a>
                 <a href="javascript:alert('로봇을 재시작 시키겠습니까?');" style="display:none">로봇재시작</a>
             </div>
         </div>
@@ -81,8 +81,8 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
         <div class="chart_title">
             <strong>로봇2</strong>
             <div class="buttons">
-                <a href="javascript:alert('경고를 전달하시겠습니까?');">경고</a>
-                <a href="javascript:alert('정말 중지시키겠습니까?');">로봇정지</a>
+                <a href="javascript:robot_action('warn','2')">경고</a>
+                <a href="javascript:robot_action('stop','2')">로봇정지</a>
                 <a href="javascript:alert('로봇을 재시작 시키겠습니까?');" style="display:none">로봇재시작</a>
             </div>
         </div>
@@ -228,6 +228,17 @@ Highcharts.chart('chart<?=$x?>_<?=$k1?>', {
 }
 ?>
 
+// 로봇액션
+function robot_action(act, no) {
+    var act_text = (act=='stop') ? '정지':'경고';
+    // alert(act + no);
+    if(confirm(no+'번 로봇을 '+act_text+'처리하시겠습니까?')) {
+        $.getJSON(g5_user_admin_ajax_url+'/robot.json.php',{"aj":"r1","act":act,"no":no},function(res) {
+            // console.log(res);
+            alert(res.msg);
+        });
+    }
+}
 </script>
 
 
