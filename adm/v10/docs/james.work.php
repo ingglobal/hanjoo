@@ -2229,3 +2229,18 @@ Deploy the Greengrass CLI component
 
 scp -P22 ~/.ssh/ingglobal_rsa.pub ing@211.254.156.189:~/.ssh/authorized_keys
 
+
+ing@ing:/home/daechang/www/.git$ cat config
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@github.com:ingglobal/daechang.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
