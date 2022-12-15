@@ -602,7 +602,7 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
             // echo $sql2.'<br>';
             $rs2 = sql_query($sql2,1);
             for ($j=0; $row2=sql_fetch_array($rs2); $j++) {
-                // print_r2($row2);
+                print_r2($row2);
     
                 // 비가동 시간(초), 일단 추출해 놓고 공제시간 돌면서 해당 사항 있으면 공제
                 $row['downtime2'][$i][$j] = $row2['dta_end_dt'] - $row2['dta_start_dt'];
@@ -679,7 +679,7 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         <td style="display:<?=($g5['setting']['set_uph_worktime']=='output')?'':'none'?>;"><?=$row['offworkmin']?></td><!-- 계획정지(분) -->
         <td><?=$row['workrealmin']?> (<?=$row['workhour']?>)</td><!-- 실작업시간(시) -->
         <td><?=$row['downtimemin']?> (<?=$row['downtimehour']?>)</td><!-- 비가동시간(시) -->
-        <td><?=round($row['output_sum']/$row['workhour'],2)?></td><!-- UPH -->
+        <td><?=round($row['output_sum']/($row['workhour']-$row['downtimehour']),2)?></td>
     </tr>
     <?php
     }
