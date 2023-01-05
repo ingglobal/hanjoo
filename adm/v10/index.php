@@ -15,7 +15,8 @@ $sql = " SELECT * FROM {$g5['dash_grid_table']} WHERE mta_idx = '{$cur_mta_idx}'
 $result = sql_query($sql,1);
 ?>
 <style>
-
+.bs_top_right {position: absolute;top: 0px;right: 0px;padding-right: 25px;}
+.bs_top_right a{border:1px solid #354667;font-size:0.8em;padding:2px 5px 3px;}
 </style>
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/modules/data.js"></script>
@@ -771,6 +772,10 @@ $(document).on('click','.graph_delete',function(e){
 
     }
 });
+</script>
+
+<script>
+    $('#container_title').append('<div class="bs_top_right"><a href="<?=G5_USER_ADMIN_URL?>/system/graph.php">그래프 추가하기</a></div>');
 </script>
 
 <?php

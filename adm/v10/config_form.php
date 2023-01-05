@@ -52,6 +52,13 @@ if ($config['cf_sms_use'] && $config['cf_icode_id'] && $config['cf_icode_pw']) {
 			</td>
 		</tr>
 		<tr>
+			<th scope="row">주조기설정</th>
+			<td colspan="3">
+				<?php echo help('주조코드와 연동한 매칭값입니다.') ?>
+				<input type="text" name="set_cast_code_no" value="<?php echo $g5['setting']['set_cast_code_no'] ?>" id="set_status" required class="required frm_input" style="width:60%;">
+			</td>
+		</tr>
+		<tr>
 			<th scope="row">디폴트상태값</th>
 			<td colspan="3">
 				<?php echo help('pending=대기,auto-draft=자동저장,ok=정상,hide=숨김,trash=삭제') ?>

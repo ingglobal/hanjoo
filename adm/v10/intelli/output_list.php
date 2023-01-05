@@ -8,7 +8,7 @@ $pre = 'css';
 $fname = preg_replace("/_list/","",$g5['file_name']); // 파일명생성
 
 
-$g5['title'] = '제품(생산)현황 X-Ray검사';
+$g5['title'] = '제품검사현황';
 @include_once('./_top_menu_output.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
@@ -95,6 +95,9 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <script type="text/javascript" src="<?=G5_USER_ADMIN_URL?>/js/timepicker/jquery.timepicker.js"></script>
 <style>
 .tbl_body td {text-align:center;border-bottom:solid 1px #e1e1e1;}
+.td_dt {line-height:13px;}
+.td_analysis {font-size:0.8em;}
+.f_7 {font-size:0.7em;}
 </style>
 
 <div class="local_ov01 local_ov">
@@ -102,8 +105,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <span class="btn_ov01"><span class="ov_txt">총건수 </span><span class="ov_num"> <?php echo number_format($total_count) ?> </span></span>
 </div>
 
-<div class="local_desc01 local_desc" style="display:none;">
-    <p>총건수가 65,411,218 이상이므로 기간 검색을 반드시 설정하세요. 하루 이상 입력 금지</p>
+<div class="local_desc01 local_desc" style="display:no ne;">
+    <p>오른편 '분석' 항목의 아이콘을 클릭하여 관련 시간대 전후의 설비 상태 및 설비 알람을 확인하세요. &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-line-chart"></i> 측정그래프 &nbsp;&nbsp; <i class="fa fa-list-ul"></i> 설비알람</p>
+    <p>엑셀다운로드를 하시면 검색한 결과를 엑셀파일로 다운로드합니다. 검색 범위를 선택하지 않으시면 현재 월의 데이터만 다운로드 됩니다. 검색범위를 너무 크게 잡지 마세요. (서버 부하 증가)</p>
+    <p>기간검색 설정은 시작시간을 기준으로 검색합니다.</p>
 </div>
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
@@ -122,9 +127,9 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <option value="work_shift" <?=get_selected($sfl, 'work_shift')?>>주야간</option>
     <option value="machine_id" <?=get_selected($sfl, 'machine_id')?>>설비번호</option>
     <?php
-	for($i=0;$i<19;$i++) {
-		echo '<option value="position_'.$i.'" '.get_selected($sfl, 'position_'.$i).'>position_'.$i.'</option>';
-	}
+    for($i=1;$i<19;$i++) {
+        echo '<option value="position_'.$i.'" '.get_selected($sfl, 'position_'.$i).'>'.$i.'번 포지션</option>';
+    }
     ?>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
@@ -141,20 +146,50 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 		<th scope="col">Idx</th>
 		<th scope="col">작업일</th>
 		<th scope="col">주야간</th>
-		<th scope="col">시작시각</th>
-		<th scope="col">종료시각</th>
+		<th scope="col">시작~종료</th>
 		<th scope="col">QRCode</th>
+		<th scope="col">주조코드</th>
+		<th scope="col">주조기</th>
+		<th scope="col">주조시각</th>
 		<th scope="col">생산품ID</th>
 		<th scope="col">설비ID</th>
 		<th scope="col">설비번호</th>
 		<th scope="col">품질</th>
 		<th scope="col">결과</th>
+		<th scope="col">분석</th>
 		<th scope="col" style="display:no ne;">관리</th>
 	</tr>
 	</thead>
 	<tbody class="tbl_body">
 	<?php
     for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
+        // 주조코드
+        $sql2 = " SELECT * FROM g5_1_qr_cast_code WHERE qrcode = '".$row['qrcode']."' ";
+        // echo $sql2.'<br>';
+        $row['cast'] = sql_fetch($sql2,1);
+        // print_r3($row['cast']);
+        // 주조시각
+        $row['cast']['event_time_yn'] = (preg_match("/^[0-9][A-Z][0-9]{2}[A-Z][0-9]{2}$/",$row['cast']['cast_code'])) ? 1 : 0;
+        $row['cast']['event_dt'] = $row['cast']['event_time_yn'] ? substr($row['cast']['event_time'],5,11) : '';
+        $row['cast']['mms_no'] = $row['cast']['event_time_yn'] ? substr($row['cast']['cast_code'],0,1) : 1;
+        $row['cast']['cast_code'] = $row['cast']['event_time_yn'] ? $row['cast']['cast_code'] : '';
+        $row['cast']['mms_name'] = $row['cast']['event_time_yn'] ? $g5['mms'][$g5['set_cast_code_no_value'][$row['cast']['mms_no']]]['mms_name'] : '';
+
+        // 측정그래프 링크
+        if($row['cast']['event_time_yn']) {
+            $sql11 = " SELECT SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL -".$g5['setting']['set_cast_graph_before']." SECOND),1,10) AS st1_date
+                        , SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL -".$g5['setting']['set_cast_graph_before']." SECOND),11,9) AS st1_time
+                        , SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL +".$g5['setting']['set_cast_graph_after']." SECOND),1,10) AS en1_date
+                        , SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL +".$g5['setting']['set_cast_graph_after']." SECOND),11,9) AS en1_time
+                        , SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL -".$g5['setting']['set_cast_alarm_before']." SECOND),1,10) AS st2_date
+                        , SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL -".$g5['setting']['set_cast_alarm_before']." SECOND),11,9) AS st2_time
+                        , SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL +".$g5['setting']['set_cast_alarm_after']." SECOND),1,10) AS en2_date
+                        , SUBSTRING(DATE_ADD('".$row['cast']['event_time']."' , INTERVAL +".$g5['setting']['set_cast_alarm_after']." SECOND),11,9) AS en2_time
+            ";
+            $dt = sql_fetch($sql11,1);
+            $row['cast']['graph1'] = '<a href="../system/graph.php?st_date='.$dt['st1_date'].'&st_time='.$dt['st1_time'].'&en_date='.$dt['en1_date'].'&en_time='.$dt['en1_time'].'" target="_blank"><i class="fa fa-line-chart"></i></a>';
+            $row['cast']['graph2'] = '<a href="../system/alarm_data_list.php?ser_mms_idx='.$g5['set_cast_code_no_value'][$row['cast']['mms_no']].'&st_date='.$dt['st2_date'].'&st_time='.$dt['st2_time'].'&en_date='.$dt['en2_date'].'&en_time='.$dt['en2_time'].'" target="_blank"><i class="fa fa-list-ul"></i></a>';
+        }
 
 		// 검사포인트
 		for($j=0;$j<19;$j++) {
@@ -172,17 +207,24 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
         echo '
 			<tr tr_id="'.$i.'" style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
-				<td>'.$row['xry_idx'].'</td>
-				<td>'.$row['work_date'].'</td>
+				<td><span class="font_size_7">'.$row['xry_idx'].'</span></td>
+				<td><span class="font_size_7">'.$row['work_date'].'</span></td>
 				<td>'.$g5['set_work_shift'][$row['work_shift']].'</td>
-				<td>'.substr($row['start_time'],0,19).'</td>
-				<td>'.substr($row['end_time'],0,19).'</td>
-				<td>'.$row['qrcode'].'</td>
-				<td>'.$row['production_id'].'</td>
-				<td>'.$row['machine_id'].'</td>
+				<td class="td_dt"><span class="font_size_8">'.substr($row['start_time'],0,19).'<br>~'.substr($row['end_time'],0,19).'</span></td>
+				<td class="f_7">'.$row['qrcode'].'</td>
+				<td>'.$row['cast']['cast_code'].'</td>
+				<td class="f_7">'.$row['cast']['mms_name'].'</td>
+				<td class="f_7">'.$row['cast']['event_dt'].'</td>
+				<td class="f_7">'.$row['production_id'].'</td>
+				<td class="f_7">'.$row['machine_id'].'</td>
 				<td>'.$row['machine_no'].'</td>
 				<td style="text-align:left;">'.$row['points'].'</td>
 				<td>'.$row['result'].'</td>
+				<td class="td_analysis">
+                    '.$row['cast']['graph1'].'
+                    &nbsp;
+                    '.$row['cast']['graph2'].'
+                </td>
 				<td style="display:no ne;">'.$s_mod.'</td>
 			</tr>
 		';
@@ -201,7 +243,8 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         <a href="./<?=$g5['file_name']?>_best.php" class="btn_04 btn btn_best" style="margin-right:50px;">최적파라메터임시생성</a>
         <a href="./<?=$fname?>_change.php" class="btn_04 btn btn_change">품질데이터조작</a>
         <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
-    <?php } ?>
+        <?php } ?>
+    <a href="./<?=$fname?>_excel_down.php?<?=$qstr?>" id="btn_add" class="btn btn_01">엑셀다운</a> 
     <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a> 
 </div>
 

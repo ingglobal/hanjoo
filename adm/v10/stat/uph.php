@@ -362,10 +362,11 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
                         FROM (
                             SELECT machine_id, COUNT(*) AS dta_count
                             FROM g5_1_xray_inspection
-                            WHERE work_date = '".$row['work_date']."'
+                            {$sql_search}
                             GROUP BY machine_id
                         ) AS db1
             ";
+            // echo $sql2.'<br>';
             $row2 = sql_fetch($sql2,1);
             $row['machine_array'] = explode(",",$row2['machine_ids']);
             // echo $row2['machine_ids'].'<br>';
@@ -376,20 +377,27 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
                 // echo array_search($row['machine_array'][$j],$ser_mms_idx_array).'--- 배열의 key값<br>';
 
                 // 가동시간 계산
-                $sql2 = "   SELECT SUM(dta_value) AS dta_sum
-                            FROM {$g5['data_run_table']}
-                            WHERE dta_dt >= '".strtotime($row['period']['dta_ymdhis_min'])."' AND dta_dt <= '".strtotime($row['period']['dta_ymdhis_max'])."'
-                                AND mms_idx = '".array_search($row['machine_array'][$j],$ser_mms_idx_array)."'
-                ";
+                if($g5['setting']['set_uph_worktime']=='machine') {
+                    $sql2 = "   SELECT SUM(dta_value) AS dta_sum
+                                FROM {$g5['data_run_table']}
+                                WHERE dta_dt >= '".strtotime($row['period']['dta_ymdhis_min'])."' AND dta_dt <= '".strtotime($row['period']['dta_ymdhis_max'])."'
+                                    AND mms_idx = '".array_search($row['machine_array'][$j],$ser_mms_idx_array)."'
+                    ";
+                }
+                else {
+                    $sql2 = "   SELECT SUM(dta_value)*20 AS dta_sum
+                                FROM g5_1_data_measure_".array_search($row['machine_array'][$j],$ser_mms_idx_array)."
+                                WHERE dta_dt >= '".$row['period']['dta_ymdhis_min']."' AND dta_dt <= '".$row['period']['dta_ymdhis_max']."'
+                                    AND dta_type = 13 AND dta_no = 7
+                    ";
+                }
                 // echo $sql2.'<br>';
                 $row2 = sql_fetch($sql2,1);
                 $row['runtime_sum'] += $row2['dta_sum'];
             }
             $row['worktime'] = $row['runtime_sum'];
             // echo $row['worktime'].' 초 ---- <br>';
-
         }
-
 
 
 
@@ -602,7 +610,7 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
             // echo $sql2.'<br>';
             $rs2 = sql_query($sql2,1);
             for ($j=0; $row2=sql_fetch_array($rs2); $j++) {
-                print_r2($row2);
+                // print_r2($row2);
     
                 // 비가동 시간(초), 일단 추출해 놓고 공제시간 돌면서 해당 사항 있으면 공제
                 $row['downtime2'][$i][$j] = $row2['dta_end_dt'] - $row2['dta_start_dt'];
@@ -679,7 +687,7 @@ add_javascript('<script type="text/javascript" src="'.G5_USER_ADMIN_JS_URL.'/tim
         <td style="display:<?=($g5['setting']['set_uph_worktime']=='output')?'':'none'?>;"><?=$row['offworkmin']?></td><!-- 계획정지(분) -->
         <td><?=$row['workrealmin']?> (<?=$row['workhour']?>)</td><!-- 실작업시간(시) -->
         <td><?=$row['downtimemin']?> (<?=$row['downtimehour']?>)</td><!-- 비가동시간(시) -->
-        <td><?=round($row['output_sum']/($row['workhour']-$row['downtimehour']),2)?></td>
+        <td><?=($row['workhour'])?round($row['output_sum']/($row['workhour']-$row['downtimehour']),2):0?></td>
     </tr>
     <?php
     }

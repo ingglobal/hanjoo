@@ -37,6 +37,9 @@ include_once('./_head.php');
                 <label for="set_uph_worktime_machine">
                     <input type="radio" name="set_uph_worktime" value="machine" id="set_uph_worktime_machine" <?=($g5['setting']['set_uph_worktime']=='machine')?'checked':''?>> 설비가동시간기준
                 </label>
+                <label for="set_uph_worktime_machine2">
+                    <input type="radio" name="set_uph_worktime" value="machine2" id="set_uph_worktime_machine2" <?=($g5['setting']['set_uph_worktime']=='machine2')?'checked':''?>> 생산중모니터링
+                </label>
                 </div>
 			</td>
 		</tr>

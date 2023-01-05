@@ -2244,3 +2244,110 @@ ing@ing:/home/daechang/www/.git$ cat config
 [branch "main"]
 	remote = origin
 	merge = refs/heads/main
+
+// 가동시간 기준 추출 쿼리 (ADR1호기 + 2호기 = 총2대)
+SELECT SUM(dta_value) AS dta_sum FROM g5_1_data_run WHERE dta_dt >= '1671059428' AND dta_dt <= '1671099350' AND mms_idx = '63'
+25962
+SELECT SUM(dta_value) AS dta_sum FROM g5_1_data_run WHERE dta_dt >= '1671059428' AND dta_dt <= '1671099350' AND mms_idx = '64'
+25961
+
+
+SELECT SUM(dta_value)*20 AS dta_sum FROM g5_1_data_measure_63 WHERE dta_dt >= '2022-12-16 08:53:13' AND dta_dt <= '2022-12-16 11:00:06' AND dta_type = 13 AND dta_no = 7
+
+SELECT GROUP_CONCAT(machine_id) AS machine_ids FROM ( SELECT machine_id, COUNT(*) AS dta_count FROM g5_1_xray_inspection WHERE work_date = '2022-12-16' GROUP BY machine_id ) AS db1
+SELECT GROUP_CONCAT(machine_id) AS machine_ids FROM ( SELECT machine_id, COUNT(*) AS dta_count FROM g5_1_xray_inspection WHERE work_date = '2022-12-16' GROUP BY machine_id ) AS db1
+
+
+// 전체
+SELECT work_date AS dta_date 
+, SUBSTRING(qrcode,7,1) AS item_type 
+, SUBSTRING(qrcode,8,2) AS item_lhrh 
+, min(end_time) AS dta_ymdhis_min 
+, max(end_time) AS dta_ymdhis_max 
+, REPLACE(SUBSTRING(min(end_time),11,9),':','') AS dta_start_his 
+, REPLACE(SUBSTRING(max(end_time),11,9),':','') AS dta_end_his
+FROM g5_1_xray_inspection
+WHERE work_date = '2022-12-16';
+
+// 로봇1
+SELECT work_date AS dta_date 
+, SUBSTRING(qrcode,7,1) AS item_type 
+, SUBSTRING(qrcode,8,2) AS item_lhrh 
+, min(end_time) AS dta_ymdhis_min 
+, max(end_time) AS dta_ymdhis_max 
+, REPLACE(SUBSTRING(min(end_time),11,9),':','') AS dta_start_his 
+, REPLACE(SUBSTRING(max(end_time),11,9),':','') AS dta_end_his 
+FROM g5_1_xray_inspection 
+WHERE work_date = '2022-12-16'
+
+
+SELECT work_date , COUNT(xry_idx) AS output_sum 
+FROM g5_1_xray_inspection
+WHERE (1) AND machine_id = '56' AND work_date >= '2022-12-01' AND work_date <= '2022-12-16'
+GROUP BY work_date ORDER BY work_date DESC
+
+
+대시보드
+. 대표 템플릿 결정해서 모든 사람이 동일하게 기본 디폴트 세팅!
+
+생산보고서
+. 날짜 통계시간 표시.. 몇시부터 몇 시!!
+  . 검사수
+. 불량율 표시 (그래프 상?)
+. 월벌/일별 이동!!
+
+주조코드조회
+. 포인트별 등급 이상. 이하!!
+. 주조시각 클릭 시 측정그래프쪽으로 이동! 시간 검색 범위로!!
+
+대시보드
+  . 그래프설정 오른편 상단
+  . 그래프추가하기 버튼!!
+
+제품현황
+. 통계 페이지들 어떻게 ?
+. 주조코드 나오게..
+
+
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-12%'
+
+SELECT qrc_idx, cast_code, event_time, SUBSTRING(event_time,8,12), CONCAT('2022-12',SUBSTRING(event_time,8,12))
+FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-12%';
+
+UPDATE g5_1_qr_cast_code SET event_time = CONCAT('2022-12',SUBSTRING(event_time,8,12)) WHERE event_time LIKE '2023-12%';
+
+
+
+Fatal error: Uncaught PHPExcel_Exception: Invalid cell coordinate ^1 in /home/hanjoo/www/php/hanjoo/lib/PHPExcel/Cell.php:594 Stack trace: #0 /home/hanjoo/www/php/hanjoo/lib/PHPExcel/Style.php(228): PHPExcel_Cell::coordinateFromString('^1') #1 /home/hanjoo/www/php/hanjoo/lib/PHPExcel/Style/Fill.php(205): PHPExcel_Style->applyFromArray(Array) #2 /home/hanjoo/www/php/hanjoo/adm/v10/intelli/output_excel_down.php(154): PHPExcel_Style_Fill->setFillType('solid') #3 {main} thrown in /home/hanjoo/www/php/hanjoo/lib/PHPExcel/Cell.php on line 594
+
+주조코드 정의
+총7자리 ex) 1A25J59 (7BYTE)
+1. 주조기: 1,2,3,4 (1=17호기, 2=18호기…)
+2. 월: A~L (1~12)
+3. 일: 01~31
+4. 시간: 1,2,3,….9, A(10), B(11), C(12) ~ M(22), N(23) (월표기와 조금 다릅니다 - **9시이후 10시부터 A로 표기**)
+5. 분: 01~59
+
+127622 3A02807	LPM03	2023-01-02 08:07:00
+127608 2L30J4L	LPM04	2022-12-30 19:04:00
+127605 3I28LD4	LPM03	2023-09-28 21:00:00
+
+
+                  , $row['position_1']
+                  , $row['position_2']
+                  , $row['position_3']
+                  , $row['position_4']
+                  , $row['position_5']
+                  , $row['position_6']
+                  , $row['position_7']
+                  , $row['position_8']
+                  , $row['position_9']
+                  , $row['position_10']
+                  , $row['position_11']
+                  , $row['position_12']
+                  , $row['position_13']
+                  , $row['position_14']
+                  , $row['position_15']
+                  , $row['position_16']
+                  , $row['position_17']
+                  , $row['position_18']

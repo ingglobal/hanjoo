@@ -29,7 +29,7 @@ include_once('./_top_search.php');
 <div class="report_wrapper">
     <div class="report_container">
 
-            <div class="div_title_02f"><i class="fa fa-check" aria-hidden="true"> 일자별 생산</i></div>
+            <div class="div_title_02f"><i class="fa fa-check" aria-hidden="true"> 일자별 검사</i></div>
             <div id="chart_day"></div>
             <div class="div_info_body">
 
@@ -37,7 +37,7 @@ include_once('./_top_search.php');
                     <thead class="tbl_head">
                     <tr>
                         <th scope="col" style="width:100px;">구분</th>
-                        <th scope="col" style="width:15%">생산</th>
+                        <th scope="col" style="width:15%">검사수</th>
                         <th scope="col" style="width:15%;">OK</th>
                         <th scope="col" style="width:15%;">NG</th>
                         <th scope="col" style="width:15%;">불량율</th>
@@ -130,7 +130,7 @@ include_once('./_top_search.php');
                             echo '
                             <tr class="'.$row['tr_class'].'">
                                 <td class="text_left">'.$row['item_name'].'</td>
-                                <td class="text_right pr_5">'.number_format($row['output_total']).'</td><!-- 생산 -->
+                                <td class="text_right pr_5">'.number_format($row['output_total']).'</td><!-- 검사수 -->
                                 <td class="text_right pr_5">'.number_format($row['output_good']).'</td><!-- 양호 -->
                                 <td class="text_right pr_5">'.number_format($row['output_defect']).'</td><!-- 불량 -->
                                 <td class="text_right pr_5">'.round($row['ng_rate'],2).' %</td><!-- 불량율 -->

@@ -200,10 +200,10 @@ $items = array_merge($items1,$items2);
                     AND fle_type = 'mms_img'
                     AND fle_sort = 0
         ";
-//        echo $sql.'<br>';
+        // echo $sql.'<br>';
         $rs1 = sql_query($sql,1);
         for($j=0;$row1=sql_fetch_array($rs1);$j++) {
-//            print_r2($row1);
+        //    print_r2($row1);
             if( $row1['fle_name'] && is_file(G5_PATH.$row1['fle_path'].'/'.$row1['fle_name']) ) {
                 $row['img'] = $row[$row1['fle_type']][$row1['fle_sort']]; // 변수명 좀 짧게
                 $row['img']['thumbnail'] = thumbnail($row1['fle_name'], 
@@ -214,8 +214,13 @@ $items = array_merge($items1,$items2);
             else {
                 $row[$row1['fle_type']][$row1['fle_sort']]['thumbnail'] = 'default.png';
                 $row1['fle_path'] = '/data/mms_img';	// 디폴트 경로 결정해야 합니다.
+                echo 5;
             }
             $row['img']['thumbnail_img'] = '<img src="'.G5_URL.$row1['fle_path'].'/'.$row['img']['thumbnail'].'"
+                                                width="'.$fle_width.'" height="'.$fle_height.'">';
+        }
+        if($j==0) {
+            $row['img']['thumbnail_img'] = '<img src="'.G5_USER_ADMIN_URL.'/img/no_mms_image.png"
                                                 width="'.$fle_width.'" height="'.$fle_height.'">';
         }
         

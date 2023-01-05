@@ -48,6 +48,22 @@ include_once('./_head.php');
 			</td>
 		</tr>
 		<tr>
+			<th scope="row">주조코드 그래프 시간범위</th>
+			<td colspan="3">
+				<?php echo help('제품검사현황 페이지에서 분석 아이콘 클릭 시 해당 시간 기준 전 후 시간범위를 설정합니다.') ?>
+				<input type="text" name="set_cast_graph_before" value="<?php echo $g5['setting']['set_cast_graph_before'] ?>" required class="required frm_input" style="width:40px;"> 초 전부터 
+				<input type="text" name="set_cast_graph_after" value="<?php echo $g5['setting']['set_cast_graph_after'] ?>" required class="required frm_input" style="width:40px;"> 초 후까지
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">주조코드 알람 시간범위</th>
+			<td colspan="3">
+				<?php echo help('제품검사현황 페이지에서 분석 아이콘 클릭 시 해당 시간 기준 전 후 시간범위를 설정합니다.') ?>
+				<input type="text" name="set_cast_alarm_before" value="<?php echo $g5['setting']['set_cast_alarm_before'] ?>" required class="required frm_input" style="width:40px;"> 초 전부터 
+				<input type="text" name="set_cast_alarm_after" value="<?php echo $g5['setting']['set_cast_alarm_after'] ?>" required class="required frm_input" style="width:40px;"> 초 후까지
+			</td>
+		</tr>
+		<tr>
 			<th scope="row">주조기 설비번호들</th>
 			<td colspan="3">
 				<?php echo help('설비들 중에서 주조기 설비번호만 입력하세요.') ?>
