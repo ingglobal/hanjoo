@@ -2352,3 +2352,5 @@ Fatal error: Uncaught PHPExcel_Exception: Invalid cell coordinate ^1 in /home/ha
                   , $row['position_16']
                   , $row['position_17']
                   , $row['position_18']
+
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch v10/v10.tar'
