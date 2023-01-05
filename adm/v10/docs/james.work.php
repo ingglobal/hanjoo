@@ -2333,6 +2333,7 @@ Fatal error: Uncaught PHPExcel_Exception: Invalid cell coordinate ^1 in /home/ha
 127605 3I28LD4	LPM03	2023-09-28 21:00:00
 
 
+
                   , $row['position_1']
                   , $row['position_2']
                   , $row['position_3']
