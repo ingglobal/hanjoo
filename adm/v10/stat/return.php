@@ -19,7 +19,7 @@ echo $g5['container_sub_title'];
 
 
 //-- 기본 검색값 할당
-$st_date = $st_date ?: date("Y-01-01",G5_SERVER_TIME);
+$st_date = $st_date ?: date("Y-m-01",G5_SERVER_TIME-86400*365);
 $en_date = $en_date ?: date("Y-m-31",G5_SERVER_TIME);
 
 
@@ -170,7 +170,7 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
         </tr>
     ';
 	if ($i == 0)
-		echo '<tr class="no-data"><td colspan="8" class="text-center">등록(검색)된 자료가 없습니다.</td></tr>';
+		echo '<tr class="no-data"><td colspan="20" class="text-center">등록(검색)된 자료가 없습니다.</td></tr>';
 	?>
     </tbody>
     </table>

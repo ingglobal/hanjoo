@@ -2315,6 +2315,7 @@ SELECT qrc_idx, cast_code, event_time, SUBSTRING(event_time,8,12), CONCAT('2022-
 FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-12%';
 
 UPDATE g5_1_qr_cast_code SET event_time = CONCAT('2022-12',SUBSTRING(event_time,8,12)) WHERE event_time LIKE '2023-12%';
+UPDATE g5_1_qr_cast_code SET event_time = CONCAT('2022-09',SUBSTRING(event_time,8,12)) WHERE event_time LIKE '2023-09%';
 
 
 
@@ -2380,3 +2381,4 @@ git filter-branch --index-filter 'git rm --cached --ignore-unmatch v10/v10.tar'
 22L16DRRH01580816	1L16E25
 12-16 08:16 vs 12-16 14:25
 
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch adm/v10.tar'

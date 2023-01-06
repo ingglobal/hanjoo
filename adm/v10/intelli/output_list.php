@@ -169,7 +169,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         $row['cast'] = sql_fetch($sql2,1);
         // print_r3($row['cast']);
         // 주조시각
-        $row['cast']['event_time_yn'] = (preg_match("/^[0-9][A-Z][0-9]{2}[A-Z][0-9]{2}$/",$row['cast']['cast_code'])) ? 1 : 0;
+        $row['cast']['event_time_yn'] = (preg_match("/^[0-9][A-Z][0-9]{2}[0-9A-Z][0-9]{2}$/",$row['cast']['cast_code'])) ? 1 : 0;
         $row['cast']['event_dt'] = $row['cast']['event_time_yn'] ? substr($row['cast']['event_time'],5,11) : '';
         $row['cast']['mms_no'] = $row['cast']['event_time_yn'] ? substr($row['cast']['cast_code'],0,1) : 1;
         $row['cast']['cast_code'] = $row['cast']['event_time_yn'] ? $row['cast']['cast_code'] : '';
