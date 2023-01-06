@@ -30,7 +30,7 @@ if(is_file(G5_USER_ADMIN_PATH.'/css/intelli/'.$g5['file_name'].'.css')) {
 
 <div class="div_recommend">
     <div class="title01">
-        최적파라미타 수집 시점
+        최적파라메타 수집 시점
         <span class="btn_more"><a href="./best_list.php">더보기</a></span>
     </div>
     <div class="cont01">
