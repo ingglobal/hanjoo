@@ -2325,12 +2325,25 @@ Fatal error: Uncaught PHPExcel_Exception: Invalid cell coordinate ^1 in /home/ha
 1. 주조기: 1,2,3,4 (1=17호기, 2=18호기…)
 2. 월: A~L (1~12)
 3. 일: 01~31
-4. 시간: 1,2,3,….9, A(10), B(11), C(12) ~ M(22), N(23) (월표기와 조금 다릅니다 - **9시이후 10시부터 A로 표기**)
+4. 시간: 1,2,3,….9, A(10), B(11), C(12), D(13), E(14) ~ K(20), L(21), M(22), N(23) (월표기와 조금 다릅니다 - **9시이후 10시부터 A로 표기**)
 5. 분: 01~59
 
 127622 3A02807	LPM03	2023-01-02 08:07:00
 127608 2L30J4L	LPM04	2022-12-30 19:04:00
 127605 3I28LD4	LPM03	2023-09-28 21:00:00
+
+QR코드 기준(바코드)
+22L30NRRH03751417	
+22	년도	2자리
+L	월	1자리
+30	일	2자리
+D	주/야간	1자리
+E	사양	1자리
+RH	LH/RH	2자리
+0001	생산No.	4자리
+1530	각인시간	4자리
+
+
 
 
 
@@ -2354,3 +2367,16 @@ Fatal error: Uncaught PHPExcel_Exception: Invalid cell coordinate ^1 in /home/ha
                   , $row['position_18']
 
 git filter-branch --index-filter 'git rm --cached --ignore-unmatch v10/v10.tar'
+
+22L30NRRH03711409	1L30K03	
+12-30 14:09 vs 12-30 20:03
+
+22L30NRRH03791430	1L30K45
+12-30 14:30 vs 12-30 20:45
+
+23A04DRRH01741027	4A03L00
+01-04 14:30 vs 01-03 21:00 (약 18시간 차이)
+
+22L16DRRH01580816	1L16E25
+12-16 08:16 vs 12-16 14:25
+

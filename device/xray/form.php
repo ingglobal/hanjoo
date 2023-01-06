@@ -1,5 +1,5 @@
 <?php
-// URL: http://hanjoo.epcs.co.kr/device/xray/form.php
+// URL: http://test.hanjoo.epcs.co.kr/device/xray/form.php
 include_once('./_common.php');
 // 인스타 로그인후 인스타쪽 피드 배열을 받아서 올스타에 업데이트하는 폼을 임시로 구현한 페이지입니다.
 // 실제로는 member_log.php가 크롤링 서버에서 정보를 받아서 저장합니다.
@@ -28,7 +28,7 @@ else {
 }
 
 $qr_time = get_qr_time($qrcode);
-$cast_time = date("Y-m-d H:i:s", strtotime($qr_time)-3600*2);   // 주조코드가 2시간 전에 입력된 걸로 보고 설정
+$cast_time = date("Y-m-d H:i:s", strtotime($qr_time)-3600*2);   // 주조코드가 30시간 전에 입력된 걸로 보고 설정
 $time_cast = get_time2castcode($cast_time); // ex) 2022-01-31 11:32:00 > 2A31B32
 ?>
 <style>
