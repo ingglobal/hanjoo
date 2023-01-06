@@ -460,14 +460,6 @@ function get_month_number($str) {
 }
 }
 
-// get hour hh from alphbet, ex 1,2,3,4...9,A=10, B=11...
-if(!function_exists('get_hour_number')){
-function get_hour_number($str) {
-    $day = sprintf("%02d",dechex($str));
-    return $day;
-}
-}
-
 // get month string from number, ex 01=A, 02=B...
 if(!function_exists('get_month_string')){
 function get_month_string($str) {
@@ -550,7 +542,7 @@ function get_castcode2time($code) {
     $h = substr($code,-3,1);
     $HH = get_hour_number($h);
     $ii = substr($code,-2,2);
-    $YY = date("Y");
+    $YY = ($mm==12) ? date("Y")-1 : date("Y");
     // echo (ord(substr($code,1,1))-62).'<br>';
 
     return $YY.'-'.$mm.'-'.$dd.' '.$HH.':'.$ii.':00';
