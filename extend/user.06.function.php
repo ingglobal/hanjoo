@@ -542,7 +542,8 @@ function get_castcode2time($code) {
     $h = substr($code,-3,1);
     $HH = get_hour_number($h);
     $ii = substr($code,-2,2);
-    $YY = ($mm==12) ? date("Y")-1 : date("Y");
+    $mm_cur = date('m'); // 현재가 1월이고 주조코드가 12월이면 작년
+    $YY = ($mm==12&&$mm_cur=='01') ? date("Y")-1 : date("Y");
     // echo (ord(substr($code,1,1))-62).'<br>';
 
     return $YY.'-'.$mm.'-'.$dd.' '.$HH.':'.$ii.':00';

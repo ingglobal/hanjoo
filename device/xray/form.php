@@ -30,6 +30,13 @@ else {
 $qr_time = get_qr_time($qrcode);
 $cast_time = date("Y-m-d H:i:s", strtotime($qr_time)-3600*2);   // 주조코드가 30시간 전에 입력된 걸로 보고 설정
 $time_cast = get_time2castcode($cast_time); // ex) 2022-01-31 11:32:00 > 2A31B32
+
+
+$code = '1L30K45';
+echo get_castcode2time($code).'<br>';
+$code = '4A03L00';
+echo get_castcode2time($code).'<br>';
+
 ?>
 <style>
     #hd_login_msg {display:none;}
