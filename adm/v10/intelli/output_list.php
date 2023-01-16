@@ -206,29 +206,29 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         $s_copy = '<a href="./'.$fname.'_form.php?'.$qstr.'&w=c&xry_idx='.$row['xry_idx'].'" class="btn btn_03">복제</a>';
 
         echo '
-			<tr tr_id="'.$i.'" style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
-				<td><span class="font_size_7">'.$row['xry_idx'].'</span></td>
-				<td><span class="font_size_7">'.$row['work_date'].'</span></td>
-				<td>'.$g5['set_work_shift'][$row['work_shift']].'</td>
-				<td class="td_dt"><span class="font_size_8">'.substr($row['start_time'],0,19).'<br>~'.substr($row['end_time'],0,19).'</span></td>
-				<td class="f_7">'.$row['qrcode'].'</td>
-				<td>'.$row['cast']['cast_code'].'</td>
-				<td class="f_7">'.$row['cast']['mms_name'].'</td>
-				<td class="f_7">'.$row['cast']['event_dt'].'</td>
-				<td class="f_7">'.$row['production_id'].'</td>
-				<td class="f_7">'.$row['machine_id'].'</td>
-				<td>'.$row['machine_no'].'</td>
-				<td style="text-align:left;">'.$row['points'].'</td>
-				<td>'.$row['result'].'</td>
-				<td class="td_analysis">
+            <tr tr_id="'.$i.'" style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
+                <td><span class="font_size_7">'.$row['xry_idx'].'</span></td>
+                <td><span class="font_size_7">'.$row['work_date'].'</span></td>
+                <td>'.$g5['set_work_shift'][$row['work_shift']].'</td>
+                <td class="td_dt"><span class="font_size_8">'.substr($row['start_time'],0,19).'<br>~'.substr($row['end_time'],0,19).'</span></td>
+                <td class="f_7">'.$row['qrcode'].'</td>
+                <td>'.$row['cast']['cast_code'].'</td>
+                <td class="f_7">'.$row['cast']['mms_name'].'</td>
+                <td class="f_7">'.$row['cast']['event_dt'].'</td>
+                <td class="f_7">'.$row['production_id'].'</td>
+                <td class="f_7">'.$row['machine_id'].'</td>
+                <td>'.$row['machine_no'].'</td>
+                <td style="text-align:left;">'.$row['points'].'</td>
+                <td>'.$row['result'].'</td>
+                <td class="td_analysis">
                     '.$row['cast']['graph1'].'
                     &nbsp;
                     '.$row['cast']['graph2'].'
                 </td>
-				<td style="display:no ne;">'.$s_mod.'</td>
-			</tr>
-		';
-	}
+                <td style="display:no ne;">'.$s_mod.'</td>
+            </tr>
+        ';
+    }
 	if ($i == 0)
 		echo '<tr class="no-data"><td colspan="15" class="text-center">등록(검색)된 자료가 없습니다.</td></tr>';
 	?>

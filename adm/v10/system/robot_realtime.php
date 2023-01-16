@@ -165,6 +165,9 @@ Highcharts.chart('chart<?=$x?>_<?=$k1?>', {
         title: {
             text: 'Value'
         },
+        min: -2,
+        max: 60,
+        tickInterval: 10,
         plotLines: [{
                 value: <?=$setups[$x]['A'][$k1]?>,  // 경고 기준값
                 color: 'yellow',
