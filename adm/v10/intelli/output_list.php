@@ -148,6 +148,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 		<th scope="col">주야간</th>
 		<th scope="col">시작~종료</th>
 		<th scope="col">QRCode</th>
+		<th scope="col">사양</th>
 		<th scope="col">주조코드</th>
 		<th scope="col">주조기</th>
 		<th scope="col">주조시각</th>
@@ -163,6 +164,9 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 	<tbody class="tbl_body">
 	<?php
     for ($i=0; $row=sql_fetch_array_pg($result); $i++) {
+        // 일반사양 - R, EV사양 - E
+        $row['qrcode_ne'] = substr($row['qrcode'],6,1);
+
         // 주조코드
         $sql2 = " SELECT * FROM g5_1_qr_cast_code WHERE qrcode = '".$row['qrcode']."' ";
         // echo $sql2.'<br>';
@@ -209,15 +213,16 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
             <tr tr_id="'.$i.'" style="background-color:'.$row['tr_bgcolor'].';color:'.$row['tr_color'].'">
                 <td><span class="font_size_7">'.$row['xry_idx'].'</span></td>
                 <td><span class="font_size_7">'.$row['work_date'].'</span></td>
-                <td>'.$g5['set_work_shift'][$row['work_shift']].'</td>
+                <td class="font_size_7">'.$g5['set_work_shift'][$row['work_shift']].'</td>
                 <td class="td_dt"><span class="font_size_8">'.substr($row['start_time'],0,19).'<br>~'.substr($row['end_time'],0,19).'</span></td>
                 <td class="f_7">'.$row['qrcode'].'</td>
+                <td class="f_7">'.$row['qrcode_ne'].'</td>
                 <td>'.$row['cast']['cast_code'].'</td>
                 <td class="f_7">'.$row['cast']['mms_name'].'</td>
                 <td class="f_7">'.$row['cast']['event_dt'].'</td>
                 <td class="f_7">'.$row['production_id'].'</td>
                 <td class="f_7">'.$row['machine_id'].'</td>
-                <td>'.$row['machine_no'].'</td>
+                <td class="font_size_7">'.$row['machine_no'].'</td>
                 <td style="text-align:left;">'.$row['points'].'</td>
                 <td>'.$row['result'].'</td>
                 <td class="td_analysis">
