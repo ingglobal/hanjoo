@@ -2312,7 +2312,7 @@ function get_list2($write_row, $board, $skin_url, $subject_len=40){
 	// 링크
 	for ($i=1; $i<=G5_LINK_COUNT; $i++) {
 		$list['link'][$i] = set_http(get_text($list["wr_link{$i}"]));
-		$list['link_href'][$i] = G5_USER_ADMIN_BBS_URL.'/link.php?bo_table='.$board['bo_table'].'&amp;wr_id='.$list['wr_id'].'&amp;no='.$i.$qstr;
+		$list['link_href'][$i] = G5_USER_ADMIN_BBS_URL.'/link.php?bo_table='.$board['bo_table'].'&wr_id='.$list['wr_id'].'&no='.$i.'&'.$qstr;
 		$list['link_hit'][$i] = (int)$list["wr_link{$i}_hit"];
 	}
 
