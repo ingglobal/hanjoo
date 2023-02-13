@@ -470,7 +470,7 @@ for($i=0;$i<sizeof($best);$i++) {
                                                         $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
                                                             : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
                         // echo $row['dta_type_no_name'].'<br>';
-                        echo '<li tag_name="'.$best[$i]['mms_idx'].'-'.$row['dta_type'].'-'.$row['dta_no'].'">
+                        echo '<li id="'.$best[$i]['mms_idx'].'-'.$row['dta_type'].'-'.$row['dta_no'].'">
                                 <div class="set_title">'.$row['dta_type_no_name'].'</div>
                                 <strong>'.$row['dta_value'].'</strong> <span class="span_current"></span>
                             </li>
@@ -514,6 +514,10 @@ for($i=0;$i<sizeof($best);$i++) {
 }
 ?>
 <script>
+$(function(e){
+    // initial call for get parameters.
+    get_parameters(g5_user_admin_url);
+})
 // Detail 클릭시 이동
 $(document).on('click','.btn_graph',function(e){
     e.preventDefault();
@@ -530,6 +534,34 @@ $(document).on('click','.btn_graph',function(e){
     }
     location.href = href+'&tag='+tag+'&st_dt='+st_dt+'&en_dt='+en_dt;
 });
+
+// every 20 seconds call for get parameters.
+setInterval(function() {
+    get_parameters(g5_user_admin_url);
+}, 20000);
+
+// function of getting the parameters by ajax communication.
+function get_parameters(g5_user_admin_url) {
+    //-- 디버깅 Ajax --//
+    $.ajax({
+        url:g5_user_admin_url+'/ajax/get_parameters.php',
+        data:{"aj":"p1"},
+        dataType:'json', timeout:10000, beforeSend:function(){}, success:function(res){
+    //$.getJSON(g5_user_admin_url+'/ajax/get_parameters.php',{"aj":"p1"},function(res) {
+        // console.log(res);
+        if(res.result == true) {
+            $.each(res.rows, function (i, v) {
+                // console.log(i+':'+v);
+                // console.log(i+':'+v['mms_idx']+','+v['dta_type']+','+v['dta_no']+'='+v['dta_value']);
+                $('#'+v['mms_idx']+'-'+v['dta_type']+'-'+v['dta_no']).find('.span_current').text(v['dta_value']);
+            });
+        }
+        else {
+            alert(res.msg);
+        }
+        }, error:this_ajax_error	//<-- 디버깅 Ajax --//
+    });
+}
 </script>
 
 
