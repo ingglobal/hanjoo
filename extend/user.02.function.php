@@ -1,6 +1,64 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+// for sql query time check
+if(!function_exists('sql_query2')){
+function sql_query2($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)
+{
+    global $g5, $g5_debug;
+
+    if(!$link)
+        $link = $g5['connect_db'];
+
+    // Blind SQL Injection 취약점 해결
+    $sql = trim($sql);
+    // union의 사용을 허락하지 않습니다.
+    //$sql = preg_replace("#^select.*from.*union.*#i", "select 1", $sql);
+    $sql = preg_replace("#^select.*from.*[\s\(]+union[\s\)]+.*#i ", "select 1", $sql);
+    // `information_schema` DB로의 접근을 허락하지 않습니다.
+    $sql = preg_replace("#^select.*from.*where.*`?information_schema`?.*#i", "select 1", $sql);
+
+    $is_debug = get_permission_debug_show();
+    
+    $start_time = $is_debug ? get_microtime() : 0;
+	$msc=microtime(true); // -----------------------
+
+    if(function_exists('mysqli_query') && G5_MYSQLI_USE) {
+        if ($error) {
+            $result = @mysqli_query($link, $sql) or die("<p>$sql<p>" . mysqli_errno($link) . " : " .  mysqli_error($link) . "<p>error file : {$_SERVER['SCRIPT_NAME']}");
+        } else {
+            try {
+                $result = @mysqli_query($link, $sql);
+            } catch (Exception $e) {
+                $result = null;
+            }
+        }
+    } else {
+        if ($error) {
+            $result = @mysql_query($sql, $link) or die("<p>$sql<p>" . mysql_errno() . " : " .  mysql_error() . "<p>error file : {$_SERVER['SCRIPT_NAME']}");
+        } else {
+            $result = @mysql_query($sql, $link);
+        }
+    }
+
+	$msc=microtime(true)-$msc;
+    echo $msc.' seconds<br>'; //----------------------------
+    $end_time = $is_debug ? get_microtime() : 0;
+
+    if($result && $is_debug) {
+        // 여기에 실행한 sql문을 화면에 표시하는 로직 넣기
+        $g5_debug['sql'][] = array(
+            'sql' => $sql,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            );
+    }
+
+    run_event('sql_query_after', $result, $sql, $start_time, $end_time);
+
+    return $result;
+}
+}
 
 // 24시간이 넘어가도 HH:MM 형태로 표현하는 함수, 86400 > 24:00, 86400+14400 > 28:00
 if(!function_exists('second_to_hhmm')){
@@ -59,6 +117,36 @@ function sql_query_pg($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)
 }
 }
 
+if(!function_exists('sql_query_pg2')){
+function sql_query_pg2($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)
+{
+    global $g5;
+
+    if(!$link)
+        $link = $g5['connect_pg'];
+
+    // Blind SQL Injection 취약점 해결
+    $sql = trim($sql);
+
+	$msc=microtime(true); // -----------------------
+
+    if ($error) {
+        $result = pg_query($link, $sql) or die("<p>$sql</p> <p>error file : {$_SERVER['SCRIPT_NAME']}</p>");
+    } else {
+        try {
+            $result = @pg_query($link, $sql);
+        } catch (Exception $e) {
+            $result = null;
+        }
+    }
+
+	$msc=microtime(true)-$msc;
+    echo $msc.' seconds<br>'; //----------------------------
+
+    return $result;
+}
+}
+
 if(!function_exists('sql_num_rows_pg')){
 function sql_num_rows_pg($result)
 {
@@ -102,6 +190,21 @@ function sql_fetch_pg($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)
         $link = $g5['connect_pg'];
 
     $result = sql_query_pg($sql, $error, $link);
+    $row = sql_fetch_array_pg($result);
+    return $row;
+}
+}
+
+// 쿼리를 실행한 후 결과값에서 한행을 얻는다.
+if(!function_exists('sql_fetch_pg2')){
+function sql_fetch_pg2($sql, $error=G5_DISPLAY_SQL_ERROR, $link=null)
+{
+    global $g5;
+
+    if(!$link)
+        $link = $g5['connect_pg'];
+
+    $result = sql_query_pg2($sql, $error, $link);
     $row = sql_fetch_array_pg($result);
     return $row;
 }

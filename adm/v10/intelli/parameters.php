@@ -15,6 +15,7 @@ if(is_file(G5_USER_ADMIN_PATH.'/css/intelli/'.$g5['file_name'].'.css')) {
 }
 ?>
 <style>
+.span_current {margin-left:10px;color:darkorange;}
 </style>
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highstock.js"></script>
 <script src="<?php echo G5_URL?>/lib/highcharts/Highstock/code/highcharts-more.js"></script>
@@ -446,9 +447,13 @@ for($i=0;$i<sizeof($best);$i++) {
                 <ul>
                     <?php
                     // get the setting values round the found spot.
+                    // $sql = "SELECT * FROM g5_1_data_measure_".$best[$i]['mms_idx']."
+                    //         WHERE dta_dt >= '".$best[$i]['dmb_dt']."' AND dta_type = 13
+                    //         ORDER BY dta_idx LIMIT 1
+                    // ";
                     $sql = "SELECT * FROM g5_1_data_measure_".$best[$i]['mms_idx']."
                             WHERE dta_dt >= '".$best[$i]['dmb_dt']."' AND dta_type = 13
-                            ORDER BY dta_idx LIMIT 1
+                            ORDER BY dta_dt LIMIT 1
                     ";
                     // echo $sql.'<br>';
                     $one = sql_fetch_pg($sql,1);
@@ -465,9 +470,9 @@ for($i=0;$i<sizeof($best);$i++) {
                                                         $mms['dta_type_label-'.$row['dta_type'].'-'.$row['dta_no']]
                                                             : $g5['set_data_type_value'][$row['dta_type']].'-'.$row['dta_no'];
                         // echo $row['dta_type_no_name'].'<br>';
-                        echo '<li>
+                        echo '<li tag_name="'.$best[$i]['mms_idx'].'-'.$row['dta_type'].'-'.$row['dta_no'].'">
                                 <div class="set_title">'.$row['dta_type_no_name'].'</div>
-                                <strong>'.$row['dta_value'].'</strong>
+                                <strong>'.$row['dta_value'].'</strong> <span class="span_current"></span>
                             </li>
                         ';
                     }

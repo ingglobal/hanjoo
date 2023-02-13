@@ -162,7 +162,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
         </div>
         <!-- 차트 -->
         <div id="chart1">
-            <span class="text01">[불러오기] 버튼을 클릭하여 그래프를 추가하세요.</span>
+            <span class="text01"></span>
         </div>
     </div><!-- .graph_wrap -->
 

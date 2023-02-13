@@ -1109,3 +1109,56 @@ WHERE
 GROUP BY 
   to_char(time, 'YYYY-MM-DD')
 ....
+
+
+SELECT * FROM pg_stat_activity ORDER BY query_start ASC;
+SELECT pid,state,usename,client_addr,query_start,query FROM pg_stat_activity ORDER BY query_start ASC;
+
+
+
+// 최적라마메타조회 slow query check..
+
+SELECT * FROM g5_1_data_measure_59
+WHERE dta_dt >= '2022-12-23 03:16:00' AND dta_type = 13
+ORDER BY dta_idx LIMIT 1
+
+SELECT * FROM g5_1_data_measure_59
+WHERE dta_dt >= '2022-12-23 03:16:00' AND dta_type = 13
+ORDER BY dta_idx LIMIT 1
+
+SELECT * FROM g5_1_data_measure_60
+WHERE dta_dt >= '2022-12-23 22:00:00' AND dta_type = 13
+ORDER BY dta_idx LIMIT 1
+
+SELECT * FROM g5_1_data_measure_58
+WHERE dta_dt >= '2022-12-20 21:42:00' AND dta_type = 13
+ORDER BY dta_idx LIMIT 1
+SELECT * FROM g5_1_data_measure_58
+WHERE dta_dt >= '2022-12-20 21:42:00' AND dta_type = 13
+ORDER BY dta_dt LIMIT 1
+
+SELECT COUNT(dta_idx) AS cnt FROM g5_1_data_measure_58
+// this takes so much time. No answer. period.
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_58')
+
+
+16036 | active | postgres |             | 2023-02-13 11:59:23.42326+09  | SELECT COUNT(dta_idx) AS cnt FROM g5_1_data_measure_58
+ 16037 | active | postgres |             | 2023-02-13 11:59:23.42326+09  | SELECT COUNT(dta_idx) AS cnt FROM g5_1_data_measure_58
+ 16033 | active | postgres | 127.0.0.1   | 2023-02-13 11:59:23.42326+09  | SELECT COUNT(dta_idx) AS cnt FROM g5_1_data_measure_58
+ 16035 | active | postgres |             | 2023-02-13 11:59:23.42326+09  | SELECT COUNT(dta_idx) AS cnt FROM g5_1_data_measure_58
+ 16334 | active | postgres | 127.0.0.1   | 2023-02-13 12:01:41.838884+09 | INSERT INTO g5_1_data_measure_62 (dta_type,dta_no,dta_value,dta_dt) VALUES\r                          +
+       |        |          |             |
+
+SELECT pg_cancel_backend(16036);
+SELECT pg_cancel_backend(16322);
+
+CREATE INDEX g5_1_data_measure_58_idx_dta_idx ON g5_1_data_measure_58 (dta_idx);
+Total runtime: 439,462.206 ms (about 7min)
+
+SELECT * FROM g5_1_data_measure_58 ORDER BY dta_dt DESC LIMIT 100;
+
+
+SELECT * FROM g5_1_data_measure_58 WHERE dta_dt = '2022-06-30 14:57:31+09' AND dta_type = 13
+SELECT * FROM g5_1_data_measure_58 WHERE dta_type = 13 ORDER BY dta_dt LIMIT 1
+
+

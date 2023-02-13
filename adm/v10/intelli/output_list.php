@@ -8,7 +8,7 @@ $pre = 'css';
 $fname = preg_replace("/_list/","",$g5['file_name']); // 파일명생성
 
 
-$g5['title'] = '제품검사현황';
+$g5['title'] = '실시간데이터현황';
 @include_once('./_top_menu_output.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
