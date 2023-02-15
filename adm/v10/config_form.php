@@ -45,6 +45,13 @@ if ($config['cf_sms_use'] && $config['cf_icode_id'] && $config['cf_icode_pw']) {
 		</colgroup>
 		<tbody>
 		<tr>
+			<th scope="row">사후관리로그<br>API Key값</th>
+			<td colspan="3">
+				<?php echo help('스마트사후관리 로그수집 시스템의 할당받은 API Key값을 등록해 주세요.<br>ex)$5$API$3Ue8EDeh9uh5SBT98qSOmiuz636aFqZyV5aMgFmL4rD') ?>
+				<input type="text" name="set_userlog_crtfckey" value="<?php echo $g5['setting']['set_userlog_crtfckey'] ?>" id="set_userlog_crtfckey" required class="required frm_input" style="width:60%;">
+			</td>
+		</tr>
+		<tr>
 			<th scope="row">주조기설정</th>
 			<td colspan="3">
 				<?php echo help('주조기 이름 & DB고유번호(mms번호) 매칭 ex) LPM05=58(17호기), LPM04=59(18호기), LPM03=60(19호기), LPM02=61(20호기)<br>MES db index는 MMS 관리번호를 참조합니다.') ?>
