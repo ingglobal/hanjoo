@@ -14,6 +14,7 @@ $g5['container_sub_title'] = '
 <h2 id="container_sub_title">
     '.$sub_title_list.'
     <a href="./term_list.php" class="btn_top_menu '.$active_term_list.'">분류설정</a>
+    <a href="./stat_user_log.php" class="btn_top_menu '.$active_stat_user_log.'">사용자로그통계</a>
 </h2>
 ';
 ?>
