@@ -30,12 +30,11 @@ $where[] = " (1) ";   // 디폴트 검색조건
 // $where[] = " ".$pre.".com_idx IN (".$_SESSION['ss_com_idx'].") ";
 
 // 기간 검색
-$year = $year ?: date("Y");
 if ($st_date) {
-    $where[] = " ret_ym >= '".$year."-01-01' ";
+    $where[] = " ret_ym >= '".$st_date."' ";
 }
 if ($en_date) {
-    $where[] = " ret_ym <= '".$year."-12-31' ";
+    $where[] = " ret_ym <= '".$en_date."' ";
 }
 
 // 최종 WHERE 생성
@@ -93,7 +92,9 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
-<input type="text" name="year" value="<?=$year?>" id="year" class="frm_input" autocomplete="off" style="width:44px;">
+<input type="text" name="st_date" value="<?=$st_date?>" id="st_date" class="frm_input" autocomplete="off" style="width:80px;">
+~
+<input type="text" name="en_date" value="<?=$en_date?>" id="en_date" class="frm_input" autocomplete="off" style="width:80px;">
 
 <input type="submit" class="btn_submit" value="검색">
 </form>

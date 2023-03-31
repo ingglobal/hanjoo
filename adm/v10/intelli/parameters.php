@@ -25,8 +25,9 @@ if(is_file(G5_USER_ADMIN_PATH.'/css/intelli/'.$g5['file_name'].'.css')) {
 <!-- 다양한 시간 표현을 위한 플러그인 -->
 <script src="<?php echo G5_URL?>/lib/highcharts/moment.js"></script>
 
-<div class="local_desc01 local_desc" style="display:none;">
-    <p>작업중!!</p>
+<div class="local_desc01 local_desc" style="display:no ne;">
+    <p>초기 로딩 시 불러오는 데이터양이 많아서 버퍼링이 발생할 수 있습니다.</p>
+    <p>활용 메뉴얼은 Youtube 동영상을 참고하세요. <a href="https://youtu.be/7xY09ZPsIsw" target="_blank">동영상링크 바로가기</a></p>
 </div>
 
 <div class="div_recommend">

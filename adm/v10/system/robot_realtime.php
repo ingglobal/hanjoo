@@ -52,6 +52,7 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
     <p>노란색 라인은 알림경고, 빨간색 라인은 정지위치를 표시합니다. <a href="./config_form_robot.php">[설정하기]</a></p>
     <p>초기 로딩 시 10초 버퍼링 후 실시간 값을 표현합니다.</p>
     <p>빨간색(정지) 값을 초과하는 상태가 발생하면 <span style="color:darkorange;">즉시 작업을 중단</span>합니다. 설정된 안정화 시간이 지난 후 다시 작동됩니다. [설정하기] 페이지에서 수정하세요.</p>
+    <p>활용 메뉴얼은 Youtube 동영상을 참고하세요. <a href="https://youtu.be/3_3_cFu5aDg" target="_blank">동영상링크 바로가기</a></p>
 </div>
 
 <div class="chart_wrapper">

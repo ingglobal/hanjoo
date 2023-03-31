@@ -14,7 +14,7 @@ $req_nick = !isset($member['mb_nick_date']) || (isset($member['mb_nick_date']) &
     <h2>
         <strong class="sound_only">회원로그인</strong>
         <img src="<?=G5_THEME_IMG_URL?>/logo_bright4.png">
-        <p>제조기업예측제어시스템<br>v 2.00</p>
+        <p>제조기업예측제어시스템 2.0<br>@아이엔지글로벌</p>
     </h2>
     <form name="foutlogin" action="<?php echo $outlogin_action_url ?>" onsubmit="return fhead_submit(this);" method="post" autocomplete="off">
     <fieldset>

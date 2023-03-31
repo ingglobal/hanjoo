@@ -183,8 +183,8 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <button type="submit" class="btn btn_01 btn_search">확인</button>
 </form>
 
-<div class="local_desc01 local_desc" style="display:none;">
-    <p>가운데 빨간색으로 표시된 그래프가 최적기준선입니다. 기간내 추출된 태그 항목들만 표시됩니다.</p>
+<div class="local_desc01 local_desc" style="display:no ne;">
+    <p>활용 메뉴얼은 Youtube 동영상을 참고하세요. <a href="https://youtu.be/YMal620T9V4" target="_blank">동영상링크 바로가기</a></p>
 </div>
 
 <div id="graph_wrapper">

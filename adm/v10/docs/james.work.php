@@ -2383,4 +2383,11 @@ git filter-branch --index-filter 'git rm --cached --ignore-unmatch v10/v10.tar'
 
 git filter-branch --index-filter 'git rm --cached --ignore-unmatch adm/v10.tar'
 
+주입식 아니고..
+토론식..
+실습형..
+으로 진행!!
+
+
+
 

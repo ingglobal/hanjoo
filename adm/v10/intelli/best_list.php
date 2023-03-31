@@ -115,6 +115,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <p>최적 파라메타를 찾는 추적 작업은 하루에 1회 실행됩니다.</p>
     <p>맨 마지막(최근)에 수집된 최적 파라메타 수집 시점이 기준값이 됩니다. 그 값을 기준으로 설비의 현재 상태를 비교 관리합니다.</p>
     <p>최적 파라메타란 양품이 집단적으로 생산되는 시간 분포의 중심점을 의미합니다. 최적 파라메타 수집 조건을 변경할 수 있습니다. <a href="./config_form.php">[주조파라메타설정]</a></p>
+    <p>활용 메뉴얼은 Youtube 동영상을 참고하세요. <a href="https://youtu.be/KmTALOuHb04" target="_blank">동영상링크 바로가기</a></p>
 </div>
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
