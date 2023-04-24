@@ -1292,6 +1292,8 @@ ORDER BY RAND() LIMIT 1
 
 
 
+// sudo vi /etc/crontab
+// sudo systemctl restart cron
 
 
 // 10초에 한개씩!!
@@ -1325,6 +1327,13 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 #* *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
 #* *      * * *  root    wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php; sleep 10; wget -O - -q -t 1 http://hanjoo.epcs.co.kr/user/cron/robot_input_test.php
 * *      * * *  root    /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php; sleep 10; /usr/bin/php /home/hanjoo/www/php/hanjoo/user/cron/robot_input_test.php
+
+
+cron log 확인
+sudo grep xray_marking /var/log/syslog
+sudo grep mes_charge /var/log/syslog
+ubuntu는 이상하게도 /var/log/syslog 에 cron 로그가 기록된다.
+
 
 GMP2030 광장비
 이혜민씨
@@ -2383,11 +2392,102 @@ git filter-branch --index-filter 'git rm --cached --ignore-unmatch v10/v10.tar'
 
 git filter-branch --index-filter 'git rm --cached --ignore-unmatch adm/v10.tar'
 
-주입식 아니고..
-토론식..
-실습형..
-으로 진행!!
+
+노중석차장
+김세민과장
+최병종과장
+박진휘과장
+김태봉대리
+
+SELECT * FROM g5_1_data_measure_best WHERE mms_idx = '58' ORDER BY dmb_reg_dt DESC LIMIT 1
+SELECT * FROM g5_1_data_measure_best WHERE mms_idx = '59' ORDER BY dmb_reg_dt DESC LIMIT 1
+SELECT * FROM g5_1_data_measure_best WHERE mms_idx = '60' ORDER BY dmb_reg_dt DESC LIMIT 1
+SELECT * FROM g5_1_data_measure_best WHERE mms_idx = '61' ORDER BY dmb_reg_dt DESC LIMIT 1
+
+// 해당 권한 삭제
+DELETE FROM g5_auth WHERE au_menu = '920900'
+DELETE FROM g5_auth WHERE au_menu = '920130'
+DELETE FROM g5_auth WHERE au_menu = '920140'
+DELETE FROM g5_auth WHERE au_menu = '920115'
+DELETE FROM g5_auth WHERE au_menu = '925140'
+DELETE FROM g5_auth WHERE au_menu = '930170'
+
+// 권한을 부여할 때 한방에 넣어주려면..
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '920900', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
+
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '920130', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
+
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '920140', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
+
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '920115', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
+
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '925140', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
+
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '930170', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
 
 
+실시간모니터링
+파라메타분포
+실시간데이터현황
 
+실시간모니터링
+최적파라메타조회
+파라메타분포
+실시간데이터현황
+테이터조회
+주조파라메타설정
 
+915110=r,w=대시보드
+915900=r,w=대시보드추가
+920000=r,w=지능형주조파라메타
+920110=r,w=실시간모니터링
+920115=r,w=최적파라메타조회
+920120=r,w=파라메타분포
+920130=r,w=실시간데이터현황
+920140=r,w=테이터조회
+920900=r,w=주조파라메타설정
+925000=r,w=통합설비관리
+925110=r,w=실시간모니터링
+925120=r,w=설비측정그래프
+925140=r,w=로봇실시간제어
+925700=r,w=알람리스트
+925710=r,w=예지리스트
+925800=r,w=알람코드관리
+925900=r,w=설비관리설정
+930000=r,w=정비관리
+930110=r,w=계획정비관리
+930120=r,w=정비조치관리
+930130=r,w=부품재고관리
+930140=r,w=매뉴얼관리
+930150=r,w=설비사양서
+930160=r,w=A/S연락처
+930170=r=헬프데스크
+935000=r,w=통계/보고
+935110=r,w=생산보고서
+935120=r,w=알람보고서
+935130=r,w=예지보고서
+935140=r,w=정비및재고
+935150=r,w=조치보고서
+
+930170=r=헬프데스크
+920900=r,w=주조파라메타설정
+920130=r,w=실시간데이터현황
+920140=r,w=테이터조회
+920115=r,w=최적파라메타조회
+925140=r,w=로봇실시간제어
+
+CREATE TABLE `g5_1_marking` (
+  `mrk_idx` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '마킹idx',
+  `mms_idx` int(11) NOT NULL DEFAULT '0' COMMENT '설비idx',
+  `dta_idx` int(11) NOT NULL DEFAULT '0' COMMENT '측정데이터idx',
+  `mrk_value` int(11) NOT NULL DEFAULT '0' COMMENT '값',
+  `mrk_count` int(11) NOT NULL DEFAULT '0' COMMENT '카운터',
+  `mrk_reg_dt` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  PRIMARY KEY (`mrk_idx`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

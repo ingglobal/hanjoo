@@ -47,7 +47,7 @@ if(is_file(G5_USER_ADMIN_PATH.'/css/intelli/'.$g5['file_name'].'.css')) {
                         ORDER BY dmb_reg_dt DESC
                         LIMIT 1
                 ";
-                // echo $sql.'<br>';
+                // echo $sql.BR;
                 $one = sql_fetch($sql,1);
                 $mms = get_table('mms','mms_idx',$one['mms_idx']);
                 $one['mms_name'] = $g5['mms'][$one['mms_idx']]['mms_name'];
@@ -210,7 +210,7 @@ for($i=0;$i<sizeof($best);$i++) {
             WHERE machine_id = '".$best[$i]['machine_id']."' AND end_time >= '".$best[$i]['dmb_dt']."'
             ORDER BY csh_idx LIMIT 10 OFFSET 0
     ";
-    // echo $sql.'<br>';
+    // echo $sql.BR;
     $rs = sql_query_pg($sql,1);
     for ($j=0; $row=sql_fetch_array_pg($rs); $j++) {
         // print_r2($row);

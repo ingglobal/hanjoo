@@ -1,5 +1,6 @@
 <?php
 // 공통 변수, 상수 선언
+define('BR',                                '<br>');
 define('G5_USER_DIR',                       'user');
 define('G5_USER_ADMIN_DIR',                 'v10');
 define('G5_AJAX_DIR',                       'ajax');
