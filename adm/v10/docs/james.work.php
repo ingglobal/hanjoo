@@ -2491,3 +2491,146 @@ CREATE TABLE `g5_1_marking` (
   `mrk_reg_dt` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
   PRIMARY KEY (`mrk_idx`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+LPM05=58(17호기), LPM04=59(18호기), LPM03=60(19호기), LPM02=61(20호기)
+
+59
+LPM02
+
+58
+LPM03
+
+44
+LPM04
+
+45
+LPM05
+
+63
+LPM06
+
+호기별 번호가 왜 이렇게 안 맞지?
+지난번에도 이해가 안 되더니.. 지금도 또 헷갈리네.
+
+// 이렇게 됩니다. (헷갈리지 말것!!)
+주조기 이름 & DB고유번호(mms번호) 매칭 ex) LPM05=58(17호기), LPM04=59(18호기), LPM03=60(19호기), LPM02=61(20호기)
+MES db index는 MMS 관리번호를 참조합니다. ex) 59=LPM02, 58=LPM03, 44=LPM04, 45=LPM05
+
+SELECT * FROM g5_5_meta WHERE mta_db_table = 'pgsql/measure' AND mta_key = 'dta_idx_last_marking'
+
+
+SELECT * FROM ( ( 
+  SELECT 58 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_58 WHERE dta_type = 13 AND dta_no = 25 AND dta_idx > '91792952' ORDER BY dta_dt 
+  ) 
+UNION ALL ( 
+  SELECT 59 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_59 WHERE dta_type = 13 AND dta_no = 25 AND dta_idx > '88044643' ORDER BY dta_dt
+   ) UNION ALL ( 
+  SELECT 60 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_60 WHERE dta_type = 13 AND dta_no = 25 AND dta_idx > '58590560' ORDER BY dta_dt
+ ) UNION ALL ( 
+  SELECT 61 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_61 WHERE dta_type = 13 AND dta_no = 25 AND dta_idx > '64708955' ORDER BY dta_dt
+   ) ) AS db1 ORDER BY dta_dt
+
+SELECT dta_idx, dta_dt, dta_value 
+FROM g5_1_data_measure_59
+WHERE dta_type = 13 AND dta_no = 25
+ORDER BY dta_dt DESC LIMIT 300
+
+SELECT 59 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_59 WHERE dta_type = 13 AND dta_no = 25 AND dta_idx > '88044643' ORDER BY dta_dt
+SELECT 59 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_59 WHERE dta_type = 13 AND dta_no = 25 AND dta_dt > '2023-04-24 12:24:45+09' ORDER BY dta_dt
+SELECT 60 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_60 WHERE dta_type = 13 AND dta_no = 25 AND dta_dt > '2023-04-24 12:31:37+09' ORDER BY dta_dt
+
+
+SELECT 58 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_58 WHERE dta_type = 13 AND dta_no = 25 AND dta_dt > '2023-04-24 12:30:43+09' ORDER BY dta_dt
+SELECT 59 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_59 WHERE dta_type = 13 AND dta_no = 25 AND dta_dt > '2023-04-24 12:24:45+09' ORDER BY dta_dt
+SELECT 60 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_60 WHERE dta_type = 13 AND dta_no = 25 AND dta_dt > '2023-04-24 12:31:37+09' ORDER BY dta_dt
+SELECT 61 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_61 WHERE dta_type = 13 AND dta_no = 25 AND dta_dt > '2023-04-24 12:31:06+09' ORDER BY dta_dt
+
+// shot 기준 주조 제품 생산
+SELECT * FROM g5_1_cast_shot
+
+
+// 전체 생산
+SELECT
+  machine_id
+  , machine_no
+  , COUNT(csh_idx) AS csh_count_sum
+FROM g5_1_cast_shot AS csh
+WHERE end_time >= '2023-04-20 00:00:00' AND end_time <= '2023-04-21 23:59:59'
+GROUP BY machine_id
+ORDER BY machine_id
+
+
+// 전체 생산
+SELECT
+  machine_id
+  , machine_no
+  , COUNT(csh_idx) AS csh_count_sum
+FROM g5_1_cast_shot AS csh
+WHERE end_time >= '2023-04-20 00:00:00' AND end_time <= '2023-04-24 23:59:59'
+--  AND machine_id=44
+GROUP BY machine_id
+ORDER BY machine_id
+
+// 날짜별로 분리
+                                    SELECT 
+                                        CAST(ymd_date AS CHAR) AS ymd_date
+                                        , 0 AS count_sum
+                                    FROM g5_5_ymd AS ymd
+                                    WHERE ymd_date BETWEEN '2023-04-10' AND '2023-04-20'
+                                    ORDER BY ymd_date
+
+
+                                    SELECT
+                                      substring( CAST(end_time AS CHAR),1,10) AS ymd_date
+                                      , COUNT(csh_idx) AS csh_count_sum
+                                    FROM g5_1_cast_shot AS csh
+                                    WHERE end_time >= '2023-04-10 00:00:00' AND end_time <= '2023-04-20 23:59:59'
+                                    --  AND machine_id=44
+                                    GROUP BY ymd_date
+                                    ORDER BY ymd_date
+                                    
+.
+
+// 날짜별로 분리....
+                            SELECT (CASE WHEN n='1' THEN ymd_date ELSE 'total' END) AS item_name
+                                , machine_no
+                                , SUM(count_sum) AS count_sum
+                            FROM
+                            (
+                                SELECT 
+                                    ymd_date
+                                    , GROUP_CONCAT(machine_no) AS machine_no
+                                    , SUM(count_sum) AS count_sum
+                                FROM
+                                (
+                                    (
+                                    SELECT 
+                                        CAST(ymd_date AS CHAR) AS ymd_date
+                                        , '' AS machine_no
+                                        , 0 AS count_sum
+                                    FROM g5_5_ymd AS ymd
+                                    WHERE ymd_date BETWEEN '2023-04-10' AND '2023-04-20'
+                                    ORDER BY ymd_date
+                                    )
+                                UNION ALL
+                                    (
+                                    SELECT
+                                      substring( CAST(end_time AS CHAR),1,10) AS ymd_date
+                                      , machine_no
+                                      , COUNT(csh_idx) AS count_sum
+                                    FROM g5_1_cast_shot AS csh
+                                    WHERE end_time >= '2023-04-10 00:00:00' AND end_time <= '2023-04-20 23:59:59'
+                                      AND machine_id=44
+                                    GROUP BY ymd_date
+                                    ORDER BY ymd_date
+                                    )
+                                ) AS db_table
+                                GROUP BY ymd_date
+                            ) AS db2, g5_5_tally AS db_no
+                            WHERE n <= 2
+                            GROUP BY item_name
+                            ORDER BY n DESC, item_name
+                                    
+.
+

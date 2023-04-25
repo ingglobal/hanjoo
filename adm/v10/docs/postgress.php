@@ -270,7 +270,65 @@ SELECT create_hypertable('g5_1_data_measure_64', 'dta_dt');
 CREATE INDEX g5_1_data_measure_64_idx_type ON g5_1_data_measure_64 (dta_type);
 CREATE INDEX g5_1_data_measure_64_idx_type_no ON g5_1_data_measure_64 (dta_type, dta_no);
 
+CREATE TABLE g5_1_data_measure_44 (
+  dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
+);
+SELECT create_hypertable('g5_1_data_measure_44', 'dta_dt');
+CREATE INDEX g5_1_data_measure_44_idx_type ON g5_1_data_measure_44 (dta_type);
+CREATE INDEX g5_1_data_measure_44_idx_type_no ON g5_1_data_measure_44 (dta_type, dta_no);
 
+INSERT INTO "g5_1_data_measure_44" ("dta_idx", "dta_dt", "dta_type", "dta_no", "dta_value", "dta_1", "dta_2", "dta_3")
+VALUES ('1',   '2023-04-17 12:12:12',                 '13',      '1',          '1',    '1',     '2',     '3');
+INSERT INTO "g5_1_data_measure_44" ("dta_idx", "dta_dt", "dta_type", "dta_no", "dta_value", "dta_1", "dta_2", "dta_3")
+VALUES ('2',   '2023-04-17 12:12:13',                 '13',      '1',          '2',    '1',     '2',     '3');
+
+// auto_increment 생성
+// pgadmin 페이지에서 column 항목을 보고 Default 항목의 설명을 보면 정확한 이름이 나와있음
+ALTER SEQUENCE g5_1_data_measure_44_dta_idx_seq RESTART WITH 3;
+
+// auto_increment가 되는지 입력해 봄
+INSERT INTO "g5_1_data_measure_44" ("dta_dt", "dta_type", "dta_no", "dta_value", "dta_1", "dta_2", "dta_3")
+VALUES ('2023-04-17 12:12:14',                 '13',      '1',          '2',    '1',     '2',     '3');
+
+
+CREATE TABLE g5_1_data_measure_45 (
+  dta_idx SERIAL,
+  dta_dt TIMESTAMPTZ NOT NULL,
+  dta_type integer NOT NULL,
+  dta_no integer NOT NULL,
+  dta_value DOUBLE PRECISION NULL,
+  dta_1 integer default 0,
+  dta_2 integer default 0,
+  dta_3 integer default 0
+);
+SELECT create_hypertable('g5_1_data_measure_45', 'dta_dt');
+CREATE INDEX g5_1_data_measure_45_idx_type ON g5_1_data_measure_45 (dta_type);
+CREATE INDEX g5_1_data_measure_45_idx_type_no ON g5_1_data_measure_45 (dta_type, dta_no);
+
+INSERT INTO "g5_1_data_measure_45" ("dta_idx", "dta_dt", "dta_type", "dta_no", "dta_value", "dta_1", "dta_2", "dta_3")
+VALUES ('1',   '2023-04-17 12:12:12',                 '13',      '1',          '1',    '1',     '2',     '3');
+INSERT INTO "g5_1_data_measure_45" ("dta_idx", "dta_dt", "dta_type", "dta_no", "dta_value", "dta_1", "dta_2", "dta_3")
+VALUES ('2',   '2023-04-17 12:12:13',                 '13',      '1',          '2',    '1',     '2',     '3');
+
+// auto_increment 생성
+// pgadmin 페이지에서 column 항목을 보고 Default 항목의 설명을 보면 정확한 이름이 나와있음
+ALTER SEQUENCE g5_1_data_measure_45_dta_idx_seq RESTART WITH 3;
+
+// auto_increment가 되는지 입력해 봄
+INSERT INTO "g5_1_data_measure_45" ("dta_dt", "dta_type", "dta_no", "dta_value", "dta_1", "dta_2", "dta_3")
+VALUES ('2023-04-17 12:12:14',                 '13',      '1',          '2',    '1',     '2',     '3');
+
+
+
+SELECT * FROM g5_1_data_measure_45 ORDER BY dta_idx LIMIT 100;
+SELECT * FROM g5_1_data_measure_45 ORDER BY dta_idx DESC LIMIT 100;
 
 
 CREATE TABLE g5_1_cast_shot_sub (
@@ -998,22 +1056,6 @@ SELECT * FROM g5_1_data_measure_61 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSE
 SELECT * FROM g5_1_data_measure_58 WHERE 1=1 ORDER BY dta_dt DESC LIMIT 15 OFFSET 0
 
 
--------+--------+----------+-------------+-------------------------------+--------------------------------------------------------------------------------------------------------
-  7405 | active | postgres |             | 2022-09-23 11:00:49.593405+09 | SELECT pid,state,usename,client_addr,query_start,query FROM pg_stat_activity ORDER BY query_start ASC;
- 14281 |        | postgres |             |                               |
- 14280 |        | postgres |             |                               |
- 18707 | idle   | postgres | 192.1.2.1   |                               |
- 14283 |        | postgres |             |                               |
- 14284 |        | postgres |             |                               |
- 14286 |        | postgres |             |                               |
- 12453 | idle   | postgres | 127.0.0.1   |                               |
- 14276 |        |          |             |                               |
- 14275 |        |          |             |                               |
- 14278 |        |          |             |                               |
- 14277 |        |          |             |                               |
-(12 rows)
-
-
 SELECT column_name, data_type, character_maximum_length
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE table_name = 'g5_1_robot';
@@ -1153,16 +1195,17 @@ postgres=# SELECT pid,state,query_start,query FROM pg_stat_activity ORDER BY que
 여기서... query_start 을 확인해 보세요.
 확인 후 q 클릭해서 빠져나옴
 
-8389 | active | 2023-04-22 15:34:01.523944+09 | SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
-  8390 | active | 2023-04-22 15:34:01.523944+09 | SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
-  8370 | active | 2023-04-22 15:34:01.523944+09 | SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
-  8388 | active | 2023-04-22 15:34:01.523944+09 | SELECT * FROM g5_1_cast_shot_sub ORDER BY css_idx DESC LIMIT 100;
-  9016 | active | 2023-04-22 15:36:24.299567+09 |.........
+29646 | active | 2023-04-24 10:22:18.723469+09 | SELECT dta_idx, dta_dt, dta_value \r                                              +
+       |        |                               | FROM g5_1_data_measure_59\r                                                       +
+       |        |                               | WHERE dta_type = 13 AND dta_no = 25\r                                             +
+       |        |                               | ORDER BY dta_idx DESC LIMIT 100
+ 29643 | active | 2023-04-24 10:22:18.723469+09 | SELECT dta_idx, dta_dt, dta_value \r                                              +
 
+SELECT pg_cancel_backend(29646);
+SELECT pg_cancel_backend(21373);
+SELECT pg_cancel_backend(20856);
 
-SELECT pg_cancel_backend(8389);
-SELECT pg_cancel_backend(8390);
-
+21060 | active | 2023-04-24 12:10:33.679575+09 | SELECT *
 
 
 CREATE INDEX g5_1_data_measure_58_idx_dta_idx ON g5_1_data_measure_58 (dta_idx);
@@ -1216,8 +1259,15 @@ WHERE dta_type = 13 AND dta_no = 25 AND dta_value >= 29990
 SELECT * FROM g5_1_data_measure_59
 WHERE dta_type = 13 AND dta_no = 25 AND dta_value >= 29990
 
-SELECT dta_idx, dta_dt, dta_value 
+
+// dta_dt 기준으로 가지고 와서 쿼리 속도가 보장된다. (dta_idx 기준 정렬은 완전 속도 엉망)
+SELECT dta_idx, dta_dt, dta_value
 FROM g5_1_data_measure_58
+WHERE dta_type = 13 AND dta_no = 25
+ORDER BY dta_dt DESC LIMIT 300
+
+SELECT dta_idx, dta_dt, dta_value 
+FROM g5_1_data_measure_59
 WHERE dta_type = 13 AND dta_no = 25
 ORDER BY dta_dt DESC LIMIT 300
 
@@ -1226,11 +1276,19 @@ FROM g5_1_data_measure_59
 WHERE dta_type = 13 AND dta_no = 25
 ORDER BY dta_dt DESC LIMIT 100
 
-SELECT dta_idx, dta_dt, dta_value 
-FROM g5_1_data_measure_59
-WHERE dta_type = 13 AND dta_no = 25
-ORDER BY dta_dt DESC LIMIT 100
-
-
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100 OFFSET 0
 
+
+
+
+SELECT pg_cancel_backend(23651);
+
+
+CREATE INDEX g5_1_data_measure_58_idx_dta_idx ON g5_1_data_measure_58 (dta_idx);
+Total runtime: 439,462.206 ms (about 7min)
+
+CREATE INDEX g5_1_data_measure_59_idx_dta_idx ON g5_1_data_measure_59 (dta_idx);
+
+CREATE INDEX g5_1_data_measure_60_idx_dta_idx ON g5_1_data_measure_60 (dta_idx);
+
+CREATE INDEX g5_1_data_measure_61_idx_dta_idx ON g5_1_data_measure_61 (dta_idx);

@@ -27,74 +27,50 @@ $fields1 = sql_field_names($table1);
 $sql = " SELECT mrk_reg_dt FROM {$table1} ORDER BY mrk_idx DESC LIMIT 1 ";
 $mrk = sql_fetch($sql,1);
 if($mrk['mrk_reg_dt']) {
-    $sql_query = " AND dta_dt > '".$mrk['mrk_reg_dt']."' ORDER BY dta_dt LIMIT 1000 ";
     // 설비별 마지막 값 초기화 (이전값과 비교해서 카운팅을 해야 함)
-    $sql = "SELECT * 
-            FROM (
-                ( SELECT * FROM {$table1} WHERE mms_idx = 58 ORDER BY mrk_idx LIMIT 1 )
-                UNION ALL
-                ( SELECT * FROM {$table1} WHERE mms_idx = 59 ORDER BY mrk_idx LIMIT 1 )
-                UNION ALL
-                ( SELECT * FROM {$table1} WHERE mms_idx = 60 ORDER BY mrk_idx LIMIT 1 )
-                UNION ALL
-                ( SELECT * FROM {$table1} WHERE mms_idx = 61 ORDER BY mrk_idx LIMIT 1 )
-                UNION ALL
-                ( SELECT * FROM {$table1} WHERE mms_idx = 62 ORDER BY mrk_idx LIMIT 1 )
-                UNION ALL
-                ( SELECT * FROM {$table1} WHERE mms_idx = 63 ORDER BY mrk_idx LIMIT 1 )
-                UNION ALL
-                ( SELECT * FROM {$table1} WHERE mms_idx = 64 ORDER BY mrk_idx LIMIT 1 )
-            ) AS db1
-    ";
+    $sql = " SELECT * FROM g5_5_meta WHERE mta_db_table = 'pgsql/measure' AND mta_key = 'dta_idx_last_marking' ";
     // echo $sql.'<br>';
     // exit;
     $rs = sql_query($sql,1);
     for($i=0;$row=sql_fetch_array($rs);$i++) {
         // print_r2($row);
-        $prev[$row['mms_idx']] = $row['mrk_value'];
+        $prev[$row['mta_db_id']] = $row['mta_value'];
+        if($row['mta_value']) {
+            ${'sql_query_'.$row['mta_db_id']} = " AND dta_dt > '".$row['mta_value']."' ORDER BY dta_dt ";
+        }
+        else {
+            ${'sql_query_'.$row['mta_db_id']} = " ORDER BY dta_dt DESC LIMIT 1 ";
+        }
     }
+    // $sql_query = " AND dta_dt > '".$mrk['mrk_reg_dt']."' ORDER BY dta_dt LIMIT 1000 ";
+
     // print_r2($prev);
 }
 else {
     // 각 테이블당 10개씩만
-    $sql_query = " ORDER BY dta_dt DESC LIMIT 1 ";
+    $sql_query_58 = $sql_query_59 = $sql_query_60 = $sql_query_61 = " ORDER BY dta_dt DESC LIMIT 1 ";
 }
 
 $sql = "SELECT * 
         FROM (
           (
               SELECT 58 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_58
-              WHERE dta_type = 13 AND dta_no = 25 {$sql_query}
+              WHERE dta_type = 13 AND dta_no = 25 {$sql_query_58}
           )
           UNION ALL
           (
               SELECT 59 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_59
-              WHERE dta_type = 13 AND dta_no = 25 {$sql_query}
+              WHERE dta_type = 13 AND dta_no = 25 {$sql_query_59}
           )
           UNION ALL
           (
               SELECT 60 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_60
-              WHERE dta_type = 13 AND dta_no = 25 {$sql_query}
+              WHERE dta_type = 13 AND dta_no = 25 {$sql_query_60}
           )
           UNION ALL
           (
               SELECT 61 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_61
-              WHERE dta_type = 13 AND dta_no = 25 {$sql_query}
-          )
-          UNION ALL
-          (
-              SELECT 62 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_62
-              WHERE dta_type = 13 AND dta_no = 25 {$sql_query}
-          )
-          UNION ALL
-          (
-              SELECT 63 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_63
-              WHERE dta_type = 13 AND dta_no = 25 {$sql_query}
-          )
-          UNION ALL
-          (
-              SELECT 64 AS mms_idx, dta_idx, dta_dt, dta_value FROM g5_1_data_measure_64
-              WHERE dta_type = 13 AND dta_no = 25 {$sql_query}
+              WHERE dta_type = 13 AND dta_no = 25 {$sql_query_61}
           )
         ) AS db1
         ORDER BY dta_dt
@@ -165,6 +141,9 @@ for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
     $prev[$row['mms_idx']] = $row['dta_value'];
     // print_r2($prev);
 
+    // 다음 cron 실행 시 쿼리 속도를 위해서 마지막 번호 저장
+    $dta_idx[$row['mms_idx']] = $row['dta_dt'];
+
 
     echo "<script> document.all.cont.innerHTML += '".$cnt.". ".$row['mms_idx']." (".$row['dta_dt'].") ".$row['dta_value']." 완료<br>'; </script>\n";
 
@@ -182,6 +161,28 @@ for($i=0;$row=sql_fetch_array_pg($rs);$i++) {
 		echo "<script> document.all.cont.innerHTML = ''; </script>\n";
 
 }
+
+// meta 에 마지막 번호 저장!
+// echo $g5['setting']['set_cast_no_value'];
+// print_r2($g5['set_cast_no_value']);
+// print_r2($dta_idx);
+if(is_array($g5['set_cast_no_value'])) {
+    foreach($g5['set_cast_no_value'] as $k1=>$v1) {
+        // echo $k1.'/'.$v1.BR;
+        if($dta_idx[$v1]) {
+            // 메타 정보 입력
+            $ar['mta_db_table'] = 'pgsql/measure';
+            $ar['mta_db_id'] = $v1;
+            $ar['mta_key'] = 'dta_idx_last_marking';
+            $ar['mta_value'] = $dta_idx[$v1];
+            $ar['mta_title'] = $k1;
+            meta_update($ar);
+            unset($ar);
+        }
+    }
+}
+
+
 ?>
 <script>
 	document.all.cont.innerHTML += "<br><br>총 <?php echo number_format($cnt) ?>건 완료<br><font color=crimson><b>[끝]</b></font>";

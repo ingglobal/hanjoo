@@ -54,7 +54,7 @@ if ($config['cf_sms_use'] && $config['cf_icode_id'] && $config['cf_icode_pw']) {
 		<tr>
 			<th scope="row">주조기설정</th>
 			<td colspan="3">
-				<?php echo help('주조기 이름 & DB고유번호(mms번호) 매칭 ex) LPM05=58(17호기), LPM04=59(18호기), LPM03=60(19호기), LPM02=61(20호기)<br>MES db index는 MMS 관리번호를 참조합니다.') ?>
+				<?php echo help('주조기 이름 & <span style="color:darkorange">DB고유번호(mms번호)</span> 매칭 ex) LPM05=58(17호기), LPM04=59(18호기), LPM03=60(19호기), LPM02=61(20호기)<br>MES db index는 <span style="color:darkorange">MMS 관리번호</span>를 참조합니다. ex) 59=LPM02, 58=LPM03, 44=LPM04, 45=LPM05') ?>
 				<input type="text" name="set_cast_no" value="<?php echo $g5['setting']['set_cast_no'] ?>" id="set_status" required class="required frm_input" style="width:60%;">
 			</td>
 		</tr>

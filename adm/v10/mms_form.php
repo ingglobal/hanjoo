@@ -104,6 +104,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 <div class="local_desc01 local_desc" style="display:no ne;">
     <p>설비와 연결된 iMP 및 장비그룹을 선택해 주셔야 합니다.</p>
+    <p>관리번호 항목은 기존 mes에서 관리하던 설비번호입니다. 수정하지 마세요.</p>
 </div>
 
 <div class="tbl_frm01 tbl_wrap">
