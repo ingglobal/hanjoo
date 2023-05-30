@@ -2672,3 +2672,34 @@ $a['target_pressure'] = array_combine(range(0, count($a['target_pressure']) - 1)
 
 DELETE FROM g5_5_meta WHERE mta_db_table = 'qr_cast_code/api';
 
+
+2023-09-12 18:15:00
+SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 00:00:00' ORDER BY `g5_1_qr_cast_code`.`event_time` DESC
+SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 00:00:00';
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-06%';
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-07%';
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-08%';
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-09%';
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-10%';
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-11%';
+SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-12%';
+
+SELECT qrc_idx, cast_code, event_time, SUBSTRING(event_time,8,12), CONCAT('2022-12',SUBSTRING(event_time,8,12))
+FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-12%';
+
+UPDATE g5_1_qr_cast_code SET event_time = CONCAT('2022-12',SUBSTRING(event_time,8,12)) WHERE event_time LIKE '2023-12%';
+UPDATE g5_1_qr_cast_code SET event_time = CONCAT('2022-09',SUBSTRING(event_time,8,12)) WHERE event_time LIKE '2023-09%';
+
+
+SELECT SQL_CALC_FOUND_ROWS * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE (1) ORDER BY xry_idx DESC LIMIT 0, 15
+
+SELECT * FROM g5_1_xray_inspection WHERE 1=1 ORDER BY start_time DESC LIMIT 100 OFFSET 0
+
+5-30 3:00 ~ 03:30
+
+
+알람리스트 페이지 접근 권한!!
+
+
+
+

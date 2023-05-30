@@ -131,7 +131,7 @@ for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
             ";
             // echo $sql.'<br>';
             $xry = sql_fetch($sql,1);
-            if($xry['event_time']=='0000-00-00 00:00:00') {
+            if($xry['event_time']=='0000-00-00 00:00:00'||$xry['event_time']>G5_TIME_YMDHIS) {
                 // 주조코드값이 없으면 다음으로 넘김
                 continue;
             }

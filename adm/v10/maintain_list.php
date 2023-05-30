@@ -185,6 +185,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
     <p>정비 조치에 관한 이력을 입력하고 관리하는 페이지입니다.</p>
     <p>알람 발행 시 조치사항을 예측하고 예방하기 위한 소중한 정보입니다. 정보 입력 시 관련 알람을 잘 선택해 주시고 내용을 상세히 입력해 주시기 바랍니다.</p>
     <p>엑셀을 등록하실 때는 표준 형식에 맞추어야 합니다. 엑셀 형식이 바뀌면 등록 시 에러가 발생할 수 있습니다. <a href="https://docs.google.com/spreadsheets/d/1uWi8lsZg96DqFQ7Ryy61dJiO1twYUP0Z1mHNZKxol2Y/edit?usp=sharing" target="_blank">[엑셀샘플보기]</a></p>
+    <p>수집데이터 알람 정리는 전달된 엑셀을 참고하였습니다. <a href="https://docs.google.com/spreadsheets/d/10oMveZXxLrpBNmOgLtTWVMcfpa3Ps3PSnCS6iBFu4K8/edit?usp=sharing" target="_blank">[엑셀보기]</a></p>
 </div>
 
 <form name="form01" id="form01" action="./<?=$g5['file_name']?>_update.php" onsubmit="return form01_submit(this);" method="post">

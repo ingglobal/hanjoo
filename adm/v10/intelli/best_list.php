@@ -91,7 +91,7 @@ $sql = "SELECT *
         {$sql_common} {$sql_search} {$sql_order}
         LIMIT {$from_record}, {$rows}
 ";
-// echo $sql.'<br>';
+// echo $sql.BR;
 $result = sql_query($sql,1);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
@@ -203,10 +203,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <!-- //리스트 테이블 -->
 
 <div class="btn_fixed_top">
+    <a href="./<?=$fname?>_parameter.php" class="btn_04 btn btn_parameter" style="margin-right:50px;">최적파라메타추적</a>
+    <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
+    <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn">
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="./<?=$fname?>_parameter.php" class="btn_04 btn btn_parameter" style="margin-right:50px;">최적파라메타추적</a>
-        <input type="submit" name="act_button" value="선택수정" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
-        <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn">
         <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a>
     <?php } ?>
 </div>

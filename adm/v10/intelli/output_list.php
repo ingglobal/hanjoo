@@ -82,7 +82,7 @@ $sql = "SELECT *
         {$sql_common} {$sql_search} {$sql_order}
 		LIMIT {$rows} OFFSET {$from_record}
 ";
-// echo $sql.'<br>';
+// echo $sql.BR;
 $result = sql_query_pg($sql,1);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';

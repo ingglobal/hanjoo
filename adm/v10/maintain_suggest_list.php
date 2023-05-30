@@ -190,8 +190,8 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <!-- //리스트 테이블 -->
 
 <div class="btn_fixed_top">
+    <a href="maintain_suggest_exec.php" class="btn_04 btn btn_exec">조치제안 머신러닝 실행</a>
     <?php if($member['mb_manager_yn']) { ?>
-        <a href="maintain_suggest_exec.php" class="btn_04 btn btn_exec">조치제안 머신러닝 실행</a>
         <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
     <?php } ?>
     <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a> 
