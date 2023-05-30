@@ -2633,4 +2633,42 @@ ORDER BY machine_id
                             ORDER BY n DESC, item_name
                                     
 .
+05
+SELECT * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE mms_idx = '58' AND end_time >= '2023-04-25 00:00:00' AND end_time <= '2023-04-25 23:59:59' ORDER BY xry_idx DESC
+LPM05 - 최적 파라메타 추출 성공
+event_time=2023-04-20 02:02:00
+SELECT * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE xry_idx = '181427'
+
+04
+SELECT * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE mms_idx = '59' AND end_time >= '2023-04-21 00:00:00' AND end_time <= '2023-04-21 23:59:59' ORDER BY xry_idx DESC
+
+03
+SELECT * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE mms_idx = '60' AND end_time >= '2023-04-13 00:00:00' AND end_time <= '2023-04-13 23:59:59' ORDER BY xry_idx DESC
+
+02
+SELECT * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE mms_idx = '61' AND end_time >= '2023-04-06 00:00:00' AND end_time <= '2023-04-06 23:59:59' ORDER BY xry_idx DESC
+
+
+SELECT * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE xry_idx = '179865'
+
+SELECT * FROM g5_1_xray_inspection AS xry LEFT JOIN g5_1_qr_cast_code AS qrc USING(qrcode) WHERE xry_idx = '172495'
+
+pressure_0
+temperature_0
+
+$dta[][$k1][$j]['x'] = $row['timestamp']*1000;
+$dta[$mms['mms_idx']][$k1][$j]['y'] = (float)$row[$k1];
+
+
+$a['target_pressure'][8]['x'] = 1681946525000;
+$a['target_pressure'][8]['y'] = 353;
+$a['target_pressure'][9]['x'] = 1681946526000;
+$a['target_pressure'][9]['y'] = 353;
+
+Array ( [target_pressure] => Array ( [8] => Array ( [x] => 1681946525000 [y] => 353 ) [9] => Array ( [x] => 1681946526000 [y] => 353) ) );
+
+$a['target_pressure'] = array_values($a['target_pressure']);
+$a['target_pressure'] = array_combine(range(0, count($a['target_pressure']) - 1), $a['target_pressure']);
+
+DELETE FROM g5_5_meta WHERE mta_db_table = 'qr_cast_code/api';
 

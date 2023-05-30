@@ -92,7 +92,7 @@ else if(is_array($getData[0]['list'])) {
         $dta['dta_idx'] = sql_insert_id();
         $result_arr[$i]['dta_idx'] = $dta['dta_idx'];   // 고유번호
 
-        // 주조코드 입력... 이건 뭔가 다른 방법이 필요하다.
+        // 주조코드 입력... 이건 뭔가 다른 방법이 필요하다. /device/xray/index.php 참조
         if($arr['mms_idx']=='62' && $arr['dta_type']=='13') {
             // if(in_array($arr['dta_no'],array(1,2,4,5))) {
             //     qr_cast_update($sql,1);

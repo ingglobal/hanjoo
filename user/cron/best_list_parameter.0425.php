@@ -72,6 +72,7 @@ for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
             ORDER BY dmb_idx DESC
             LIMIT 1
     ";
+    // echo $sql.'<br>';
     $dmb = sql_fetch($sql,1);
     if($dmb['dmb_idx']) {
         $found[] = $g5['set_dicast_mms_idxs_array'][$j];
@@ -131,10 +132,6 @@ for($j=0;$j<sizeof($g5['set_dicast_mms_idxs_array']);$j++) {
             ";
             // echo $sql.'<br>';
             $xry = sql_fetch($sql,1);
-            if($xry['event_time']=='0000-00-00 00:00:00') {
-                // 주조코드값이 없으면 다음으로 넘김
-                continue;
-            }
             $xry['mms_name'] = $g5['mms'][$g5['set_dicast_mms_idxs_array'][$j]]['mms_name'];
             // print_r2($xry);
             // 주조시각(best spot paremater) 입력
@@ -223,7 +220,7 @@ if($ymd_next < date("Y-m-d", G5_SERVER_TIME - 86400*$set_parameter_max_day)
 else {
 ?>
 <script>
-    document.all.cont.innerHTML += "<br><?=$ymd?> 완료 <br><br><font color=crimson><b>3초후</b></font> 다음 페이지로 이동합니다.";
+    document.all.cont.innerHTML += "<br><?=$ymd?> 완료 <br><font color=crimson><b>3초후</b></font> 다음 페이지로 이동합니다.";
     setTimeout(function(){
         self.location='?ymd=<?=$ymd_next?>&found=<?=json_encode($found)?>';
     },2000);    // 2000

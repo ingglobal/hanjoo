@@ -40,8 +40,15 @@ else if(is_array($getData[0])) {
     $ar['qrc_grade'] = $arr['grade'];
     $ar['qrc_result'] = $arr['result'];
     // print_r2($ar);
-    qr_cast_code_update($ar);
+    $qrc_idx = qr_cast_code_update($ar);
     unset($ar);
+
+    // $a['mta_db_table'] = 'qr_cast_code/api';
+    // $a['mta_db_id'] = $qrc_idx?:G5_TIME_YMDHIS;
+    // $a['mta_key'] = 'qr_cast_code';
+    // $a['mta_value'] = 'qrcode='.$arr['qrcode'].', cast_code='.$arr['cast_code'].', mms_idx='.$mms_idx.', event_time='.$cast_time;
+    // meta_update($a);
+    // unset($a);
 
     $result_arr['code'] = 200;
     $result_arr['message'] = "Inserted OK!";

@@ -51,7 +51,7 @@ $sql_order = " order by {$sst} {$sod} ";
 $sql = " SELECT count(*) AS cnt FROM (select cmm_idx as cnt {$sql_common} {$sql_search} {$sql_group}) AS db1 ";
 $row = sql_fetch($sql,1);
 $total_count = $row['cnt'];
-//print_r3($sql).'<br>';
+// print_r3($sql).'<br>';
 
 $rows = $config['cf_page_rows'];
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산

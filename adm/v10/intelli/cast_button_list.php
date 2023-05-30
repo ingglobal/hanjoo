@@ -205,8 +205,8 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 <div class="btn_fixed_top" style="display:no ne;">
     <?php if($member['mb_manager_yn']) { ?>
         <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
-        <a href="./<?=$fname?>_stat.php" class="btn_04 btn">버튼누름통계</a>
     <?php } ?>
+    <a href="./<?=$fname?>_stat.php" class="btn_04 btn">버튼누름통계</a>
     <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a> 
 </div>
 

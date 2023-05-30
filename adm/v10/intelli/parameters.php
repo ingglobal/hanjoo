@@ -84,8 +84,8 @@ function dta_loading(flag,chart_id) {
 }
 
 function createChart(chart_id,seriesOptions,shot_ids) {
-    // console.log(chart_id);
-    // console.log(seriesOptions);
+    console.log(chart_id);
+    console.log(seriesOptions);
     chart = new Highcharts.stockChart({
         chart: {
             renderTo: chart_id
@@ -301,12 +301,15 @@ for($i=0;$i<sizeof($best);$i++) {
                 // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5, upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3, detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소, hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
                 foreach($g5['set_data_name_value'] as $k1=>$v1) {
                     // echo $k1.'=>'.$v1.'<br>';
-                    if($row[$k1]) {
+                    if(isset($row[$k1])) {
                         $dta[$mms['mms_idx']][$k1][$j]['x'] = $row['timestamp']*1000;
                         $dta[$mms['mms_idx']][$k1][$j]['y'] = (float)$row[$k1];
                     }
                 }
+                // $dta[$mms['mms_idx']][$k1] = array_values($dta[$mms['mms_idx']][$k1]);
             }
+            // print_r2($dta[$mms['mms_idx']]);
+            // $dta[$mms['mms_idx']] = array_values($dta[$mms['mms_idx']]);
             // print_r2($dta[$mms['mms_idx']]);
             // echo $st_dt_pressure[$i].'~'.$en_dt_pressure[$i].'<br>'; // 시작시점~종료시점
             ?>
@@ -384,7 +387,7 @@ for($i=0;$i<sizeof($best);$i++) {
                 // hold_temp=보온로온도, upper_heat=상형히트, lower_heat=하형히트, upper_1_temp=상금형1, upper_2_temp=상금형2, upper_3_temp=상금형3, upper_4_temp=상금형4, upper_5_temp=상금형5, upper_6_temp=상금형6, lower_1_temp=하금형1, lower_2_temp=하금형2, lower_3_temp=하금형3, detect_pressure=검출압력, target_pressure=목표압력, control_pressure=조작압력, deviation_pressure=편차, temp_avg=평균온도, temp_max=온도최대, temp_min=온도최소, hum_avg=평균습도, hum_max=습도최대, hum_min=습도최소
                 foreach($g5['set_data_name_value'] as $k1=>$v1) {
                     // echo $k1.'=>'.$v1.'<br>';
-                    if($row[$k1]) {
+                    if(isset($row[$k1])) {
                         $dta[$mms['mms_idx']][$k1][$j]['x'] = $row['timestamp']*1000;
                         $dta[$mms['mms_idx']][$k1][$j]['y'] = (float)$row[$k1];
                     }

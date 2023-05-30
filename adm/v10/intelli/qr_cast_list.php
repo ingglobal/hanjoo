@@ -227,8 +227,9 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 <div class="btn_fixed_top" style="display:no ne;">
     <?php if($member['mb_manager_yn']) { ?>
-        <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
+        <a href="<?=G5_URL?>/device/xray/form.php" class="btn_04 btn btn_test">테스트</a>
         <a href="./<?=$fname?>_change.php" class="btn_04 btn btn_change">주조코드임의생성</a>
+        <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value" class="btn_02 btn" style="display:none;">
     <?php } ?>
     <a href="./<?=$fname?>_form.php" id="btn_add" class="btn btn_01" style="display:none;">추가하기</a> 
 </div>
@@ -264,6 +265,14 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_USER_ADMIN_URL.'/js/timepicker
 
 <script>
 $(function(e) {
+    // btn company click.
+    $(".btn_test").click(function() {
+        var href = $(this).attr("href");
+        winTest = window.open(href, "winTest", "left=70,top=70,width=520,height=600,scrollbars=1");
+        winTest.focus();
+        return false;
+    });
+
     // 주조코드임의생성
     $( ".btn_change" ).on( "click", function(e) {
         e.preventDefault();
