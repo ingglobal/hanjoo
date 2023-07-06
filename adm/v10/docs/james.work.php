@@ -2411,6 +2411,9 @@ DELETE FROM g5_auth WHERE au_menu = '920140'
 DELETE FROM g5_auth WHERE au_menu = '920115'
 DELETE FROM g5_auth WHERE au_menu = '925140'
 DELETE FROM g5_auth WHERE au_menu = '930170'
+DELETE FROM g5_auth WHERE au_menu = '935120';
+DELETE FROM g5_auth WHERE au_menu = '935130';
+DELETE FROM g5_auth WHERE au_menu = '935140';
 
 // 권한을 부여할 때 한방에 넣어주려면..
 INSERT INTO g5_auth (mb_id, au_menu, au_auth)
@@ -2430,6 +2433,12 @@ SELECT mb_id, '925140', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
 
 INSERT INTO g5_auth (mb_id, au_menu, au_auth)
 SELECT mb_id, '930170', 'r,w,d' FROM g5_auth WHERE au_menu = '915110'
+
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '935120', 'r,w,d' FROM g5_auth WHERE au_menu = '915110';
+
+INSERT INTO g5_auth (mb_id, au_menu, au_auth)
+SELECT mb_id, '935140', 'r,w,d' FROM g5_auth WHERE au_menu = '915110';
 
 
 실시간모니터링
@@ -2674,7 +2683,7 @@ DELETE FROM g5_5_meta WHERE mta_db_table = 'qr_cast_code/api';
 
 
 2023-09-12 18:15:00
-SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 00:00:00' ORDER BY `g5_1_qr_cast_code`.`event_time` DESC
+SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 00:00:00' ORDER BY event_time DESC
 SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 00:00:00';
 SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-06%';
 SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-07%';
@@ -2697,9 +2706,11 @@ SELECT * FROM g5_1_xray_inspection WHERE 1=1 ORDER BY start_time DESC LIMIT 100 
 
 5-30 3:00 ~ 03:30
 
+// 변경될 날짜 확인
+SELECT event_time, DATE_ADD(event_time, INTERVAL -238 DAY) FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 23:59:59' ORDER BY event_time DESC
+// 일괄 수정
+UPDATE g5_1_qr_cast_code SET event_time = DATE_ADD(event_time, INTERVAL -238 DAY) WHERE event_time > '2023-05-31 23:59:59'
 
 알람리스트 페이지 접근 권한!!
-
-
 
 

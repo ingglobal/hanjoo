@@ -1292,3 +1292,10 @@ CREATE INDEX g5_1_data_measure_59_idx_dta_idx ON g5_1_data_measure_59 (dta_idx);
 CREATE INDEX g5_1_data_measure_60_idx_dta_idx ON g5_1_data_measure_60 (dta_idx);
 
 CREATE INDEX g5_1_data_measure_61_idx_dta_idx ON g5_1_data_measure_61 (dta_idx);
+
+# sudo su - postgres
+# pg_dump -Fc -d hanjoo_www -U postgres -f /tmp/hanjoo_www.dump
+
+
+
+
