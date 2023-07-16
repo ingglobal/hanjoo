@@ -15,8 +15,15 @@ SELECT count(*) FROM g5_1_data_measure_61
 SELECT count(*) FROM g5_1_data_measure_64
 SELECT * FROM g5_1_xray_inspection ORDER BY xry_idx DESC LIMIT 100;
 
+
+pid 찾아서 넣고 제거.
 SELECT * FROM pg_stat_activity ORDER BY query_start ASC;
 SELECT pg_cancel_backend(31956);
+SELECT pg_cancel_backend(38588);
+SELECT pg_cancel_backend(8445);
+SELECT pg_cancel_backend(7312);
+SELECT pg_cancel_backend(7312);
+
 
 DELETE FROM g5_1_cast_shot_sub WHERE event_time > '2022-06-04 00:00:00'
 DELETE FROM g5_1_cast_shot_pressure WHERE event_time > '2022-06-04 00:00:00'
@@ -1204,6 +1211,8 @@ postgres=# SELECT pid,state,query_start,query FROM pg_stat_activity ORDER BY que
 SELECT pg_cancel_backend(29646);
 SELECT pg_cancel_backend(21373);
 SELECT pg_cancel_backend(20856);
+SELECT pg_cancel_backend(20856);
+SELECT pg_cancel_backend(30307);
 
 21060 | active | 2023-04-24 12:10:33.679575+09 | SELECT *
 
@@ -1278,24 +1287,53 @@ ORDER BY dta_dt DESC LIMIT 100
 
 SELECT * FROM g5_1_cast_shot_sub ORDER BY event_time DESC LIMIT 100 OFFSET 0
 
-
-
-
 SELECT pg_cancel_backend(23651);
 
-
 CREATE INDEX g5_1_data_measure_58_idx_dta_idx ON g5_1_data_measure_58 (dta_idx);
-Total runtime: 439,462.206 ms (about 7min)
+Total runtime: 439,462.206 ms (about 7min);
 
 CREATE INDEX g5_1_data_measure_59_idx_dta_idx ON g5_1_data_measure_59 (dta_idx);
-
 CREATE INDEX g5_1_data_measure_60_idx_dta_idx ON g5_1_data_measure_60 (dta_idx);
-
 CREATE INDEX g5_1_data_measure_61_idx_dta_idx ON g5_1_data_measure_61 (dta_idx);
 
 # sudo su - postgres
 # pg_dump -Fc -d hanjoo_www -U postgres -f /tmp/hanjoo_www.dump
+# pg_dump -Fc -d hanjoo_www -U postgres -f /tmp/hanjoo_www.dump
+# pg_dump -U postgres -W -h localhost -p 5432 -Fc -v -f dump.bak test_db
+# pg_dump -U postgres -W -h localhost -p 5432 -Fp -v -f /tmp/upload_test.sql upload_test
+# pg_dump -Fp -d upload_test -U postgres -f /tmp/postgres/upload_test.dump
+# pg_dump -Fc -d test_db -U postgres -f /tmp/postgres/test_db.dump
+# pg_dump -Ft -d upload_test -U postgres -f /tmp/postgres/upload_test.dump
+# pg_dump -Ft -U postgres -f /tmp/postgres/alarm_test.dump -T alarm_test upload_test
+# pg_dump -Ft -U postgres -f /tmp/postgres/mdata_test.dump -t mdata_test upload_test
+# pg_dump -Ft -U postgres -f /tmp/postgres/g5_1_data_measure_58.dump -t g5_1_data_measure_58 hanjoo_www
 
+$ pg_dump -Fc -U postgres -f /tmp/postgres/g5_1_data_measure_58.dump -t g5_1_data_measure_58_chunk1 hanjoo_www
+$ pg_dump -Fc -U postgres -f /tmp/postgres/g5_1_data_measure_58.dump -t g5_1_data_measure_58_chunk2 hanjoo_www
+
+# DELETE FROM g5_1_robot WHERE time < '2023-01-01 00:00:00';
+
+# sudo systemctl start postgresql
+# sudo systemctl status postgresql
+# sudo systemctl stop postgresql
+
+# SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_robot');
+# SELECT * FROM g5_1_robot ORDER BY time LIMIT 1;
+# DELETE FROM g5_1_robot WHERE time < '2023-01-01 00:00:00';
+
+
+데이터 갯수 확인
+SELECT row_estimate AS cnt FROM hypertable_approximate_row_count('g5_1_data_measure_58');
+
+1. `psql` 또는 원하는 PostgreSQL 클라이언트를 사용하여 Hypertable에 접속합니다.
+  - sudo su - postgres
+  - psql 
+  - SELECT current_database(); (check for current_database)
+  - \c hanjoo_www (change to hanjoo database)
+2. 다음 명령을 사용하여 Hypertable의 데이터를 CSV 파일로 내보냅니다:
+   ```sql
+   COPY (SELECT * FROM g5_1_data_measure_58) TO '/tmp/g5_1_data_measure_58.csv' WITH (FORMAT CSV, HEADER);
+   ```
 
 
 

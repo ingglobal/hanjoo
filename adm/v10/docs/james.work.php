@@ -520,9 +520,8 @@ Migrating the entire database at once
 https://docs.timescale.com/cloud/latest/migrate-to-cloud/entire-database/#prerequisites
 
 
-pg_dump -U postgres -W \
--h localhost -p 5432 -Fc -v \
--f dump.bak test_db
+pg_dump -U postgres -W -h localhost -p 5432 -Fc -v -f dump.bak test_db
+pg_dump -U postgres -W -h localhost -p 5432 -Fp -v -f dump.bak upload_test
 
 
 $ sudo su - postgres
@@ -2683,7 +2682,7 @@ DELETE FROM g5_5_meta WHERE mta_db_table = 'qr_cast_code/api';
 
 
 2023-09-12 18:15:00
-SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 00:00:00' ORDER BY event_time DESC
+SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-07-12 00:00:00' ORDER BY event_time DESC
 SELECT * FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 00:00:00';
 SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-06%';
 SELECT * FROM g5_1_qr_cast_code WHERE event_time LIKE '2023-07%';
@@ -2707,10 +2706,73 @@ SELECT * FROM g5_1_xray_inspection WHERE 1=1 ORDER BY start_time DESC LIMIT 100 
 5-30 3:00 ~ 03:30
 
 // 변경될 날짜 확인
-SELECT event_time, DATE_ADD(event_time, INTERVAL -238 DAY) FROM g5_1_qr_cast_code WHERE event_time > '2023-05-31 23:59:59' ORDER BY event_time DESC
+SELECT event_time, DATE_ADD(event_time, INTERVAL -238 DAY) FROM g5_1_qr_cast_code WHERE event_time > '2023-07-12 23:59:59' ORDER BY event_time DESC
 // 일괄 수정
-UPDATE g5_1_qr_cast_code SET event_time = DATE_ADD(event_time, INTERVAL -238 DAY) WHERE event_time > '2023-05-31 23:59:59'
+UPDATE g5_1_qr_cast_code SET event_time = DATE_ADD(event_time, INTERVAL -238 DAY) WHERE event_time > '2023-07-12 23:59:59'
 
 알람리스트 페이지 접근 권한!!
+
+# mysqldump -u root -p hanjoo_test > hanjoo_test.sql
+# mysqldump -u root -p hanjoo_www > hanjoo_www.sql
+# mysql -u root -p hanjoo_demo < hanjoo_test.sql
+
+# zip hanjoo.zip hanjoo_www.sql
+
+데이터가 생각보다 상당히 많이 쌓여있습니다.
+
+
+EPCS 사이트 로그인 계정 정보입니다.
+http://hanjoo.epcs.co.kr/adm/v10/
+id:jamesjoa
+pw:ingglobal@
+
+PgSQL 관리 페이지 접속 정보
+http://pgadmin.hanjoo.epcs.co.kr/
+id:postgres
+pw: hanjoo@ingglobal
+
+MySQL 관리 페이지 접속 정보
+http://myadmin.hanjoo.epcs.co.kr/
+id:super
+pw:super@ingglobal
+
+
+
+# sudo su - postgres
+(hanjoo@i**global)
+# psql
+# SELECT pid,state,usename,client_addr,query_start,query FROM pg_stat_activity ORDER BY query_start ASC;
+확인 후 q 클릭해서 빠져나옴
+이 중에서 pid 부분 확인하시고..
+SELECT pg_cancel_backend(pid);
+SELECT pg_cancel_backend(15229);
+
+# sudo service postgresql start | restart 
+# sudo service postgresql stop
+
+# sudo systemctl start postgresql
+# sudo systemctl status postgresql
+# sudo systemctl stop postgresql
+
+
+SELECT * FROM g5_1_data_measure_58
+SELECT * FROM g5_1_data_measure_58 WHERE dta_type IN (1,8) AND dta_dt > '2023-07-01 00:00:00' ORDER BY dta_idx DESC;
+SELECT * FROM g5_1_data_measure_58 WHERE dta_type = 1 ORDER BY dta_idx DESC;
+SELECT dta_type, COUNT(dta_idx) AS cnt FROM g5_1_data_measure_58 GROUP BY dta_type;
+
+
+
+MES(큐빅) 이전 사업을 진행
+. ERD 디비 구조가 조금 복잡해 지게 되었다.
+
+우리 관심사는 양품, 불량품이 나오는 상황에 대한 분석!
+인공지능이 어느 정도까지 예측을 하는 데 도움을 줄 수 있는가!!
+
+1. 양품, 불량품 정보에서 역추적해서 거꾸로 ERD 구조를 분석!!
+2. 
+
+
+자바스프링 -> python
+
 
 
